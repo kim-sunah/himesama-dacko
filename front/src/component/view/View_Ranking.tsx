@@ -3,15 +3,17 @@ import Getmethod from '../../http/Get_method';
 import "./view.css"
 
 interface Channel {
-    id: number;
-    Channel_Id: string;
-    Channel_Url_Id: string;
-    Channel_img: string;
-    Channel_nickname: string;
-    subscriberCount: string;
-    videoCount: string;
-    viewCount: string;
-  }
+  id: number;
+  Channel_Id: string;
+  Channel_Url_Id: string;
+  Channel_img: string;
+  Channel_nickname: string;
+  subscriberCount: string;
+  videoCount: string;
+  viewCount: string;
+  previous_subscriberCount: string
+  previous_viewCount: string
+}
 export default function ViewRanking(){
     const [Ranking, setRanking] = useState<Channel[] | undefined>();
     useEffect(() => {
@@ -52,7 +54,7 @@ export default function ViewRanking(){
               {parseInt(Info.viewCount).toLocaleString('en')}회
               </td>
               <td style={{ textAlign: "center" }}>
-                <span className="px-2 py-1 bg-gray-200 rounded-md">0.6%</span>
+               <span className="px-2 py-1 rounded-md">{(((parseInt(Info.previous_viewCount) - parseInt(Info.viewCount)) / parseInt(Info.previous_viewCount)) * 100).toFixed(2)}</span>
               </td>
             </tr>
           </tbody>

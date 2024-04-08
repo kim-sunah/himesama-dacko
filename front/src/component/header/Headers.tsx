@@ -4,13 +4,26 @@ import { BsSearch } from "react-icons/bs";
 import Body from "../body/Body";
 import { useDispatch } from "react-redux";
 import channelslice from "../../store/channel-slice";
+import { channelActions } from "../../store/channel-slice";
 
-
-
+interface Channel {
+    id: number;
+    Channel_Id: string;
+    Channel_Url_Id: string;
+    Channel_img: string;
+    Channel_nickname: string;
+    subscriberCount: string;
+    Channel_category: string
+    videoCount: string;
+    viewCount: string;
+    previous_subscriberCount: string
+    previous_viewCount: string
+    previous_videoCount : string
+  }
 export default function Headers() {
     const dispatch = useDispatch()
     const [selectedLanguage, setSelectedLanguage] = useState('kr');
-    const [channelInfo , setchannelInfo] = useState()
+    const [channelInfo , setchannelInfo] = useState<Channel>()
     const ChannelId = useRef<HTMLInputElement>(null);
     const handleLanguageChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedLanguage(event.target.value);
@@ -22,13 +35,25 @@ export default function Headers() {
     }
 
     const getYouTubeChannelId = async (event: FormEvent<HTMLFormElement>): Promise<any> => {
-        event?.preventDefault();
+        event.preventDefault();
         const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
-         fetch("http://localhost:4000/channellist",{method : "POST" , headers:{"Content-Type" : "application/json"} , body : JSON.stringify({Channel_Url_Id :  username})}).then(res=>res.json()).then(resData => console.log(resData)).catch(err=>console.log(err))
-         event.currentTarget.reset();
-         
-
+        const respose = await fetch("http://localhost:4000/channellist", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ Channel_Url_Id: username })
+        });
+    
+        if (!respose.ok) {
+            throw new Error("Failed to fetch data");
         }
+    
+        const data = await respose.json();
+        (event.target as HTMLFormElement).reset();
+    
+        console.log(data);
+        dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 함
+    }
+    
     return (
         <div>
         <header className="bg-[#FF6B6B]">

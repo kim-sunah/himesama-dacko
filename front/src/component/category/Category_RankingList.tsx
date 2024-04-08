@@ -3,15 +3,18 @@ import { json, useParams } from "react-router-dom";
 import Getmethod from "../../http/Get_method";
 
 interface Channel {
-    id: number;
-    Channel_Id: string;
-    Channel_Url_Id: string;
-    Channel_img: string;
-    Channel_nickname: string;
-    subscriberCount: string;
-    videoCount: string;
-    viewCount: string;
-  }
+  id: number;
+  Channel_Id: string;
+  Channel_Url_Id: string;
+  Channel_img: string;
+  Channel_nickname: string;
+  subscriberCount: string;
+  videoCount: string;
+  viewCount: string;
+  previous_subscriberCount: string
+  previous_viewCount: string
+}
+
 export default function CategoryRankingsList(){
     const { Categoryid } = useParams();
     console.log(Categoryid)
@@ -31,78 +34,70 @@ export default function CategoryRankingsList(){
       fetchData();
     }, [Categoryid])
     return(
-    
-      <div style={{display:"flex"}}>
-      <div className="max-w-6xl mx-auto mt-6">
-        <table className="w-full border-collapse">
-          <thead >
-            <tr>
-              <th className="">랭킹</th>
-              <th className="">채널 이름</th>
-              <th className="">구독자 수</th>
-              <th className="">전일 대비</th>
-            </tr>
-          </thead>
-          {subscriberRanking && subscriberRanking.map((Info, index) => (
+      <div className="flex gap-4 p-4 md:gap-8 md:p-6">
+        <div className="border shadow-sm rounded-lg p-2 w-1/2 p-4">
+          <table>
+            <thead>
+              <tr>
+                <th className="w-[175px]">Ranking</th>
+                <th className="min-w-[224px]">채널 이름</th>
+                <th className="w-[175px]">구독자 수</th>
+                <th className="w-[175px]">전일 대비</th>
+              </tr>
+            </thead>
+            {subscriberRanking && subscriberRanking.map((Info, index) => (
             <tbody className="table-spacing" key={Info.Channel_Id}>
               <tr >
-                <td className="font-medium">{index + 1}</td>
+                <td className="font-medium"  style={{textAlign:"center", fontWeight:"bold"}} >{index + 1} </td>
                 <td>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-4">
                     <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
-                    <span>{Info.Channel_nickname}</span>
+                    <span style={{fontWeight:"bold"}}>{Info.Channel_nickname}</span>
                   </div>
                 </td>
-                <td style={{ textAlign: "center" }}>
+                <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
                   {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명
                 </td>
-                <td style={{ textAlign: "center" }}>
+                <td style={{ textAlign: "center", fontWeight:"bold" }}>
                   <span className="px-2 py-1 bg-gray-200 rounded-md">0.6%</span>
                 </td>
               </tr>
             </tbody>
           ))}
-        </table>
-      </div>
-      <div className="max-w-6xl mx-auto mt-6">
-      <table className="w-full border-collapse" >
-        <thead >
-          <tr>
-            <th >랭킹</th>
-            <th >채널 이름</th>
-            <th >조회수</th>
-            <th >전일 대비</th>
-          </tr>
-        </thead>
-        {subviewRanking && subviewRanking.map((Info, index) => (
+          </table>
+        </div>
+        <div className="border shadow-sm rounded-lg p-2 w-1/2 p-4">
+          <table>
+            <thead>
+              <tr>
+                <th className="w-[175px]">Ranking</th>
+                <th className="min-w-[224px]">채널 이름</th>
+                <th className="w-[175px]">조회 수</th>
+                <th className="w-[175px]">전일 대비</th>
+              </tr>
+            </thead>
+            {subviewRanking && subviewRanking.map((Info, index) => (
           <tbody className="table-spacing"  key={Info.Channel_Id}>
             <tr className="space-x-10">
-              <td className="font-medium">{index + 1}</td>
+              <td className="font-medium" style={{ textAlign: "center" ,fontWeight:"bold"}}>{index + 1}</td>
               <td>
                 <div className="flex items-center space-x-2">
                   <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
-                  <span>{Info.Channel_nickname}</span>
+                  <span style={{fontWeight:"bold"}}>{Info.Channel_nickname}</span>
                 </div>
               </td>
-              <td style={{ textAlign: "center" }}>
+              <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
               {parseInt(Info.viewCount).toLocaleString('en')}회
               </td>
-              <td style={{ textAlign: "center" }}>
+              <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
                 <span className="px-2 py-1 bg-gray-200 rounded-md">0.6%</span>
               </td>
             </tr>
           </tbody>
         ))}
-      </table>
-    </div>
-    </div>
+          </table>
+        </div>
+      </div>
     )
 }
 
-// export async function loader({params}: {params: any}) {
-//     const { someParameter } = params.Category_id;
-//     console.log(someParameter)
-   
-   
-
-// }

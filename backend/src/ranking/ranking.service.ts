@@ -49,7 +49,17 @@ export class RankingService {
      
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} ranking`;
-  }
+  async updateRankingSystem() {
+    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const channelInfo = await this.channelRepository.find();
+    for (const info of channelInfo) {
+        const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${info.Channel_Url_Id}&maxResults=25&key=${apiKey}`);
+        if (!response.ok) {
+            throw new Error("Could not fetch events");
+        } 
+        const channelData = await response.json();
+        await this.channelRepository.update(info.id, { previous_subscriberCount: +info.subscriberCount , subscriberCount :  +channelData.items[0].statistics.subscriberCount ,previous_viewCount : +info.viewCount , viewCount : +channelData.items[0].statistics.viewCount, previous_videoCount : +info.videoCount, videoCount : +channelData.items[0].statistics.videoCount});
+    }
+}
+
 }

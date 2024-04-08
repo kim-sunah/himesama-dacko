@@ -1,15 +1,20 @@
 import {createSlice ,type PayloadAction} from "@reduxjs/toolkit"
 
 export type channelItem = {
-    Channel_Id: string
-    isRunning :  boolean
-    Channel_category : string
-    Channel_img : string
-    subscriberCount : number
-    id: number
-    videoCount : number
-    viewCount : number
-
+    channelInfo :{
+        id: number;
+        Channel_Id: string;
+        Channel_Url_Id: string;
+        Channel_img: string;
+        Channel_nickname: string;
+        subscriberCount: string;
+        Channel_category: string
+        videoCount: string;
+        viewCount: string;
+        previous_subscriberCount: string
+        previous_viewCount: string
+        previous_videoCount : string
+    }
 }
 type  channeState = {
     items : channelItem[]
@@ -19,13 +24,14 @@ const initialState: channeState = {
     items : []
 }
 
-
 export const channelslice = createSlice({
     name : "channel",
     initialState,
     reducers:{
-        addTochannelInfo(state , action : PayloadAction<{ Channel_Id: string ,isRunning :  boolean, Channel_category : string,Channel_img : string,subscriberCount : number,videoCount : number,viewCount : number,}>){
-           console.log(action.payload.Channel_Id)
+        addTochannelInfo(state , action){
+         state.items = [];
+         state.items.push(action.payload)
+         console.log(action.payload.channelInfo.Channel_Id)
         },
     }
 

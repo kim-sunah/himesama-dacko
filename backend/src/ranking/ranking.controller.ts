@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RankingService } from './ranking.service';
 import { CreateRankingDto } from './dto/create-ranking.dto';
 import { UpdateRankingDto } from './dto/update-ranking.dto';
+import { Cron } from '@nestjs/schedule';
 
 @Controller('ranking')
 export class RankingController {
@@ -27,8 +28,8 @@ export class RankingController {
     return await this.rankingService.getTopCategory(id)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.rankingService.remove(+id);
+  @Cron("0 0 * * * *")
+  async updateRankingSystem() {
+    return await this.rankingService.updateRankingSystem()
   }
 }

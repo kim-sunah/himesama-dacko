@@ -11,6 +11,8 @@ interface Channel {
   subscriberCount: string;
   videoCount: string;
   viewCount: string;
+  previous_subscriberCount: string
+  previous_viewCount: string
 }
 const SubscriberRankings: React.FC = () => {
   const [Ranking, setRanking] = useState<Channel[] | undefined>();
@@ -52,7 +54,7 @@ const SubscriberRankings: React.FC = () => {
               {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명
             </td>
             <td style={{ textAlign: "center" }}>
-              <span className="px-2 py-1 bg-gray-200 rounded-md">0.6%</span>
+              <span className="px-2 py-1">{(((parseInt(Info.previous_subscriberCount) - parseInt(Info.subscriberCount)) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}</span>
             </td>
           </tr>
         </tbody>

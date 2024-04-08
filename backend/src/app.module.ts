@@ -9,6 +9,7 @@ import{ TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm"
 import {SnakeNamingStrategy} from "typeorm-naming-strategies"
 import { RankingModule } from './ranking/ranking.module';
 import * as Joi from 'joi';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 const typeOrmModuleOptions = {
@@ -43,6 +44,7 @@ const typeOrmModuleOptions = {
     }),
   }),
   TypeOrmModule.forRootAsync(typeOrmModuleOptions),
+  ScheduleModule.forRoot(),
   SubscriberModule, TestModule, ChannellistModule, RankingModule],
   controllers: [AppController],
   providers: [AppService],
