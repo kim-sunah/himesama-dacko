@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { json, useParams } from "react-router-dom";
 import Getmethod from "../../http/Get_method";
+import { BsArrowDown } from "react-icons/bs";
 
 interface Channel {
   id: number;
@@ -23,7 +24,7 @@ export default function CategoryRankingsList(){
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await Getmethod(`http://localhost:4000/ranking/${Categoryid}`);
+          const response = await Getmethod(`http://localhost:4000/ranking/category/${Categoryid}`);
           setsubscriberRanking(response.subscriberCount)
           setsubviewRanking(response.viewCount)
           console.log(response)
@@ -50,7 +51,7 @@ export default function CategoryRankingsList(){
               <tr >
                 <td className="font-medium"  style={{textAlign:"center", fontWeight:"bold"}} >{index + 1} </td>
                 <td>
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
                     <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                     <span style={{fontWeight:"bold"}}>{Info.Channel_nickname}</span>
                   </div>
@@ -59,7 +60,13 @@ export default function CategoryRankingsList(){
                   {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명
                 </td>
                 <td style={{ textAlign: "center", fontWeight:"bold" }}>
-                  <span className="px-2 py-1 bg-gray-200 rounded-md">0.6%</span>
+                {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) > 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"green"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}% 증가 </span>
+                }
+                 {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) < 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"red"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}% 감소</span>}
+                   {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) === 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"black"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}%</span>}
                 </td>
               </tr>
             </tbody>
@@ -90,7 +97,13 @@ export default function CategoryRankingsList(){
               {parseInt(Info.viewCount).toLocaleString('en')}회
               </td>
               <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
-                <span className="px-2 py-1 bg-gray-200 rounded-md">0.6%</span>
+                {(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100) > 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"green"}}>{(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100).toFixed(2)}% 증가 </span>
+                }
+                 {(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100) < 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"red"}}>{(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100).toFixed(2)}% 감소</span>}
+                   {(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100) === 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"black"}}>{(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100).toFixed(2)}%</span>}
               </td>
             </tr>
           </tbody>

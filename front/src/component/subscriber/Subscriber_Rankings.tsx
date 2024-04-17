@@ -43,21 +43,27 @@ const SubscriberRankings: React.FC = () => {
       {Ranking && Ranking.map((Info, index) => (
         <tbody   className="table-spacing" key={Info.Channel_Id}>
           <tr >
-            <td className="font-medium">{index + 1}</td>
+            <td className="font-medium" style={{ fontWeight:"bold"}}>{index + 1}</td>
             <td>
-              <div className="flex items-center space-x-2">
+              <div style={{ fontWeight:"bold"}} className="flex items-center space-x-2">
                 <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                 <span>{Info.Channel_nickname}</span>
               </div>
             </td>
-            <td style={{ textAlign: "center" }}>
+            <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
               {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명
             </td>
-            <td style={{ textAlign: "center" }}>
-              <span className="px-2 py-1">{(((parseInt(Info.previous_subscriberCount) - parseInt(Info.subscriberCount)) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}</span>
+            <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
+            {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) > 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"green"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}% 증가 </span>
+                }
+                 {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) < 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"red"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}% 감소</span>}
+                   {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) === 0 && 
+                <span className="px-2 py-1 rounded-md" style={{color:"black"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}%</span>}
             </td>
           </tr>
-        </tbody>
+        </tbody> 
       ))}
     </table>
   </div>

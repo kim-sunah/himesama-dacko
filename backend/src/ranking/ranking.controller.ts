@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RankingService } from './ranking.service';
 import { CreateRankingDto } from './dto/create-ranking.dto';
 import { UpdateRankingDto } from './dto/update-ranking.dto';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression  } from '@nestjs/schedule';
 
 @Controller('ranking')
 export class RankingController {
@@ -23,13 +23,20 @@ export class RankingController {
     return await this.rankingService.getTopviewChannels();
   }
 
-  @Get(':Categoryid')
+  @Get('category/:Categoryid')
   async getTopCategory(@Param('Categoryid') id: string) {
     return await this.rankingService.getTopCategory(id)
   }
 
-  @Cron("0 0 * * * *")
+  @Get("increaseview")
+  async increaseview(){
+    return await this.rankingService.increaseview()
+  }
+
+  //  @Cron("0 0 0 * * 1-7")
+  //@Cron("45 * * * * *")
   async updateRankingSystem() {
     return await this.rankingService.updateRankingSystem()
   }
+  
 }

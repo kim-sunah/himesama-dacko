@@ -8,7 +8,7 @@ export class Channellist {
     @Column()
     Channel_nickname : string
 
-    @Column()
+    @Column({nullable: true})
     Channel_Url_Id : string
 
     @Column()
@@ -19,6 +19,9 @@ export class Channellist {
 
     @Column({ type: "bigint", nullable: true })
     previous_subscriberCount: number | null;
+
+    @Column({ type: "float", nullable: true })
+    subscriberCount_percentageincrease: number | null;
 
     @Column({type : "bigint"})
     videoCount : number
@@ -31,6 +34,9 @@ export class Channellist {
 
     @Column({ type: "bigint", nullable: true })
     previous_viewCount: number | null;
+
+    @Column({ type: "float", nullable: true })
+    viewCount_percentageincrease: number | null;
 
     @Column()
     Channel_img : string

@@ -7,28 +7,33 @@ import { UpdateChannellistDto } from './dto/update-channellist.dto';
 export class ChannellistController {
   constructor(private readonly channellistService: ChannellistService) {}
 
-  @Post()
-  create(@Body() createChannellistDto: CreateChannellistDto) {
-    return this.channellistService.create(createChannellistDto.Channel_Url_Id);
+  @Post("channelurl")
+  Urlcreate(@Body() createChannellistDto: CreateChannellistDto) {
+    return this.channellistService.Urlcreate(createChannellistDto.Channel_Url_Id);
   }
 
-  @Get("channelInfo")
-  getchannelInfo() {
-    return this.channellistService.getchannelInfo();
+  @Post("channelId")
+  Idcreate(@Body() createChannellistDto: CreateChannellistDto) {
+    return this.channellistService.Idcreate(createChannellistDto.Channel_Url_Id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.channellistService.findOne(+id);
+  @Get(":channelId")
+  channelInfo(@Param('channelId') channelId: string) {
+    console.log(channelId)
+    return this.channellistService.channelInfo(channelId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChannellistDto: UpdateChannellistDto) {
-    return this.channellistService.update(+id, updateChannellistDto);
+
+  @Get('channel/:videosearch')
+  Getvideosearch(@Param('videosearch') search: string) {
+    console.log(search)
+    return this.channellistService.Getvideosearch(search);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.channellistService.remove(+id);
+  @Post('searchchannel')
+  searchchannel(@Body() createChannellistDto: CreateChannellistDto) {
+    return this.channellistService.searchchannel(createChannellistDto.Channel_Url_Id);
   }
+
+  
 }

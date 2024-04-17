@@ -3,13 +3,29 @@
 @tailwind components;
 @tailwind utilities;
 
+@tailwind base;
+
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
   background: white;
   min-height: 100vh;
-  font-family: 'Quicksand', sans-serif;
+  
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 code {
