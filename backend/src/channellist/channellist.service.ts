@@ -12,7 +12,7 @@ export class ChannellistService {
   }
 
   async Urlcreate(Channel_Url_Id: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
@@ -145,7 +145,7 @@ export class ChannellistService {
   }
 
   async Idcreate(Channel_Url_Id: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
@@ -277,7 +277,7 @@ export class ChannellistService {
   }
 
   async Getvideosearch(search: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=viewCount&q=${search}&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
@@ -578,17 +578,16 @@ export class ChannellistService {
               await this.channelList.save({ Channel_category: "Trailers", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
           }
-      
-
-        }
-        else {
-          if(ChannelData.items[0].snippet.customUrl){
-            await this.channelList.save({ Channel_category: "none", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
-          }
-          else{
-            await this.channelList.save({ Channel_category: "none", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
+          else {
+            if(ChannelData.items[0].snippet.customUrl){
+              await this.channelList.save({ Channel_category: "none", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
+            }
+            else{
+              await this.channelList.save({ Channel_category: "none", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
+            }
           }
         }
+       
         console.log(channelcategoryData.items[0].statistics)
         const data = await this.channelList.findOne({where : {Channel_Id :  info.snippet.channelId}})
         if (!resData.prevPageToken) {
