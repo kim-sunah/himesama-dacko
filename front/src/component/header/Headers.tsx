@@ -96,19 +96,18 @@ export default function Headers() {
                         <nav className="flex space-x-4 " >
                             <Dropdown label="" dismissOnClick={false} renderTrigger={() => <span style={{ color: "white" }}>YOTUBE INFO</span>}>
 
-                                <Link className="text-black " to="Subscriber_Rankings" >
+                                <Link className="text-black " to="/Subscriber_Rankings" >
                                     <Dropdown.Item >
                                         구독자 순위 상위 100
                                     </Dropdown.Item>
                                 </Link>
-
-                                <Link className="text-black" to="View_Rankings">
+                                <Link className="text-black" to="/View_Rankings">
                                     <Dropdown.Item>
                                         조회수 순위 상위 100
                                     </Dropdown.Item>
                                 </Link>
 
-                                <Link className="text-black" to="Category_Rankings">
+                                <Link className="text-black" to="/Category_Rankings">
                                     <Dropdown.Item>
                                         카테고리별 순위
                                     </Dropdown.Item>
@@ -116,28 +115,7 @@ export default function Headers() {
 
 
                             </Dropdown>
-                            <Dropdown label="" dismissOnClick={false} renderTrigger={() => <span style={{ color: "white" }}>YOTUBE INFO</span>}>
-
-                                <Link className="text-black" to="Subscriber_Rankings">
-                                    <Dropdown.Item>
-                                        구독자 순위 상위 100
-                                    </Dropdown.Item>
-                                </Link>
-
-                                <Link className="text-black" to="View_Rankings">
-                                    <Dropdown.Item>
-                                        조회수 순위 상위 100
-                                    </Dropdown.Item>
-                                </Link>
-
-                                <Link className="text-black" to="Category_Rankings">
-                                    <Dropdown.Item>
-                                        카테고리별 순위
-                                    </Dropdown.Item>
-                                </Link>
-
-
-                            </Dropdown>
+                            
 
 
                             {/*<Link className="text-white" to="#">

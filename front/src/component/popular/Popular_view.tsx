@@ -28,11 +28,11 @@ export default function Popularview() {
     return (
         <div>
             <h1 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2%" }}>조회수 증가 상위 TOP 5</h1>
-            <div style={{ display: "flex", gap: "2.3%" ,marginTop:"2%"}}>
+            <div style={{ display: "flex", gap: "2.3%" ,marginTop:"2%", justifyContent:"center" }}>
                 {channelData && channelData.map((items, index) => (
                     <Link  to ={`https://www.youtube.com/${items.channelId}`} key={index}>
-                        <img src={items.channelimg} style={{ borderRadius: "50%", width: "150px" }} />
-                        <p style={{textAlign:"center", fontWeight:"bold", color:"black"}}>{items.channelnickname}</p>
+                        <img src={items.channelimg} style={{ borderRadius: "50%", width: "100%"}} />
+                        <p style={{fontWeight:"bold", color:"black", fontSize:"70%", textAlign:"center"}}>{items.channelnickname}</p>
                     </Link>
                 ))}
 

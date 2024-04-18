@@ -95,23 +95,20 @@ export default function VideoList() {
                                         <Link to={`http://localhost:3000/${item.Channel_Url_Id}`} style={{ color: "black" }}>
                                             <div className="flex items-center space-x-2 justify-center" >
                                                 <img src={item.Channel_Img} alt="YouTube Channel" className="h-10 w-10" style={{ borderRadius: "50%" }} />
-                                                <span style={{ fontWeight: "bold" }}>{item.channelTitle}</span>
+                                                <span style={{ fontWeight: "bold" ,whiteSpace:"nowrap" }}>{item.channelTitle}</span>
                                             </div>
                                         </Link>
                                     </td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold",margin:"100px" }}>
+                                    <td style={{ textAlign: "center", fontWeight: "bold",margin:"100px", whiteSpace:"none" }}>
                                         {item.videolikecount !== null && item.videolikecount !== undefined && <span className="px-2 py-1 rounded-md" >{(item.videolikecount).toLocaleString('en')} </span>}
-                                        {item.videolikecount === null || item.videolikecount === undefined && <span className="px-2 py-1 rounded-md" >null</span>}
 
                                     </td>
                                     <td style={{ textAlign: "center", fontWeight: "bold" }}>
                                         {item.videoviewcount !== null && item.videoviewcount !== undefined && <span className="px-2 py-1 rounded-md" >{item.videoviewcount.toLocaleString("en")}</span>}
-                                        {item.videoviewcount === null || item.videoviewcount === undefined && <span className="px-2 py-1 rounded-md" >null</span>}
 
                                     </td>
                                     <td style={{ textAlign: "center", fontWeight: "bold" }}>
                                         {item.videocommentcount !== null && item.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md">{item.videocommentcount.toLocaleString("en")} </span>}
-                                        {item.videocommentcount === null || item.videocommentcount === undefined && <span className="px-2 py-1 rounded-md">null </span>}
 
                                     </td>
                                 </tr>
