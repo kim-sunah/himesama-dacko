@@ -278,7 +278,7 @@ export class ChannellistService {
 
   async Getvideosearch(search: string) {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=viewCount&q=${search}&key=${apiKey}`)
+    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&order=viewCount&q=${search}&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
     }
