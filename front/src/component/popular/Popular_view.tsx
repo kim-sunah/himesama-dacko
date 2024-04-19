@@ -32,7 +32,7 @@ export default function Popularview() {
                 {channelData && channelData.map((items, index) => (
                     <Link  to ={`https://www.youtube.com/${items.channelId}`} key={index}>
                         <img src={items.channelimg} style={{ borderRadius: "50%", width: "100%"}} />
-                        <p style={{fontWeight:"bold", color:"black", fontSize:"70%", textAlign:"center"}}>{items.channelnickname}</p>
+                        <p style={{fontWeight:"bold", color:"black", fontSize:"80%", textAlign:"center"}}>{items.channelnickname}</p>
                     </Link>
                 ))}
 

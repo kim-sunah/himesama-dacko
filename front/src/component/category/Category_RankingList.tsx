@@ -40,10 +40,10 @@ export default function CategoryRankingsList(){
           <table>
             <thead>
               <tr>
-                <th className="w-[175px]">Ranking</th>
-                <th className="min-w-[224px]">채널 이름</th>
-                <th className="w-[175px]">구독자 수</th>
-                <th className="w-[175px]">전일 대비</th>
+                <th className="w-1/12  text-center">Ranking</th>
+                <th className="w-1/12  text-center">채널 이름</th>
+                <th className="w-1/12  text-center">구독자 수</th>
+                <th className="w-1/12  text-center">전일 대비</th>
               </tr>
             </thead>
             {subscriberRanking && subscriberRanking.map((Info, index) => (
@@ -53,7 +53,7 @@ export default function CategoryRankingsList(){
                 <td>
                   <div className="flex items-center space-x-2">
                     <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
-                    <span style={{fontWeight:"bold"}}>{Info.Channel_nickname}</span>
+                    <span style={{fontWeight:"bold" ,whiteSpace:"nowrap"}}>{Info.Channel_nickname}</span>
                   </div>
                 </td>
                 <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
@@ -77,20 +77,20 @@ export default function CategoryRankingsList(){
           <table>
             <thead>
               <tr>
-                <th className="w-[175px]">Ranking</th>
-                <th className="min-w-[224px]">채널 이름</th>
-                <th className="w-[175px]">조회 수</th>
-                <th className="w-[175px]">전일 대비</th>
+                <th className="w-1/12  text-center">Ranking</th>
+                <th className="w-1/12  text-center">채널 이름</th>
+                <th className="w-1/12  text-center">조회 수</th>
+                <th className="w-1/12  text-center">전일 대비</th>
               </tr>
             </thead>
             {subviewRanking && subviewRanking.map((Info, index) => (
           <tbody className="table-spacing"  key={Info.Channel_Id}>
             <tr className="space-x-10">
-              <td className="font-medium" style={{ textAlign: "center" ,fontWeight:"bold"}}>{index + 1}</td>
+              <td className="font-medium" style={{ textAlign: "center" , fontWeight:"bold"}}>{index + 1}</td>
               <td>
                 <div className="flex items-center space-x-2">
                   <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
-                  <span style={{fontWeight:"bold"}}>{Info.Channel_nickname}</span>
+                  <span style={{fontWeight:"bold", whiteSpace:"nowrap"}}>{Info.Channel_nickname}</span>
                 </div>
               </td>
               <td style={{ textAlign: "center" ,fontWeight:"bold"}}>

@@ -34,26 +34,26 @@ const SubscriberRankings: React.FC = () => {
     <table className="w-full border-collapse">
       <thead >
         <tr>
-          <th className="w-1/12 text-left">랭킹</th>
-          <th className="w-2/12 text-left">채널 이름</th>
-          <th className="w-1/12">구독자 수</th>
-          <th className="w-1/6">전일 대비</th>
+          <th className="w-1/12  text-center ">랭킹</th>
+          <th className="w-1/12  text-center ">채널 이름</th>
+          <th className="w-1/12  text-center">구독자 수</th>
+          <th className="w-1/12  text-center">전일 대비</th>
         </tr>
       </thead>
       {Ranking && Ranking.map((Info, index) => (
         <tbody   className="table-spacing" key={Info.Channel_Id}>
           <tr >
-            <td className="font-medium" style={{ fontWeight:"bold"}}>{index + 1}</td>
+            <td className="font-medium" style={{textAlign:"center" , fontWeight:"bold"}}>{index + 1}</td>
             <td>
-              <div style={{ fontWeight:"bold"}} className="flex items-center space-x-2">
+              <div style={{fontWeight:"bold"}} className="flex items-center space-x-2">
                 <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                 <span>{Info.Channel_nickname}</span>
               </div>
             </td>
-            <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
+            <td style={{textAlign:"center" ,fontWeight:"bold"}}>
               {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명
             </td>
-            <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
+            <td style={{textAlign:"center" , fontWeight:"bold"}}>
             {(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100) > 0 && 
                 <span className="px-2 py-1 rounded-md" style={{color:"green"}}>{(((  parseInt(Info.subscriberCount) - parseInt(Info.previous_subscriberCount) ) / parseInt(Info.previous_subscriberCount)) * 100).toFixed(2)}% 증가 </span>
                 }

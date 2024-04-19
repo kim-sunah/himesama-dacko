@@ -50,7 +50,10 @@ export default function VideoList() {
 
     const submithandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        navigate(`/seachlist/${searchRef.current?.value}`);
+        if(searchRef.current?.value){
+            navigate(`/seachlist/${searchRef.current?.value}`);
+        }
+       
         (event.target as HTMLFormElement).reset();
     }
     return (

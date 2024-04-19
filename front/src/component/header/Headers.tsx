@@ -75,9 +75,10 @@ export default function Headers() {
             }
         }
         else {
-            console.log(ChannelId.current!.value)
-            window.location.href = `http://localhost:3000/seachlist/${ChannelId.current!.value}`;
-            (event.target as HTMLFormElement).reset();
+            if(ChannelId.current!.value){
+                window.location.href = `http://localhost:3000/seachlist/${ChannelId.current!.value}`;
+                (event.target as HTMLFormElement).reset();
+            }
             // const respose = await Getmethod(`http://localhost:4000/channellist/channel/${ChannelId.current!.value}`);
             // ChannelId.current!.value = " "
             // console.log(respose);
