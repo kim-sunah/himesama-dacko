@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Getmethod from '../../http/Get_method';
 import "./subscriber.css"
+import { Link } from 'react-router-dom';
 
 interface Channel {
   id: number;
@@ -30,7 +31,7 @@ const SubscriberRankings: React.FC = () => {
   }, [])
 
   return (
-    <div className="max-w-6xl mx-auto mt-6">
+    <div className="max-w-6xl mx-auto mt-6 border shadow-sm rounded-lg p-4 w-2/2">
     <table className="w-full border-collapse">
       <thead >
         <tr>
@@ -45,10 +46,10 @@ const SubscriberRankings: React.FC = () => {
           <tr >
             <td className="font-medium" style={{textAlign:"center" , fontWeight:"bold"}}>{index + 1}</td>
             <td>
-              <div style={{fontWeight:"bold"}} className="flex items-center space-x-2">
+              <Link  to ={`/${Info.Channel_Url_Id}`}style={{fontWeight:"bold"}} className="flex items-center space-x-2">
                 <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                 <span>{Info.Channel_nickname}</span>
-              </div>
+              </Link>
             </td>
             <td style={{textAlign:"center" ,fontWeight:"bold"}}>
               {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명

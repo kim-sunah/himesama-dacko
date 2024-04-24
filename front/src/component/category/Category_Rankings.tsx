@@ -56,9 +56,16 @@ const YourComponent: React.FC = () => {
             <div className="flex flex-col">
                 <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
                     <div className="w-full">
-                        <h1 className="font-semibold text-lg">카테고리별 순위</h1>
+                        <Link to="/" className="font-semibold text-lg">Home</Link>
+                        
                     </div>
+                    
                 </header>
+                <div style={{margin:"0px auto" ,marginTop:"2.5%"}}>
+                <h2> 카테고리별 순위 </h2>
+
+                </div>
+                
 
                 <Outlet></Outlet>
             

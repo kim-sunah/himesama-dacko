@@ -24,118 +24,82 @@ export default function Modal() {
                         <div style={{ display: "flex" }}>
                             <MDBModalBody>
                                 <MDBModalHeader >
-                                    <MDBModalTitle > 업로드 날짜</MDBModalTitle>
+                                    <MDBModalTitle style={{whiteSpace:"nowrap", fontSize:"0.8rem"}}> 업로드 날짜</MDBModalTitle>
                                 </MDBModalHeader>
                                 <ul style={{ fontSize: "1rem", whiteSpace: "nowrap", margin: "0px auto" }}>
-                                    <li style={{ marginTop: "20%", marginRight: "10%" }}>
+                                    <li style={{ marginTop: "15%", marginRight: "10%" }}>
                                         지난 1시간
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        오늘
                                     </li >
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        이번주
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        이번 달 
+                                    </li>
+                                    <li style={{ marginTop: "15%" }}>
+                                        올해
                                     </li>
                                 </ul>
                             </MDBModalBody>
                             <MDBModalBody>
                                 <MDBModalHeader >
-                                    <MDBModalTitle>구분</MDBModalTitle>
+                                    <MDBModalTitle style={{whiteSpace:"nowrap", fontSize:"0.8rem"}}>구분</MDBModalTitle>
                                 </MDBModalHeader>
                                 <ul style={{ fontSize: "1rem", whiteSpace: "nowrap", margin: "0px auto" }}>
-                                    <li style={{ marginTop: "20%", marginRight: "10%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%", marginRight: "10%" }}>
+                                        동영상
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        채널 
                                     </li >
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        재생목록
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        영화
                                     </li>
                                 </ul>
                             </MDBModalBody>
                             <MDBModalBody>
                                 <MDBModalHeader >
-                                    <MDBModalTitle>길이</MDBModalTitle>
+                                    <MDBModalTitle style={{whiteSpace:"nowrap", fontSize:"0.8rem"}}>길이</MDBModalTitle>
                                 </MDBModalHeader>
                                 <ul style={{ fontSize: "1rem", whiteSpace: "nowrap", margin: "0px auto" }}>
-                                    <li style={{ marginTop: "20%", marginRight: "10%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%", marginRight: "10%" }}>
+                                        4분 미만
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        4~20분
                                     </li >
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        20분 초과
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li>
+                                   
                                 </ul>
                             </MDBModalBody>
                             <MDBModalBody>
                                 <MDBModalHeader >
-                                    <MDBModalTitle>검색필터</MDBModalTitle>
+                                    <MDBModalTitle style={{whiteSpace:"nowrap", fontSize:"0.8rem"}}>검색필터</MDBModalTitle>
                                 </MDBModalHeader>
                                 <ul style={{ fontSize: "1rem", whiteSpace: "nowrap", margin: "0px auto" }}>
-                                    <li style={{ marginTop: "20%", marginRight: "10%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%", marginRight: "10%" }}>
+                                        관련성
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        업로드 날짜
                                     </li >
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        조회수
                                     </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
+                                    <li style={{ marginTop: "15%" }}>
+                                        평점
                                     </li>
                                 </ul>
                             </MDBModalBody>
-                            <MDBModalBody>
-                                <MDBModalHeader >
-                                    <MDBModalTitle > 업로드 날짜</MDBModalTitle>
-                                </MDBModalHeader>
-                                <ul style={{ fontSize: "1rem", whiteSpace: "nowrap", margin: "0px auto" }}>
-                                    <li style={{ marginTop: "20%", marginRight: "10%" }}>
-                                        지난 1시간
-                                    </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li >
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li>
-                                </ul>
-                            </MDBModalBody>
-                            <MDBModalBody>
-                                <MDBModalHeader >
-                                    <MDBModalTitle > 업로드 날짜</MDBModalTitle>
-                                </MDBModalHeader>
-                                <ul style={{ fontSize: "1rem", whiteSpace: "nowrap", margin: "0px auto" }}>
-                                    <li style={{ marginTop: "20%", marginRight: "10%" }}>
-                                        지난 1시간
-                                    </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li >
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li>
-                                    <li style={{ marginTop: "20%" }}>
-                                        지난 1시간
-                                    </li>
-                                </ul>
-                            </MDBModalBody>
+                           
 
                         </div>
 

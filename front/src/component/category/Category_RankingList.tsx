@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { json, useParams } from "react-router-dom";
+import { Link, json, useParams } from "react-router-dom";
 import Getmethod from "../../http/Get_method";
 import { BsArrowDown } from "react-icons/bs";
+import { color } from "@chakra-ui/react";
 
 interface Channel {
   id: number;
@@ -51,10 +52,10 @@ export default function CategoryRankingsList(){
               <tr >
                 <td className="font-medium"  style={{textAlign:"center", fontWeight:"bold"}} >{index + 1} </td>
                 <td>
-                  <div className="flex items-center space-x-2">
+                  <Link   to ={`/${Info.Channel_Url_Id}`}  className="flex items-center space-x-2" style={{color: "black"}}>
                     <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                     <span style={{fontWeight:"bold" ,whiteSpace:"nowrap"}}>{Info.Channel_nickname}</span>
-                  </div>
+                  </Link>
                 </td>
                 <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
                   {(parseInt(Info.subscriberCount) / 10000).toLocaleString('en')}만명
@@ -88,10 +89,10 @@ export default function CategoryRankingsList(){
             <tr className="space-x-10">
               <td className="font-medium" style={{ textAlign: "center" , fontWeight:"bold"}}>{index + 1}</td>
               <td>
-                <div className="flex items-center space-x-2">
+                <Link   to ={`/${Info.Channel_Url_Id}`} className="flex items-center space-x-2"  style={{color: "black"}}> 
                   <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                   <span style={{fontWeight:"bold", whiteSpace:"nowrap"}}>{Info.Channel_nickname}</span>
-                </div>
+                </Link>
               </td>
               <td style={{ textAlign: "center" ,fontWeight:"bold"}}>
               {parseInt(Info.viewCount).toLocaleString('en')}회

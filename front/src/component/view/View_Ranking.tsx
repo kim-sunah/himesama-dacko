@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Getmethod from '../../http/Get_method';
 import "./view.css"
+import { Link } from 'react-router-dom';
 
 interface Channel {
   id: number;
@@ -32,7 +33,7 @@ export default function ViewRanking() {
   
 
   return (
-      <div className="max-w-7xl mx-auto mt-6 ml-6">
+      <div className="max-w-6xl mx-auto mt-6 border shadow-sm rounded-lg p-4 w-2/2">
       <table className="w-full border-collapse ">
         <thead >
           <tr>
@@ -45,17 +46,17 @@ export default function ViewRanking() {
         {Ranking && Ranking.map((Info, index) => (
           <tbody   className="table-spacing" key={Info.Channel_Id}>
             <tr >
-              <td className="font-medium" style={{textAlign:"center" , fontWeight:"bold"}}>{index + 1}</td>
-              <td className="flex items-center space-x-2" style={{fontWeight:"bold"}}>
-                <div  className="flex items-center space-x-2">
+              <td className="font-medium" style={{textAlign:"center" , fontWeight:"bold",fontSize:"1rem", whiteSpace:"nowrap"}}>{index + 1}</td>
+              <td className="flex items-center space-x-2" style={{fontWeight:"bold", fontSize:"1rem",whiteSpace:"nowrap"}}>
+                <Link  to ={`/${Info.Channel_Url_Id}`} className="flex items-center space-x-2">
                   <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
                   <span >{Info.Channel_nickname}</span>
-                </div>
+                </Link>
               </td>
-              <td style={{textAlign:"center" ,fontWeight:"bold"}}>
+              <td style={{textAlign:"center" ,fontWeight:"bold",fontSize:"1rem" ,whiteSpace:"nowrap"}}>
               {parseInt(Info.viewCount).toLocaleString('en')}회
               </td>
-              <td style={{textAlign:"center" ,fontWeight:"bold"}}>
+              <td style={{textAlign:"center" ,fontWeight:"bold" ,fontSize:"1rem" ,whiteSpace:"nowrap"}}>
               {(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100) > 0 && 
                 <span className="px-2 py-1 rounded-md" style={{color:"green"}}>{(((  parseInt(Info.viewCount) - parseInt(Info.previous_viewCount) ) / parseInt(Info.previous_viewCount)) * 100).toFixed(2)}% 증가 </span>
                 }

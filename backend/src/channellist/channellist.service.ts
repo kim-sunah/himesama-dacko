@@ -278,13 +278,15 @@ export class ChannellistService {
 
   async Getvideosearch(search: string) {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&order=viewCount&q=${search}&key=${apiKey}`)
+    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
     }
     const resData = await response.json();
+   
     const channelData = [];
     for (const info of resData.items) {
+     
       const ChannelInfo = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${apiKey}`)
       if (!ChannelInfo.ok) {
         throw new Error("Could not fetch events");
@@ -591,10 +593,10 @@ export class ChannellistService {
         console.log(channelcategoryData.items[0].statistics)
         const data = await this.channelList.findOne({where : {Channel_Id :  info.snippet.channelId}})
         if (!resData.prevPageToken) {
-          channelData.push({ Channel_Url_Id: data.Channel_Url_Id, Channel_Img : ChannelData.items[0].snippet.thumbnails.default.url,Channel_Id: info.snippet.channelId, nextPageToken: resData.nextPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount : +channelcategoryData.items[0].statistics.viewCount , videolikecount : +channelcategoryData.items[0].statistics.likeCount, videocommentcount : +channelcategoryData.items[0].statistics.commentCount  })
+          channelData.push({ Channel_Url_Id: data.Channel_Url_Id, Channel_Img : ChannelData.items[0].snippet.thumbnails.default.url,videotitle : info.snippet.title, Channel_Id: info.snippet.channelId, nextPageToken: resData.nextPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount : +channelcategoryData.items[0].statistics.viewCount , videolikecount : +channelcategoryData.items[0].statistics.likeCount, videocommentcount : +channelcategoryData.items[0].statistics.commentCount  })
         }
         else {
-          channelData.push({ Channel_Url_Id: data.Channel_Url_Id,Channel_Img : ChannelData.items[0].snippet.thumbnails.default.url, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount,videoviewcount : +channelcategoryData.items[0].statistics.viewCount , videolikecount : +channelcategoryData.items[0].statistics.likeCount, videocommentcount : +channelcategoryData.items[0].statistics.commentCount })
+          channelData.push({ Channel_Url_Id: data.Channel_Url_Id,Channel_Img : ChannelData.items[0].snippet.thumbnails.default.url,videotitle : info.snippet.title, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount,videoviewcount : +channelcategoryData.items[0].statistics.viewCount , videolikecount : +channelcategoryData.items[0].statistics.likeCount, videocommentcount : +channelcategoryData.items[0].statistics.commentCount })
         }
         
       }
