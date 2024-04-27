@@ -25,19 +25,21 @@ export default function Popularview() {
         fetchData();
 
     }, [])
+
+    const duplicatedContent = channelData.slice(0);
+    const updatedChannelData = [...channelData, ...duplicatedContent];
     return (
-        <div>
-            <h1 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2%" }}>조회수 증가 상위 TOP 5</h1>
-            <div style={{ display: "flex", gap: "2.3%" ,marginTop:"2%", justifyContent:"center" }}>
-                {channelData && channelData.map((items, index) => (
-                    <Link  to ={`https://www.youtube.com/${items.channelId}`} key={index}>
-                        <img src={items.channelimg} style={{ borderRadius: "50%", width: "100%"}} />
-                        <p style={{fontWeight:"bold", color:"black", fontSize:"80%", textAlign:"center"}}>{items.channelnickname}</p>
+        <div style={{ overflowX: "hidden", whiteSpace: "nowrap" }}>
+            <h1 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2%" ,marginBottom:"2%"}}>조회수 증가 상위</h1>
+            <div className="slider-container">
+                {updatedChannelData.map((items, index) => (
+                    <Link to={`https://www.youtube.com/${items.channelId}`} key={index} className="slider-item">
+                        <img src={items.channelimg} alt={items.channelnickname} className="slider-item-img" />
+                        <p className="slider-item-text">{items.channelnickname}</p>
                     </Link>
                 ))}
-
             </div>
-
         </div>
+
     )
 }

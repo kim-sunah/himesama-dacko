@@ -1,0 +1,34 @@
+.slider-container {
+    display: flex;
+    gap: 2.3%;
+    animation: scroll-left 300s linear infinite;
+  }
+  
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-670%); } /* Move content beyond container width */
+  }
+  
+  .slider-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .slider-item-img {
+    border-radius: 50%;
+    width: 100px;
+    height: auto;
+  }
+  
+  .slider-item-text {
+    font-weight: bold;
+    color: black;
+    font-size: 80%;
+    text-align: center;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  

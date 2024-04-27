@@ -5,9 +5,12 @@ import { MDBInput, MDBIcon, MDBBtn, } from 'mdb-react-ui-kit';
 import { BsFilterLeft } from "react-icons/bs";
 import Getmethod from "../../http/Get_method";
 import { channelActions } from "../../store/channel-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "./Modal";
 import "./video.css"
+import { useChannelSelector } from "../../store/hooks";
+import Postmethod from "../../http/Post_method";
+import { upload } from "@testing-library/user-event/dist/upload";
 
 
 interface VideoInfo {
@@ -30,24 +33,32 @@ interface VideoInfo {
 
 }
 export default function VideoList() {
-
     const searchRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const filterData = useChannelSelector(state => state.channel.items);
     const [showSearchAlert, setShowSearchAlert] = useState<VideoInfo[] | undefined>([]);
     const { search } = useParams();
-    const [centredModal, setCentredModal] = useState(false);
-    const toggleOpen = () => setCentredModal(!centredModal);
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Getmethod(`http://localhost:4000/channellist/channel/${search}`);
-            if (response) {
-                console.log(response)
-                setShowSearchAlert(response);
+            if(filterData.length === 0 ){
+                const response = await Getmethod(`http://localhost:4000/channellist/channel/${search}`);
+                if (response) {
+                    setShowSearchAlert(response);
+                }
             }
+            else if(filterData.length > 0 ){
+                console.log(filterData[0].upload)
+                const response = await  Postmethod(`http://localhost:4000/filter/${search}`,  filterData[0]);
+                if (response) {
+                    setShowSearchAlert(response);
+                }
+                
+            }
+         
         }
         fetchData()
-    }, [search])
+    }, [search,filterData])
 
     const submithandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -57,13 +68,19 @@ export default function VideoList() {
 
         (event.target as HTMLFormElement).reset();
     }
+
+    const HOMEBUTTON = (event: React.MouseEvent) => {
+        
+        navigate("/")
+       
+    }
     return (
         <div>
             <div style={{textAlign:"center", marginTop:"2.5%"}}>
-            <Link to="/"> Home </Link>
+            {/* <h2 onClick={HOMEBUTTON}> Home </h2> */}
+            <Link to ="/"> HOME</Link>
 
             </div>
-          
             <div style={{ display: "flex", margin: "0px"}}>
                
                 <form onSubmit={submithandler} className="flex md:gap-8 md:p-6 justify-center " style={{ width: "50%", margin: "0px auto" }}>
@@ -73,9 +90,7 @@ export default function VideoList() {
                         <MDBIcon style={{ borderRadius: "50%" }} icon='search' />
                     </MDBBtn>
                     {/* <BsFilterLeft size="40" onClick={toggleOpen} /> */}
-
                 </form>
-
             </div>
             <div className="flex gap-4 p-4 md:gap-8 md:p-6 justify-center" >
 

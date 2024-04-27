@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateRankingDto } from './dto/create-ranking.dto';
 import { UpdateRankingDto } from './dto/update-ranking.dto';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class RankingService {
-  constructor(@InjectRepository(Channellist) private readonly channelRepository: Repository<Channellist>) { }
+  constructor(@InjectRepository(Channellist) private readonly channelRepository: Repository<Channellist>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
   create(createRankingDto: CreateRankingDto) {
     return 'This action adds a new ranking';
   }
@@ -50,88 +53,149 @@ export class RankingService {
   }
 
   async updateRankingSystem() {
-    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
+    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
     const channelInfo = await this.channelRepository.find();
     for (const info of channelInfo) {
-      if(info.Channel_Url_Id.includes("@")){
+      if (info.Channel_Url_Id.includes("@")) {
         const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${apiKey}`);
 
         if (!response.ok) {
           throw new Error("Could not fetch events");
         }
         const channelData = await response.json();
-       
+
         if (!isNaN(((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) && !isNaN(((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) {
-          await this.channelRepository.update(info.id, 
-            { previous_subscriberCount: +info.subscriberCount, 
-              subscriberCount: +channelData.items[0].statistics.subscriberCount, 
-              previous_viewCount: +info.viewCount, 
-              viewCount: +channelData.items[0].statistics.viewCount, 
-              previous_videoCount: +info.videoCount, 
+          await this.channelRepository.update(info.id,
+            {
+              previous_subscriberCount: +info.subscriberCount,
+              subscriberCount: +channelData.items[0].statistics.subscriberCount,
+              previous_viewCount: +info.viewCount,
+              viewCount: +channelData.items[0].statistics.viewCount,
+              previous_videoCount: +info.videoCount,
               videoCount: +channelData.items[0].statistics.videoCount,
-              subscriberCount_percentageincrease:  +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-              viewCount_percentageincrease : +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
+              subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
+              viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
             });
-         
+
+        }
+
       }
-       
-      }
-      else{
+      else {
         const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${apiKey}`);
         if (!response.ok) {
           throw new Error("Could not fetch events");
         }
         const channelData = await response.json();
-        
-         await this.channelRepository.update(info.id, 
-           { previous_subscriberCount: +info.subscriberCount, 
-             subscriberCount: +channelData.items[0].statistics.subscriberCount, 
-             previous_viewCount: +info.viewCount, 
-             viewCount: +channelData.items[0].statistics.viewCount, 
-             previous_videoCount: +info.videoCount, 
-             videoCount: +channelData.items[0].statistics.videoCount,
-             subscriberCount_percentageincrease:  +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-             viewCount_percentageincrease : +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-           });
+
+        await this.channelRepository.update(info.id,
+          {
+            previous_subscriberCount: +info.subscriberCount,
+            subscriberCount: +channelData.items[0].statistics.subscriberCount,
+            previous_viewCount: +info.viewCount,
+            viewCount: +channelData.items[0].statistics.viewCount,
+            previous_videoCount: +info.videoCount,
+            videoCount: +channelData.items[0].statistics.videoCount,
+            subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
+            viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
+          });
 
       }
-     
+
     }
   }
 
-  async increaseview(){
+  async increaseview() {
     const channelInfo = await this.channelRepository.find({
       order: {
         viewCount_percentageincrease: 'DESC'
       },
-      take: 10
+      take: 100
     });
-    const channelData = [];
-    for (const info of channelInfo) {
-      const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-      
-      if(info.Channel_Url_Id.includes("@")){
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
-        if (!response.ok) {
-          throw new Error("Could not fetch events");
-        }
-        const resData = await response.json()
-       
-        channelData.push({channelnickname : resData.items[0].snippet.title, channelId : resData.items[0].snippet.customUrl , channelimg : resData.items[0].snippet.thumbnails.high.url});
-      }
-      else{
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
-        if (!response.ok) {
-          throw new Error("Could not fetch events");
-        }
-        const resData = await response.json()
-       
-        channelData.push({channelnickname : resData.items[0].snippet.title, channelId : resData.items[0].snippet.customUrl , channelimg : resData.items[0].snippet.thumbnails.high.url});
-      }
-     
-    }
-    return channelData;
 
+    const cachedChannelInfo = await this.cacheManager.get("IncreaseViewChannel");
+    const isChanged = !cachedChannelInfo || JSON.stringify(channelInfo) !== JSON.stringify(cachedChannelInfo);
+
+    if (!isChanged) {
+        console.log("123")
+        return await this.cacheManager.get("increaseview");
+    }
+    else {
+      console.log("Asds")
+      const channelData = [];
+      for (const info of channelInfo) {
+        const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+        if (info.Channel_Url_Id.includes("@")) {
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
+          if (!response.ok) {
+            throw new Error("Could not fetch events");
+          }
+          const resData = await response.json()
+
+          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+        }
+        else {
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
+          if (!response.ok) {
+            throw new Error("Could not fetch events");
+          }
+          const resData = await response.json()
+
+          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+        }
+      }
+      await this.cacheManager.set("increaseview", channelData, 864000000);
+      await this.cacheManager.set("IncreaseViewChannel", channelInfo, 864000000);
+      return channelData;
+    }
+    
+  }
+
+  async increaseSubscriber() {
+    const channelInfo = await this.channelRepository.find({
+      order: {
+        subscriberCount_percentageincrease: 'DESC'
+      },
+      take: 100
+    });
+
+    const cachedChannelInfo = await this.cacheManager.get("IncreaseSubscriberChannel");
+    const isChanged = !cachedChannelInfo || JSON.stringify(channelInfo) !== JSON.stringify(cachedChannelInfo);
+    if (!isChanged) {
+      console.log("Sub")
+      return await this.cacheManager.get("increaseSubscriber");
+    }
+    else{
+      
+      const channelData = [];
+      for (const info of channelInfo) {
+        const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+  
+        if (info.Channel_Url_Id.includes("@")) {
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
+          if (!response.ok) {
+            throw new Error("Could not fetch events");
+          }
+          const resData = await response.json()
+  
+          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+        }
+        else {
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
+          if (!response.ok) {
+            throw new Error("Could not fetch events");
+          }
+          const resData = await response.json()
+  
+          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+        }
+  
+      }
+      await this.cacheManager.set("increaseSubscriber", channelData, 864000000);
+      await this.cacheManager.set("IncreaseSubscriberChannel", channelInfo, 864000000);
+      return channelData;
+  
+    }
+  
   }
 
 }

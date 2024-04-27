@@ -16,9 +16,9 @@ export default function Main() {
             <header>
                 <Headers />
                 {/* {ChannelInfo.length > 0 && <Body></Body>} */}
-                {ChannelInfo.length === 0 && <Popularvideo></Popularvideo>}
-                {ChannelInfo.length === 0 && <Popularsubscriber></Popularsubscriber>}
-                {ChannelInfo.length === 0 && <Popularview></Popularview>}
+                 <Popularvideo></Popularvideo>
+               <Popularsubscriber></Popularsubscriber>
+                <Popularview></Popularview>
                 
             </header>
            

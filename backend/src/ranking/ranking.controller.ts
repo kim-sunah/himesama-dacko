@@ -32,9 +32,13 @@ export class RankingController {
   async increaseview(){
     return await this.rankingService.increaseview()
   }
+  @Get("increaseSubscriber")
+  async increaseSubscriber(){
+    return await this.rankingService.increaseSubscriber()
+  }
 
   //  @Cron("0 0 0 * * 1-7")
-  //@Cron("45 * * * * *")
+  // @Cron("45 * * * * *")
   async updateRankingSystem() {
     return await this.rankingService.updateRankingSystem()
   }

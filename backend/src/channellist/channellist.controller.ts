@@ -26,7 +26,6 @@ export class ChannellistController {
 
   @Get('channel/:videosearch')
   Getvideosearch(@Param('videosearch') search: string) {
-    console.log(search)
     return this.channellistService.Getvideosearch(search);
   }
 

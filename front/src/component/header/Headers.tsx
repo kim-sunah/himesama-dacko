@@ -108,11 +108,11 @@ export default function Headers() {
                                     </Dropdown.Item>
                                 </Link>
 
-                                <Link className="text-black" to="/Category_Rankings">
+                                {/* <Link className="text-black" to="/Category_Rankings">
                                     <Dropdown.Item>
                                         카테고리별 순위
                                     </Dropdown.Item>
-                                </Link>
+                                </Link> */}
 
 
                             </Dropdown>

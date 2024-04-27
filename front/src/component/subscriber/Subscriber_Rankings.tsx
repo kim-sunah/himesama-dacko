@@ -35,7 +35,7 @@ const SubscriberRankings: React.FC = () => {
     <table className="w-full border-collapse">
       <thead >
         <tr>
-          <th className="w-1/12  text-center ">랭킹</th>
+          
           <th className="w-1/12  text-center ">채널 이름</th>
           <th className="w-1/12  text-center">구독자 수</th>
           <th className="w-1/12  text-center">전일 대비</th>
@@ -44,11 +44,11 @@ const SubscriberRankings: React.FC = () => {
       {Ranking && Ranking.map((Info, index) => (
         <tbody   className="table-spacing" key={Info.Channel_Id}>
           <tr >
-            <td className="font-medium" style={{textAlign:"center" , fontWeight:"bold"}}>{index + 1}</td>
-            <td>
-              <Link  to ={`/${Info.Channel_Url_Id}`}style={{fontWeight:"bold"}} className="flex items-center space-x-2">
+           
+            <td style={{fontWeight:"bold", fontSize:"1rem",whiteSpace:"nowrap", display:"flex", justifyContent:"center"}}>
+              <Link  to ={`/${Info.Channel_Url_Id}`} className="flex items-center space-x-2">
                 <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
-                <span>{Info.Channel_nickname}</span>
+                <span style={{color:"black"}}>{Info.Channel_nickname}</span>
               </Link>
             </td>
             <td style={{textAlign:"center" ,fontWeight:"bold"}}>
