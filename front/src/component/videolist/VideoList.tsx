@@ -42,14 +42,14 @@ export default function VideoList() {
     useEffect(() => {
         const fetchData = async () => {
             if(filterData.length === 0 ){
-                const response = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channel/${search}`);
+                const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/channel/${search}`);
                 if (response) {
                     setShowSearchAlert(response);
                 }
             }
             else if(filterData.length > 0 ){
                 console.log(filterData[0].upload)
-                const response = await  Postmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/filter/${search}`,  filterData[0]);
+                const response = await  Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/${search}`,  filterData[0]);
                 if (response) {
                     setShowSearchAlert(response);
                 }
@@ -125,7 +125,7 @@ export default function VideoList() {
                                         </span>
                                     </td>
                                     <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        <Link to={`https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/${item.Channel_Url_Id}`} style={{ color: "black" }}>
+                                        <Link to={`/${process.env.REACT_APP_FRONT_API}/${item.Channel_Url_Id}`} style={{ color: "black" }}>
                                             <div className="flex items-center space-x-2 justify-center" >
                                                 <img src={item.Channel_Img} alt="YouTube Channel" className="h-10 w-10" style={{ borderRadius: "50%" }} />
                                                 <span style={{ fontWeight: "bold", whiteSpace: "nowrap" }}>{item.channelTitle}</span>

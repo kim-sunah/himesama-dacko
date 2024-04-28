@@ -36,7 +36,7 @@ export default function Body() {
 
   useEffect(()=>{
     const fetchData = async()=>{
-      const response = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/${Id}`)
+      const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/${Id}`)
       
       setChannelInfo(response);
       

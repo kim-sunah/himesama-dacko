@@ -20,7 +20,7 @@ const SubscriberRankings: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Getmethod("https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/ranking/top-channels");
+        const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/top-channels`);
         setRanking(response)
         console.log(response)
       } catch (error) {

@@ -34,7 +34,7 @@ export default function Headers() {
         if (ChannelId.current!.value.includes('http')) {
             if (ChannelId.current!.value.includes('@')) {
                 const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
-                const respose = await fetch("https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channelurl", {
+                const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelurl`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ Channel_Url_Id: username })
@@ -48,14 +48,14 @@ export default function Headers() {
                 (event.target as HTMLFormElement).reset();
 
                 console.log(data);
-                window.location.href =`https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/${username}`
+                window.location.href =`/${process.env.REACT_APP_FRONT_API}/${username}`
                 dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
             }
             else {
                 const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
                 if (channel) {
                     console.log(channel[0]);
-                    const respose = await fetch("https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channelId", {
+                    const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ Channel_Url_Id: channel[0] })
@@ -69,17 +69,18 @@ export default function Headers() {
                     (event.target as HTMLFormElement).reset();
 
                     console.log(data);
-                    window.location.href =`https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/${channel[0]}`
+                    window.location.href =`/${process.env.REACT_APP_FRONT_API}/${channel[0]}`
                     dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
                 }
             }
         }
         else {
             if(ChannelId.current!.value){
-                window.location.href = `https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/seachlist/${ChannelId.current!.value}`;
+               
+                window.location.href = `/seachlist/${ChannelId.current!.value}`;
                 (event.target as HTMLFormElement).reset();
             }
-            // const respose = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channel/${ChannelId.current!.value}`);
+            // const respose = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/channel/${ChannelId.current!.value}`);
             // ChannelId.current!.value = " "
             // console.log(respose);
             // dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 함

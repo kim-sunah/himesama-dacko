@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app](https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app) to view it in the browser.
+Open [/${process.env.REACT_APP_BACKEND_API}](/${process.env.REACT_APP_BACKEND_API}) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
