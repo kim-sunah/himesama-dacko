@@ -19,7 +19,7 @@ import Body from './component/body/Body';
 
 function App() {
   const router = createBrowserRouter([
-
+    
     {path:"",element:<Root></Root>, children:[
       {index: true , element : <Main></Main>},
       {path : ":Id" , element: <Body></Body>},

@@ -34,7 +34,7 @@ export default function Headers() {
         if (ChannelId.current!.value.includes('http')) {
             if (ChannelId.current!.value.includes('@')) {
                 const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
-                const respose = await fetch("https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channelurl", {
+                const respose = await fetch("https://himesama-dacko:4000/channellist/channelurl", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ Channel_Url_Id: username })
@@ -55,7 +55,7 @@ export default function Headers() {
                 const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
                 if (channel) {
                     console.log(channel[0]);
-                    const respose = await fetch("https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channelId", {
+                    const respose = await fetch("https://himesama-dacko:4000/channellist/channelId", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ Channel_Url_Id: channel[0] })
@@ -79,7 +79,7 @@ export default function Headers() {
                 window.location.href = `https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/seachlist/${ChannelId.current!.value}`;
                 (event.target as HTMLFormElement).reset();
             }
-            // const respose = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channel/${ChannelId.current!.value}`);
+            // const respose = await Getmethod(`https://himesama-dacko:4000/channellist/channel/${ChannelId.current!.value}`);
             // ChannelId.current!.value = " "
             // console.log(respose);
             // dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 함
