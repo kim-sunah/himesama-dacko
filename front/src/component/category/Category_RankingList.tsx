@@ -25,7 +25,7 @@ export default function CategoryRankingsList(){
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/ranking/ranking/category/${Categoryid}`);
+          const response = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/ranking/category/${Categoryid}`);
           setsubscriberRanking(response.subscriberCount)
           setsubviewRanking(response.viewCount)
           console.log(response)
