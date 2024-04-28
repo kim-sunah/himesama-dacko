@@ -48,7 +48,7 @@ export default function Headers() {
                 (event.target as HTMLFormElement).reset();
 
                 console.log(data);
-                window.location.href =`http://localhost:3000/${username}`
+                window.location.href =`https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/${username}`
                 dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
             }
             else {
@@ -69,14 +69,14 @@ export default function Headers() {
                     (event.target as HTMLFormElement).reset();
 
                     console.log(data);
-                    window.location.href =`http://localhost:3000/${channel[0]}`
+                    window.location.href =`https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/${channel[0]}`
                     dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
                 }
             }
         }
         else {
             if(ChannelId.current!.value){
-                window.location.href = `http://localhost:3000/seachlist/${ChannelId.current!.value}`;
+                window.location.href = `https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/seachlist/${ChannelId.current!.value}`;
                 (event.target as HTMLFormElement).reset();
             }
             // const respose = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/channellist/channel/${ChannelId.current!.value}`);
