@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { plainToClass } from 'class-transformer';
+import axios  from 'axios';
 
 @Injectable()
 export class RankingService {
@@ -109,7 +110,7 @@ export class RankingService {
       order: {
         viewCount_percentageincrease: 'DESC'
       },
-      take: 100
+      take: 50
     });
 
     const cachedChannelInfo = await this.cacheManager.get("IncreaseViewChannel");
@@ -124,22 +125,20 @@ export class RankingService {
       const channelData = [];
       for (const info of channelInfo) {
         const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
+        console.log("HHHHHHH")
+        console.log(info.Channel_Url_Id)
         if (info.Channel_Url_Id.includes("@")) {
-          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
-          if (!response.ok) {
-            throw new Error("Could not fetch events");
-          }
-          const resData = await response.json()
+          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
+         
+          const resData = response.data
           console.log(resData)
 
           channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
         }
         else {
-          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
-          if (!response.ok) {
-            throw new Error("Could not fetch events");
-          }
-          const resData = await response.json()
+          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
+       
+          const resData = response.data
 
           channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
         }
@@ -156,7 +155,7 @@ export class RankingService {
       order: {
         subscriberCount_percentageincrease: 'DESC'
       },
-      take: 100
+      take: 50
     });
 
     const cachedChannelInfo = await this.cacheManager.get("IncreaseSubscriberChannel");
@@ -166,28 +165,24 @@ export class RankingService {
       return await this.cacheManager.get("increaseSubscriber");
     }
     else{
-      
       const channelData = [];
       for (const info of channelInfo) {
+        console.log("HHHHHHH")
+        console.log(info.Channel_Url_Id)
         const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
   
         if (info.Channel_Url_Id.includes("@")) {
-          console.log(info.Channel_Url_Id)
-          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
-          if (!response.ok) {
-            throw new Error("Could not fetch events");
-          }
-          const resData = await response.json()
+          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
+          
+          const resData = response.data
           console.log(resData)
   
           channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
         }
         else {
-          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
-          if (!response.ok) {
-            throw new Error("Could not fetch events");
-          }
-          const resData = await response.json()
+          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${apiKey}`)
+         
+          const resData = response.data
   
           channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
         }
@@ -195,6 +190,7 @@ export class RankingService {
       }
       await this.cacheManager.set("increaseSubscriber", channelData, 864000000);
       await this.cacheManager.set("IncreaseSubscriberChannel", channelInfo, 864000000);
+      
       return channelData;
   
     }

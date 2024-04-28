@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Filter, Repository } from "typeorm"
 import { Channellist } from './entities/channellist.entity';
 import { FilterService } from 'src/filter/filter.service';
+import axios from 'axios'
 
 
 @Injectable()
