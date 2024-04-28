@@ -172,6 +172,7 @@ export class RankingService {
         const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
   
         if (info.Channel_Url_Id.includes("@")) {
+          console.log(info.Channel_Url_Id)
           const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
           if (!response.ok) {
             throw new Error("Could not fetch events");
