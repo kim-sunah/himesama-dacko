@@ -30,7 +30,7 @@ export class RankingController {
 
   @Get("increaseview")
   async increaseview(){
-    return await this.rankingService.increaseview()
+    return await this.rankingService.increaseview();
   }
   @Get("increaseSubscriber")
   async increaseSubscriber(){
