@@ -125,7 +125,7 @@ export default function VideoList() {
                                         </span>
                                     </td>
                                     <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        <Link to={`/${process.env.REACT_APP_FRONT_API}/${item.Channel_Url_Id}`} style={{ color: "black" }}>
+                                        <Link to={`/${item.Channel_Url_Id}`} style={{ color: "black" }}>
                                             <div className="flex items-center space-x-2 justify-center" >
                                                 <img src={item.Channel_Img} alt="YouTube Channel" className="h-10 w-10" style={{ borderRadius: "50%" }} />
                                                 <span style={{ fontWeight: "bold", whiteSpace: "nowrap" }}>{item.channelTitle}</span>

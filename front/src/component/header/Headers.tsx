@@ -48,7 +48,7 @@ export default function Headers() {
                 (event.target as HTMLFormElement).reset();
 
                 console.log(data);
-                window.location.href =`/${process.env.REACT_APP_FRONT_API}/${username}`
+                window.location.href =`/${username}`
                 dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
             }
             else {
@@ -69,7 +69,7 @@ export default function Headers() {
                     (event.target as HTMLFormElement).reset();
 
                     console.log(data);
-                    window.location.href =`/${process.env.REACT_APP_FRONT_API}/${channel[0]}`
+                    window.location.href =`/${channel[0]}`
                     dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
                 }
             }
@@ -80,10 +80,6 @@ export default function Headers() {
                 window.location.href = `/seachlist/${ChannelId.current!.value}`;
                 (event.target as HTMLFormElement).reset();
             }
-            // const respose = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/channel/${ChannelId.current!.value}`);
-            // ChannelId.current!.value = " "
-            // console.log(respose);
-            // dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 함
             
         }
     }
