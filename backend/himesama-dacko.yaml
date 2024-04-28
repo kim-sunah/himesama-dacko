@@ -1,0 +1,14 @@
+name: himesama-dacko
+app: node@21
+options:
+  env:
+    - name: NODE_ENV
+      value: production
+  ports: "4000"
+  install: npm install
+  build: npm run build
+  start: npm run start:dev
+context:
+  git:
+    url: https://github.com/kim-sunah/himesama-dacko.git
+    branch: main

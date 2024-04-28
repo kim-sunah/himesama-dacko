@@ -396,11 +396,6 @@ export class FilterService {
   remove(id: number) {
     return `This action removes a #${id} filter`;
   }
-
- 
-   
-
-  
 }
 
 
