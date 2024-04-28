@@ -42,14 +42,14 @@ export default function VideoList() {
     useEffect(() => {
         const fetchData = async () => {
             if(filterData.length === 0 ){
-                const response = await Getmethod(`https://himesama-dacko:4000/channellist/channel/${search}`);
+                const response = await Getmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/ranking/channellist/channel/${search}`);
                 if (response) {
                     setShowSearchAlert(response);
                 }
             }
             else if(filterData.length > 0 ){
                 console.log(filterData[0].upload)
-                const response = await  Postmethod(`https://himesama-dacko:4000/filter/${search}`,  filterData[0]);
+                const response = await  Postmethod(`https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/ranking/filter/${search}`,  filterData[0]);
                 if (response) {
                     setShowSearchAlert(response);
                 }
