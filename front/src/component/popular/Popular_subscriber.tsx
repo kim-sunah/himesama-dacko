@@ -15,7 +15,7 @@ export default function Popularsubscriber() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await Getmethod("http://localhost:4000/ranking/increaseSubscriber");
+                const response = await Getmethod("https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app/ranking/increaseSubscriber");
                 console.log(response);
                 setchannelData(response);
             } catch (error) {
