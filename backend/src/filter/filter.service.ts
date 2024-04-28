@@ -4,6 +4,7 @@ import { UpdateFilterDto } from './dto/update-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
 import { Repository } from 'typeorm';
+import axios from 'axios';
 interface Data {
   nextPageToken: any;
   prevPageToken: any;
@@ -22,19 +23,15 @@ export class FilterService {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const channelData = [];
     for (const info of resData.items) {
-      const ChannelInfo = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${apiKey}`)
-      if (!ChannelInfo.ok) {
-        throw new Error("Could not fetch events");
-      }
-      const ChannelData = await ChannelInfo.json();
+      const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${apiKey}`)
+     
+      const ChannelData = ChannelInfo.data
      
       const searchData = await this.channelList.findOne({ where: {Channel_Id: info.snippet.channelId } })
       if (info.id.videoId) {
-        const channelcategory = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${apiKey}`)
-        if (!channelcategory.ok) {
-          throw new Error("Could not fetch events");
-        }
-        const channelcategoryData = await channelcategory.json()
+        const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${apiKey}`)
+       
+        const channelcategoryData = channelcategory.data
         console.log(ChannelData.items[0].snippet.title)
         if (!searchData) {
           if (channelcategoryData.items[0].snippet.categoryId === 1) {
@@ -346,21 +343,16 @@ export class FilterService {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     try {
       if(createFilterDto.upload === "1Hour_ago"){
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${apiKey}`)
-        if(!response.ok){
-          throw new Error("Could not fetch events");
-        }
-        const resData = await response.json();
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${apiKey}`)
+        const resData = response.data
         return await this.videoFilter(resData);
       }
       else if(createFilterDto.upload === "Today"){
         const today = new Date();
         today.setHours(0, 0, 0, 0); 
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${today.toISOString()}&key=${apiKey}`)
-        if(!response.ok){
-          throw new Error("Could not fetch events");
-        }
-        const resData = await response.json();
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${today.toISOString()}&key=${apiKey}`)
+      
+        const resData = response.data
         return await this.videoFilter(resData);
 
       }
@@ -368,11 +360,9 @@ export class FilterService {
         const today = new Date();
         const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${firstDayOfMonth.toISOString()}&publishedBefore=${lastDayOfMonth.toISOString()}&key=${apiKey}`)
-        if(!response.ok){
-          throw new Error("Could not fetch events");
-        }
-        const resData = await response.json();
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${firstDayOfMonth.toISOString()}&publishedBefore=${lastDayOfMonth.toISOString()}&key=${apiKey}`)
+       
+        const resData = response.data
         return await this.videoFilter(resData);
       }
     } catch (error) {

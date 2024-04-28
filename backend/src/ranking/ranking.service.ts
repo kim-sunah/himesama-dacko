@@ -58,12 +58,10 @@ export class RankingService {
     const channelInfo = await this.channelRepository.find();
     for (const info of channelInfo) {
       if (info.Channel_Url_Id.includes("@")) {
-        const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${apiKey}`);
+        const response = await  axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${apiKey}`);
 
-        if (!response.ok) {
-          throw new Error("Could not fetch events");
-        }
-        const channelData = await response.json();
+       
+        const channelData = response.data
 
         if (!isNaN(((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) && !isNaN(((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) {
           await this.channelRepository.update(info.id,
@@ -82,11 +80,9 @@ export class RankingService {
 
       }
       else {
-        const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${apiKey}`);
-        if (!response.ok) {
-          throw new Error("Could not fetch events");
-        }
-        const channelData = await response.json();
+        const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${apiKey}`);
+       
+        const channelData = response.data
 
         await this.channelRepository.update(info.id,
           {

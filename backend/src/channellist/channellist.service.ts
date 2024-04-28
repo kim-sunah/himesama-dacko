@@ -16,28 +16,19 @@ export class ChannellistService {
 
   async Urlcreate(Channel_Url_Id: string) {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
-    if (!response.ok) {
-      throw new Error("Could not fetch events");
-    }
-    else {
-      const resData = await response.json();
-      if (resData.pageInfo.totalResults === 0) {
-        throw new NotFoundException()
-      }
+    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
+    
+ 
+      const resData = response.data
+  
       const SearchChannel = await this.channelList.findOne({ where: { Channel_Url_Id } })
       if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-        const channelSearch = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${apiKey}`)
-        if (!channelSearch.ok) {
-          throw new Error("Could not fetch events");
-        }
-        const channelData = await channelSearch.json();
+        const channelSearch = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${apiKey}`)
+        const channelData = channelSearch.data
         if (channelData.items[0].id.videoId) {
-          const channelcategory = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${apiKey}`)
-          if (!channelcategory.ok) {
-            throw new Error("Could not fetch events");
-          }
-          const channelcategoryData = await channelcategory.json()
+          const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${apiKey}`)
+        
+          const channelcategoryData = channelcategory.data
           if (channelcategoryData.items[0].snippet.categoryId === 1) {
             return await this.channelList.save({ Channel_category: "Film_Animation", Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: Channel_Url_Id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, Channel_img: resData.items[0].snippet.thumbnails.medium.url })
           }
@@ -140,20 +131,14 @@ export class ChannellistService {
       }
       if (resData.pageInfo.totalResults === 1 && SearchChannel) {
         return SearchChannel
-
-
-        // return {subscriberCount : this.subscriber(resData.items[0].statistics.subscriberCount) , videoCount: resData.items[0].statistics.videoCount  , viewCount : this.formatNumber(resData.items[0].statistics.viewCount)}
-      }
     }
   }
 
   async Idcreate(Channel_Url_Id: string) {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
-    if (!response.ok) {
-      throw new Error("Could not fetch events");
-    }
-    const resData = await response.json();
+    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
+    
+    const resData = response.data
 
     if (resData.pageInfo.totalResults === 0) {
       throw new NotFoundException()
@@ -161,18 +146,14 @@ export class ChannellistService {
 
     const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: Channel_Url_Id } })
     if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-      const channelSearch = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${apiKey}`)
-      if (!channelSearch.ok) {
-        throw new Error("Could not fetch events");
-      }
-      const channelData = await channelSearch.json();
+      const channelSearch = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${apiKey}`)
+     
+      const channelData = channelSearch.data
       if (channelData.items[0].id.videoId) {
-        const channelcategory = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${apiKey}`)
-        if (!channelcategory.ok) {
-          throw new Error("Could not fetch events");
-        }
+        const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${apiKey}`)
+       
 
-        const channelcategoryData = await channelcategory.json()
+        const channelcategoryData = channelcategory.data
         if (channelcategoryData.items[0].snippet.categoryId === 1) {
           return await this.channelList.save({ Channel_category: "Film_Animation", Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, Channel_img: resData.items[0].snippet.thumbnails.medium.url })
         }
@@ -281,11 +262,9 @@ export class ChannellistService {
 
   async Getvideosearch(search: string) {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${apiKey}`)
-    if (!response.ok) {
-      throw new Error("Could not fetch events");
-    }
-    const resData = await response.json();
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${apiKey}`)
+    
+    const resData = response.data;
     return await this.FilterService.videoFilter(resData);
     
   }
