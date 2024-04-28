@@ -176,6 +176,7 @@ export class RankingService {
             throw new Error("Could not fetch events");
           }
           const resData = await response.json()
+          console.log(resData)
   
           channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
         }
