@@ -11,7 +11,7 @@ export default function Popularvideo(): JSX.Element {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+        const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
         const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&chart=mostPopular&maxResults=5&regionCode=kr&key=${apiKey}`);
 
         setPopular_video(response.items)

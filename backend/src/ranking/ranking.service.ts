@@ -53,7 +53,7 @@ export class RankingService {
   }
 
   async updateRankingSystem() {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const channelInfo = await this.channelRepository.find();
     for (const info of channelInfo) {
       if (info.Channel_Url_Id.includes("@")) {
@@ -123,7 +123,7 @@ export class RankingService {
       console.log("Asds")
       const channelData = [];
       for (const info of channelInfo) {
-        const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+        const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
         if (info.Channel_Url_Id.includes("@")) {
           const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)
           if (!response.ok) {
@@ -168,7 +168,7 @@ export class RankingService {
       
       const channelData = [];
       for (const info of channelInfo) {
-        const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+        const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
   
         if (info.Channel_Url_Id.includes("@")) {
           const response = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${apiKey}`)

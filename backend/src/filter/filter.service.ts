@@ -19,7 +19,7 @@ export class FilterService {
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>){}
 
    async videoFilter(resData : Data){
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const channelData = [];
     for (const info of resData.items) {
       const ChannelInfo = await fetch(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${apiKey}`)
@@ -343,7 +343,7 @@ export class FilterService {
   }
 
   async Filterlength(createFilterDto: CreateFilterDto,search: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     try {
       if(createFilterDto.upload === "1Hour_ago"){
         const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${apiKey}`)

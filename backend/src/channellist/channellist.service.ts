@@ -6,6 +6,7 @@ import { Filter, Repository } from "typeorm"
 import { Channellist } from './entities/channellist.entity';
 import { FilterService } from 'src/filter/filter.service';
 
+
 @Injectable()
 export class ChannellistService {
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, private readonly FilterService : FilterService) {
@@ -13,7 +14,7 @@ export class ChannellistService {
   }
 
   async Urlcreate(Channel_Url_Id: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
@@ -146,7 +147,7 @@ export class ChannellistService {
   }
 
   async Idcreate(Channel_Url_Id: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const response = await fetch(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
@@ -278,7 +279,7 @@ export class ChannellistService {
   }
 
   async Getvideosearch(search: string) {
-    const apiKey = 'AIzaSyB-2lmQpVewHuaVnODOHr_plj15uEx7XOU';
+    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${apiKey}`)
     if (!response.ok) {
       throw new Error("Could not fetch events");
