@@ -9,7 +9,7 @@ export class ChannellistController {
 
   @Post("channelurl")
   Urlcreate(@Body() createChannellistDto: CreateChannellistDto) {
-    return this.channellistService.Urlcreate(createChannellistDto.Channel_Url_Id)
+    return this.channellistService.Urlcreate(createChannellistDto.Channel_Url_Id);
   }
 
   @Post("channelId")
@@ -20,7 +20,7 @@ export class ChannellistController {
   @Get(":channelId")
   channelInfo(@Param('channelId') channelId: string) {
     console.log(channelId)
-    return this.channellistService.channelInfo(channelId)
+    return this.channellistService.channelInfo(channelId);
   }
 
 
