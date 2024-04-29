@@ -20,7 +20,7 @@ export class ChannellistController {
   @Get(":channelId")
   channelInfo(@Param('channelId') channelId: string) {
     console.log(channelId)
-    return this.channellistService.channelInfo(channelId);
+    return this.channellistService.channelInfo(channelId)
   }
 
 
