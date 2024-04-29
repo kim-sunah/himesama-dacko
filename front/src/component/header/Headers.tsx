@@ -110,12 +110,7 @@ export default function Headers() {
                                         카테고리별 순위
                                     </Dropdown.Item>
                                 </Link> */}
-
-
                             </Dropdown>
-                            
-
-
                             {/*<Link className="text-white" to="#">
                             리소스
                         </Link> */}
