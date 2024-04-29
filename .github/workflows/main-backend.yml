@@ -49,4 +49,4 @@ jobs:
             context:
               git:
                 url: git@github.com:kim-sunah/himesama-dacko.git
-                ref: main/backend
+                ref: main
