@@ -32,7 +32,7 @@ export class FilterService {
         const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${apiKey}`)
        
         const channelcategoryData = channelcategory.data
-        console.log(ChannelData.items[0].snippet.title)
+       
         if (!searchData) {
           if (channelcategoryData.items[0].snippet.categoryId === 1) {
             if(ChannelData.items[0].snippet.customUrl){

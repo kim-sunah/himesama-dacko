@@ -12,10 +12,6 @@ export class RankingController {
   create(@Body() createRankingDto: CreateRankingDto) {
     return this.rankingService.create(createRankingDto);
   }
-  @Get()
-    Test(){
-      return 'HRANKIGN!';
-    }
 
   
   @Get('top-channels')
