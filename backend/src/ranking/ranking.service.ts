@@ -148,13 +148,13 @@ export class RankingService {
     const cachedChannelInfo = await this.cacheManager.get("IncreaseSubscriberChannel");
     const isChanged = !cachedChannelInfo || JSON.stringify(channelInfo) !== JSON.stringify(cachedChannelInfo);
     if (!isChanged) {
-      console.log("Sub")
+  
       return await this.cacheManager.get("increaseSubscriber");
     }
     else{
       const channelData = [];
       for (const info of channelInfo) {
-        console.log("HHHHHHH")
+      
         console.log(info.Channel_Url_Id)
         const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
   

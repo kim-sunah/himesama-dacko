@@ -8,7 +8,7 @@ import Popularvideo from "../popular/Popular_video";
 import Popularview from "../popular/Popular_view";
 
 export default function Main() {
-    const ChannelInfo = useChannelSelector((state) => state.channel.items)
+    // const ChannelInfo = useChannelSelector((state) => state.channel.items)
 
     return (
 
