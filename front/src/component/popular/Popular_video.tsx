@@ -28,13 +28,13 @@ export default function Popularvideo(): JSX.Element {
       <div style={{ display: "flex", flexWrap: "wrap", marginTop: "2%" }}>
         {Popular_video &&
           Popular_video.map((video) => (
-            <div key={video.id} style={{ width: "20%", padding: "0.5rem" }}>
+            <div key={video.id} style={{ width: "20%", padding: "0.5rem",minHeight: "200px", minWidth : "200px" }}>
               <iframe
                 width="100%"
-                height="250"
+                height="100%"
                 src={`https://www.youtube.com/embed/${video.id}`}
                 title="YouTube video player"
-                style={{ display: "block" }}
+                style={{ display: "block" ,minHeight: "200px", minWidth : "200px"}}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>

@@ -39,6 +39,7 @@ export class RankingController {
   }
   @Get("increaseSubscriber")
   async increaseSubscriber(){
+    console.log(process.env.Youtbe_Api_KEY);
     return await this.rankingService.increaseSubscriber()
   }
 
