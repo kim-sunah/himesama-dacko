@@ -9,7 +9,7 @@ export class ChannellistController {
 
   @Post("channelurl")
   Urlcreate(@Body() createChannellistDto: CreateChannellistDto) {
-    return this.channellistService.Urlcreate(createChannellistDto.Channel_Url_Id);
+    return this.channellistService.Urlcreate(createChannellistDto.Channel_Url_Id)
   }
 
   @Post("channelId")
