@@ -53,16 +53,13 @@ export class RankingService {
 
   }
 
-  async updateRankingSystem() {
+  async updateSystem() {
     const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
     const channelInfo = await this.channelRepository.find();
     for (const info of channelInfo) {
       if (info.Channel_Url_Id.includes("@")) {
         const response = await  axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${apiKey}`);
-
-       
         const channelData = response.data
-
         if (!isNaN(((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) && !isNaN(((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) {
           await this.channelRepository.update(info.id,
             {
@@ -75,15 +72,11 @@ export class RankingService {
               subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
               viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
             });
-
         }
-
       }
       else {
         const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${apiKey}`);
-       
         const channelData = response.data
-
         await this.channelRepository.update(info.id,
           {
             previous_subscriberCount: +info.subscriberCount,
@@ -95,9 +88,7 @@ export class RankingService {
             subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
             viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
           });
-
       }
-
     }
   }
 

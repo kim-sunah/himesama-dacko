@@ -1,3 +1,4 @@
+
 name: Deploy to cloudtype
 on:
   push:
@@ -12,12 +13,12 @@ jobs:
       - name: Connect deploy key
         uses: cloudtype-github-actions/connect@v1
         with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          token: "${{ secrets.CLOUDTYPE_TOKEN }}"
           ghtoken: ${{ secrets.GHP_TOKEN }}
       - name: Deploy
         uses: cloudtype-github-actions/deploy@v1
         with:
-          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          token: "${{ secrets.CLOUDTYPE_TOKEN }}"
           project: poeroff/nestjs
           stage: main
           yaml: |
@@ -47,5 +48,6 @@ jobs:
               start: npm run start:dev
             context:
               git:
-                url: git@github.com:${{ github.repository }}.git
-                ref: ${{ github.ref }}
+                url: git@github.com:kim-sunah/himesama-dacko.git
+                path: backend
+                ref: main

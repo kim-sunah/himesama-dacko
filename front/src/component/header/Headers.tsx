@@ -54,7 +54,7 @@ export default function Headers() {
             else {
                 const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
                 if (channel) {
-                    console.log(channel[0]);
+                    
                     const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ export default function Headers() {
                     const data = await respose.json();
                     (event.target as HTMLFormElement).reset();
 
-                    console.log(data);
+                    
                     window.location.href =`/${channel[0]}`
                     dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
                 }
@@ -110,12 +110,7 @@ export default function Headers() {
                                         카테고리별 순위
                                     </Dropdown.Item>
                                 </Link> */}
-
-
                             </Dropdown>
-                            
-
-
                             {/*<Link className="text-white" to="#">
                             리소스
                         </Link> */}

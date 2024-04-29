@@ -28,7 +28,7 @@ export default function CategoryRankingsList(){
           const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/category/${Categoryid}`);
           setsubscriberRanking(response.subscriberCount)
           setsubviewRanking(response.viewCount)
-          console.log(response)
+          
         } catch (error) {
           console.error("Error fetching data:", error);
         }

@@ -20,14 +20,22 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: poeroff/nestjs
           stage: main
-          yaml: |
+          yaml: >
             name: himesama-dacko-front
+
             app: web@
+
             options:
               nodeversion: "21"
-              build: npm run start
               spa: true
+              docbase: /build
+              buildenv:
+                - name: REACT_APP_BACKEND_API
+                  value: https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app
+                - name: REACT_APP_FRONT_API
+                  value: https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/
             context:
               git:
-                url: git@github.com:${{ github.repository }}.git
-                ref: ${{ github.ref }}
+                url:  git@github.com:kim-sunah/himesama-dacko.git
+                path: front
+                ref: main

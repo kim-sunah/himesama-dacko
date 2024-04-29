@@ -12,10 +12,6 @@ export class RankingController {
   create(@Body() createRankingDto: CreateRankingDto) {
     return this.rankingService.create(createRankingDto);
   }
-  @Get()
-    Test(){
-      return 'HRANKIGN!';
-    }
 
   
   @Get('top-channels')
@@ -43,10 +39,9 @@ export class RankingController {
     return await this.rankingService.increaseSubscriber()
   }
 
-  //  @Cron("0 0 0 * * 1-7")
-  // @Cron("45 * * * * *")
-  async updateRankingSystem() {
-    return await this.rankingService.updateRankingSystem()
+  @Cron("0 0 0 * * 1-7")
+  async updateSystem() {
+    return await this.rankingService.updateSystem()
   }
   
 }
