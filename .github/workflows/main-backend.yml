@@ -20,7 +20,7 @@ jobs:
         with:
           token: "${{ secrets.CLOUDTYPE_TOKEN }}"
           project: poeroff/nestjs
-          stage: main/backend
+          stage: main
           yaml: |
             name: himesama-dacko
             app: node@16
@@ -49,4 +49,4 @@ jobs:
             context:
               git:
                 url: git@github.com:kim-sunah/himesama-dacko.git
-                ref: main
+                ref: main/backend
