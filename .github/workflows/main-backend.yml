@@ -48,5 +48,5 @@ jobs:
               start: npm run start:dev
             context:
               git:
-                url: git@github.com:kim-sunah/himesama-dacko.git
+                url: git@github.com:kim-sunah/himesama-dacko/backend.git
                 ref: main
