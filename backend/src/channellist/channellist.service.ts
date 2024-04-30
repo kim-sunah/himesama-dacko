@@ -15,18 +15,18 @@ export class ChannellistService {
   }
 
   async Urlcreate(Channel_Url_Id: string) {
-    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
+    
+    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${process.env.Youtbe_Api_KEY}`)
     
  
       const resData = response.data
   
       const SearchChannel = await this.channelList.findOne({ where: { Channel_Url_Id } })
       if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-        const channelSearch = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${apiKey}`)
+        const channelSearch = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
         const channelData = channelSearch.data
         if (channelData.items[0].id.videoId) {
-          const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${apiKey}`)
+          const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${process.env.Youtbe_Api_KEY}`)
         
           const channelcategoryData = channelcategory.data
           if (channelcategoryData.items[0].snippet.categoryId === 1) {
@@ -135,8 +135,8 @@ export class ChannellistService {
   }
 
   async Idcreate(Channel_Url_Id: string) {
-    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${apiKey}`)
+    
+    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${process.env.Youtbe_Api_KEY}`)
     
     const resData = response.data
 
@@ -146,11 +146,11 @@ export class ChannellistService {
 
     const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: Channel_Url_Id } })
     if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-      const channelSearch = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${apiKey}`)
+      const channelSearch = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${resData.items[0].id}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
      
       const channelData = channelSearch.data
       if (channelData.items[0].id.videoId) {
-        const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${apiKey}`)
+        const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${channelData.items[0].id.videoId}&key=${process.env.Youtbe_Api_KEY}`)
        
 
         const channelcategoryData = channelcategory.data
@@ -261,8 +261,8 @@ export class ChannellistService {
   }
 
   async Getvideosearch(search: string) {
-    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${apiKey}`)
+    
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
     
     const resData = response.data;
     return await this.FilterService.videoFilter(resData);

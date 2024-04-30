@@ -41,24 +41,24 @@ export default function VideoList() {
     const { search } = useParams();
     useEffect(() => {
         const fetchData = async () => {
-            if(filterData.length === 0 ){
+            if (filterData.length === 0) {
                 const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/channel/${search}`);
                 if (response) {
                     setShowSearchAlert(response);
                 }
             }
-            else if(filterData.length > 0 ){
+            else if (filterData.length > 0) {
                 console.log(filterData[0].upload)
-                const response = await  Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/${search}`,  filterData[0]);
+                const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/${search}`, filterData[0]);
                 if (response) {
                     setShowSearchAlert(response);
                 }
-                
+
             }
-         
+
         }
         fetchData()
-    }, [search,filterData])
+    }, [search, filterData])
 
     const submithandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -70,80 +70,66 @@ export default function VideoList() {
     }
 
     const HOMEBUTTON = (event: React.MouseEvent) => {
-        
+
         navigate("/")
-       
+
     }
     return (
         <div>
-            <div style={{textAlign:"center", marginTop:"2.5%"}}>
-            {/* <h2 onClick={HOMEBUTTON}> Home </h2> */}
-            <Link to ="/"> HOME</Link>
-
+            <div style={{ textAlign: "center", marginTop: "2.5%" }}>
+                <Link to="/"> HOME</Link>
             </div>
-            <div style={{ display: "flex", margin: "0px"}}>
-               
-                <form onSubmit={submithandler} className="flex md:gap-8 md:p-6 justify-center " style={{ width: "50%", margin: "0px auto" }}>
-                    
+            <div style={{ display: "flex", justifyContent: "center", margin: "0px", padding: "0px" }}>
+                <form onSubmit={submithandler} className="flex md:gap-8 md:p-6 justify-center" style={{ width: "100%", margin: "0px auto" }}>
                     <MDBInput label='Search' ref={searchRef} />
                     <MDBBtn rippleColor='dark'>
                         <MDBIcon style={{ borderRadius: "50%" }} icon='search' />
                     </MDBBtn>
-                    {/* <BsFilterLeft size="40" onClick={toggleOpen} /> */}
                 </form>
             </div>
-            <div className="flex gap-4 p-4 md:gap-8 md:p-6 justify-center" >
-
-                <div className="border shadow-sm rounded-lg p-4 w-2/2">
+            <div className="flex gap-4 p-4 md:gap-8 md:p-6 justify-center">
+                <div className="border shadow-sm rounded-lg p-4 w-full md:w-2/3">
                     <div style={{ float: "right", margin: "2%" }}>
                         <Modal />
                     </div>
-                    <table style={{ borderCollapse: "separate", borderSpacing: "10px 20px" }}>
+                    <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: "10px 20px" }}>
                         <thead>
                             <tr>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>동영상</th>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>영상 제목</th>
-
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>채널 이름</th>
-                                {/* <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>구독자 수</th>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>조회수</th>*/}
-
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>좋아요 수</th>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>조회수</th>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>댓글 수</th>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>이메일</th>
-                                <th className="min-w-[150px]" style={{ textAlign: "center", fontWeight: "bold" }}>인스타그램</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>동영상</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>영상 제목</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>채널 이름</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>좋아요 수</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>조회수</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>댓글 수</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>이메일</th>
+                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>인스타그램</th>
                             </tr>
                         </thead>
                         {showSearchAlert && showSearchAlert.map((item, index) => (
-                            <tbody className="table-spacing" key={index} >
-                                <tr >
-                                    <td className="font-medium" style={{ textAlign: "center", fontWeight: "bold" }} ><Link to={`https://www.youtube.com/watch?v=${item.videoId}`}><img src={item.thumbnails} ></img></Link></td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold", margin: "100px", whiteSpace: "nowrap" }}>
+                            <tbody className="table-spacing" key={index}>
+                                <tr>
+                                    <td className="font-medium" style={{ textAlign: "center", fontWeight: "bold" }}><Link to={`https://www.youtube.com/watch?v=${item.videoId}`}><img src={item.thumbnails} alt="thumbnail" /></Link></td>
+                                    <td style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap" }}>
                                         <span className="px-2 py-1 rounded-md">
                                             {item.videotitle.length > 15 ? `${item.videotitle.slice(0, 15)}...` : item.videotitle}
                                         </span>
                                     </td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold" }}>
+                                    <td style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap" }}>
                                         <Link to={`/${item.Channel_Url_Id}`} style={{ color: "black" }}>
-                                            <div className="flex items-center space-x-2 justify-center" >
-                                                <img src={item.Channel_Img} alt="YouTube Channel" className="h-10 w-10" style={{ borderRadius: "50%" }} />
-                                                <span style={{ fontWeight: "bold", whiteSpace: "nowrap" }}>{item.channelTitle}</span>
+                                            <div className="flex items-center space-x-2 justify-center">
+                                                <img src={item.Channel_Img} alt="YouTube Channel" className="h-10 w-10 rounded-full" />
+                                                <span style={{ fontWeight: "bold" }}>{item.channelTitle}</span>
                                             </div>
                                         </Link>
                                     </td>
-
-                                    <td style={{ textAlign: "center", fontWeight: "bold", margin: "100px", whiteSpace: "none" }}>
-                                        {item.videolikecount !== null && item.videolikecount !== undefined && <span className="px-2 py-1 rounded-md" >{(item.videolikecount).toLocaleString('en')} </span>}
-
+                                    <td style={{ textAlign: "center", fontWeight: "bold" }}>
+                                        {item.videolikecount !== null && item.videolikecount !== undefined && <span className="px-2 py-1 rounded-md">{(item.videolikecount).toLocaleString('en')}</span>}
                                     </td>
                                     <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        {item.videoviewcount !== null && item.videoviewcount !== undefined && <span className="px-2 py-1 rounded-md" >{item.videoviewcount.toLocaleString("en")}</span>}
-
+                                        {item.videoviewcount !== null && item.videoviewcount !== undefined && <span className="px-2 py-1 rounded-md">{item.videoviewcount.toLocaleString("en")}</span>}
                                     </td>
                                     <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        {item.videocommentcount !== null && item.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md">{item.videocommentcount.toLocaleString("en")} </span>}
-
+                                        {item.videocommentcount !== null && item.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md">{item.videocommentcount.toLocaleString("en")}</span>}
                                     </td>
                                 </tr>
                             </tbody>
@@ -152,5 +138,6 @@ export default function VideoList() {
                 </div>
             </div>
         </div>
+
     )
 }

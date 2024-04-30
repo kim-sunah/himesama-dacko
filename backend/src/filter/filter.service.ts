@@ -20,16 +20,16 @@ export class FilterService {
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>){}
 
    async videoFilter(resData : Data){
-    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
+    
     const channelData = [];
     for (const info of resData.items) {
-      const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${apiKey}`)
+      const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
      
       const ChannelData = ChannelInfo.data
      
       const searchData = await this.channelList.findOne({ where: {Channel_Id: info.snippet.channelId } })
       if (info.id.videoId) {
-        const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${apiKey}`)
+        const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${process.env.Youtbe_Api_KEY}`)
        
         const channelcategoryData = channelcategory.data
        
@@ -340,17 +340,17 @@ export class FilterService {
   }
 
   async Filterlength(createFilterDto: CreateFilterDto,search: string) {
-    const apiKey = 'AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI';
+    
     try {
       if(createFilterDto.upload === "1Hour_ago"){
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${apiKey}`)
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);
       }
       else if(createFilterDto.upload === "Today"){
         const today = new Date();
         today.setHours(0, 0, 0, 0); 
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${today.toISOString()}&key=${apiKey}`)
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${today.toISOString()}&key=${process.env.Youtbe_Api_KEY}`)
       
         const resData = response.data
         return await this.videoFilter(resData);
@@ -360,7 +360,7 @@ export class FilterService {
         const today = new Date();
         const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${firstDayOfMonth.toISOString()}&publishedBefore=${lastDayOfMonth.toISOString()}&key=${apiKey}`)
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${firstDayOfMonth.toISOString()}&publishedBefore=${lastDayOfMonth.toISOString()}&key=${process.env.Youtbe_Api_KEY}`)
        
         const resData = response.data
         return await this.videoFilter(resData);
