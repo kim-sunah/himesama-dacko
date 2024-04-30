@@ -1,14 +1,31 @@
 name: himesama-dacko
-app: node@21
+app: node@16
 options:
   env:
-    - name: NODE_ENV
-      value: production
+    - name: DB_HOST
+      value: youtube.cygahsyhplsd.ap-northeast-2.rds.amazonaws.com
+    - name: DB_PORT
+      value: "3306"
+    - name: DB_USERNAME
+      value: admin
+    - name: DB_PASSWORD
+      value: wqdsdsf123
+    - name: DB_NAME
+      value: youtube
+    - name: DB_SYNC
+      value: "true"
+    - name: CHAR_SET
+      value: utf8mb4
+    - name: JWT_SECRET_KEY
+      value: wqdsdsf123
+    - name: Youtbe_Api_KEY
+      value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
   ports: "4000"
-  install: npm install
+  install: npm ci
   build: npm run build
   start: npm run start:dev
 context:
   git:
-    url: https://github.com/kim-sunah/himesama-dacko.git
-    branch: main
+    url: git@github.com:kim-sunah/himesama-dacko.git
+    path: backend
+    ref: main

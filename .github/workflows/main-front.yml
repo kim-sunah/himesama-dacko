@@ -34,6 +34,8 @@ jobs:
                   value: https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app
                 - name: REACT_APP_FRONT_API
                   value: https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/
+                - name: REACT_APP_Youtube_API
+                  value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
             context:
               git:
                 url:  git@github.com:kim-sunah/himesama-dacko.git

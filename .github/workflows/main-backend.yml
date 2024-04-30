@@ -42,6 +42,8 @@ jobs:
                   value: utf8mb4
                 - name: JWT_SECRET_KEY
                   value: wqdsdsf123
+                - name: Youtbe_Api_KEY
+                  value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
               ports: "4000"
               install: npm ci
               build: npm run build
