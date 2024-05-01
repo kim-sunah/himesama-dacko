@@ -12,6 +12,7 @@ import * as Joi from 'joi';
 import { ScheduleModule } from '@nestjs/schedule';
 import { FilterModule } from './filter/filter.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { VideoModule } from './video/video.module';
 
 
 const typeOrmModuleOptions = {
@@ -51,7 +52,8 @@ const typeOrmModuleOptions = {
   TypeOrmModule.forRootAsync(typeOrmModuleOptions),
   ScheduleModule.forRoot(),
   SubscriberModule, TestModule, ChannellistModule, RankingModule, FilterModule,
-  CacheModule.register({ttl: 864000000, max: 1000,isGlobal: true})],
+  CacheModule.register({ttl: 864000000, max: 1000,isGlobal: true}),
+  VideoModule],
   controllers: [AppController],
   providers: [AppService],
 })
