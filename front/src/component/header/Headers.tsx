@@ -7,6 +7,13 @@ import channelslice from "../../store/channel-slice";
 import { channelActions } from "../../store/channel-slice";
 import { Dropdown } from "flowbite-react";
 import Getmethod from "../../http/Get_method";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+
 
 interface Channel {
     id: number;
@@ -25,6 +32,10 @@ interface Channel {
 export default function Headers() {
     const dispatch = useDispatch()
     const ChannelId = useRef<HTMLInputElement>(null);
+    const [age, setAge] = useState('');
+
+  
+
     const extractUsernameFromYouTubeUrl = (url: string): string | null => {
         const match = url.match(/\/@([^/]+)/);
         return match ? `@${match[1]}` : null;
@@ -48,13 +59,13 @@ export default function Headers() {
                 (event.target as HTMLFormElement).reset();
 
                 console.log(data);
-                window.location.href =`/${username}`
+                window.location.href = `/${username}`
                 dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
             }
             else {
                 const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
                 if (channel) {
-                    
+
                     const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -68,19 +79,19 @@ export default function Headers() {
                     const data = await respose.json();
                     (event.target as HTMLFormElement).reset();
 
-                    
-                    window.location.href =`/${channel[0]}`
+
+                    window.location.href = `/${channel[0]}`
                     dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
                 }
             }
         }
         else {
-            if(ChannelId.current!.value){
-               
+            if (ChannelId.current!.value) {
+
                 window.location.href = `/seachlist/${ChannelId.current!.value}`;
                 (event.target as HTMLFormElement).reset();
             }
-            
+
         }
     }
 
@@ -90,6 +101,21 @@ export default function Headers() {
                 <div className="container mx-auto flex items-center justify-between py-4 px-6">
                     <div className="flex items-center space-x-4" >
                         {/* <FlagIcon className="h-8 w-8" /> */}
+                        <Box sx={{ minWidth: 200 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Youtube Data</InputLabel>
+                                <Select
+                                   
+        
+                                    label="Youtube Data Service"
+                                >
+                                    <Link className="text-black " to="/Subscriber_Rankings" ><MenuItem >구독자 순위 상위 100</MenuItem> </Link>
+                                    
+                                    <Link className="text-black" to="/View_Rankings"><MenuItem >조회수 순위 상위 100</MenuItem></Link>
+                                   
+                                </Select>
+                            </FormControl>
+                        </Box>
 
                         <nav className="flex space-x-4 " >
                             <Dropdown label="" dismissOnClick={false} renderTrigger={() => <span style={{ color: "white" }}>YOTUBE INFO</span>}>
@@ -128,10 +154,11 @@ export default function Headers() {
                     <div className="mt-6 flex flex-col w-full max-w-md items-center space-x-4 rounded-md bg-white p-4 justify-center">
                         <form onSubmit={getYouTubeChannelId} className="flex items-center space-x-4">
                             <BsSearch className="h-6 w-6 text-gray-400" />
-                            <input ref={ChannelId} className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-gray-500" placeholder="인플루언서 검색" type="text" />
+                            <input ref={ChannelId} className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-gray-500" placeholder="Youtube data search..." type="text" />
                             <button className="bg-black text-white px-4 py-2 rounded-md flex-shrink-0">검색</button>
                         </form>
                         <p className="mt-5 text-gray-500">예시) https:www.youtube.com/@u_who</p>
+                        <p className="mt-3 text-gray-500">예시) youtube </p>
                     </div>
                 </div>
             </header>

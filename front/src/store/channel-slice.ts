@@ -3,6 +3,8 @@ import {createSlice ,type PayloadAction} from "@reduxjs/toolkit"
 export type channelItem = {
     
         upload: string;
+        videoDuration : string
+        order :  string
     
 }
 type  channeState = {
@@ -20,6 +22,7 @@ export const channelslice = createSlice({
         addTochannelInfo(state , action){
          state.items = [];
          state.items.push(action.payload)
+       
         },
     }
 

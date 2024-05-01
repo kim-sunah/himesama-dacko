@@ -6,6 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

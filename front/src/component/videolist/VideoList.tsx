@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom"
 
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { MDBInput, MDBIcon, MDBBtn, } from 'mdb-react-ui-kit';
@@ -11,6 +11,8 @@ import "./video.css"
 import { useChannelSelector } from "../../store/hooks";
 import Postmethod from "../../http/Post_method";
 import { upload } from "@testing-library/user-event/dist/upload";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 
 interface VideoInfo {
@@ -37,28 +39,11 @@ export default function VideoList() {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const filterData = useChannelSelector(state => state.channel.items);
-    const [showSearchAlert, setShowSearchAlert] = useState<VideoInfo[] | undefined>([]);
+    const [showSearchAlert, setShowSearchAlert] = useState<VideoInfo[]>([]);
     const { search } = useParams();
-    useEffect(() => {
-        const fetchData = async () => {
-            if (filterData.length === 0) {
-                const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/channel/${search}`);
-                if (response) {
-                    setShowSearchAlert(response);
-                }
-            }
-            else if (filterData.length > 0) {
-                console.log(filterData[0].upload)
-                const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/${search}`, filterData[0]);
-                if (response) {
-                    setShowSearchAlert(response);
-                }
-
-            }
-
-        }
-        fetchData()
-    }, [search, filterData])
+    const [loading, setLoading] = useState<boolean>(false)
+    const [searchData, setsearchData] = useState<boolean>(false)
+  
 
     const submithandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -67,12 +52,6 @@ export default function VideoList() {
         }
 
         (event.target as HTMLFormElement).reset();
-    }
-
-    const HOMEBUTTON = (event: React.MouseEvent) => {
-
-        navigate("/")
-
     }
     return (
         <div>
@@ -87,57 +66,12 @@ export default function VideoList() {
                     </MDBBtn>
                 </form>
             </div>
-            <div className="flex gap-4 p-4 md:gap-8 md:p-6 justify-center">
-                <div className="border shadow-sm rounded-lg p-4 w-full md:w-2/3">
-                    <div style={{ float: "right", margin: "2%" }}>
-                        <Modal />
-                    </div>
-                    <table style={{ width: "100%", borderCollapse: "separate", borderSpacing: "10px 20px" }}>
-                        <thead>
-                            <tr>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>동영상</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>영상 제목</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>채널 이름</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>좋아요 수</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>조회수</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>댓글 수</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>이메일</th>
-                                <th style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap"  }}>인스타그램</th>
-                            </tr>
-                        </thead>
-                        {showSearchAlert && showSearchAlert.map((item, index) => (
-                            <tbody className="table-spacing" key={index}>
-                                <tr>
-                                    <td className="font-medium" style={{ textAlign: "center", fontWeight: "bold" }}><Link to={`https://www.youtube.com/watch?v=${item.videoId}`}><img src={item.thumbnails} alt="thumbnail" /></Link></td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap" }}>
-                                        <span className="px-2 py-1 rounded-md">
-                                            {item.videotitle.length > 15 ? `${item.videotitle.slice(0, 15)}...` : item.videotitle}
-                                        </span>
-                                    </td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold", whiteSpace:"nowrap" }}>
-                                        <Link to={`/${item.Channel_Url_Id}`} style={{ color: "black" }}>
-                                            <div className="flex items-center space-x-2 justify-center">
-                                                <img src={item.Channel_Img} alt="YouTube Channel" className="h-10 w-10 rounded-full" />
-                                                <span style={{ fontWeight: "bold" }}>{item.channelTitle}</span>
-                                            </div>
-                                        </Link>
-                                    </td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        {item.videolikecount !== null && item.videolikecount !== undefined && <span className="px-2 py-1 rounded-md">{(item.videolikecount).toLocaleString('en')}</span>}
-                                    </td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        {item.videoviewcount !== null && item.videoviewcount !== undefined && <span className="px-2 py-1 rounded-md">{item.videoviewcount.toLocaleString("en")}</span>}
-                                    </td>
-                                    <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                                        {item.videocommentcount !== null && item.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md">{item.videocommentcount.toLocaleString("en")}</span>}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        ))}
-                    </table>
-                </div>
-            </div>
-        </div>
+            <main>
+                <Outlet></Outlet>
+            </main>
 
+        </div>
     )
 }
+
+

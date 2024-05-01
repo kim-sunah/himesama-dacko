@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
 import { Repository } from 'typeorm';
 import axios from 'axios';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 interface Data {
   nextPageToken: any;
   prevPageToken: any;
@@ -17,9 +19,10 @@ interface Data {
 
 @Injectable()
 export class FilterService {
-  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>){}
+  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache){}
 
    async videoFilter(resData : Data){
+
     
     const channelData = [];
     for (const info of resData.items) {
@@ -346,6 +349,7 @@ export class FilterService {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);
+        
       }
       else if(createFilterDto.upload === "Today"){
         const today = new Date();
@@ -371,12 +375,62 @@ export class FilterService {
     
   }
 
-  findAll() {
-    return `This action returns all filter`;
+  async FilterDuration(videoDuration : string, search:string) {
+     try {
+      if(videoDuration === "short"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+        
+      }
+      else if(videoDuration === "medium"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+
+      }
+      else if(videoDuration === "long"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+      }
+    } catch (error) {
+      throw new Error('Error fetching data from YouTube API: ' + error.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} filter`;
+   async findOne(order : string, search:string) {
+    try {
+      if(order === "date"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+        
+      }
+      else if(order === "relevance"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+
+      }
+      else if(order === "title"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+      }
+      else if(order === "videoCount"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+      }
+      else if(order === "viewCount"){
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+      }
+    } catch (error) {
+      throw new Error('Error fetching data from YouTube API: ' + error.message);
+    }
   }
 
   update(id: number, updateFilterDto: UpdateFilterDto) {

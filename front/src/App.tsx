@@ -16,6 +16,8 @@ import { Provider } from 'react-redux';
 import {store} from "./store/store"
 import VideoList from './component/videolist/VideoList';
 import Body from './component/body/Body';
+import VideSearchList from './component/videolist/VideosearchList';
+import List from './component/videolist/List';
 
 function App() {
   const router = createBrowserRouter([
@@ -28,7 +30,10 @@ function App() {
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }
       ]},
-      {path :"seachlist/:search", element :<VideoList></VideoList>}
+      {path :"seachlist/:search", element :<VideoList></VideoList>, children: [
+        {index: true, element :<List></List>},
+        {path : ":filter", element: <VideSearchList></VideSearchList>}
+      ]}
     ]} 
   ])
   return (

@@ -261,9 +261,7 @@ export class ChannellistService {
   }
 
   async Getvideosearch(search: string) {
-    
     const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-    
     const resData = response.data;
     return await this.FilterService.videoFilter(resData);
     

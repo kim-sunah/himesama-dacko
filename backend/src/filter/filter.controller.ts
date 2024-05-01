@@ -7,19 +7,21 @@ import { UpdateFilterDto } from './dto/update-filter.dto';
 export class FilterController {
   constructor(private readonly filterService: FilterService) {}
 
-  @Post(":videosearch")
+  @Post("UploadDate/:videosearch")
   Filterlength(@Body() createFilterDto: CreateFilterDto, @Param('videosearch') search: string) {
     return this.filterService.Filterlength(createFilterDto, search);
   }
 
-  @Get()
-  findAll() {
-    return this.filterService.findAll();
+  @Post("Duration/:videosearch")
+  FilterDuration(@Body("videoDuration") videoDuration : string, @Param("videosearch") search : string) {
+    console.log(videoDuration, search)
+    return this.filterService.FilterDuration(videoDuration, search);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.filterService.findOne(+id);
+  @Post('order/:videosearch')
+  findOne(@Body("order") order : string, @Param('videosearch') search: string) {
+    console.log(order, search)
+    return this.filterService.findOne(order, search);
   }
 
   @Patch(':id')
