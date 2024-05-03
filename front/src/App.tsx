@@ -14,15 +14,16 @@ import CategoryRankings from './component/category/Category_Rankings';
 import CategoryRankingsList from './component/category/Category_RankingList';
 import { Provider } from 'react-redux';
 import {store} from "./store/store"
-import VideoList from './component/videolist/VideoList';
+import VideoList from './component/videolist/header';
 import Body from './component/body/Body';
 import VideSearchList from './component/videolist/VideosearchList';
 import List from './component/videolist/List';
+import Error from "./component/error/Error"
 
 function App() {
   const router = createBrowserRouter([
     
-    {path:"",element:<Root></Root>, children:[
+    {path:"",element:<Root></Root>, errorElement:<Error></Error>, children:[
       {index: true , element : <Main></Main>},
       {path : ":Id" , element: <Body></Body>},
       {path : "Subscriber_Rankings", element :<Subscriber_Rankings></Subscriber_Rankings>},

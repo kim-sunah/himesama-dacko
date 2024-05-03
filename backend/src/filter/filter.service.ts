@@ -7,330 +7,351 @@ import { Repository } from 'typeorm';
 import axios from 'axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { Video } from 'src/video/entities/video.entity';
 interface Data {
   nextPageToken: any;
   prevPageToken: any;
   items: {
-      id: any;
-      snippet: any;
-      prevPageToken: string;
+    id: any;
+    snippet: any;
+    prevPageToken: string;
   }[];
 }
 
 @Injectable()
 export class FilterService {
-  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache){}
+  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, @InjectRepository(Video) private readonly videoRepository: Repository<Video>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
 
-   async videoFilter(resData : Data){
-
-    
+  async videoFilter(resData: Data) {
     const channelData = [];
     for (const info of resData.items) {
       const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
-     
+
       const ChannelData = ChannelInfo.data
-     
-      const searchData = await this.channelList.findOne({ where: {Channel_Id: info.snippet.channelId } })
+
+      const searchData = await this.channelList.findOne({ where: { Channel_Id: info.snippet.channelId } })
       if (info.id.videoId) {
         const channelcategory = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${process.env.Youtbe_Api_KEY}`)
-       
+
         const channelcategoryData = channelcategory.data
-       
+
         if (!searchData) {
           if (channelcategoryData.items[0].snippet.categoryId === 1) {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Film_Animation", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Film_Animation", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "2") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Cars_Vehicles", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Cars_Vehicles", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "10") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Music", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Music", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "15") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Pets_Animals", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Pets_Animals", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "17") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Sports", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Sports", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "18") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Short_Movies", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Short_Movies", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "19") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Travel_Events", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Travel_Events", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "20") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Gaming", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Gaming", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "21") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Videoblogging", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Videoblogging", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "22") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "People_Blogs", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "People_Blogs", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "23" || channelcategoryData.items[0].snippet.categoryId === "34") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Comedy", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Comedy", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "24") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Entertainment", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Entertainment", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "25") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "News_Politics", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "News_Politics", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "26") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "How_to_Style", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "How_to_Style", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "27") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Education", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Education", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "28") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Science_Technology", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Science_Technology", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "29") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Non_profits_Activism", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Non_profits_Activism", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "30") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Movies", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Movies", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "31") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "AnimeAnimation", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "AnimeAnimation", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "32") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "ActionAdventure", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "ActionAdventure", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "33") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Classics", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Classics", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "35") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Documentary", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Documentary", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "36") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Drama", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Drama", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "37") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Family", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Family", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "38") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Foreign", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Foreign", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "39") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Horror", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Horror", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
 
-          else if (channelcategoryData.items[0].snippet.categoryId === "40") { 
-            if(ChannelData.items[0].snippet.customUrl){
+          else if (channelcategoryData.items[0].snippet.categoryId === "40") {
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Sci_Fi_Fantasy", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Sci_Fi_Fantasy", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "41") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Thriller", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Thriller", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "42") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Shorts", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Shorts", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "43") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Shows", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Shows", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
 
           }
           else if (channelcategoryData.items[0].snippet.categoryId === "44") {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "Trailers", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "Trailers", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
           }
           else {
-            if(ChannelData.items[0].snippet.customUrl){
+            if (ChannelData.items[0].snippet.customUrl) {
               await this.channelList.save({ Channel_category: "none", Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
-            else{
+            else {
               await this.channelList.save({ Channel_category: "none", Channel_Url_Id: info.snippet.channelId, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, Channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
             }
           }
         }
-        const data = await this.channelList.findOne({where : {Channel_Id :  info.snippet.channelId}})
+        const data = await this.channelList.findOne({ where: { Channel_Id: info.snippet.channelId } })
+        
+        if(!await this.videoRepository.findOne({ where: { videoid: info.id.videoId} })) {
+          const videoData = await this.videoRepository.create({ videoid: info.id.videoId, videotitle: info.snippet.title, videopublishedAt: info.snippet.publishedAt, channelId: +data.id })
+          await this.videoRepository.save(videoData);
+        }
+        
         if (!resData.prevPageToken) {
-          channelData.push({ Channel_Url_Id: data.Channel_Url_Id, Channel_Img : ChannelData.items[0].snippet.thumbnails.default.url,videotitle : info.snippet.title, Channel_Id: info.snippet.channelId, nextPageToken: resData.nextPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount : +channelcategoryData.items[0].statistics.viewCount , videolikecount : +channelcategoryData.items[0].statistics.likeCount, videocommentcount : +channelcategoryData.items[0].statistics.commentCount  })
+          console.log("123123")
+          channelData.push({ Channel_Url_Id: data.Channel_Url_Id, 
+            Channel_Img: ChannelData.items[0].snippet.thumbnails.default.url, 
+            videotitle: info.snippet.title, 
+            Channel_Id: info.snippet.channelId, 
+            nextPageToken: resData.nextPageToken, 
+            videoId: info.id.videoId, 
+            publishedAt: info.snippet.publishedAt, 
+            channelTitle: info.snippet.channelTitle, 
+            thumbnails: info.snippet.thumbnails.default.url, 
+            viewCount: +ChannelData.items[0].statistics.viewCount, 
+            subscriberCount: +ChannelData.items[0].statistics.subscriberCount, 
+            videoCount: +ChannelData.items[0].statistics.videoCount, 
+            videoviewcount: +channelcategoryData.items[0].statistics.viewCount, 
+            videolikecount: +channelcategoryData.items[0].statistics.likeCount, 
+            videocommentcount: +channelcategoryData.items[0].statistics.commentCount })
         }
         else {
-          channelData.push({ Channel_Url_Id: data.Channel_Url_Id,Channel_Img : ChannelData.items[0].snippet.thumbnails.default.url,videotitle : info.snippet.title, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount,videoviewcount : +channelcategoryData.items[0].statistics.viewCount , videolikecount : +channelcategoryData.items[0].statistics.likeCount, videocommentcount : +channelcategoryData.items[0].statistics.commentCount })
+          console.log("123")
+          channelData.push({ Channel_Url_Id: data.Channel_Url_Id, Channel_Img: ChannelData.items[0].snippet.thumbnails.default.url, videotitle: info.snippet.title, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, publishedAt: info.snippet.publishedAt, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount: +channelcategoryData.items[0].statistics.viewCount, videolikecount: +channelcategoryData.items[0].statistics.likeCount, videocommentcount: +channelcategoryData.items[0].statistics.commentCount })
         }
       }
     }
@@ -342,88 +363,88 @@ export class FilterService {
     return oneHourAgo.toISOString();
   }
 
-  async Filterlength(createFilterDto: CreateFilterDto,search: string) {
-    
+  async Filterlength(createFilterDto: CreateFilterDto, search: string) {
+
     try {
-      if(createFilterDto.upload === "1Hour_ago"){
+      if (createFilterDto.upload === "1Hour_ago") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${process.env.Youtbe_Api_KEY}`)
-        const resData = response.data
-        return await this.videoFilter(resData);
-        
-      }
-      else if(createFilterDto.upload === "Today"){
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); 
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${today.toISOString()}&key=${process.env.Youtbe_Api_KEY}`)
-      
         const resData = response.data
         return await this.videoFilter(resData);
 
       }
-      else if(createFilterDto.upload === "Month"){
+      else if (createFilterDto.upload === "Today") {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${today.toISOString()}&key=${process.env.Youtbe_Api_KEY}`)
+
+        const resData = response.data
+        return await this.videoFilter(resData);
+
+      }
+      else if (createFilterDto.upload === "Month") {
         const today = new Date();
         const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${firstDayOfMonth.toISOString()}&publishedBefore=${lastDayOfMonth.toISOString()}&key=${process.env.Youtbe_Api_KEY}`)
-       
+
         const resData = response.data
         return await this.videoFilter(resData);
       }
     } catch (error) {
       throw new Error('Error fetching data from YouTube API: ' + error.message);
     }
-    
+
   }
 
-  async FilterDuration(videoDuration : string, search:string) {
-     try {
-      if(videoDuration === "short"){
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
-        const resData = response.data
-        return await this.videoFilter(resData);
-        
-      }
-      else if(videoDuration === "medium"){
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
-        const resData = response.data
-        return await this.videoFilter(resData);
-
-      }
-      else if(videoDuration === "long"){
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
-        const resData = response.data
-        return await this.videoFilter(resData);
-      }
-    } catch (error) {
-      throw new Error('Error fetching data from YouTube API: ' + error.message);
-    }
-  }
-
-   async findOne(order : string, search:string) {
+  async FilterDuration(videoDuration: string, search: string) {
     try {
-      if(order === "date"){
+      if (videoDuration === "short") {
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+
+      }
+      else if (videoDuration === "medium") {
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+
+      }
+      else if (videoDuration === "long") {
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&videoDuration=${videoDuration}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data
+        return await this.videoFilter(resData);
+      }
+    } catch (error) {
+      throw new Error('Error fetching data from YouTube API: ' + error.message);
+    }
+  }
+
+  async findOne(order: string, search: string) {
+    try {
+      if (order === "date") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);
-        
+
       }
-      else if(order === "relevance"){
+      else if (order === "relevance") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);
 
       }
-      else if(order === "title"){
+      else if (order === "title") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);
       }
-      else if(order === "videoCount"){
+      else if (order === "videoCount") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);
       }
-      else if(order === "viewCount"){
+      else if (order === "viewCount") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=${order}&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
         const resData = response.data
         return await this.videoFilter(resData);

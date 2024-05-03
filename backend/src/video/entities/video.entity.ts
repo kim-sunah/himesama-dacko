@@ -1,24 +1,25 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+// video.entity.ts
+import { Channellist } from "src/channellist/entities/channellist.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
+@Entity("video")
+@Unique(['videoid'])
 export class Video {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    videoId : string
+    channelId: number;
 
     @Column()
-    videotitle : string
+    videoid: string;
 
     @Column()
-    videoviewcount : number
+    videotitle: string;
 
     @Column()
-    videolikecount : number
+    videopublishedAt: string;
 
-    @Column()
-    videofavoritecount : number
-
-    @Column()
-    videocommentcount : number
+    @ManyToOne(() => Channellist, (channel) => channel.video)
+    channel: Channellist;
 }
