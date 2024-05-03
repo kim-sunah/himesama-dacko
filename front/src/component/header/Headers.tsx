@@ -42,57 +42,68 @@ export default function Headers() {
     }
     const getYouTubeChannelId = async (event: FormEvent<HTMLFormElement>): Promise<any> => {
         event.preventDefault();
-        if (ChannelId.current!.value.includes('http')) {
-            if (ChannelId.current!.value.includes('@')) {
-                const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
-                const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelurl`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ Channel_Url_Id: username })
-                });
 
-                if (!respose.ok) {
-                    throw new Error("Failed to fetch data");
-                }
 
-                const data = await respose.json();
-                (event.target as HTMLFormElement).reset();
-
-                console.log(data);
-                window.location.href = `/${username}`
-                dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
-            }
-            else {
-                const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
-                if (channel) {
-
-                    const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
+      
+    
+        if (ChannelId.current?.value && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(ChannelId.current?.value)) {
+            if (ChannelId.current!.value.includes('http')) {
+                if (ChannelId.current!.value.includes('@')) {
+                    const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
+                    const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelurl`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ Channel_Url_Id: channel[0] })
+                        body: JSON.stringify({ Channel_Url_Id: username })
                     });
-
+    
                     if (!respose.ok) {
                         throw new Error("Failed to fetch data");
                     }
-
+    
                     const data = await respose.json();
                     (event.target as HTMLFormElement).reset();
-
-
-                    window.location.href = `/${channel[0]}`
+    
+                    console.log(data);
+                    window.location.href = `/${username}`
                     dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
                 }
+                else {
+                    const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
+                    if (channel) {
+    
+                        const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ Channel_Url_Id: channel[0] })
+                        });
+    
+                        if (!respose.ok) {
+                            throw new Error("Failed to fetch data");
+                        }
+    
+                        const data = await respose.json();
+                        (event.target as HTMLFormElement).reset();
+    
+    
+                        window.location.href = `/${channel[0]}`
+                        dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
+                    }
+                }
             }
-        }
+            else {
+                if (ChannelId.current!.value) {
+    
+                    window.location.href = `/seachlist/${ChannelId.current!.value}`;
+                    (event.target as HTMLFormElement).reset();
+                }
+    
+            }
+        } 
         else {
-            if (ChannelId.current!.value) {
-
-                window.location.href = `/seachlist/${ChannelId.current!.value}`;
-                (event.target as HTMLFormElement).reset();
-            }
-
+            alert("특수문자가 포함되어있습니다.");
         }
+        
+       
     }
 
     return (

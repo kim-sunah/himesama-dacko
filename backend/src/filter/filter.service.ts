@@ -23,7 +23,8 @@ export class FilterService {
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, @InjectRepository(Video) private readonly videoRepository: Repository<Video>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
 
   async videoFilter(resData: Data) {
-    const channelData = [];
+    try{
+      const channelData = [];
     for (const info of resData.items) {
       const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
 
@@ -356,6 +357,12 @@ export class FilterService {
       }
     }
     return channelData
+
+    }
+    catch(err){
+      throw new Error("예상치 못한 에러가 발생했습니다.")
+    }
+    
   }
   private getOneHourAgo(): string {
     const now = new Date();

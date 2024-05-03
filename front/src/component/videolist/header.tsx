@@ -6,13 +6,23 @@ import { MDBInput, MDBIcon, MDBBtn, } from 'mdb-react-ui-kit';
 export default function VideoList() {
     const searchRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+
+
+
+   
     const submithandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (searchRef.current?.value) {
-            navigate(`/seachlist/${searchRef.current?.value}`);
+        const searchValue = searchRef.current?.value;
+    
+        if (searchValue && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(searchValue)) {
+            navigate(`/seachlist/${searchValue}`);
+        } 
+        else {
+            alert("특수문자가 포함되어있습니다.");
         }
-        (event.target as HTMLFormElement).reset();
     }
+    
+    
     return (
         <div>
             <div style={{ textAlign: "center", marginTop: "2.5%" }}>
