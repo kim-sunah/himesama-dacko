@@ -25,6 +25,10 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Button, Stack } from "@mui/material";
+import ViewChart from "./ViewChart";
+import CommentChart from "./CommentChart";
+import LikeChart from "./LikeChart";
 
 
 
@@ -47,12 +51,17 @@ interface VideoInfo {
     videocommentcount: number
     videotitle: string
     publishedAt: string
+    viewdata: Array<any>; 
+    commentdata: Array<any>; 
+    likedata: Array<number>; 
 }
-
 
 function Row(props: { row: VideoInfo }) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
+    const [view, setview] = React.useState(true);
+    const [comment, setcomment] = React.useState(false);
+    const [like, setlike] = React.useState(false);
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -67,10 +76,10 @@ function Row(props: { row: VideoInfo }) {
                 </TableCell>
                 <TableCell component="th" scope="row" align="center">
                     <div style={{ display: "inline-block" }}> {/* 이미지와 링크를 감싸는 div 추가 */}
-                        <Link to={`https://www.youtube.com/watch?v=${row.videoId}`} style={{ alignItems: "center",whiteSpace:"nowrap" }}><img src={row.thumbnails} alt="thumbnail" /></Link>
+                        <Link to={`https://www.youtube.com/watch?v=${row.videoId}`} style={{ alignItems: "center", whiteSpace: "nowrap" }}><img src={row.thumbnails} alt="thumbnail" /></Link>
                     </div>
-                    <div style={{ textAlign: "center" ,fontWeight:"bold" }}> {/* 텍스트를 감싸는 div 추가 */}
-                        <Link to={`https://www.youtube.com/watch?v=${row.videoId}`} style={{ color: "black",whiteSpace:"nowrap"  }}>
+                    <div style={{ textAlign: "center", fontWeight: "bold" }}> {/* 텍스트를 감싸는 div 추가 */}
+                        <Link to={`https://www.youtube.com/watch?v=${row.videoId}`} style={{ color: "black", whiteSpace: "nowrap" }}>
                             <span className="px-2 py-1 rounded-md">
                                 {row.videotitle.length > 15 ? `${row.videotitle.slice(0, 15)}...` : row.videotitle}
                             </span>
@@ -78,14 +87,14 @@ function Row(props: { row: VideoInfo }) {
                     </div>
                 </TableCell>
                 <TableCell align="center">
-                    <Link to={`https://www.youtube.com/watch?v=${row.videoId}`} style={{ color: "black",fontWeight:"bold" ,whiteSpace:"nowrap"  }}>
+                    <Link to={`https://www.youtube.com/watch?v=${row.videoId}`} style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>
                         <span className="px-2 py-1 ">
                             {row.publishedAt.split("T")[0]}
                         </span>
                     </Link>
                 </TableCell>
                 <TableCell align="center">
-                    <Link to={`/${row.Channel_Url_Id}`} style={{ color: "black",fontWeight:"bold",whiteSpace:"nowrap"   }}>
+                    <Link to={`/${row.Channel_Url_Id}`} style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>
                         <div className="flex items-center  justify-center">
                             <img src={row.Channel_Img} alt="YouTube Channel" className="h-10 w-10 rounded-full" />
                             <span style={{ fontWeight: "bold" }}>{row.channelTitle}</span>
@@ -93,51 +102,34 @@ function Row(props: { row: VideoInfo }) {
                     </Link>
                 </TableCell>
                 <TableCell align="center">
-                    {row.videolikecount !== null && row.videolikecount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black",fontWeight:"bold",whiteSpace:"nowrap"  }}>{(row.videolikecount).toLocaleString('en')}</span>}
+                    {row.videolikecount !== null && row.videolikecount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>{(row.videolikecount).toLocaleString('en')}</span>}
 
                 </TableCell>
                 <TableCell align="center">
-                    {row.videoviewcount !== null && row.videoviewcount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black",fontWeight:"bold",whiteSpace:"nowrap"  }}>{row.videoviewcount.toLocaleString("en")}</span>}
+                    {row.videoviewcount !== null && row.videoviewcount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>{row.videoviewcount.toLocaleString("en")}</span>}
 
                 </TableCell>
                 <TableCell align="center">
-                    {row.videocommentcount !== null && row.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black",fontWeight:"bold",whiteSpace:"nowrap"  }}>{row.videocommentcount.toLocaleString("en")}</span>}
+                    {row.videocommentcount !== null && row.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>{row.videocommentcount.toLocaleString("en")}</span>}
 
                 </TableCell>
                 <TableCell align="center">123</TableCell>
                 <TableCell align="center">123</TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                History
-                            </Typography>
-                            {/* <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row.history.map((historyRow) => (
-                      <TableRow key={historyRow.date}>
-                        <TableCell component="th" scope="row">
-                          {historyRow.date}
-                        </TableCell>
-                        <TableCell>{historyRow.customerId}</TableCell>
-                        <TableCell align="right">{historyRow.amount}</TableCell>
-                        <TableCell align="right">
-                          {Math.round(historyRow.amount * row.price * 100) / 100}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table> */}
+
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
+                    <Collapse in={open} timeout="auto" unmountOnExit >
+                        <Stack direction="row" spacing={2} style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}>
+                            <Button variant="outlined" onClick={() => { setview(true); setcomment(false); setlike(false); }}>조회수</Button>
+                            <Button variant="outlined" onClick={() => { setview(false); setcomment(true); setlike(false); }}>댓글</Button>
+                            <Button variant="outlined" onClick={() => { setview(false); setcomment(false); setlike(true); }}>좋아요</Button>
+                        </Stack>
+                        <Box sx={{ margin: 1, height: '400px', width: "150vh", display: "flex" }} >
+                            {view && <ViewChart data={row.viewdata}></ViewChart>}
+                            {comment && <CommentChart data={row.commentdata}></CommentChart>}
+                            {like && <LikeChart data={row.likedata}></LikeChart>}
+
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -169,6 +161,7 @@ export default function VideSearchList() {
                         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/UploadDate/${search}`, { upload: filter });
                         console.log(response)
                         if (response) {
+                            setLoading(false)
                             setShowSearchAlert(response);
                         }
                     }
@@ -176,6 +169,7 @@ export default function VideSearchList() {
                         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/Duration/${search}`, { videoDuration: filter });
                         console.log(response)
                         if (response) {
+                            setLoading(false)
                             setShowSearchAlert(response);
                         }
                     }
@@ -183,6 +177,7 @@ export default function VideSearchList() {
                         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/order/${search}`, { order: filter });
                         console.log(response)
                         if (response) {
+                            setLoading(false)
                             setShowSearchAlert(response);
                         }
                     }
@@ -191,10 +186,7 @@ export default function VideSearchList() {
             catch (err) {
                 console.log("Error fetching data:", err)
             }
-            finally {
-                setLoading(false)
-                setsearchData(true)
-            }
+
         }
         fetchData()
     }, [search, filterData])
@@ -212,27 +204,27 @@ export default function VideSearchList() {
                     <Table aria-label="collapsible table">
                         <TableHead>
                             <TableRow>
-                            <TableCell />
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>영상 제목</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>게시 날짜</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>채널 이름</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>좋아요 수</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>조회수</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>댓글</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>이메일</TableCell>
-                                <TableCell align="center" style={{whiteSpace:"nowrap"}}>인스타그램</TableCell>
+                                <TableCell />
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>영상 제목</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>게시 날짜</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>채널 이름</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>좋아요 수</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>조회수</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>댓글</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>이메일</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>인스타그램</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {showSearchAlert.map((row,index) => (
+                            {showSearchAlert.map((row, index) => (
                                 <Row key={index} row={row} />
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
-            )  }
-                {!loading &&  searchData && showSearchAlert.length === 0 &&<h1 style={{ textAlign: "center" }}> NOT FOUND DATA</h1>}
-        
+            )}
+
+
         </div>
     );
 }

@@ -24,10 +24,10 @@ export class RankingController {
     return await this.rankingService.getTopviewChannels();
   }
 
-  @Get('category/:Categoryid')
-  async getTopCategory(@Param('Categoryid') id: string) {
-    return await this.rankingService.getTopCategory(id)
-  }
+  // @Get('category/:Categoryid')
+  // async getTopCategory(@Param('Categoryid') id: string) {
+  //   return await this.rankingService.getTopCategory(id)
+  // }
 
   @Get("increaseview")
   async increaseview(){

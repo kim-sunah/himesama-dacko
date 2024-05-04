@@ -16,8 +16,8 @@ import { VideoModule } from './video/video.module';
 import { Channellist } from './channellist/entities/channellist.entity';
 import { Video } from './video/entities/video.entity';
 import { videocomment } from './video/entities/videocomment.entity';
-import { videofavorite } from './video/entities/videofavorite.entity';
-import { videosubscriber } from './video/entities/videosubscriber.entity';
+import { videolike } from './video/entities/videolike.entity';
+
 import { videoview } from './video/entities/videoview.entity';
 
 
@@ -33,7 +33,7 @@ const typeOrmModuleOptions = {
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'), 
     charset : configService.get("CHAR_SET"), //이모지를 위한 추가 설정기능 이유 : 이모지는 3byte인데 utf8mb는 최대 2바이트밖에 받지 못하기 때문이다.
-    entities: [Channellist, Video, videocomment,videofavorite,videosubscriber,videoview], 
+    entities: [Channellist, Video, videocomment, videolike, videoview], 
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),

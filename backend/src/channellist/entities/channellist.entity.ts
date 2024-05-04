@@ -43,8 +43,6 @@ export class Channellist {
     @Column()
     Channel_img: string;
 
-    @Column()
-    Channel_category: string;
 
     @OneToMany(() => Video, (video) => video.channel)
     video: Video[];

@@ -1,10 +1,9 @@
-// video.entity.ts
 import { Channellist } from "src/channellist/entities/channellist.entity";
 import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Video } from "./video.entity";
 
-@Entity("videocomment")
-export class videocomment {
+@Entity("videolike")
+export class videolike {
     @PrimaryGeneratedColumn()
   id: number;
 
@@ -104,7 +103,7 @@ export class videocomment {
   @Column({default:0, type: 'bigint'})
   Thirty_day_Ago: number;
 
-  @OneToOne(() => Video, video => video.videocomment)
+  @OneToOne(() => Video, video => video.videofavorite)
   video: Video;
 
 

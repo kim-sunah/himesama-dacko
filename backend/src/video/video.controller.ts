@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { Cron  } from '@nestjs/schedule';
 
 @Controller('video')
 export class VideoController {
@@ -12,19 +13,25 @@ export class VideoController {
     return this.videoService.create(createVideoDto);
   }
 
-  @Get()
-  findAll() {
-    return this.videoService.findAll();
+
+  @Get("/viewData")
+  ChartViewData(){
+    return this.videoService.ChartViewData();
+  }
+  @Get("/commentData")
+  ChartCommentData(){
+    return this.videoService.ChartCommentData();
+  }
+  @Get("/LikeData")
+  ChartLikeData(){
+    return this.videoService.ChartLikeData();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.videoService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVideoDto: UpdateVideoDto) {
-    return this.videoService.update(+id, updateVideoDto);
+  @Cron("0 0 0 * * 1-7")
+  // @Cron("45 * * * * *")
+  @Get("/ChartData")
+  ChartDataUpdate() {
+    return this.videoService.ChartDataUpdate();
   }
 
   @Delete(':id')
