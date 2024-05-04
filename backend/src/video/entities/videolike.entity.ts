@@ -103,7 +103,7 @@ export class videolike {
   @Column({default:0, type: 'bigint'})
   Thirty_day_Ago: number;
 
-  @OneToOne(() => Video, video => video.videofavorite)
+  @OneToOne(() => Video, video => video.videolike)
   video: Video;
 
 

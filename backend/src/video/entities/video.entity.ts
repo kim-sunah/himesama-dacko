@@ -33,5 +33,5 @@ export class Video {
     videocomment: videocomment;
 
     @OneToOne(() => videolike,  videolike => videolike.video)
-    videofavorite: videolike;
+    videolike: videolike;
 }
