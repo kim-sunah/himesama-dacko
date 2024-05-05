@@ -16,7 +16,7 @@ export type channelItem = {
       id: number;
       Channel_Id: string;
       Channel_Url_Id: string;
-      Channel_img: string;
+      channel_img: string;
       Channel_nickname: string;
       subscriberCount: string;
       Channel_category: string
@@ -50,7 +50,7 @@ export default function Body() {
    <div>
     <Headers></Headers>
     {ChannelInfo &&  <section className="mt-10 bg-white rounded-lg max-w-6xl shadow px-6 py-4 " style={{ textAlign: "center", margin: "0px auto", marginTop: "2rem" }}>
-      <img src={ChannelInfo.Channel_img} style={{ display: 'block', margin: 'auto', width: "10rem", borderRadius: "50%" }}></img>
+      <img src={ChannelInfo.channel_img} style={{ display: 'block', margin: 'auto', width: "10rem", borderRadius: "50%" }}></img>
       <p style={{ marginTop: "3%", fontWeight: "bold" }}>{ChannelInfo.Channel_nickname}</p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
         <div>

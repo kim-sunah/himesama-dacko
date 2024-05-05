@@ -8,7 +8,7 @@ interface Channel {
   id: number;
   Channel_Id: string;
   Channel_Url_Id: string;
-  Channel_img: string;
+  channel_img: string;
   Channel_nickname: string;
   subscriberCount: string;
   videoCount: string;
@@ -53,7 +53,7 @@ export default function CategoryRankingsList(){
                 <td className="font-medium"  style={{textAlign:"center", fontWeight:"bold"}} >{index + 1} </td>
                 <td>
                   <Link   to ={`/${Info.Channel_Url_Id}`}  className="flex items-center space-x-2" style={{color: "black"}}>
-                    <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
+                    <img src={Info.channel_img} alt="YouTube Movies" className="h-10 w-10" />
                     <span style={{fontWeight:"bold" ,whiteSpace:"nowrap"}}>{Info.Channel_nickname}</span>
                   </Link>
                 </td>
@@ -90,7 +90,7 @@ export default function CategoryRankingsList(){
               <td className="font-medium" style={{ textAlign: "center" , fontWeight:"bold"}}>{index + 1}</td>
               <td>
                 <Link   to ={`/${Info.Channel_Url_Id}`} className="flex items-center space-x-2"  style={{color: "black"}}> 
-                  <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
+                  <img src={Info.channel_img} alt="YouTube Movies" className="h-10 w-10" />
                   <span style={{fontWeight:"bold", whiteSpace:"nowrap"}}>{Info.Channel_nickname}</span>
                 </Link>
               </td>

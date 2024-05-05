@@ -1,8 +1,9 @@
 // channellist.entity.ts
 import { Video } from "src/video/entities/video.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
+
 export class Channellist {
     @PrimaryGeneratedColumn()
     id: number;
@@ -41,7 +42,7 @@ export class Channellist {
     viewCount_percentageincrease: number | null;
 
     @Column()
-    Channel_img: string;
+    channel_img: string;
 
 
     @OneToMany(() => Video, (video) => video.channel)

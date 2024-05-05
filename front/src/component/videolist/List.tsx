@@ -67,7 +67,7 @@ interface VideoInfo {
   nextPageToken: string;
   prevPageToken?: string;
   videoId: string;
-  Channel_Img: string
+  channel_img: string
   channelTitle: string;
   thumbnails: string;
   viewCount: number;
@@ -130,7 +130,7 @@ function Row(props: { row: VideoInfo }) {
         <TableCell align="center">
           <Link to={`/${row.Channel_Url_Id}`} style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>
             <div className="flex items-center  justify-center">
-              <img src={row.Channel_Img} alt="YouTube Channel" className="h-10 w-10 rounded-full" />
+              <img src={row.channel_img} alt="YouTube Channel" className="h-10 w-10 rounded-full" />
               <span style={{ fontWeight: "bold" }}>{row.channelTitle}</span>
             </div>
           </Link>

@@ -4,7 +4,7 @@ import { type ReactNode, createContext, useContext, useReducer } from "react";
      Channel_Id: string
      isRunning :  boolean
      Channel_category : string
-     Channel_img : string
+     channel_img : string
      subscriberCount : number
      videoCount : number
      viewCount : number

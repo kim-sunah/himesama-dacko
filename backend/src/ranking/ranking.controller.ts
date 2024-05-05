@@ -38,7 +38,9 @@ export class RankingController {
     return await this.rankingService.increaseSubscriber()
   }
 
+  // @Cron("0 0 17 * * 1-7")
   @Cron("0 0 17 * * 1-7")
+
   async updateSystem() {
     return await this.rankingService.updateSystem()
   }

@@ -7,7 +7,7 @@ interface Channel {
   id: number;
   Channel_Id: string;
   Channel_Url_Id: string;
-  Channel_img: string;
+  channel_img: string;
   Channel_nickname: string;
   subscriberCount: string;
   videoCount: string;
@@ -47,7 +47,7 @@ const SubscriberRankings: React.FC = () => {
            
             <td style={{fontWeight:"bold", fontSize:"1rem",whiteSpace:"nowrap", display:"flex", justifyContent:"center"}}>
               <Link  to ={`/${Info.Channel_Url_Id}`} className="flex items-center space-x-2">
-                <img src={Info.Channel_img} alt="YouTube Movies" className="h-10 w-10" />
+                <img src={Info.channel_img} alt="YouTube Movies" className="h-10 w-10" />
                 <span style={{color:"black"}}>{Info.Channel_nickname}</span>
               </Link>
             </td>

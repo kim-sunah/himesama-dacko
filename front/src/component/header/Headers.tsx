@@ -19,7 +19,7 @@ interface Channel {
     id: number;
     Channel_Id: string;
     Channel_Url_Id: string;
-    Channel_img: string;
+    channel_img: string;
     Channel_nickname: string;
     subscriberCount: string;
     Channel_category: string

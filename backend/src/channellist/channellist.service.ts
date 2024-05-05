@@ -20,7 +20,7 @@ export class ChannellistService {
       const resData = response.data
       const SearchChannel = await this.channelList.findOne({ where: { Channel_Url_Id } })
       if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-        return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: Channel_Url_Id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, Channel_img: resData.items[0].snippet.thumbnails.medium.url })
+        return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: Channel_Url_Id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.medium.url })
       }
       if (resData.pageInfo.totalResults === 1 && SearchChannel) {
         return SearchChannel
@@ -39,7 +39,7 @@ export class ChannellistService {
 
     const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: Channel_Url_Id } })
     if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-      return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, Channel_img: resData.items[0].snippet.thumbnails.medium.url })
+      return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.medium.url })
     }
     if (resData.pageInfo.totalResults === 1 && SearchChannel) {
       return SearchChannel
