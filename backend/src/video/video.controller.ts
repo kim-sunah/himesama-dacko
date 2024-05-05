@@ -28,8 +28,6 @@ export class VideoController {
   }
 
   @Cron("0 0 17 * * 1-7")
-  // @Cron("45 * * * * *")
-  @Get("/ChartData")
   ChartDataUpdate() {
     return this.videoService.ChartDataUpdate();
   }
