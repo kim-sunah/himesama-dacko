@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import { useChannelSelector } from "../../store/hooks"
 import { useEffect, useState } from "react"
 import Getmethod from "../../http/Get_method"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import Headers from "../header/Headers"
 interface Info {
   subscriberCount: string
@@ -37,7 +37,7 @@ export default function Body() {
   useEffect(()=>{
     const fetchData = async()=>{
       const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/${Id}`)
-      
+      console.log(response)
       setChannelInfo(response);
       
     }
@@ -50,7 +50,7 @@ export default function Body() {
    <div>
     <Headers></Headers>
     {ChannelInfo &&  <section className="mt-10 bg-white rounded-lg max-w-6xl shadow px-6 py-4 " style={{ textAlign: "center", margin: "0px auto", marginTop: "2rem" }}>
-      <img src={ChannelInfo.channel_img} style={{ display: 'block', margin: 'auto', width: "10rem", borderRadius: "50%" }}></img>
+      <Link to={`https://www.youtube.com/${ChannelInfo.Channel_Url_Id}`}><img src={ChannelInfo.channel_img} style={{ display: 'block', margin: 'auto', width: "10rem", borderRadius: "50%" }}></img></Link>
       <p style={{ marginTop: "3%", fontWeight: "bold" }}>{ChannelInfo.Channel_nickname}</p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
         <div>
