@@ -43,9 +43,9 @@ export class FilterService {
           const channelcategoryData = ChannelInfo.data
 
           const data = await this.channelList.findOne({ where: { Channel_Id: info.snippet.channelId } })
-
+          console.log(data)
           const videoId = await this.videoRepository.findOne({ where: { videoid: info.id.videoId } })
-          if (!videoId) {
+          if (!videoId && data) {
             const videoviewData = await this.videoRepository.create({ videoid: info.id.videoId, videotitle: info.snippet.title, videopublishedAt: info.snippet.publishedAt, channelId: +data.id })
             await this.videoRepository.save(videoviewData);
             await this.videoviewRepository.save({ videoId: videoviewData.id, today: channelcategoryData.items[0].statistics.viewCount })
@@ -350,7 +350,7 @@ export class FilterService {
       return channelDataArray
     }
     catch (err) {
-      throw new Error("예상치 못한 에러가 발생했습니다.")
+      console.log(err)
     }
 
   }
