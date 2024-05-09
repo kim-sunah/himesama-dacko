@@ -99,94 +99,7 @@ export default function Headers() {
     }
 
     return (
-        // <div>
-        //     <header className="bg-[#FF6B6B]">
-        //         <div className="container mx-auto flex items-center justify-between py-4 px-6">
-        //             <div className="flex items-center space-x-4" >
-        //                 {/* <FlagIcon className="h-8 w-8" /> */}
-        //                 <Box sx={{ minWidth: 200 }}>
-        //                     <FormControl fullWidth>
-        //                         <InputLabel id="demo-simple-select-label">Youtube Data</InputLabel>
-        //                         <Select
-
-
-        //                             label="Youtube Data Service"
-        //                         >
-        //                             <Link className="text-black " to="/Subscriber_Rankings" ><MenuItem >구독자 순위 상위 100</MenuItem> </Link>
-
-        //                             <Link className="text-black" to="/View_Rankings"><MenuItem >조회수 순위 상위 100</MenuItem></Link>
-
-        //                         </Select>
-        //                     </FormControl>
-        //                 </Box>
-
-        //                 <nav className="flex space-x-4 " >
-        //                     <Dropdown label="" dismissOnClick={false} renderTrigger={() => <span style={{ color: "white" }}>YOTUBE INFO</span>}>
-
-        //                         <Link className="text-black " to="/Subscriber_Rankings" >
-        //                             <Dropdown.Item >
-        //                                 구독자 순위 상위 100
-        //                             </Dropdown.Item>
-        //                         </Link>
-        //                         <Link className="text-black" to="/View_Rankings">
-        //                             <Dropdown.Item>
-        //                                 조회수 순위 상위 100
-        //                             </Dropdown.Item>
-        //                         </Link>
-
-        //                         {/* <Link className="text-black" to="/Category_Rankings">
-        //                             <Dropdown.Item>
-        //                                 카테고리별 순위
-        //                             </Dropdown.Item>
-        //                         </Link> */}
-        //                     </Dropdown>
-        //                     {/*<Link className="text-white" to="#">
-        //                     리소스
-        //                 </Link> */}
-        //                 </nav>
-        //             </div>
-        //             <Card sx={{ maxWidth: 345 }}>
-        //                 <CardActionArea>
-        //                     <CardMedia
-        //                         component="img"
-        //                         height="140"
-        //                         image="/static/images/cards/contemplative-reptile.jpg"
-        //                         alt="green iguana"
-        //                     />
-        //                     <CardContent>
-        //                         <Typography gutterBottom variant="h5" component="div">
-        //                             Lizard
-        //                         </Typography>
-        //                         <Typography variant="body2" color="text.secondary">
-        //                             Lizards are a widespread group of squamate reptiles, with over 6,000
-        //                             species, ranging across all continents except Antarctica
-        //                         </Typography>
-        //                     </CardContent>
-        //                 </CardActionArea>
-
-        //             </Card>
-        //             <div className="flex items-center space-x-4">
-        //                 <button className="bg-white text-[#FF6B6B] p-2  rounded-lg">로그인</button>
-        //                 <button className="bg-white text-[#FF6B6B] p-2  rounded-lg ">회원가입</button>
-        //             </div>
-        //         </div>
-        //         <div className="container mx-auto flex flex-col items-center justify-between py-6 px-6">
-        //             <h1 className="text-3xl font-bold text-white">스펙 성장 센터</h1>
-        //             <p className="mt-2 text-sm text-white">위 사이트는 선아님, 태영님을 위한</p>
-        //             <p className="text-sm text-white">빅데이터 마케팅 플랫폼입니다</p>
-        //             <div className="mt-6 flex flex-col w-full max-w-md items-center space-x-4 rounded-md bg-white p-4 justify-center">
-        //                 <form onSubmit={getYouTubeChannelId} className="flex items-center space-x-4">
-        //                     <BsSearch className="h-6 w-6 text-gray-400" />
-        //                     <input ref={ChannelId} className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-gray-500" placeholder="Youtube data search..." type="text" />
-        //                     <button className="bg-black text-white px-4 py-2 rounded-md flex-shrink-0">검색</button>
-        //                 </form>
-        //                 <p className="mt-5 text-gray-500">예시) https:www.youtube.com/@u_who</p>
-        //                 <p className="mt-3 text-gray-500">예시) youtube </p>
-        //             </div>
-        //         </div>
-        //     </header>
-
-        // </div>
+     
         <div className="bg-gray-100 py-10 px-6 md:px-10 ">
 
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 " style={{ display: "flex", marginBottom: "2.5%" }}>
@@ -195,8 +108,8 @@ export default function Headers() {
                     <Link className="text-black " to="/Subscriber_Rankings" >
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all">
                             <EmojiEventsIcon fontSize="large" color="secondary"/>
-                            <h3 className="font-semibold text-lg text-gray-800">Ranking</h3>
-                            <p className="text-center text-sm text-gray-600">Join or create group based on shared goals</p>
+                            <h3 className="font-semibold text-lg text-gray-800">랭킹</h3>
+                            <p className="text-center text-sm text-gray-600">구독자, 조회수</p>
                         </Card>
                         </Link>
                     </CardActionArea>

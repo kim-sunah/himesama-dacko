@@ -25,9 +25,7 @@ export default function VideoList() {
     
     return (
         <div>
-            <div style={{ textAlign: "center", marginTop: "2.5%" }}>
-                <Link to="/"> HOME</Link>
-            </div>
+         
             <div style={{ display: "flex", justifyContent: "center", marginLeft: "20%", marginRight:"20%", padding: "0px" }}>
                 <form onSubmit={submithandler} className="flex md:gap-8 md:p-6 justify-center" style={{ width: "100%", margin: "0px auto" }}>
                     <MDBInput label='Search' ref={searchRef} />
