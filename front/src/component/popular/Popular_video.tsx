@@ -24,10 +24,10 @@ export default function Popularvideo(): JSX.Element {
   return (
     <>
       <h1 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2%" }}>  급 인기 상승 동영상 TOP 5</h1>
-      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "2%" }}>
+      <div style={{ display: "grid", flexWrap: "wrap", marginTop: "2%",gridTemplateColumns: "repeat(5, 1fr)" }}>
         {Popular_video &&
           Popular_video.map((video) => (
-            <div key={video.id} style={{ width: "20%", padding: "0.5rem",minHeight: "300px", minWidth : "250px" }}>
+            <div key={video.id} style={{ width: "10%", padding: "0.5rem",minHeight: "250px", minWidth : "250px" }}>
               <iframe
                 width="100%"
                 height="100%"

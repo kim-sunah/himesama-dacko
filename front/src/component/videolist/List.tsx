@@ -30,39 +30,6 @@ import CommentChart from "./CommentChart";
 import LikeChart from "./LikeChart";
 
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-  price: number,
-) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
-
-
-
-
 interface VideoInfo {
   nextPageToken: string;
   prevPageToken?: string;
@@ -87,7 +54,7 @@ interface VideoInfo {
 
 
 
-function Row(props: { row: VideoInfo }) {
+ function Row(props: { row: VideoInfo }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 

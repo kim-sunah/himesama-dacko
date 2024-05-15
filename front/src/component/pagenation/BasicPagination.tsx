@@ -7,10 +7,20 @@ export default function BasicPagination() {
     const location = useLocation();
     const currentPath = location.pathname;
     const rankingPath = currentPath.split('/')[2];
+    const queryParams = new URLSearchParams(location.search);
+    const select = queryParams.get('select');
+   
   
     const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
         if(rankingPath === "Subscriber_Rankings" || rankingPath === "View_Rankings"){
+          if(select){
+        
+            navigate(`/Ranking/${rankingPath+"/"+page}?select=${select}`)
+          }
+          else{
             navigate(`/Ranking/${rankingPath+"/"+page}`)
+          }
+            
         }
        
     }

@@ -16,25 +16,72 @@ export class RankingService {
     return 'This action adds a new ranking';
   }
 
-  async getTopChannels(page : number) {
-    return await this.channelRepository.find({
-      order: {
-        subscriberCount: 'DESC'
-      },
-      skip: (page - 1) * 10,
-      take: 10 // 상위 10개의 결과만 가져오기
-    });
+  async getTopChannels(page : number,select : string) {
+    if(select === "High_Subscriber"){
+      return await this.channelRepository.find({
+        order: {
+          subscriberCount: 'DESC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 상위 10개의 결과만 가져오기
+      });
+    }
+    else if(select==="Low_Subscriber"){
+      return await this.channelRepository.find({
+        order: {
+          subscriberCount: 'ASC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 하위 10개의 결과만 가져오기
+      });
+
+    }
   }
 
 
-  async getTopviewChannels(page : number) {
-    return await this.channelRepository.find({
-      order: {
-        viewCount: 'DESC'
-      },
-      skip: (page - 1) * 10,
-      take: 10 // 상위 10개의 결과만 가져오기
-    });
+  async viewChannels(page : number, select : string) {
+    if(select === "High_View"){
+      return await this.channelRepository.find({
+        order: {
+          viewCount: 'DESC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 상위 10개의 결과만 가져오기
+      });
+    }
+    else if(select==="Low_View"){
+      return await this.channelRepository.find({
+        order: {
+          viewCount: 'ASC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 하위 10개의 결과만 가져오기
+      });
+
+    }
+  }
+
+  async VideoChannels(page : number, select : string){
+    if(select === "High_Videocount"){
+      return await this.channelRepository.find({
+        order: {
+          videoCount: 'DESC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 상위 10개의 결과만 가져오기
+      });
+    }
+    else if(select==="Low_Videocount"){
+      return await this.channelRepository.find({
+        order: {
+          videoCount: 'ASC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 하위 10개의 결과만 가져오기
+      });
+
+    }
+
   }
 
   // async getTopCategory(id: string) {

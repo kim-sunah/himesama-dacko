@@ -12,7 +12,7 @@ export class SubscriberController {
     return this.subscriberService.create(createSubscriberDto);
   }
 
-  @Get('top-channels')
+  @Get('Subscriber-channels')
   async getTopChannels() {
     return await this.subscriberService.getTopChannels();
   }

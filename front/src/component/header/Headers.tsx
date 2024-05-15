@@ -1,17 +1,10 @@
-import { ChangeEvent, HtmlHTMLAttributes, useState, FormEvent, useRef, SVGProps } from "react";
+import {FormEvent, useRef, SVGProps } from "react";
 import { Link } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
-import Body from "../body/Body";
+
 import { useDispatch } from "react-redux";
-import channelslice from "../../store/channel-slice";
+
 import { channelActions } from "../../store/channel-slice";
-import { Dropdown } from "flowbite-react";
-import Getmethod from "../../http/Get_method";
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -20,6 +13,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import { JSX } from "react/jsx-runtime";
 import "./header.css"
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { AiOutlineFileSearch } from "react-icons/ai";
 
 
 interface Channel {
@@ -107,19 +101,21 @@ export default function Headers() {
                     <CardActionArea>
                     <Link className="text-black " to="/Ranking/Subscriber_Rankings/1" >
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all">
-                            <EmojiEventsIcon fontSize="large" color="secondary"/>
+                            <EmojiEventsIcon className="text-purple-600 h-10 w-10" fontSize="large" color="secondary" />
                             <h3 className="font-semibold text-lg text-gray-800">랭킹</h3>
-                            <p className="text-center text-sm text-gray-600">구독자, 조회수</p>
+                            <p className="text-center text-sm text-gray-600">구독자, 조회수, 동영상 수</p>
                         </Card>
                         </Link>
                     </CardActionArea>
                
                 <CardActionArea>
+                <Link className="text-black " to="/Condition_Search" >
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-green-50 transition-all">
-                        <BriefcaseIcon className="text-purple-600 h-10 w-10" />
+                        <AiOutlineFileSearch className="text-purple-600 h-9 w-9" fontSize="medium" color="secondary"/>
                         <h3 className="font-semibold text-lg text-gray-800">Projects</h3>
-                        <p className="text-center text-sm text-gray-600">Collaborate on projects & share your progress</p>
+                        <p className="text-center text-sm text-gray-600">맞춤 조건 검색</p>
                     </Card>
+                </Link>
                 </CardActionArea>
                 <CardActionArea>
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-yellow-50 transition-all">

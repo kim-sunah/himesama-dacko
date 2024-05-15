@@ -14,14 +14,20 @@ export class RankingController {
   }
 
   
-  @Get('top-channels/:pagenumber')
-  async getTopChannels(@Param("pagenumber") pagenumber : string) {
-    return await this.rankingService.getTopChannels(+pagenumber);
+  @Post('Subscriber-channels/:pagenumber')
+  async SubscriberChannels(@Param("pagenumber") pagenumber : string,@Body("select") select : string) {
+    return await this.rankingService.getTopChannels(+pagenumber,select);
   }
 
-  @Get('viewtop-channels/:pagenumber')
-  async getTopviewChannels(@Param("pagenumber") pagenumber : string) {
-    return await this.rankingService.getTopviewChannels(+pagenumber);
+  @Post('view-channels/:pagenumber')
+  async viewChannels(@Param("pagenumber") pagenumber : string, @Body("select") select : string) {
+    return await this.rankingService.viewChannels(+pagenumber, select);
+  }
+
+
+  @Post('Video-channels/:pagenumber')
+  async VideoChannels(@Param("pagenumber") pagenumber : string, @Body("select") select : string) {
+    return await this.rankingService.VideoChannels(+pagenumber, select);
   }
 
   // @Get('category/:Categoryid')

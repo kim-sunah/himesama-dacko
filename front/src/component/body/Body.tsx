@@ -65,6 +65,14 @@ export default function Body() {
           <h3 className="text-lg font-semibold">총 동영상 수</h3>
           <p className="text-3xl font-bold text-[#1e0a3c]">{parseInt(ChannelInfo.videoCount).toLocaleString('en')}</p>
         </div>
+        <div>
+          <h3 className="text-lg font-semibold">dummy</h3>
+          <p className="text-3xl font-bold text-[#1e0a3c]">{parseInt(ChannelInfo.videoCount).toLocaleString('en')}</p>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">영상 평균 조회수</h3>
+          <p className="text-3xl font-bold text-[#1e0a3c]">{Math.floor(parseInt(ChannelInfo.viewCount) / parseInt(ChannelInfo.videoCount)).toLocaleString("en")}</p>
+        </div>
       </div>
 
     </section>}

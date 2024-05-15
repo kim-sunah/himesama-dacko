@@ -8,7 +8,7 @@ import Main from './component/main/Main';
 import ChannelList from './component/channellist/ChannelList';
 import Headers from './component/header/Headers';
 import Root from './component/Root';
-import Subscriber_Rankings from './component/subscriber/Subscriber_Rankings';
+import Subscriber_Rankings from './component/subscriber/Rankings';
 import ViewRanking from './component/view/View_Ranking';
 import CategoryRankings from './component/category/Category_Rankings';
 import CategoryRankingsList from './component/category/Category_RankingList';
@@ -20,6 +20,7 @@ import VideSearchList from './component/videolist/VideosearchList';
 import List from './component/videolist/List';
 import Error from "./component/error/Error"
 import RankingRoot from './component/ranking/RankingRoot';
+import ConditionSearch from './component/condition/Condition_Search';
 
 function App() {
   const router = createBrowserRouter([
@@ -29,7 +30,7 @@ function App() {
       {path : ":Id" , element: <Body></Body>},
       {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
         {path : "Subscriber_Rankings/:pagenumber", element :<Subscriber_Rankings></Subscriber_Rankings>},
-        {path : "View_Rankings/:pagenumber" , element : <ViewRanking></ViewRanking>},
+        // {path : "View_Rankings/:pagenumber" , element : <ViewRanking></ViewRanking>},
       ]},
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }
@@ -37,7 +38,9 @@ function App() {
       {path :"seachlist/:search", element :<VideoList></VideoList>, children: [
         {index: true, element :<List></List>},
         {path : ":filter", element: <VideSearchList></VideSearchList>}
-      ]}
+      ]},
+      {path :"Condition_Search", element:<ConditionSearch></ConditionSearch>}
+      
     ]} 
   ])
   return (
