@@ -16,21 +16,24 @@ export class RankingService {
     return 'This action adds a new ranking';
   }
 
-  async getTopChannels() {
+  async getTopChannels(page : number) {
     return await this.channelRepository.find({
       order: {
         subscriberCount: 'DESC'
       },
+      skip: (page - 1) * 10,
       take: 10 // 상위 10개의 결과만 가져오기
     });
   }
 
-  async getTopviewChannels() {
+
+  async getTopviewChannels(page : number) {
     return await this.channelRepository.find({
       order: {
         viewCount: 'DESC'
       },
-      take: 10
+      skip: (page - 1) * 10,
+      take: 10 // 상위 10개의 결과만 가져오기
     });
   }
 

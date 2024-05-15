@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Getmethod from '../../http/Get_method';
 import "./view.css"
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import BasicPagination from '../pagenation/BasicPagination';
 
 interface Channel {
   id: number;
@@ -17,10 +18,11 @@ interface Channel {
 }
 export default function ViewRanking() {
   const [Ranking, setRanking] = useState<Channel[] | undefined>();
+  const {pagenumber} = useParams()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/viewtop-channels`);
+        const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/viewtop-channels/${pagenumber}`);
         setRanking(response)
         console.log(response)
       } catch (error) {
@@ -28,7 +30,7 @@ export default function ViewRanking() {
       }
     };
     fetchData();
-  }, [])
+  }, [pagenumber])
 
   
 
@@ -69,6 +71,8 @@ export default function ViewRanking() {
           </tbody>
         ))}
       </table>
+      <div style={{display:"flex", justifyContent:"center"}}><BasicPagination></BasicPagination></div>    
+
     </div>
 
   );

@@ -19,6 +19,7 @@ import Body from './component/body/Body';
 import VideSearchList from './component/videolist/VideosearchList';
 import List from './component/videolist/List';
 import Error from "./component/error/Error"
+import RankingRoot from './component/ranking/RankingRoot';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,8 +27,10 @@ function App() {
     {path:"",element:<Root></Root>, errorElement:<Error></Error>, children:[
       {index: true , element : <Main></Main>},
       {path : ":Id" , element: <Body></Body>},
-      {path : "Subscriber_Rankings", element :<Subscriber_Rankings></Subscriber_Rankings>},
-      {path : "View_Rankings" , element : <ViewRanking></ViewRanking>},
+      {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
+        {path : "Subscriber_Rankings/:pagenumber", element :<Subscriber_Rankings></Subscriber_Rankings>},
+        {path : "View_Rankings/:pagenumber" , element : <ViewRanking></ViewRanking>},
+      ]},
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }
       ]},

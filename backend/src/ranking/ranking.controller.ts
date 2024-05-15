@@ -14,14 +14,14 @@ export class RankingController {
   }
 
   
-  @Get('top-channels')
-  async getTopChannels() {
-    return await this.rankingService.getTopChannels();
+  @Get('top-channels/:pagenumber')
+  async getTopChannels(@Param("pagenumber") pagenumber : string) {
+    return await this.rankingService.getTopChannels(+pagenumber);
   }
 
-  @Get('viewtop-channels')
-  async getTopviewChannels() {
-    return await this.rankingService.getTopviewChannels();
+  @Get('viewtop-channels/:pagenumber')
+  async getTopviewChannels(@Param("pagenumber") pagenumber : string) {
+    return await this.rankingService.getTopviewChannels(+pagenumber);
   }
 
   // @Get('category/:Categoryid')

@@ -105,7 +105,7 @@ export default function Headers() {
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 " style={{ display: "flex", marginBottom: "2.5%" }}>
                
                     <CardActionArea>
-                    <Link className="text-black " to="/Subscriber_Rankings" >
+                    <Link className="text-black " to="/Ranking/Subscriber_Rankings/1" >
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all">
                             <EmojiEventsIcon fontSize="large" color="secondary"/>
                             <h3 className="font-semibold text-lg text-gray-800">랭킹</h3>

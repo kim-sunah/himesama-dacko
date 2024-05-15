@@ -10,7 +10,7 @@ export default function Root() {
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
                 <Container>
-                    <Navbar.Brand href="/">Market</Navbar.Brand>
+                    <Navbar.Brand href="/">Youtube Search</Navbar.Brand>
                     
                     <Nav className="me-auto">
                         <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">

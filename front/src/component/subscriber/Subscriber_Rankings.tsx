@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Getmethod from '../../http/Get_method';
 import "./subscriber.css"
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import BasicPagination from '../pagenation/BasicPagination';
 
 interface Channel {
   id: number;
@@ -17,10 +20,13 @@ interface Channel {
 }
 const SubscriberRankings: React.FC = () => {
   const [Ranking, setRanking] = useState<Channel[] | undefined>();
+  const {pagenumber} = useParams();
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/top-channels`);
+        const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/top-channels/${pagenumber}`);
         setRanking(response)
         console.log(response)
       } catch (error) {
@@ -28,10 +34,11 @@ const SubscriberRankings: React.FC = () => {
       }
     };
     fetchData();
-  }, [])
+  }, [pagenumber])
 
   return (
-    <div className="max-w-6xl mx-auto mt-6 border shadow-sm rounded-lg p-4 w-2/2">
+   
+      <div className="max-w-6xl mx-auto mt-6 border shadow-sm rounded-lg p-4 w-2/2">
     <table className="w-full border-collapse">
       <thead >
         <tr>
@@ -67,8 +74,17 @@ const SubscriberRankings: React.FC = () => {
         </tbody> 
       ))}
     </table>
+    <div style={{display:"flex", justifyContent:"center"}}>
+    <BasicPagination></BasicPagination>
+
+    </div>
+    
+
   </div>
+
+
   
+    
   );
 };
 
