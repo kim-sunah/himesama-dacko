@@ -79,7 +79,11 @@ export class ChannellistService {
       order: { id: 'DESC' },
       take: 1,
     });
-    return {lastChannel : lastChannel[0].id , lastVideo : lastVideo[0].id}
+    if(lastChannel.length > 0  && lastVideo.length > 0){
+      return {lastChannel : lastChannel[0].id , lastVideo : lastVideo[0].id}
+    }
+    return  {lastChannel : 0 , lastVideo : 0}
+ 
   }
   remove(id: number) {
     return `This action removes a #${id} channellist`;

@@ -338,21 +338,15 @@ export class RankingService {
       },
       take: 50
     });
-
     const cachedChannelInfo = await this.cacheManager.get("IncreaseViewChannel");
     const isChanged = !cachedChannelInfo || JSON.stringify(channelInfo) !== JSON.stringify(cachedChannelInfo);
-
     if (!isChanged) {
-
       return await this.cacheManager.get("increaseview");
     }
     else {
     
       const channelData = [];
       for (const info of channelInfo) {
-
-      
-       
         if (info.Channel_Url_Id.includes("@")) {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
 
