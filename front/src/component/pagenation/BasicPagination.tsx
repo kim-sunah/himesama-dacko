@@ -6,22 +6,37 @@ export default function BasicPagination() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
-    const rankingPath = currentPath.split('/')[2];
+    const Path = currentPath.split('/')[2];
     const queryParams = new URLSearchParams(location.search);
     const select = queryParams.get('select');
-   
-  
+
     const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-        if(rankingPath === "Subscriber_Rankings" || rankingPath === "View_Rankings"){
-          if(select){
+      const query = window.location.search;
+      console.log(query)
+      if(currentPath.includes("Condition_Search")){
+        if(select && query){
+          navigate(`/Condition_Search/${page}?${query}?select=${select}`)
+        }
+        else if(select){
+          navigate(`/Condition_Search/${page}?select=${select}`)
+        }
+        navigate(`/Condition_Search/${page}?${query}`)
         
-            navigate(`/Ranking/${rankingPath+"/"+page}?select=${select}`)
+      
+      }
+      else{
+        if(Path === "Subscriber_Rankings" || Path === "View_Rankings"){
+          if(select){
+            navigate(`/Ranking/${Path+"/"+page}?select=${select}`)
           }
           else{
-            navigate(`/Ranking/${rankingPath+"/"+page}`)
+            navigate(`/Ranking/${Path+"/"+page}`)
           }
             
         }
+
+      }
+     
        
     }
   return (

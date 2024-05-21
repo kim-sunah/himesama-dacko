@@ -38,6 +38,7 @@ export default function Headers() {
         const match = url.match(/\/@([^/]+)/);
         return match ? `@${match[1]}` : null;
     }
+    
     const getYouTubeChannelId = async (event: FormEvent<HTMLFormElement>): Promise<any> => {
         event.preventDefault();
         if (ChannelId.current?.value && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(ChannelId.current?.value)) {
@@ -121,9 +122,9 @@ export default function Headers() {
 
                 <CardActionArea>
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-yellow-50 transition-all">
-                        <ReplyIcon className="text-purple-600 h-10 w-10" />
-                        <h3 className="font-semibold text-lg text-gray-800">Discussions</h3>
-                        <p className="text-center text-sm text-gray-600">Engage in discussions & share your expertise</p>
+                        <ReplyIcon className="text-purple-600 h-9 w-9" />
+                        <h3 className="font-semibold text-lg text-gray-800">Youtube API 기반 검색</h3>
+                        <p className="text-center text-sm text-gray-600">Youtube 맞춤 조건 검색</p>
                     </Card>
                 </CardActionArea>
                 <CardActionArea>

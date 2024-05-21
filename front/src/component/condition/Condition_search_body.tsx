@@ -243,7 +243,7 @@ export default function ConditionSearchBody() {
   };
 
   return (
-    <div style={{ marginLeft: '10%', marginRight: '10%',marginTop:"5%" }}>
+    <div style={{ marginLeft: '10%', marginRight: '10%'}}>
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: "center" }}>

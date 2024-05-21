@@ -47,17 +47,18 @@ const InputDropdown = () => {
             <input
               className="flex-1 w-40"
               id="subscriber-min"
-              min="0"
+              min="1"
               placeholder="Min"
               type="number"
               value={subscriberMin}
+
               onChange={(e) => setSubscriberMin(e.target.value)}
             />
             <span>-</span>
             <input
               className="flex-1 w-40"
               id="subscriber-max"
-              min="0"
+              min="1"
               placeholder="Max"
               type="number"
               value={subscriberMax}
@@ -69,7 +70,7 @@ const InputDropdown = () => {
             <input
               className="flex-1 w-40"
               id="view-min"
-              min="0"
+              min="1"
               placeholder="Min"
               type="number"
               value={viewMin}
@@ -79,7 +80,7 @@ const InputDropdown = () => {
             <input
               className="flex-1 w-40"
               id="view-max"
-              min="0"
+              min="1"
               placeholder="Max"
               type="number"
               value={viewMax}
@@ -91,7 +92,7 @@ const InputDropdown = () => {
             <input
               className="flex-1 w-40"
               id="video-min"
-              min="0"
+              min="1"
               placeholder="Min"
               type="number"
               value={videoMin}
@@ -101,7 +102,7 @@ const InputDropdown = () => {
             <input
               className="flex-1 w-40"
               id="video-max"
-              min="0"
+              min="1"
               placeholder="Max"
               type="number"
               value={videoMax}
