@@ -19,10 +19,8 @@ export class ChannellistController {
 
   @Get(":channelId")
   channelInfo(@Param('channelId') channelId: string) {
-    console.log(channelId)
     return this.channellistService.channelInfo(channelId);
   }
-
 
   @Get('channel/:videosearch')
   Getvideosearch(@Param('videosearch') search: string) {
@@ -32,6 +30,11 @@ export class ChannellistController {
   @Post('searchchannel')
   searchchannel(@Body() createChannellistDto: CreateChannellistDto) {
     return this.channellistService.searchchannel(createChannellistDto.Channel_Url_Id);
+  }
+
+  @Get("Channel_Video/Count")
+  Channel_VideoCount(){
+    return this.channellistService.Channel_VideoCount();
   }
 
   

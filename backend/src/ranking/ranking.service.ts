@@ -3,11 +3,12 @@ import { CreateRankingDto } from './dto/create-ranking.dto';
 import { UpdateRankingDto } from './dto/update-ranking.dto';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { plainToClass } from 'class-transformer';
 import axios from 'axios';
+import { DbOrder } from 'src/filter/dto/DbOrder.dto';
 
 @Injectable()
 export class RankingService {
@@ -73,6 +74,127 @@ export class RankingService {
     }
     else if(select==="Low_Videocount"){
       return await this.channelRepository.find({
+        order: {
+          videoCount: 'ASC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 하위 10개의 결과만 가져오기
+      });
+
+    }
+
+  }
+
+  
+
+
+  async DBSubscriberChannels( dbOrder: DbOrder,page : number,select : string) {
+
+    const where: any = {};
+    if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
+      where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
+    }
+    if (dbOrder.viewMin !== 0 && dbOrder.viewMax !== 0) {
+      where.viewCount = Between(dbOrder.viewMin, dbOrder.viewMax);
+    }
+    if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
+      where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
+    }
+  
+    if(select === "High_Subscriber"){
+      return await this.channelRepository.find({
+        where: {
+          ...where,
+        },
+        order: {
+          subscriberCount: 'DESC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 상위 10개의 결과만 가져오기
+      });
+    }
+    else if(select==="Low_Subscriber"){
+      return await this.channelRepository.find({
+        where: {
+          ...where,
+        },
+        order: {
+          subscriberCount: 'ASC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 하위 10개의 결과만 가져오기
+      });
+
+    }
+  }
+
+
+  async DBviewChannels(dbOrder: DbOrder,page : number, select : string) {
+    const where: any = {};
+    if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
+      where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
+    }
+    if (dbOrder.viewMin !== 0 && dbOrder.viewMax !== 0) {
+      where.viewCount = Between(dbOrder.viewMin, dbOrder.viewMax);
+    }
+    if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
+      where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
+    }
+    if(select === "High_View"){
+      return await this.channelRepository.find({
+        where: {
+          ...where,
+        },
+        order: {
+          viewCount: 'DESC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 상위 10개의 결과만 가져오기
+      });
+    }
+    else if(select==="Low_View"){
+      return await this.channelRepository.find({
+        where: {
+          ...where,
+        },
+        order: {
+          viewCount: 'ASC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 하위 10개의 결과만 가져오기
+      });
+
+    }
+  }
+
+  async DBVideoChannels(dbOrder: DbOrder, page : number, select : string){
+    const where: any = {};
+    if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
+      where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
+    }
+    if (dbOrder.viewMin !== 0 && dbOrder.viewMax !== 0) {
+      where.viewCount = Between(dbOrder.viewMin, dbOrder.viewMax);
+    }
+    if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
+      where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
+    }
+    if(select === "High_Videocount"){
+      return await this.channelRepository.find({
+        where: {
+          ...where,
+        },
+        order: {
+          videoCount: 'DESC'
+        },
+        skip: (page - 1) * 10,
+        take: 10 // 상위 10개의 결과만 가져오기
+      });
+    }
+    else if(select==="Low_Videocount"){
+      return await this.channelRepository.find({
+        where: {
+          ...where,
+        },
         order: {
           videoCount: 'ASC'
         },
@@ -225,12 +347,12 @@ export class RankingService {
       return await this.cacheManager.get("increaseview");
     }
     else {
-      console.log("Asds")
+    
       const channelData = [];
       for (const info of channelInfo) {
 
-        console.log("HHHHHHH")
-        console.log(info.Channel_Url_Id)
+      
+       
         if (info.Channel_Url_Id.includes("@")) {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
 
@@ -300,3 +422,7 @@ export class RankingService {
   }
 
 }
+
+
+
+

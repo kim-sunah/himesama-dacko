@@ -130,79 +130,65 @@ export default function ConditionSearchBody() {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const select = queryParams.get('select');
- 
-
-  const [subscriberMin, setSubscriberMin] = useState("");
-  const [subscriberMax, setSubscriberMax] = useState("");
-  const [viewMin, setViewMin] = useState("");
-  const [viewMax, setViewMax] = useState("");
-  const [videoMin, setVideoMin] = useState("");
-  const [videoMax, setVideoMax] = useState("");
 
   useEffect(() => {
-
     const fetchData = async () => {
-        const queryParams = new URLSearchParams(location.search);
+      const queryParams = new URLSearchParams(location.search);
+      if (select === null) {
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/filter/DBOrder/${pagenumber}`,
+          {
+            subscriberMin: queryParams.get("SubscriberMin") || "",
+            subscriberMax: queryParams.get("SubscriberMax") || "",
+            viewMin: queryParams.get("ViewMin") || "",
+            viewMax: queryParams.get("ViewMax") || "",
+            videoMin: queryParams.get("VideoMin") || "",
+            videoMax: queryParams.get("VideoMax") || ""
+          });
+        setRanking(response)
+      }
+      else if (select === "High_Subscriber" || select === "Low_Subscriber") {
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/DBSubscriber-channels/${pagenumber}`, {
+          subscriberMin: queryParams.get("SubscriberMin") || "",
+          subscriberMax: queryParams.get("SubscriberMax") || "",
+          viewMin: queryParams.get("ViewMin") || "",
+          viewMax: queryParams.get("ViewMax") || "",
+          videoMin: queryParams.get("VideoMin") || "",
+          videoMax: queryParams.get("VideoMax") || "",
+          select: select
+        });
+        setRanking(response)
+      }
+      else if (select === "Low_View" || select === "High_View") {
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/view-channels/${pagenumber}`, {
+          subscriberMin: queryParams.get("SubscriberMin") || "",
+          subscriberMax: queryParams.get("SubscriberMax") || "",
+          viewMin: queryParams.get("ViewMin") || "",
+          viewMax: queryParams.get("ViewMax") || "",
+          videoMin: queryParams.get("VideoMin") || "",
+          videoMax: queryParams.get("VideoMax") || "",
+          select: select
+        })
+        setRanking(response)
+      }
 
-        setSubscriberMin(queryParams.get("SubscriberMin") || "");
-        setSubscriberMax(queryParams.get("SubscriberMax") || "");
-        setViewMin(queryParams.get("ViewMin") || "");
-        setViewMax(queryParams.get("ViewMax") || "");
-        setVideoMin(queryParams.get("VideoMin") || "");
-        setVideoMax(queryParams.get("VideoMax") || "");
-       
-          const response = await Postmethod( `${process.env.REACT_APP_BACKEND_API}/filter/DBOrder`,
-          {subscriberMin :queryParams.get("SubscriberMin") || "", 
-          subscriberMax : queryParams.get("SubscriberMax") || "" , 
-          viewMin : queryParams.get("ViewMin") || "" , 
-          viewMax : queryParams.get("ViewMax") || "",
-          videoMin : queryParams.get("VideoMin") || "", 
-          videoMax: queryParams.get("VideoMax") || ""});
-          setRanking(response)
+      else if (select === "Low_Videocount" || select === "High_Videocount") {
 
-          
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Video-channels/${pagenumber}`, {
+          subscriberMin: queryParams.get("SubscriberMin") || "",
+          subscriberMax: queryParams.get("SubscriberMax") || "",
+          viewMin: queryParams.get("ViewMin") || "",
+          viewMax: queryParams.get("ViewMax") || "",
+          videoMin: queryParams.get("VideoMin") || "",
+          videoMax: queryParams.get("VideoMax") || "",
+          select: select
+        })
+        setRanking(response)
+      }
     }
     fetchData()
-    
-  }, [location.search]);
 
+  }, [location.search, pagenumber, select]);
 
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         console.log(select)
-//         if(select === null){
-//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : "High_Subscriber"});
-//           setRanking(response)
-//           console.log(response)
-         
-//         }
-//         else if(select === "Low_View" || select ==="High_View"){
-//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/view-channels/${pagenumber}`,{select : select})
-//           setRanking(response)
-//       } 
-//         else if(select === "Low_Videocount" || select==="High_Videocount"){
-          
-//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Video-channels/${pagenumber}`,{select : select})
-//           setRanking(response)
-
-
-//         }
-//         else if(select ==="High_Subscriber" || select ==="Low_Subscriber"){
-//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : select});
-//           setRanking(response)
-//         }
-//     }
-//       catch (error) {
-//         console.error("Error fetching data:", error);
-//       }
-//     };
-//     fetchData();
-//   }, [pagenumber,select])
-
-
-  
   const videohandleClick = () => {
     const queryParams = new URLSearchParams(location.search);
     const select = queryParams.get('select');
@@ -215,7 +201,7 @@ export default function ConditionSearchBody() {
     }
     navigate(`${location.pathname}?${queryParams.toString()}`);
   };
- 
+
   const ViewhandleClick = () => {
     const queryParams = new URLSearchParams(location.search);
     const select = queryParams.get('select');
@@ -243,7 +229,7 @@ export default function ConditionSearchBody() {
   };
 
   return (
-    <div style={{ marginLeft: '10%', marginRight: '10%'}}>
+    <div style={{ marginLeft: '10%', marginRight: '10%' }}>
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: "center" }}>
@@ -258,7 +244,7 @@ export default function ConditionSearchBody() {
                 <TableCell align="center">
                   <div className="header-cell">
                     <span>채널 이름</span>
-                   
+
                   </div>
                 </TableCell>
                 <TableCell align="center">
@@ -272,7 +258,7 @@ export default function ConditionSearchBody() {
                 <TableCell align="center">
                   <div className="header-cell">
                     <span>조회수</span>
-                    <button onClick={ ViewhandleClick}>
+                    <button onClick={ViewhandleClick}>
                       <CgArrowsExchangeAltV size={20} className="header-icon" />
                     </button>
                   </div>

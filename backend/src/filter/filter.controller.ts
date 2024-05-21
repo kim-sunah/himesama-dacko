@@ -27,9 +27,9 @@ export class FilterController {
     return this.filterService.findOne(order, search);
   }
 
-  @Post('DBOrder')
-  async DBOrder(@Body() DbOrder: DbOrder) {
-    return this.filterService.DBOrder(DbOrder);
+  @Post('DBOrder/:pagenumber')
+  async DBOrder(@Body() DbOrder: DbOrder, @Param("pagenumber") pagenumber: string) {
+    return this.filterService.DBOrder(DbOrder, +pagenumber);
   }
 
   @Delete(':id')

@@ -6,11 +6,13 @@ import { Filter, Repository } from "typeorm"
 import { Channellist } from './entities/channellist.entity';
 import { FilterService } from 'src/filter/filter.service';
 import axios from 'axios'
+import { Video } from 'src/video/entities/video.entity';
 
 
 @Injectable()
 export class ChannellistService {
-  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, private readonly FilterService : FilterService) {
+  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, private readonly FilterService : FilterService ,
+              @InjectRepository(Video) private readonly VideoRepository: Repository<Video>) {
 
   }
 
@@ -65,6 +67,20 @@ export class ChannellistService {
 
   }
 
+
+  async Channel_VideoCount() {
+    // Skip all but the last record (offset of total - 1)
+    const lastChannel= await this.channelList.find({
+      order: { id: 'DESC' },
+      take: 1,
+    });
+
+    const lastVideo = await this.VideoRepository.find({
+      order: { id: 'DESC' },
+      take: 1,
+    });
+    return {lastChannel : lastChannel[0].id , lastVideo : lastVideo[0].id}
+  }
   remove(id: number) {
     return `This action removes a #${id} channellist`;
   }

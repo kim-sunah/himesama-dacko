@@ -1,4 +1,4 @@
-import {FormEvent, useRef, SVGProps } from "react";
+import {FormEvent, useRef, SVGProps, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import { JSX } from "react/jsx-runtime";
 import "./header.css"
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { AiOutlineFileSearch } from "react-icons/ai";
+import Getmethod from "../../http/Get_method";
 
 
 interface Channel {
@@ -30,7 +31,25 @@ interface Channel {
     previous_viewCount: string
     previous_videoCount: string
 }
+interface Count{
+    lastChannel : string
+    lastVideo : string
+}
+
+
 export default function Headers() {
+
+    const [Count, Setcount] = useState<Count>();
+    useEffect(()=>{
+        const fetchData = async () => {
+          
+            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/Channel_Video/Count`)
+            Setcount(response)
+        
+        }
+        fetchData()
+
+    },[]);
     const dispatch = useDispatch()
     const ChannelId = useRef<HTMLInputElement>(null);
 
@@ -100,11 +119,11 @@ export default function Headers() {
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 " style={{ display: "flex", marginBottom: "2.5%" }}>
                
                 <CardActionArea>
-                    <Link className="text-black " to="/Ranking/Subscriber_Rankings/1" >
+                    <Link className="text-black " to="/Ranking/1" >
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all">
                             <EmojiEventsIcon className="text-purple-600 h-10 w-10" fontSize="large" color="secondary" />
                             <h3 className="font-semibold text-lg text-gray-800">랭킹</h3>
-                            <p className="text-center text-sm text-gray-600">구독자, 조회수, 동영상 수</p>
+                            <p className="text-center text-sm text-gray-600">구독자, 조회수, <br></br>동영상 수</p>
                         </Card>
                         </Link>
                     </CardActionArea>
@@ -113,8 +132,8 @@ export default function Headers() {
                 <Link className="text-black " to="/Condition_Search/1" >
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-green-50 transition-all">
                         <AiOutlineFileSearch className="text-purple-600 h-9 w-9" fontSize="medium" color="secondary"/>
-                        <h3 className="font-semibold text-lg text-gray-800">인플루언서 DB 검색</h3>
-                        <p className="text-center text-sm text-gray-600">DB 맞춤 조건 검색</p>
+                        <h3 className="font-semibold text-lg text-gray-800">DB 검색</h3>
+                        <p className="text-center text-sm text-gray-600">{Count?.lastChannel}명 인플루언서 데이터와 <br/>{Count?.lastVideo}개의 영상 데이터 조건검색</p>
                     </Card>
                 </Link>
                 </CardActionArea>

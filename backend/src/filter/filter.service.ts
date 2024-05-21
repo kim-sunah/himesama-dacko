@@ -453,7 +453,7 @@ export class FilterService {
     }
   }
 
-  async DBOrder( dbOrder: DbOrder) {
+  async DBOrder( dbOrder: DbOrder, page: number) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
@@ -468,6 +468,8 @@ export class FilterService {
       where: {
         ...where,
       },
+      skip: (page - 1) * 10,
+      take: 10 // 상위 10개의 결과만 가져오기
     });
     return channels
 

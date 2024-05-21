@@ -31,7 +31,7 @@ function App() {
       {index: true , element : <Main></Main>},
       {path : ":Id" , element: <Body></Body>},
       {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
-        {path : "Subscriber_Rankings/:pagenumber", element :<Subscriber_Rankings></Subscriber_Rankings>},
+        {path : ":pagenumber", element :<Subscriber_Rankings></Subscriber_Rankings>},
         // {path : "View_Rankings/:pagenumber" , element : <ViewRanking></ViewRanking>},
       ]},
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[

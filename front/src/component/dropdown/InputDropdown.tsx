@@ -4,7 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Postmethod from "../../http/Post_method";
 
-const InputDropdown = () => {
+interface InputDropdownProps {
+  title: string;
+}
+
+const InputDropdown : React.FC<InputDropdownProps> = ({title}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,8 +43,8 @@ const InputDropdown = () => {
   };
 
   return (
-    <Nav className="me-auto">
-      <NavDropdown title="Filter" id="collapsible-nav-dropdown">
+    <Nav className="me-auto" >
+      <NavDropdown title={title} id="collapsible-nav-dropdown" >
         <form onSubmit={formhandler} className="px-4 py-2">
           <div className="flex items-center gap-2" style={{ marginBottom: "5%", marginTop: "5%" }}>
             <label htmlFor="subscriber-min">Subscriber</label>
