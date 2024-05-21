@@ -20,7 +20,9 @@ import VideSearchList from './component/videolist/VideosearchList';
 import List from './component/videolist/List';
 import Error from "./component/error/Error"
 import RankingRoot from './component/ranking/RankingRoot';
-import ConditionSearch from './component/condition/Condition_Search';
+import ConditionSearch from './component/condition/Condition_Search_header';
+import ConditionRoot from './component/condition/ConditionRoot';
+import ConditionSearchBody from './component/condition/Condition_search_body';
 
 function App() {
   const router = createBrowserRouter([
@@ -39,7 +41,9 @@ function App() {
         {index: true, element :<List></List>},
         {path : ":filter", element: <VideSearchList></VideSearchList>}
       ]},
-      {path :"Condition_Search", element:<ConditionSearch></ConditionSearch>}
+      {path :"Condition_Search", element:<ConditionRoot></ConditionRoot>,children:[
+        {path : ":pagenumber", element:<ConditionSearchBody></ConditionSearchBody>}
+      ]}
       
     ]} 
   ])

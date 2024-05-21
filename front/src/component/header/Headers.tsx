@@ -98,7 +98,7 @@ export default function Headers() {
 
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 " style={{ display: "flex", marginBottom: "2.5%" }}>
                
-                    <CardActionArea>
+                <CardActionArea>
                     <Link className="text-black " to="/Ranking/Subscriber_Rankings/1" >
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all">
                             <EmojiEventsIcon className="text-purple-600 h-10 w-10" fontSize="large" color="secondary" />
@@ -107,16 +107,18 @@ export default function Headers() {
                         </Card>
                         </Link>
                     </CardActionArea>
-               
                 <CardActionArea>
-                <Link className="text-black " to="/Condition_Search" >
+
+                <Link className="text-black " to="/Condition_Search/1" >
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-green-50 transition-all">
                         <AiOutlineFileSearch className="text-purple-600 h-9 w-9" fontSize="medium" color="secondary"/>
-                        <h3 className="font-semibold text-lg text-gray-800">Projects</h3>
-                        <p className="text-center text-sm text-gray-600">맞춤 조건 검색</p>
+                        <h3 className="font-semibold text-lg text-gray-800">인플루언서 DB 검색</h3>
+                        <p className="text-center text-sm text-gray-600">DB 맞춤 조건 검색</p>
                     </Card>
                 </Link>
                 </CardActionArea>
+
+
                 <CardActionArea>
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-yellow-50 transition-all">
                         <ReplyIcon className="text-purple-600 h-10 w-10" />

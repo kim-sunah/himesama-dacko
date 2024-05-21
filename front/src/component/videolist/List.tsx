@@ -159,7 +159,11 @@ export default function List() {
       }
       catch (err) {
         setLoading(false)
-        console.log("Error fetching data:", err)
+        if (err instanceof Error) {
+          throw new Error(err.message); // Throwing error to be caught by errorElement
+        } else {
+          throw new Error('An unknown error occurred');
+        }
       }
    
     }

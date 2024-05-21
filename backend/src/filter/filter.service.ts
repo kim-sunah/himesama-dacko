@@ -3,7 +3,7 @@ import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
-import { Repository } from 'typeorm';
+import { Between, MoreThanOrEqual, Repository, getRepository } from 'typeorm';
 import axios from 'axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -11,6 +11,7 @@ import { Video } from 'src/video/entities/video.entity';
 import { videoview } from 'src/video/entities/videoview.entity';
 import { videocomment } from 'src/video/entities/videocomment.entity';
 import { videolike } from 'src/video/entities/videolike.entity';
+import { DbOrder } from './dto/DbOrder.dto';
 interface Data {
   nextPageToken: any;
   prevPageToken: any;
@@ -23,6 +24,7 @@ interface Data {
 
 @Injectable()
 export class FilterService {
+  
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, @InjectRepository(Video) private readonly videoRepository: Repository<Video>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     @InjectRepository(videoview) private readonly videoviewRepository: Repository<videoview>, @InjectRepository(videocomment) private readonly videocommentRepository: Repository<videocomment>, @InjectRepository(videolike) private readonly videolikeRepository: Repository<videolike>) { }
 
@@ -451,8 +453,25 @@ export class FilterService {
     }
   }
 
-  update(id: number, updateFilterDto: UpdateFilterDto) {
-    return `This action updates a #${id} filter`;
+  async DBOrder( dbOrder: DbOrder) {
+    const where: any = {};
+    if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
+      where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
+    }
+    if (dbOrder.viewMin !== 0 && dbOrder.viewMax !== 0) {
+      where.viewCount = Between(dbOrder.viewMin, dbOrder.viewMax);
+    }
+    if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
+      where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
+    }
+    const channels = await this.channelList.find({
+      where: {
+        ...where,
+      },
+    });
+    return channels
+
+   
   }
 
   remove(id: number) {

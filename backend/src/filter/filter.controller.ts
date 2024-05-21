@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { FilterService } from './filter.service';
 import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
+import { DbOrder } from './dto/DbOrder.dto';
+import { plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
 
 @Controller('filter')
 export class FilterController {
@@ -24,9 +27,9 @@ export class FilterController {
     return this.filterService.findOne(order, search);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFilterDto: UpdateFilterDto) {
-    return this.filterService.update(+id, updateFilterDto);
+  @Post('DBOrder')
+  async DBOrder(@Body() DbOrder: DbOrder) {
+    return this.filterService.DBOrder(DbOrder);
   }
 
   @Delete(':id')

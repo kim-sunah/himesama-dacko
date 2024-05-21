@@ -1,6 +1,8 @@
+
+
 import React, { useEffect, useState } from 'react';
 import Getmethod from '../../http/Get_method';
-import "./ranking.css"
+import "../subscriber/ranking.css"
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import BasicPagination from '../pagenation/BasicPagination';
 import TableCell from '@mui/material/TableCell';
@@ -120,7 +122,7 @@ function Row(props: { row: Channel }) {
 }
 
 
-export default function List() {
+export default function ConditionSearchBody() {
   const [loading, setLoading] = useState<boolean>(false)
   const [Ranking, setRanking] = useState<Channel[]>([]);
   const { pagenumber } = useParams();
@@ -128,39 +130,76 @@ export default function List() {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const select = queryParams.get('select');
+ 
 
+  const [subscriberMin, setSubscriberMin] = useState("");
+  const [subscriberMax, setSubscriberMax] = useState("");
+  const [viewMin, setViewMin] = useState("");
+  const [viewMax, setViewMax] = useState("");
+  const [videoMin, setVideoMin] = useState("");
+  const [videoMax, setVideoMax] = useState("");
 
   useEffect(() => {
+
     const fetchData = async () => {
-      try {
-        if(select === null){
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : "High_Subscriber"});
+        const queryParams = new URLSearchParams(location.search);
+
+        setSubscriberMin(queryParams.get("SubscriberMin") || "");
+        setSubscriberMax(queryParams.get("SubscriberMax") || "");
+        setViewMin(queryParams.get("ViewMin") || "");
+        setViewMax(queryParams.get("ViewMax") || "");
+        setVideoMin(queryParams.get("VideoMin") || "");
+        setVideoMax(queryParams.get("VideoMax") || "");
+       
+          const response = await Postmethod( `${process.env.REACT_APP_BACKEND_API}/filter/DBOrder`,
+          {subscriberMin :queryParams.get("SubscriberMin") || "", 
+          subscriberMax : queryParams.get("SubscriberMax") || "" , 
+          viewMin : queryParams.get("ViewMin") || "" , 
+          viewMax : queryParams.get("ViewMax") || "",
+          videoMin : queryParams.get("VideoMin") || "", 
+          videoMax: queryParams.get("VideoMax") || ""});
           setRanking(response)
-          console.log(response)
-         
-        }
-        else if(select === "Low_View" || select ==="High_View"){
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/view-channels/${pagenumber}`,{select : select})
-          setRanking(response)
-      } 
-        else if(select === "Low_Videocount" || select==="High_Videocount"){
+
           
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Video-channels/${pagenumber}`,{select : select})
-          setRanking(response)
-
-
-        }
-        else if(select ==="High_Subscriber" || select ==="Low_Subscriber"){
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : select});
-          setRanking(response)
-        }
     }
-      catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [pagenumber,select])
+    fetchData()
+    
+  }, [location.search]);
+
+
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         console.log(select)
+//         if(select === null){
+//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : "High_Subscriber"});
+//           setRanking(response)
+//           console.log(response)
+         
+//         }
+//         else if(select === "Low_View" || select ==="High_View"){
+//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/view-channels/${pagenumber}`,{select : select})
+//           setRanking(response)
+//       } 
+//         else if(select === "Low_Videocount" || select==="High_Videocount"){
+          
+//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Video-channels/${pagenumber}`,{select : select})
+//           setRanking(response)
+
+
+//         }
+//         else if(select ==="High_Subscriber" || select ==="Low_Subscriber"){
+//           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : select});
+//           setRanking(response)
+//         }
+//     }
+//       catch (error) {
+//         console.error("Error fetching data:", error);
+//       }
+//     };
+//     fetchData();
+//   }, [pagenumber,select])
 
 
   

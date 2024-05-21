@@ -23,24 +23,38 @@ export default function Popularvideo(): JSX.Element {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2%" }}>  급 인기 상승 동영상 TOP 5</h1>
-      <div style={{ display: "grid", flexWrap: "wrap", marginTop: "2%",gridTemplateColumns: "repeat(5, 1fr)" }}>
-        {Popular_video &&
-          Popular_video.map((video) => (
-            <div key={video.id} style={{ width: "10%", padding: "0.5rem",minHeight: "250px", minWidth : "250px" }}>
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${video.id}`}
-                title="YouTube video player"
-                style={{ display: "block"}}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-          ))}
-      </div>
-    </>
+  <h1 style={{ textAlign: "center", fontSize: "2rem", fontWeight: "bold", marginTop: "2%" }}>
+    급 인기 상승 동영상 TOP 5
+  </h1>
+  <div style={{ 
+    display: "grid", 
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
+    gap: "20px", 
+    justifyContent: "center",
+    padding: "2%" 
+  }}>
+    {Popular_video &&
+      Popular_video.map((video) => (
+        <div key={video.id} style={{ 
+          minHeight: "275px", 
+          maxWidth: "500px", 
+          width: "100%", 
+          margin: "0 auto"
+        }}>
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${video.id}`}
+            title="YouTube video player"
+            style={{ display: "block"}}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      ))}
+  </div>
+</>
+
 
 
   )

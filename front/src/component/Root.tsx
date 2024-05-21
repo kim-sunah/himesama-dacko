@@ -5,7 +5,21 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useEffect } from "react";
+import Getmethod from "../http/Get_method";
+import axios from "axios";
 export default function Root() {
+    // useEffect(()=>{
+    //     axios.get('http://localhost:4000/Test', { withCredentials: true })
+    //     .then(response => {
+    //       console.log(response.data);
+    //     })
+    //     .catch(error => {
+    //       console.error('Error:', error);
+    //     });
+
+
+    // },[])
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">

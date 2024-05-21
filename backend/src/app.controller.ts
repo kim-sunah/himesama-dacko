@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+
 import { AppService } from './app.service';
+import { Controller, Get, Res } from '@nestjs/common';
+import { Response } from 'express';
 
 
 
@@ -7,10 +9,11 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    
-    return this.appService.getHello();
+  @Get("Test")
+  getHello(@Res() res: Response) {
+    console.log("HELLO")
+    res.cookie('user', 'John Doe', { maxAge: 900000, httpOnly: true });
+    return res.send('Cookie has been set');
     
   }
 }
