@@ -22,7 +22,8 @@ import Error from "./component/error/Error"
 import RankingRoot from './component/ranking/RankingRoot';
 import ConditionSearch from './component/condition/Condition_Search_header';
 import ConditionRoot from './component/condition/ConditionRoot';
-import ConditionSearchBody from './component/condition/Condition_search_body';
+import ConditionInfluencerFilterBody from './component/condition/Condition_InfluencerFilter_body';
+import ConditionVideoFilterBody from './component/condition/Condition_VideoFilter_body';
 
 function App() {
   const router = createBrowserRouter([
@@ -42,7 +43,8 @@ function App() {
         {path : ":filter", element: <VideSearchList></VideSearchList>}
       ]},
       {path :"Condition_Search", element:<ConditionRoot></ConditionRoot>,children:[
-        {path : ":pagenumber", element:<ConditionSearchBody></ConditionSearchBody>}
+        {path : "InfluencerFilter/:pagenumber", element:<ConditionInfluencerFilterBody></ConditionInfluencerFilterBody>},
+        {path : "VideoFilter/:pagenumber", element:<ConditionVideoFilterBody></ConditionVideoFilterBody>}
       ]}
       
     ]} 

@@ -129,7 +129,7 @@ export default function Headers() {
                     </CardActionArea>
                 <CardActionArea>
 
-                <Link className="text-black " to="/Condition_Search/1" >
+                <Link className="text-black " to="/Condition_Search" >
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-green-50 transition-all">
                         <AiOutlineFileSearch className="text-purple-600 h-9 w-9" fontSize="medium" color="secondary"/>
                         <h3 className="font-semibold text-lg text-gray-800">DB 검색</h3>

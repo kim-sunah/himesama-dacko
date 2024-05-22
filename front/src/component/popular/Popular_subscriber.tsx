@@ -16,7 +16,6 @@ export default function Popularsubscriber() {
         const fetchData = async () => {
             try {
                 const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/increaseSubscriber`);
-                console.log(response);
                 setchannelData(response);
             } catch (error) {
                 console.error("Error fetching data:", error);

@@ -8,7 +8,7 @@ interface InputDropdownProps {
   title: string;
 }
 
-const InputDropdown : React.FC<InputDropdownProps> = ({title}) => {
+const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -122,4 +122,4 @@ const InputDropdown : React.FC<InputDropdownProps> = ({title}) => {
   );
 };
 
-export default InputDropdown;
+export default InfluencerFilterDropdown;

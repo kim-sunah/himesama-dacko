@@ -6,7 +6,7 @@ export default function BasicPagination() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
-    const Path = currentPath.split('/')[1];
+    const Path = currentPath.split('/')[2];
     console.log(Path)
     const queryParams = new URLSearchParams(location.search);
     const select = queryParams.get('select');
@@ -16,11 +16,10 @@ export default function BasicPagination() {
   
       if(currentPath.includes("Condition_Search")){
         if(query.includes("Min") && query.includes("Max")){
-       
-          navigate(`/Condition_Search/${page}${query}`)
+          navigate(`/Condition_Search/${Path}/${page}${query}`)
         }
         else{
-          navigate(`/Condition_Search/${page}`)
+          navigate(`/Condition_Search/${Path}/${page}`)
         }
    
       }

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import ConditionSearch from "./Condition_Search_header";
-import ConditionSearchBody from "./Condition_search_body";
+import ConditionSearchBody from "./Condition_InfluencerFilter_body";
 
 export default function ConditionRoot (){
     return (

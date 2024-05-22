@@ -122,7 +122,7 @@ function Row(props: { row: Channel }) {
 }
 
 
-export default function ConditionSearchBody() {
+export default function ConditionInfluencerFilterBody() {
   const [loading, setLoading] = useState<boolean>(false)
   const [Ranking, setRanking] = useState<Channel[]>([]);
   const { pagenumber } = useParams();
