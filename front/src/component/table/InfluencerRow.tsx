@@ -31,7 +31,7 @@ export default function Row(props: { row: Channel }) {
 
   const [view, setview] = React.useState(true);
   const [comment, setcomment] = React.useState(false)
-  const [like, setlike] = React.useState(false);
+  const [like, setlike] = React.useState(false)
 
   return (
     <React.Fragment>
