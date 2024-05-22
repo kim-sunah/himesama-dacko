@@ -54,7 +54,7 @@ export default function List() {
         }
         else if(select ==="High_Subscriber" || select ==="Low_Subscriber"){
           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : select});
-          setRanking(response)
+          setRanking(response);
         }
     }
       catch (error) {
