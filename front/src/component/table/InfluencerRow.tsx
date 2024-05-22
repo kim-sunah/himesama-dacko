@@ -30,7 +30,7 @@ export default function Row(props: { row: Channel }) {
   const [open, setOpen] = React.useState(false);
 
   const [view, setview] = React.useState(true);
-  const [comment, setcomment] = React.useState(false);
+  const [comment, setcomment] = React.useState(false)
   const [like, setlike] = React.useState(false);
 
   return (
