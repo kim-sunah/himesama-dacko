@@ -1,5 +1,14 @@
+import Modal from "../videolist/Modal";
+import VideoListHeader from "../videolist/header";
+import ConditionVideoFilterHeader from "./Condition_VideoFilter_header";
+
+
 export default function ConditionVideoFilterBody(){
     return (
-        <h1>asdsd</h1>
+        <>
+        <ConditionVideoFilterHeader></ConditionVideoFilterHeader>
+      
+        </>
+      
     )
 }

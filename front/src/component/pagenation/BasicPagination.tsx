@@ -6,30 +6,25 @@ export default function BasicPagination() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
+    const RankingPath = currentPath.split('/')[1];
     const Path = currentPath.split('/')[2];
-    console.log(Path)
     const queryParams = new URLSearchParams(location.search);
     const select = queryParams.get('select');
-
     const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+      
       const query = window.location.search;
   
       if(currentPath.includes("Condition_Search")){
-        if(query.includes("Min") && query.includes("Max")){
-          navigate(`/Condition_Search/${Path}/${page}${query}`)
-        }
-        else{
-          navigate(`/Condition_Search/${Path}/${page}`)
-        }
+        navigate(`/Condition_Search/${Path}/${page}${query}`)
    
       }
       else{
-        if(Path === "Ranking"){
+        if(currentPath.includes("Ranking")){
           if(select){
-            navigate(`/${Path+"/"+page}?select=${select}`)
+            navigate(`/${RankingPath+"/"+page}?select=${select}`)
           }
           else{
-            navigate(`/${Path+"/"+page}`)
+            navigate(`/${RankingPath+"/"+page}`)
           }
             
         }

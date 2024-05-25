@@ -3,6 +3,7 @@ import { Nav, NavDropdown } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Postmethod from "../../http/Post_method";
+import { BsFilterLeft } from "react-icons/bs";
 
 interface InputDropdownProps {
   title: string;
@@ -43,7 +44,8 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
   };
 
   return (
-    <Nav className="me-auto" >
+    <Nav className="me-auto" style={{display:"flex"}}>
+    
       <NavDropdown title={title} id="collapsible-nav-dropdown" >
         <form onSubmit={formhandler} className="px-4 py-2">
           <div className="flex items-center gap-2" style={{ marginBottom: "5%", marginTop: "5%" }}>

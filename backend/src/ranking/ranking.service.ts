@@ -17,8 +17,8 @@ export class RankingService {
     return 'This action adds a new ranking';
   }
 
-  async getTopChannels(page : number,select : string) {
-    if(select === "High_Subscriber"){
+  async getTopChannels(page: number, select: string) {
+    if (select === "High_Subscriber") {
       return await this.channelRepository.find({
         order: {
           subscriberCount: 'DESC'
@@ -27,7 +27,7 @@ export class RankingService {
         take: 10 // 상위 10개의 결과만 가져오기
       });
     }
-    else if(select==="Low_Subscriber"){
+    else if (select === "Low_Subscriber") {
       return await this.channelRepository.find({
         order: {
           subscriberCount: 'ASC'
@@ -40,8 +40,8 @@ export class RankingService {
   }
 
 
-  async viewChannels(page : number, select : string) {
-    if(select === "High_View"){
+  async viewChannels(page: number, select: string) {
+    if (select === "High_View") {
       return await this.channelRepository.find({
         order: {
           viewCount: 'DESC'
@@ -50,7 +50,7 @@ export class RankingService {
         take: 10 // 상위 10개의 결과만 가져오기
       });
     }
-    else if(select==="Low_View"){
+    else if (select === "Low_View") {
       return await this.channelRepository.find({
         order: {
           viewCount: 'ASC'
@@ -62,8 +62,8 @@ export class RankingService {
     }
   }
 
-  async VideoChannels(page : number, select : string){
-    if(select === "High_Videocount"){
+  async VideoChannels(page: number, select: string) {
+    if (select === "High_Videocount") {
       return await this.channelRepository.find({
         order: {
           videoCount: 'DESC'
@@ -72,7 +72,7 @@ export class RankingService {
         take: 10 // 상위 10개의 결과만 가져오기
       });
     }
-    else if(select==="Low_Videocount"){
+    else if (select === "Low_Videocount") {
       return await this.channelRepository.find({
         order: {
           videoCount: 'ASC'
@@ -85,10 +85,10 @@ export class RankingService {
 
   }
 
-  
 
 
-  async DBSubscriberChannels( dbOrder: DbOrder,page : number,select : string) {
+
+  async DBSubscriberChannels(dbOrder: DbOrder, page: number, select: string) {
 
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
@@ -100,8 +100,8 @@ export class RankingService {
     if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
       where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
     }
-  
-    if(select === "High_Subscriber"){
+
+    if (select === "High_Subscriber") {
       return await this.channelRepository.find({
         where: {
           ...where,
@@ -113,7 +113,7 @@ export class RankingService {
         take: 10 // 상위 10개의 결과만 가져오기
       });
     }
-    else if(select==="Low_Subscriber"){
+    else if (select === "Low_Subscriber") {
       return await this.channelRepository.find({
         where: {
           ...where,
@@ -129,7 +129,7 @@ export class RankingService {
   }
 
 
-  async DBviewChannels(dbOrder: DbOrder,page : number, select : string) {
+  async DBviewChannels(dbOrder: DbOrder, page: number, select: string) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
@@ -140,7 +140,7 @@ export class RankingService {
     if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
       where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
     }
-    if(select === "High_View"){
+    if (select === "High_View") {
       return await this.channelRepository.find({
         where: {
           ...where,
@@ -152,7 +152,7 @@ export class RankingService {
         take: 10 // 상위 10개의 결과만 가져오기
       });
     }
-    else if(select==="Low_View"){
+    else if (select === "Low_View") {
       return await this.channelRepository.find({
         where: {
           ...where,
@@ -167,7 +167,7 @@ export class RankingService {
     }
   }
 
-  async DBVideoChannels(dbOrder: DbOrder, page : number, select : string){
+  async DBVideoChannels(dbOrder: DbOrder, page: number, select: string) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
@@ -178,7 +178,7 @@ export class RankingService {
     if (dbOrder.videoMin !== 0 && dbOrder.videoMax !== 0) {
       where.videoCount = Between(dbOrder.videoMin, dbOrder.videoMax);
     }
-    if(select === "High_Videocount"){
+    if (select === "High_Videocount") {
       return await this.channelRepository.find({
         where: {
           ...where,
@@ -190,7 +190,7 @@ export class RankingService {
         take: 10 // 상위 10개의 결과만 가져오기
       });
     }
-    else if(select==="Low_Videocount"){
+    else if (select === "Low_Videocount") {
       return await this.channelRepository.find({
         where: {
           ...where,
@@ -225,8 +225,8 @@ export class RankingService {
 
   // }
 
-  async Rankingupdate(tag : string){
-    
+  async Rankingupdate(tag: string) {
+
 
   }
 
@@ -344,22 +344,30 @@ export class RankingService {
       return await this.cacheManager.get("increaseview");
     }
     else {
-    
+
       const channelData = [];
       for (const info of channelInfo) {
         if (info.Channel_Url_Id.includes("@")) {
-          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
+          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
 
-          const resData = response.data
+          const resData = response.data;
 
-          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          if (resData && resData.items && resData.items.length > 0) {
+            channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          } else {
+            continue;
+          }
+
         }
         else {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
 
           const resData = response.data
-
-          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          if (resData && resData.items && resData.items.length > 0) {
+            channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          } else {
+            console.error('No channel data found or invalid response:', resData);
+          }
         }
       }
       await this.cacheManager.set("increaseview", channelData, 864000000);
@@ -393,16 +401,25 @@ export class RankingService {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
 
           const resData = response.data
+          if (resData && resData.items && resData.items.length > 0) {
+            channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          }
+          else{
+            continue;
+          }
 
-
-          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
         }
         else {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
 
           const resData = response.data
 
-          channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          if (resData && resData.items && resData.items.length > 0) {
+            channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
+          }
+          else{
+            continue;
+          }
         }
 
       }

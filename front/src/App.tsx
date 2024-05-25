@@ -14,7 +14,7 @@ import CategoryRankings from './component/category/Category_Rankings';
 import CategoryRankingsList from './component/category/Category_RankingList';
 import { Provider } from 'react-redux';
 import {store} from "./store/store"
-import VideoList from './component/videolist/header';
+import VideoListHeader from './component/videolist/header';
 import Body from './component/body/Body';
 import VideSearchList from './component/videolist/VideosearchList';
 import List from './component/videolist/List';
@@ -24,6 +24,7 @@ import ConditionSearch from './component/condition/Condition_Search_header';
 import ConditionRoot from './component/condition/ConditionRoot';
 import ConditionInfluencerFilterBody from './component/condition/Condition_InfluencerFilter_body';
 import ConditionVideoFilterBody from './component/condition/Condition_VideoFilter_body';
+import ConditionVideoFilterHeader from './component/condition/Condition_VideoFilter_header';
 
 function App() {
   const router = createBrowserRouter([
@@ -38,13 +39,13 @@ function App() {
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }
       ]},
-      {path :"seachlist/:search", element :<VideoList></VideoList>, children: [
+      {path :"seachlist/:search", element :<VideoListHeader></VideoListHeader>, children: [
         {index: true, element :<List></List>},
         {path : ":filter", element: <VideSearchList></VideSearchList>}
       ]},
       {path :"Condition_Search", element:<ConditionRoot></ConditionRoot>,children:[
         {path : "InfluencerFilter/:pagenumber", element:<ConditionInfluencerFilterBody></ConditionInfluencerFilterBody>},
-        {path : "VideoFilter/:pagenumber", element:<ConditionVideoFilterBody></ConditionVideoFilterBody>}
+        {path: "VideoFilter/:pagenumber", element:<ConditionVideoFilterBody></ConditionVideoFilterBody>}
       ]}
       
     ]} 

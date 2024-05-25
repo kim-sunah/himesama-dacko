@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom"
 import React, { FormEvent, useRef, } from 'react';
 import { MDBInput, MDBIcon, MDBBtn, } from 'mdb-react-ui-kit';
 
-export default function VideoListHeader() {
+export default function ConditionVideoFilterHeader() {
     const searchRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ export default function VideoListHeader() {
         const searchValue = searchRef.current?.value;
     
         if (searchValue && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(searchValue)) {
-            navigate(`/seachlist/${searchValue}`);
+            navigate(`${searchValue}`);
         } 
         else {
             alert("특수문자가 포함되어있습니다.");
@@ -40,5 +40,3 @@ export default function VideoListHeader() {
         </div>
     )
 }
-
-
