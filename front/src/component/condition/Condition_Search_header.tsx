@@ -46,7 +46,7 @@ export default function ConditionSearch() {
 
   return (
     <div style={{ display: "flex", justifyContent: "right" }}>
-      {SecondPath && <form  onSubmit={submithandler} className="flex md:gap-5 md:p-20 justify-center" style={{ width: "50%" }}>
+      {SecondPath && FirstPath !== "Condition_Search" && <form  onSubmit={submithandler} className="flex md:gap-5 md:p-20 justify-center" style={{ width: "50%" }}>
         <MDBInput label='Search' className='custom-input' ref={searchRef}/>
         <MDBBtn type ="submit" rippleColor='dark'>
           <MDBIcon style={{ borderRadius: "50%" }} icon='search' />
