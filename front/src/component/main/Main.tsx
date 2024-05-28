@@ -1,6 +1,7 @@
 
 import { useChannelSelector } from "../../store/hooks";
 import Body from "../body/Body";
+import Footer from "../footer/Footer";
 
 import Headers from "../header/Headers";
 import Popularsubscriber from "../popular/Popular_subscriber";
@@ -21,6 +22,7 @@ export default function Main() {
                 <Popularview></Popularview>
                 
             </header>
+            <Footer></Footer>
            
 
         </div>

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { FilterService } from './filter.service';
 import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
-import { DbOrder } from './dto/DbOrder.dto';
+import { InfluencerOrder } from './dto/DbOrder.dto';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 
@@ -28,9 +28,17 @@ export class FilterController {
   }
 
   @Post('DBOrder/:pagenumber')
-  async DBOrder(@Body() DbOrder: DbOrder, @Param("pagenumber") pagenumber: string) {
-    return this.filterService.DBOrder(DbOrder, +pagenumber);
+  async DBInfluencerOrder(@Body() DbOrder: InfluencerOrder, @Param("pagenumber") pagenumber: string) {
+    return this.filterService.DBInfluencerOrder(DbOrder, +pagenumber);
   }
+
+
+  @Post("YoutubeAPiOrder/:pagenumber")
+  async YoutubeApiInfluencerOrder(@Body() YoutubeApiOrder :InfluencerOrder ,@Param("pagenumber") pagenumber :string){
+    return this.filterService.YoutubeApiInfluencerOrder(YoutubeApiOrder,+pagenumber);
+  }
+
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -25,6 +25,8 @@ import ConditionRoot from './component/condition/ConditionRoot';
 import ConditionInfluencerFilterBody from './component/condition/Condition_InfluencerFilter_body';
 import ConditionVideoFilterBody from './component/condition/Condition_VideoFilter_body';
 import ConditionVideoFilterHeader from './component/condition/Condition_VideoFilter_header';
+import YoutubeRoot from './component/youtube_condition/Youtube_Root';
+import YoutubeConditionInfluencer from './component/youtube_condition/Youtube_Condition_Influencer';
 
 function App() {
   const router = createBrowserRouter([
@@ -46,6 +48,9 @@ function App() {
       {path :"Condition_Search", element:<ConditionRoot></ConditionRoot>,children:[
         {path : "InfluencerFilter/:pagenumber", element:<ConditionInfluencerFilterBody></ConditionInfluencerFilterBody>},
         {path: "VideoFilter/:pagenumber", element:<ConditionVideoFilterBody></ConditionVideoFilterBody>}
+      ]},
+      {path :"YoutubeCondition", element:<YoutubeRoot></YoutubeRoot>,children:[
+       { path : "InfluencerFilter/:pagenumber" ,element : <YoutubeConditionInfluencer></YoutubeConditionInfluencer>}
       ]}
       
     ]} 

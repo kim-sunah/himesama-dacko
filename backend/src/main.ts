@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true}));
-  app.enableCors();
+
   app.use(cookieParser(),
   session({
     secret: 'wqdsdsf123', // 실제 비밀 키를 사용하세요

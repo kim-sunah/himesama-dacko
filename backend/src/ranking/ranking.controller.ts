@@ -3,7 +3,7 @@ import { RankingService } from './ranking.service';
 import { CreateRankingDto } from './dto/create-ranking.dto';
 import { UpdateRankingDto } from './dto/update-ranking.dto';
 import { Cron, CronExpression  } from '@nestjs/schedule';
-import { DbOrder } from 'src/filter/dto/DbOrder.dto';
+import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 
 @Controller('ranking')
 export class RankingController {
@@ -33,18 +33,18 @@ export class RankingController {
 
 
   @Post('DBSubscriber-channels/:pagenumber')
-  async DBSubscriberChannels(@Body() DbOrder: DbOrder, @Param("pagenumber") pagenumber : string,@Body("select") select : string) {
+  async DBSubscriberChannels(@Body() DbOrder: InfluencerOrder, @Param("pagenumber") pagenumber : string,@Body("select") select : string) {
     return await this.rankingService.DBSubscriberChannels(DbOrder,+pagenumber,select);
   }
 
   @Post('DBview-channels/:pagenumber')
-  async  DBviewChannels(@Body() DbOrder: DbOrder,@Param("pagenumber") pagenumber : string, @Body("select") select : string) {
+  async  DBviewChannels(@Body() DbOrder: InfluencerOrder,@Param("pagenumber") pagenumber : string, @Body("select") select : string) {
     return await this.rankingService.DBviewChannels(DbOrder,+pagenumber, select);
   }
 
 
   @Post('DBVideo-channels/:pagenumber')
-  async  DBVideoChannels(@Body() DbOrder: DbOrder, @Param("pagenumber") pagenumber : string, @Body("select") select : string) {
+  async  DBVideoChannels(@Body() DbOrder: InfluencerOrder, @Param("pagenumber") pagenumber : string, @Body("select") select : string) {
     return await this.rankingService.DBVideoChannels(DbOrder,+pagenumber, select);
   }
 

@@ -11,7 +11,7 @@ import { Video } from 'src/video/entities/video.entity';
 import { videoview } from 'src/video/entities/videoview.entity';
 import { videocomment } from 'src/video/entities/videocomment.entity';
 import { videolike } from 'src/video/entities/videolike.entity';
-import { DbOrder } from './dto/DbOrder.dto';
+import { InfluencerOrder } from './dto/DbOrder.dto';
 interface Data {
   nextPageToken: any;
   prevPageToken: any;
@@ -453,7 +453,7 @@ export class FilterService {
     }
   }
 
-  async DBOrder( dbOrder: DbOrder, page: number) {
+  async DBInfluencerOrder( dbOrder: InfluencerOrder, page: number) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
@@ -472,8 +472,10 @@ export class FilterService {
       take: 10 // 상위 10개의 결과만 가져오기
     });
     return channels
+  }
 
-   
+  async YoutubeApiInfluencerOrder(YoutubeAPiOrder :InfluencerOrder ,pagenumber : number){
+    console.log("Hello");
   }
 
   remove(id: number) {

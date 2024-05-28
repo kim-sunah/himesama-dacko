@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Postmethod from "../../http/Post_method";
 import { BsFilterLeft } from "react-icons/bs";
+import React from "react";
+import "../condition/Condition.css";
 
 interface InputDropdownProps {
   title: string;
@@ -19,6 +21,12 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
   const [viewMax, setViewMax] = useState("");
   const [videoMin, setVideoMin] = useState("");
   const [videoMax, setVideoMax] = useState("");
+  const [Influencer , setInfluencer] = React.useState(false);
+
+  const toggleInfluencer = () => {
+    setInfluencer(prevState => !prevState);
+  };
+
 
   const formhandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -44,10 +52,29 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
   };
 
   return (
-    <Nav className="me-auto" style={{display:"flex"}}>
-    
-      <NavDropdown title={title} id="collapsible-nav-dropdown" >
-        <form onSubmit={formhandler} className="px-4 py-2">
+    <div>
+    <BsFilterLeft 
+      className="dropbtn" 
+      size="40" 
+      title="Influencer Filter" 
+      onClick={toggleInfluencer} 
+    />
+    {Influencer && (
+      <Nav 
+        className="dropdown-content" 
+        style={{ 
+          position: 'absolute', 
+          top: '60px',
+          borderRadius:"4%", 
+          right: '10px', 
+          width: '500px',
+          padding: '20px',
+          backgroundColor: 'white',
+          border: '1px solid gray',
+          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <form onSubmit={formhandler}>
           <div className="flex items-center gap-2" style={{ marginBottom: "5%", marginTop: "5%" }}>
             <label htmlFor="subscriber-min">Subscriber</label>
             <input
@@ -57,7 +84,6 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
               placeholder="Min"
               type="number"
               value={subscriberMin}
-
               onChange={(e) => setSubscriberMin(e.target.value)}
             />
             <span>-</span>
@@ -72,7 +98,7 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
             />
           </div>
           <div className="flex items-center gap-2" style={{ marginBottom: "5%" }}>
-            <label htmlFor="view-min" style={{ paddingRight: "9%" }}>View</label>
+            <label htmlFor="view-min" style={{ paddingRight: "9.8%" }}>View</label>
             <input
               className="flex-1 w-40"
               id="view-min"
@@ -94,7 +120,7 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
             />
           </div>
           <div className="flex items-center gap-2" style={{ marginBottom: "5%" }}>
-            <label htmlFor="video-min" style={{ paddingRight: "8%" }}>Video</label>
+            <label htmlFor="video-min" style={{ paddingRight: "8.5%" }}>Video</label>
             <input
               className="flex-1 w-40"
               id="video-min"
@@ -119,8 +145,10 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
             <Button className="w-full" type="submit" style={{ border: "1px solid gray" }}>Submit</Button>
           </div>
         </form>
-      </NavDropdown>
-    </Nav>
+      </Nav>
+    )}
+  </div>
+   
   );
 };
 

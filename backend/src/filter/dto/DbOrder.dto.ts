@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsOptional, IsInt, Min } from 'class-validator';
 
-export class DbOrder {
+export class InfluencerOrder {
     @IsOptional()
     @IsInt()
     @Min(0)

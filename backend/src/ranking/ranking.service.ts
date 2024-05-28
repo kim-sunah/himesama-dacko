@@ -8,7 +8,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { plainToClass } from 'class-transformer';
 import axios from 'axios';
-import { DbOrder } from 'src/filter/dto/DbOrder.dto';
+import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 
 @Injectable()
 export class RankingService {
@@ -88,7 +88,7 @@ export class RankingService {
 
 
 
-  async DBSubscriberChannels(dbOrder: DbOrder, page: number, select: string) {
+  async DBSubscriberChannels(dbOrder: InfluencerOrder, page: number, select: string) {
 
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
@@ -129,7 +129,7 @@ export class RankingService {
   }
 
 
-  async DBviewChannels(dbOrder: DbOrder, page: number, select: string) {
+  async DBviewChannels(dbOrder: InfluencerOrder, page: number, select: string) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
@@ -167,7 +167,7 @@ export class RankingService {
     }
   }
 
-  async DBVideoChannels(dbOrder: DbOrder, page: number, select: string) {
+  async DBVideoChannels(dbOrder: InfluencerOrder, page: number, select: string) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);

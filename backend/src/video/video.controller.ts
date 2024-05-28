@@ -13,7 +13,6 @@ export class VideoController {
     return this.videoService.create(createVideoDto);
   }
 
-
   @Get("/viewData")
   ChartViewData(){
     return this.videoService.ChartViewData();
