@@ -1,7 +1,7 @@
 name: himesama-dacko-front
 app: web@
 options:
-  nodeversion: "21"
+  nodeversion: "20"
   spa: true
   docbase: /build
   buildenv:

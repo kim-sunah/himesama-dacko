@@ -1,5 +1,5 @@
 name: himesama-dacko
-app: node@21
+app: node@20
 options:
   env:
     - name: DB_HOST
