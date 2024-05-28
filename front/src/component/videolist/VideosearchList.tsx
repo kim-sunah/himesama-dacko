@@ -184,7 +184,7 @@ export default function VideSearchList() {
                 }
             }
             catch (err) {
-                console.log("Error fetching data:", err)
+                console.log("Error fetching data:", err);
             }
 
         }
