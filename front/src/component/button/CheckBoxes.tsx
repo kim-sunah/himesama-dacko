@@ -6,7 +6,7 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Checkboxes: React.FC = () => {
 
   const CheckboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(`${event.target.name} is ${event.target.checked ? 'checked' : 'unchecked'}`);
+    console.log(`${event.target.name} is ${event.target.checked ? 'checked' : 'unchecked'}`)
   };
 
   return (
