@@ -26,7 +26,7 @@ jobs:
             app: web@
 
             options:
-              nodeversion: "21"
+              nodeversion: "20"
               spa: true
               docbase: /build
               buildenv:
@@ -41,46 +41,3 @@ jobs:
                 url:  git@github.com:kim-sunah/himesama-dacko.git
                 path: front
                 ref: main
-# name: Deploy to cloudtype
-# on:
-#   push:
-#     branches:
-#       - main
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v2
-#       - name: Connect deploy key
-#         uses: cloudtype-github-actions/connect@v1
-#         with:
-#           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-#           ghtoken: ${{ secrets.GHP_TOKEN }}
-#       - name: Deploy
-#         uses: cloudtype-github-actions/deploy@v1
-#         with:
-#           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-#           project: poeroff/nestjs
-#           stage: main
-#           yaml: >
-#             name: himesama-dacko-front
-
-#             app: web@
-
-#             options:
-#               nodeversion: "21"
-#               spa: true
-#               docbase: /build
-#               buildenv:
-#                 - name: REACT_APP_BACKEND_API
-#                   value: https://port-0-himesama-dacko-16yzlb2alrh4xa0h.sel5.cloudtype.app
-#                 - name: REACT_APP_FRONT_API
-#                   value: https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/
-#                 - name: REACT_APP_Youtube_API
-#                   value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
-#             context:
-#               git:
-#                 url:  git@github.com:kim-sunah/himesama-dacko.git
-#                 path: front
-#                 ref: main

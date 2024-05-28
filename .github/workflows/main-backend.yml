@@ -23,7 +23,7 @@ jobs:
           stage: main
           yaml: |
             name: himesama-dacko
-            app: node@16
+            app: node@20
             options:
               env:
                 - name: DB_HOST
