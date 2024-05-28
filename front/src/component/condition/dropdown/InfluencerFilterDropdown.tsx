@@ -2,10 +2,10 @@ import { useRef, useState, useEffect } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
-import Postmethod from "../../http/Post_method";
+import Postmethod from "../../../http/Post_method";
 import { BsFilterLeft } from "react-icons/bs";
 import React from "react";
-import "../condition/Condition.css";
+import "../Condition.css";
 
 interface InputDropdownProps {
   title: string;

@@ -1,5 +1,5 @@
-import Modal from "../videolist/Modal";
-import VideoListHeader from "../videolist/header";
+import Modal from "../../videolist/Modal";
+import VideoListHeader from "../../videolist/header";
 import ConditionVideoFilterHeader from "./Condition_VideoFilter_header";
 
 

@@ -1,18 +1,16 @@
 
 
 import React, { useEffect, useState } from 'react';
-import Getmethod from '../../http/Get_method';
-import "../subscriber/ranking.css"
+import Getmethod from '../../../http/Get_method';
+import "../../subscriber/ranking.css"
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import BasicPagination from '../pagenation/BasicPagination';
+import BasicPagination from '../../pagenation/BasicPagination';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { Box, CircularProgress, IconButton, Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Box, CircularProgress, Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
 import { CgArrowsExchangeAltV } from "react-icons/cg";
-import Postmethod from '../../http/Post_method';
-import Row from '../table/InfluencerRow';
+import Postmethod from '../../../http/Post_method';
+import Row from '../../table/InfluencerRow';
 
 
 interface Channel {

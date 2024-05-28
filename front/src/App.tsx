@@ -5,8 +5,8 @@ import {RouterProvider, createBrowserRouter} from "react-router-dom"
 
 
 import Main from './component/main/Main';
-import ChannelList from './component/channellist/ChannelList';
-import Headers from './component/header/Headers';
+
+
 import Root from './component/Root';
 import Subscriber_Rankings from './component/subscriber/Rankings';
 import ViewRanking from './component/view/View_Ranking';
@@ -21,12 +21,13 @@ import List from './component/videolist/List';
 import Error from "./component/error/Error"
 import RankingRoot from './component/ranking/RankingRoot';
 import ConditionSearch from './component/condition/Condition_Search_header';
-import ConditionRoot from './component/condition/ConditionRoot';
-import ConditionInfluencerFilterBody from './component/condition/Condition_InfluencerFilter_body';
-import ConditionVideoFilterBody from './component/condition/Condition_VideoFilter_body';
-import ConditionVideoFilterHeader from './component/condition/Condition_VideoFilter_header';
-import YoutubeRoot from './component/youtube_condition/Youtube_Root';
-import YoutubeConditionInfluencer from './component/youtube_condition/Youtube_Condition_Influencer';
+import ConditionRoot from './component/condition/db/ConditionRoot';
+import ConditionInfluencerFilterBody from './component/condition/db/Condition_InfluencerFilter_body';
+import ConditionVideoFilterBody from './component/condition/db/Condition_VideoFilter_body';
+import ConditionVideoFilterHeader from './component/condition/db/Condition_VideoFilter_header';
+import YoutubeRoot from './component/condition/youtube/Youtube_Root';
+import YoutubeConditionInfluencer from './component/condition/youtube/Youtube_Condition_Influencer';
+
 
 function App() {
   const router = createBrowserRouter([
@@ -50,7 +51,7 @@ function App() {
         {path: "VideoFilter/:pagenumber", element:<ConditionVideoFilterBody></ConditionVideoFilterBody>}
       ]},
       {path :"YoutubeCondition", element:<YoutubeRoot></YoutubeRoot>,children:[
-       { path : "InfluencerFilter/:pagenumber" ,element : <YoutubeConditionInfluencer></YoutubeConditionInfluencer>}
+       { path : "InfluencerFilter" ,element : <YoutubeConditionInfluencer></YoutubeConditionInfluencer>}
       ]}
       
     ]} 

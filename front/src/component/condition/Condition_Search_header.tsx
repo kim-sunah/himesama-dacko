@@ -1,30 +1,57 @@
 
 
-import InfluencerFilterDropdown from '../dropdown/InfluencerFilterDropdown';
-import {useLocation, useNavigate } from 'react-router-dom';
+import InfluencerFilterDropdown from './dropdown/InfluencerFilterDropdown';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { MDBBtn, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
 
 
 export default function ConditionSearch() {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
-  const Path = currentPath.split('/')[2];
-  const [age, setAge] = React.useState('');
-
+  const FirstPath = currentPath.split('/')[1];
+  const SecondPath = currentPath.split('/')[2];
+  const [category, setcategory] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    navigate(`/Condition_Search/${event.target.value}/1`)
-    setAge(event.target.value as string);
+    if (FirstPath === "Condition_Search") {
+      navigate(`/Condition_Search/${event.target.value}/1`)
+      setcategory(event.target.value as string);
+      return;
+    }
+    navigate(`/YoutubeCondition/${event.target.value}`)
+    setcategory(event.target.value as string);
+    return;
   };
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  const submithandler = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      console.log(searchRef.current?.value)
+      const searchValue = searchRef.current?.value;
+      if (searchValue && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(searchValue)) {
+          navigate(`?search=${searchRef.current?.value}`)
+      } 
+      else {
+          alert("특수문자가 포함되어있습니다.");
+      }
+  }
 
 
   return (
     <div style={{ display: "flex", justifyContent: "right" }}>
+      {SecondPath && <form  onSubmit={submithandler} className="flex md:gap-5 md:p-20 justify-center" style={{ width: "50%" }}>
+        <MDBInput label='Search' className='custom-input' ref={searchRef}/>
+        <MDBBtn type ="submit" rippleColor='dark'>
+          <MDBIcon style={{ borderRadius: "50%" }} icon='search' />
+        </MDBBtn>
+      </form>}
 
       <div style={{ marginTop: "3%", marginBottom: "3%" }}>
         <FormControl sx={{ m: 1, width: 300 }}>
@@ -32,20 +59,20 @@ export default function ConditionSearch() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={category}
             label="조건 검색 카테고리"
             onChange={handleChange}
           >
             <MenuItem value={"InfluencerFilter"} >인플루언서</MenuItem>
             {/* <MenuItem value={"VideoFilter"}>영상</MenuItem> */}
-          
+
           </Select>
         </FormControl>
       </div>
-     
-      <div className="dropdown"style={{ marginTop: '3.8%', marginRight: "11%", marginLeft: "2%" }}>
-        {Path === "InfluencerFilter" && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>}
-     
+
+      <div className="dropdown" style={{ marginTop: '3.8%', marginRight: "11%", marginLeft: "2%" }}>
+        {SecondPath === "InfluencerFilter" && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>}
+
         {/* {Influencer && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>} */}
         {/* {Path === "VideoFilter" && <BsFilterLeft size="40" title="Video Filter"  onClick={() => setVideo(true)}></BsFilterLeft>} */}
         {/* {Video && <VideoFilterDropdown title="Video Filter"></VideoFilterDropdown>} */}

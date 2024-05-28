@@ -6,14 +6,9 @@ import { MDBInput, MDBIcon, MDBBtn, } from 'mdb-react-ui-kit';
 export default function VideoListHeader() {
     const searchRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
-
-
-
-   
     const submithandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const searchValue = searchRef.current?.value;
-    
         if (searchValue && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(searchValue)) {
             navigate(`/seachlist/${searchValue}`);
         } 
