@@ -8,21 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3 # Updated to the latest version that uses Node.js 20
+        uses: actions/checkout@v2
       - name: Connect deploy key
-        uses: cloudtype-github-actions/connect@v1 # Updated to the latest version that uses Node.js 20
+        uses: cloudtype-github-actions/connect@v1
         with:
-          token: "${{ secrets.CLOUDTYPE_TOKEN }}"
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
       - name: Deploy
-        uses: cloudtype-github-actions/deploy@v1 # Updated to the latest version that uses Node.js 20
+        uses: cloudtype-github-actions/deploy@v1
         with:
-          token: "${{ secrets.CLOUDTYPE_TOKEN }}"
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: poeroff/nestjs
           stage: main
           yaml: |
             name: himesama-dacko
-            app: node@20 # Updated to use Node.js 20
+            app: node@21
             options:
               env:
                 - name: DB_HOST
@@ -30,7 +30,7 @@ jobs:
                 - name: DB_PORT
                   value: "3306"
                 - name: DB_USERNAME
-                  value: admin
+                  value: root
                 - name: DB_PASSWORD
                   value: wqdsdsf123
                 - name: DB_NAME
