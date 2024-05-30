@@ -45,7 +45,6 @@ export class FilterService {
           const channelcategoryData = ChannelInfo.data
 
           const data = await this.channelList.findOne({ where: { Channel_Id: info.snippet.channelId } })
-          console.log(data)
           const videoId = await this.videoRepository.findOne({ where: { videoid: info.id.videoId } })
           if (!videoId && data) {
             const videoviewData = await this.videoRepository.create({ videoid: info.id.videoId, videotitle: info.snippet.title, videopublishedAt: info.snippet.publishedAt, channelId: +data.id })

@@ -2,6 +2,10 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { SlArrowLeftCircle } from "react-icons/sl";
+import { SlArrowRightCircle } from "react-icons/sl";
+
+
 
 export default function YoutubeBasicPagenation(props: { nextPageToken?: string, prevPageToken?: string }) {
   const navigate = useNavigate();
@@ -9,7 +13,7 @@ export default function YoutubeBasicPagenation(props: { nextPageToken?: string, 
   const currentPath = location.pathname;
   const [page, setPage] = useState(1);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (value : number) => {
     setPage(value);
     const queryParams = new URLSearchParams(location.search);
 
@@ -23,14 +27,11 @@ export default function YoutubeBasicPagenation(props: { nextPageToken?: string, 
   };
 
   return (
-    <Stack spacing={2}>
-      <Pagination
-        count={100}
-        variant="outlined"
-        size="large"
-        page={page}
-        onChange={handleChange}
-      />
-    </Stack>
+   
+    <div style={{display:"flex"}}>
+      {props.prevPageToken && <SlArrowLeftCircle size="60" onClick={() => handleChange(page - 1)} />}
+      {props.nextPageToken && <SlArrowRightCircle size="60" onClick={() => handleChange(page + 1)}/>}
+    </div>
+   
   );
 }

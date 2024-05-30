@@ -27,6 +27,7 @@ import ConditionVideoFilterBody from './component/condition/db/Condition_VideoFi
 import ConditionVideoFilterHeader from './component/condition/db/Condition_VideoFilter_header';
 import YoutubeRoot from './component/condition/youtube/Youtube_Root';
 import YoutubeConditionInfluencer from './component/condition/youtube/Youtube_Condition_Influencer';
+import YoutubeConditionVideo from './component/condition/youtube/Youtube_Condition_Video';
 
 
 function App() {
@@ -51,7 +52,8 @@ function App() {
         {path: "VideoFilter/:pagenumber", element:<ConditionVideoFilterBody></ConditionVideoFilterBody>}
       ]},
       {path :"YoutubeCondition", element:<YoutubeRoot></YoutubeRoot>,children:[
-       { path : "InfluencerFilter" ,element : <YoutubeConditionInfluencer></YoutubeConditionInfluencer>}
+       { path : "InfluencerFilter" ,element : <YoutubeConditionInfluencer></YoutubeConditionInfluencer>},
+       {path :"VideoFilter" ,element :<YoutubeConditionVideo></YoutubeConditionVideo>}
       ]}
       
     ]} 

@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from "class-validator";
 import { IsNull } from "typeorm";
-export class YoutubeInfluencerDto {
+export class YoutubePageToken {
     @IsString()
     @IsOptional()
     PageToken? :  string | null;

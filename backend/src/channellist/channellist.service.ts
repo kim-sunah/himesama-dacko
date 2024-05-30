@@ -7,7 +7,7 @@ import { Channellist } from './entities/channellist.entity';
 import { FilterService } from 'src/filter/filter.service';
 import axios from 'axios'
 import { Video } from 'src/video/entities/video.entity';
-import { YoutubeInfluencerDto } from './dto/Yotube_Influencer.dto';
+import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 
 
 @Injectable()
@@ -88,7 +88,7 @@ export class ChannellistService {
   }
 
 
-  async YoutubeApiGetChannel(YoutubeInfluencer : YoutubeInfluencerDto, search: string) {
+  async YoutubeApiGetChannel(YoutubeInfluencer : YoutubePageToken, search: string) {
     const ChannelData = []
     if(YoutubeInfluencer.PageToken){
       console.log()
@@ -166,6 +166,22 @@ export class ChannellistService {
 
     }
     return ChannelData;
+
+  }
+
+  async YoutubeApiGetVideo(YoutubeInfluencer :YoutubePageToken ,search: string) {
+    if(YoutubeInfluencer.PageToken){
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${YoutubeInfluencer.PageToken}&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+      const resData = response.data;
+      return await this.FilterService.videoFilter(resData);
+
+    }
+    else if(!YoutubeInfluencer.PageToken){
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+      const resData = response.data;
+      return await this.FilterService.videoFilter(resData);
+    }
+   
 
   }
 }

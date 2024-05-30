@@ -33,14 +33,19 @@ export default function ConditionSearch() {
   const searchRef = useRef<HTMLInputElement>(null);
   const submithandler = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      console.log(searchRef.current?.value)
+    
       const searchValue = searchRef.current?.value;
       if (searchValue && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(searchValue)) {
-          navigate(`?search=${searchRef.current?.value}`)
-      } 
-      else {
-          alert("특수문자가 포함되어있습니다.");
+        navigate(`?search=${searchValue}`);
+        
+        if (searchRef.current) {
+          searchRef.current.value = '';
+        }
+      } else {
+        alert("특수문자가 포함되어있습니다.");
       }
+      
+    
   }
 
 
@@ -64,7 +69,7 @@ export default function ConditionSearch() {
             onChange={handleChange}
           >
             <MenuItem value={"InfluencerFilter"} >인플루언서</MenuItem>
-            {/* <MenuItem value={"VideoFilter"}>영상</MenuItem> */}
+            <MenuItem value={"VideoFilter"}>영상</MenuItem>
 
           </Select>
         </FormControl>

@@ -31,7 +31,6 @@ export default function YoutubeConditionInfluencer() {
     const [Ranking, setRanking] = useState<Channel[]>([]);
     const [nextPageToken, setNextPageToken] = useState<string | undefined>(undefined);
     const [prevPageToken, setprevPageToken] = useState<string | undefined>(undefined);
-    const { pagenumber } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
@@ -45,19 +44,23 @@ export default function YoutubeConditionInfluencer() {
     useEffect(() => {
         const fetchData = async () => {
             console.log(queryParams.get("PageToken"))
-            const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeApi/${search}/${pagenumber}`, {
+            
+            const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeChannelApi/${search}`, {
                 PageToken: queryParams.get("PageToken") || null,
               
             })
-            console.log(response);
+          
             setNextPageToken(response[0].nextPageToken)
             if (response[0].prevPageToken) {
                 setprevPageToken(response[0].prevPageToken)
             }
             setRanking(response)
         }
-        fetchData()
-    }, [location.search, pagenumber, select, search, PageToken])
+        if(search){
+            fetchData()
+        }
+       
+    }, [location.search, select, search, PageToken])
 
     // useEffect(() => {
     //   const fetchData = async () => {
@@ -212,7 +215,7 @@ export default function YoutubeConditionInfluencer() {
                 </TableContainer>
 
             )}
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "3%", gap:"10%" }}>
                 <YoutubeBasicPagenation nextPageToken={nextPageToken} prevPageToken={prevPageToken}></YoutubeBasicPagenation>
 
             </div>

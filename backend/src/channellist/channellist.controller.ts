@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ChannellistService } from './channellist.service';
 import { CreateChannellistDto } from './dto/create-channellist.dto';
 import { UpdateChannellistDto } from './dto/update-channellist.dto';
-import { YoutubeInfluencerDto } from './dto/Yotube_Influencer.dto';
+import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 
 @Controller('channellist')
 export class ChannellistController {
@@ -39,11 +39,16 @@ export class ChannellistController {
   }
 
   //Youtube Api(Condition) 일반 검색
-  @Post("YoutubeApi/:search/:pagenumber")
-  YoutubeApiGetChannel(@Body() YoutubeInfluencer : YoutubeInfluencerDto, @Param('search') search: string ,@Param("pagenumber")  pagenumber : string) {
-  
+  @Post("YoutubeChannelApi/:search")
+  YoutubeApiGetChannel(@Body() YoutubeInfluencer : YoutubePageToken, @Param('search') search: string ,) {
     console.log(YoutubeInfluencer);
     return this.channellistService.YoutubeApiGetChannel(YoutubeInfluencer , search);
+  }
+
+  
+  @Post('YoutubeVideoApi/:videosearch')
+  YoutubeApiGetVideo(@Body() YoutubeInfluencer : YoutubePageToken , @Param('videosearch') search: string) {
+    return this.channellistService.YoutubeApiGetVideo(YoutubeInfluencer, search);
   }
   
 
