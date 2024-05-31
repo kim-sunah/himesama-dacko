@@ -3,6 +3,7 @@ import { ChannellistService } from './channellist.service';
 import { CreateChannellistDto } from './dto/create-channellist.dto';
 import { UpdateChannellistDto } from './dto/update-channellist.dto';
 import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
+import { get } from 'http';
 
 @Controller('channellist')
 export class ChannellistController {
@@ -39,10 +40,10 @@ export class ChannellistController {
   }
 
   //Youtube Api(Condition) 일반 검색
-  @Post("YoutubeChannelApi/:search")
-  YoutubeApiGetChannel(@Body() YoutubeInfluencer : YoutubePageToken, @Param('search') search: string ,) {
-    console.log(YoutubeInfluencer);
-    return this.channellistService.YoutubeApiGetChannel(YoutubeInfluencer , search);
+  @Get("YoutubeChannelApi/:search")
+  YoutubeApiGetChannel( @Param('search') search: string ,) {
+
+    return this.channellistService.YoutubeApiGetChannel(search);
   }
 
   

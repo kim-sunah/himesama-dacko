@@ -16,6 +16,7 @@ export default function YoutubeBasicPagenation(props: { nextPageToken?: string, 
   const handleChange = (value : number) => {
     setPage(value);
     const queryParams = new URLSearchParams(location.search);
+    console.log(props.nextPageToken);
 
     if (value > page && props.nextPageToken) {
       queryParams.set('PageToken', props.nextPageToken);

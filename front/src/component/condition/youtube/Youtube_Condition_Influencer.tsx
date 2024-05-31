@@ -33,139 +33,76 @@ export default function YoutubeConditionInfluencer() {
     const [prevPageToken, setprevPageToken] = useState<string | undefined>(undefined);
     const location = useLocation();
     const navigate = useNavigate();
+    const [isDescending, setIsDescending] = useState(true);
+    const [isDescendingvideo, setIsDescendingvideo] = useState(true);
+    const [isDescendingview, setIsDescendingview] = useState(true);
     const queryParams = new URLSearchParams(location.search);
     const select = queryParams.get('select');
     const search = queryParams.get('search');
-    const PageToken =queryParams.get("PageToken")
+    const PageToken = queryParams.get("PageToken")
 
 
 
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log(queryParams.get("PageToken"))
-            
-            const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeChannelApi/${search}`, {
-                PageToken: queryParams.get("PageToken") || null,
-              
-            })
-          
-            setNextPageToken(response[0].nextPageToken)
-            if (response[0].prevPageToken) {
-                setprevPageToken(response[0].prevPageToken)
-            }
+            setLoading(true)
+            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeChannelApi/${search}`)
             setRanking(response)
+            setLoading(false)
         }
-        if(search){
+        if (search && !select) {
             fetchData()
         }
-       
-    }, [location.search, select, search, PageToken])
 
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     const queryParams = new URLSearchParams(location.search);
-    //     if (select === null) {
-    //       const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeApi/${search}/${pagenumber}`,
-    //         {
-    //           subscriberMin: queryParams.get("SubscriberMin") || "",
-    //           subscriberMax: queryParams.get("SubscriberMax") || "",
-    //           viewMin: queryParams.get("ViewMin") || "",
-    //           viewMax: queryParams.get("ViewMax") || "",
-    //           videoMin: queryParams.get("VideoMin") || "",
-    //           videoMax: queryParams.get("VideoMax") || ""
-    //         });
-    //       setRanking(response)
-    //     }
-    //     else if (select === "High_Subscriber" || select === "Low_Subscriber") {
-    //       const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/DBSubscriber-channels/${pagenumber}`, {
-    //         subscriberMin: queryParams.get("SubscriberMin") || "",
-    //         subscriberMax: queryParams.get("SubscriberMax") || "",
-    //         viewMin: queryParams.get("ViewMin") || "",
-    //         viewMax: queryParams.get("ViewMax") || "",
-    //         videoMin: queryParams.get("VideoMin") || "",
-    //         videoMax: queryParams.get("VideoMax") || "",
-    //         select: select
-    //       });
-    //       setRanking(response)
-    //     }
-    //     else if (select === "Low_View" || select === "High_View") {
-    //       const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/view-channels/${pagenumber}`, {
-    //         subscriberMin: queryParams.get("SubscriberMin") || "",
-    //         subscriberMax: queryParams.get("SubscriberMax") || "",
-    //         viewMin: queryParams.get("ViewMin") || "",
-    //         viewMax: queryParams.get("ViewMax") || "",
-    //         videoMin: queryParams.get("VideoMin") || "",
-    //         videoMax: queryParams.get("VideoMax") || "",
-    //         select: select
-    //       })
-    //       setRanking(response)
-    //     }
-
-    //     else if (select === "Low_Videocount" || select === "High_Videocount") {
-
-    //       const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Video-channels/${pagenumber}`, {
-    //         subscriberMin: queryParams.get("SubscriberMin") || "",
-    //         subscriberMax: queryParams.get("SubscriberMax") || "",
-    //         viewMin: queryParams.get("ViewMin") || "",
-    //         viewMax: queryParams.get("ViewMax") || "",
-    //         videoMin: queryParams.get("VideoMin") || "",
-    //         videoMax: queryParams.get("VideoMax") || "",
-    //         select: select
-    //       })
-    //       setRanking(response)
-    //     }
-    //   }
-    //   fetchData()
-
-    // }, [location.search, pagenumber, select]);
+    }, [select, search, PageToken])
 
     const videohandleClick = () => {
-        const queryParams = new URLSearchParams(location.search);
-        const select = queryParams.get('select');
-        if (select === 'Low_Videocount') {
-            queryParams.set('select', 'High_Videocount');
-        } else if (select === 'High_Videocount') {
-            queryParams.delete('select');
+
+        if (isDescendingvideo) {
+            navigate(`${location.pathname}?search=${search}&High_Videocount=true`);
+            Ranking.sort((a, b) => (b.videoCount > a.videoCount ? 1 : -1));
         } else {
-            queryParams.set('select', 'Low_Videocount');
+            navigate(`${location.pathname}?search=${search}&Low_Videocount=true`);
+            Ranking.sort((a, b) => (a.videoCount > b.videoCount ? 1 : -1));
         }
-        navigate(`${location.pathname}?${queryParams.toString()}`);
+        setIsDescendingvideo(!isDescendingvideo);
     };
 
     const ViewhandleClick = () => {
-        const queryParams = new URLSearchParams(location.search);
-        const select = queryParams.get('select');
-        if (select === 'Low_View') {
-            queryParams.set('select', 'High_View');
-        } else if (select === 'High_View') {
-            queryParams.delete('select');
+        if (isDescendingview) {
+            navigate(`${location.pathname}?search=${search}&High_View=true`);
+            Ranking.sort((a, b) => (b.viewCount > a.viewCount ? 1 : -1));
         } else {
-            queryParams.set('select', 'Low_View');
+            navigate(`${location.pathname}?search=${search}&Low_View=true`);
+            Ranking.sort((a, b) => (a.viewCount > b.viewCount ? 1 : -1));
         }
-        navigate(`${location.pathname}?${queryParams.toString()}`);
+        setIsDescendingview(!isDescendingview);
     };
 
     const SubscriberhandleClick = () => {
-        const queryParams = new URLSearchParams(location.search);
-        const select = queryParams.get('select');
-        if (select === 'Low_Subscriber') {
-            queryParams.set('select', 'High_Subscriber');
-        } else if (select === 'High_Subscriber') {
-            queryParams.delete('select');
+        if (isDescending) {
+            navigate(`${location.pathname}?search=${search}&High_Subscriber=true`);
+            Ranking.sort((a, b) => (b.subscriberCount > a.subscriberCount ? 1 : -1));
         } else {
-            queryParams.set('select', 'Low_Subscriber');
+            navigate(`${location.pathname}?search=${search}&Low_Subscriber=true`);
+            Ranking.sort((a, b) => (a.subscriberCount > b.subscriberCount ? 1 : -1));
         }
-        navigate(`${location.pathname}?${queryParams.toString()}`);
+        setIsDescending(!isDescending);
     };
 
     return (
         <div style={{ marginLeft: '10%', marginRight: '10%' }}>
 
             {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: "center" }}>
-                    <CircularProgress />
-                </Box>
+                <div style={{ textAlign: "center", display: "block" }}>
+                    <Box >
+                        <CircularProgress />
+
+                    </Box>
+                    <span style={{ marginTop: "20%" }}>"{search}" 관련된 정보를 가져오고 있습니다 <br></br>20초정도의 시간이 소요됩니다....</span>
+                </div>
+
             ) : Ranking.length > 0 && (
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table " >
@@ -215,10 +152,7 @@ export default function YoutubeConditionInfluencer() {
                 </TableContainer>
 
             )}
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "3%", gap:"10%" }}>
-                <YoutubeBasicPagenation nextPageToken={nextPageToken} prevPageToken={prevPageToken}></YoutubeBasicPagenation>
 
-            </div>
 
 
         </div>

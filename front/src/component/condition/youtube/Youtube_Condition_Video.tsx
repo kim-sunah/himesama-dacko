@@ -55,7 +55,6 @@ export default function YoutubeConditionVideo() {
         setLoading(true)
         try {
           const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeVideoApi/${search}`, { PageToken: queryParams.get("PageToken") || null});
-          console.log(response)
           if (response) {
             setLoading(false)
             setShowSearchAlert(response);

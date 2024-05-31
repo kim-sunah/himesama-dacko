@@ -88,56 +88,20 @@ export class ChannellistService {
   }
 
 
-  async YoutubeApiGetChannel(YoutubeInfluencer : YoutubePageToken, search: string) {
+  async YoutubeApiGetChannel(search: string) {
     const ChannelData = []
-    if(YoutubeInfluencer.PageToken){
-      console.log()
-      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${YoutubeInfluencer.PageToken}&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-      const FirstresData = response.data;
-     
-      
-      for (const ChnnelId of FirstresData.items) {
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChnnelId.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
-        const resData = response.data;
-        if (FirstresData.prevPageToken && !ChannelData.some(channel => channel.Channel_Url_Id ===  resData.items[0].snippet.customUrl)) {
-          ChannelData.push({
-            Channel_nickname: resData.items[0].snippet.title,
-            Channel_Id: resData.items[0].id,
-            Channel_Url_Id: resData.items[0].snippet.customUrl,
-            channel_img: resData.items[0].snippet.thumbnails.high.url,
-            subscriberCount: +resData.items[0].statistics.subscriberCount,
-            videoCount: +resData.items[0].statistics.videoCount,
-            viewCount: +resData.items[0].statistics.viewCount,
-            nextPageToken: FirstresData.nextPageToken,
-            prevPageToken: FirstresData.prevPageToken,
-          });
-        }
-        else if(!FirstresData.prevPageToken && !ChannelData.some(channel => channel.Channel_Url_Id ===  resData.items[0].snippet.customUrl)){
-          ChannelData.push({
-            Channel_nickname: resData.items[0].snippet.title,
-            Channel_Id: resData.items[0].id,
-            Channel_Url_Id: resData.items[0].snippet.customUrl,
-            channel_img: resData.items[0].snippet.thumbnails.high.url,
-            subscriberCount: +resData.items[0].statistics.subscriberCount,
-            videoCount: +resData.items[0].statistics.videoCount,
-            viewCount: +resData.items[0].statistics.viewCount,
-            nextPageToken: FirstresData.nextPageToken,
-          });
-        }
-      }
-    }
-    else if(YoutubeInfluencer.PageToken === null){
-      
-    }
-   
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-    const FirstresData = response.data;
- 
+    let nextPageToken: string | undefined = '';
+    let fetchCount = 0;
+    const maxFetchCount = 20;
 
-    for (const ChnnelId of FirstresData.items) {
+
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+    const newItems = response.data
+    nextPageToken = newItems.nextPageToken;
+    for (const ChnnelId of newItems.items) {
       const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChnnelId.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
       const resData = response.data;
-      if (FirstresData.prevPageToken && !ChannelData.some(channel => channel.Channel_Url_Id ===  resData.items[0].snippet.customUrl)) {
+      if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
         ChannelData.push({
           Channel_nickname: resData.items[0].snippet.title,
           Channel_Id: resData.items[0].id,
@@ -146,42 +110,54 @@ export class ChannellistService {
           subscriberCount: +resData.items[0].statistics.subscriberCount,
           videoCount: +resData.items[0].statistics.videoCount,
           viewCount: +resData.items[0].statistics.viewCount,
-          nextPageToken: FirstresData.nextPageToken,
-          prevPageToken: FirstresData.prevPageToken,
         });
-      }
-      else if(!FirstresData.prevPageToken && !ChannelData.some(channel => channel.Channel_Url_Id ===  resData.items[0].snippet.customUrl)){
-        ChannelData.push({
-          Channel_nickname: resData.items[0].snippet.title,
-          Channel_Id: resData.items[0].id,
-          Channel_Url_Id: resData.items[0].snippet.customUrl,
-          channel_img: resData.items[0].snippet.thumbnails.high.url,
-          subscriberCount: +resData.items[0].statistics.subscriberCount,
-          videoCount: +resData.items[0].statistics.videoCount,
-          viewCount: +resData.items[0].statistics.viewCount,
-          nextPageToken: FirstresData.nextPageToken,
-        });
+        if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
+          await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
+        }
 
       }
-
     }
-    return ChannelData;
+    while (nextPageToken && fetchCount < maxFetchCount) {
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${nextPageToken}&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+      const newItems = response.data
+      nextPageToken = newItems.nextPageToken;
+      for (const ChnnelId of newItems.items) {
+        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChnnelId.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
+        const resData = response.data;
+        if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
+          ChannelData.push({
+            Channel_nickname: resData.items[0].snippet.title,
+            Channel_Id: resData.items[0].id,
+            Channel_Url_Id: resData.items[0].snippet.customUrl,
+            channel_img: resData.items[0].snippet.thumbnails.high.url,
+            subscriberCount: +resData.items[0].statistics.subscriberCount,
+            videoCount: +resData.items[0].statistics.videoCount,
+            viewCount: +resData.items[0].statistics.viewCount,
+          });
+          if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
+            await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
+          }
 
+        }
+      }
+      fetchCount++;
+    }
+    return ChannelData
   }
 
-  async YoutubeApiGetVideo(YoutubeInfluencer :YoutubePageToken ,search: string) {
-    if(YoutubeInfluencer.PageToken){
+  async YoutubeApiGetVideo(YoutubeInfluencer: YoutubePageToken, search: string) {
+    if (YoutubeInfluencer.PageToken) {
       const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${YoutubeInfluencer.PageToken}&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
       const resData = response.data;
       return await this.FilterService.videoFilter(resData);
 
     }
-    else if(!YoutubeInfluencer.PageToken){
+    else if (!YoutubeInfluencer.PageToken) {
       const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
       const resData = response.data;
       return await this.FilterService.videoFilter(resData);
     }
-   
+
 
   }
 }
