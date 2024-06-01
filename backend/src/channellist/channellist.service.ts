@@ -95,7 +95,7 @@ export class ChannellistService {
     const maxFetchCount = 20;
 
 
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=relevance&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
     const newItems = response.data
     nextPageToken = newItems.nextPageToken;
     for (const ChnnelId of newItems.items) {
@@ -118,7 +118,7 @@ export class ChannellistService {
       }
     }
     while (nextPageToken && fetchCount < maxFetchCount) {
-      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${nextPageToken}&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&pageToken=${nextPageToken}&order=relevance&type=video&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
       const newItems = response.data
       nextPageToken = newItems.nextPageToken;
       for (const ChnnelId of newItems.items) {

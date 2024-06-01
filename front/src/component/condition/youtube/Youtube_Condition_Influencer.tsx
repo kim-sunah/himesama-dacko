@@ -29,8 +29,6 @@ interface Channel {
 export default function YoutubeConditionInfluencer() {
     const [loading, setLoading] = useState<boolean>(false)
     const [Ranking, setRanking] = useState<Channel[]>([]);
-    const [nextPageToken, setNextPageToken] = useState<string | undefined>(undefined);
-    const [prevPageToken, setprevPageToken] = useState<string | undefined>(undefined);
     const location = useLocation();
     const navigate = useNavigate();
     const [isDescending, setIsDescending] = useState(true);
@@ -58,12 +56,11 @@ export default function YoutubeConditionInfluencer() {
     }, [select, search, PageToken])
 
     const videohandleClick = () => {
-
         if (isDescendingvideo) {
-            navigate(`${location.pathname}?search=${search}&High_Videocount=true`);
+            navigate(`${location.pathname}?search=${search}&select=High_Videocount`);
             Ranking.sort((a, b) => (b.videoCount > a.videoCount ? 1 : -1));
         } else {
-            navigate(`${location.pathname}?search=${search}&Low_Videocount=true`);
+            navigate(`${location.pathname}?search=${search}&select=Low_Videocount`);
             Ranking.sort((a, b) => (a.videoCount > b.videoCount ? 1 : -1));
         }
         setIsDescendingvideo(!isDescendingvideo);
@@ -71,10 +68,10 @@ export default function YoutubeConditionInfluencer() {
 
     const ViewhandleClick = () => {
         if (isDescendingview) {
-            navigate(`${location.pathname}?search=${search}&High_View=true`);
+            navigate(`${location.pathname}?search=${search}&select=High_View`);
             Ranking.sort((a, b) => (b.viewCount > a.viewCount ? 1 : -1));
         } else {
-            navigate(`${location.pathname}?search=${search}&Low_View=true`);
+            navigate(`${location.pathname}?search=${search}&select=Low_View`);
             Ranking.sort((a, b) => (a.viewCount > b.viewCount ? 1 : -1));
         }
         setIsDescendingview(!isDescendingview);
@@ -82,18 +79,18 @@ export default function YoutubeConditionInfluencer() {
 
     const SubscriberhandleClick = () => {
         if (isDescending) {
-            navigate(`${location.pathname}?search=${search}&High_Subscriber=true`);
+            navigate(`${location.pathname}?search=${search}&select=High_Subscriber`);
             Ranking.sort((a, b) => (b.subscriberCount > a.subscriberCount ? 1 : -1));
         } else {
-            navigate(`${location.pathname}?search=${search}&Low_Subscriber=true`);
+            navigate(`${location.pathname}?search=${search}&select=Low_Subscriber`);
             Ranking.sort((a, b) => (a.subscriberCount > b.subscriberCount ? 1 : -1));
         }
         setIsDescending(!isDescending);
     };
 
+
     return (
         <div style={{ marginLeft: '10%', marginRight: '10%' }}>
-
             {loading ? (
                 <div style={{ textAlign: "center", display: "block" }}>
                     <Box >

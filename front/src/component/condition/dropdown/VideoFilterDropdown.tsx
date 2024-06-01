@@ -1,9 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from '@mui/material/Button';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import Button from "@mui/material/Button";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { BsFilterLeft } from "react-icons/bs";
+import React from "react";
+import "../Condition.css";
 
 interface InputDropdownProps {
     title: string;
@@ -45,32 +48,54 @@ const VideoFilterDropdown: React.FC<InputDropdownProps> = ({ title }) => {
             queryParams.EndselectedDate = EndelectedDate.toISOString();
         }
 
-
         const queryString = new URLSearchParams(queryParams).toString();
         navigate(`${location.pathname}?${queryString}`);
     };
 
-    
     const StarthandleDateChange = (date: Date | null) => {
         StartsetSelectedDate(date);
         if (date) {
-            console.log('Selected date:', date.toISOString());
+            console.log("Selected date:", date.toISOString());
         }
     };
     const EndhandleDateChange = (date: Date | null) => {
         EndsetSelectedDate(date);
         if (date) {
-            console.log('Selected date:', date.toISOString());
+            console.log("Selected date:", date.toISOString());
         }
     };
 
+    const [Video, setVideo] = React.useState(false);
+
+    const toggleInfluencer = () => {
+        setVideo(prevState => !prevState);
+    };
 
     return (
-        <Nav className="me-auto" >
-            <NavDropdown title={title} id="collapsible-nav-dropdown" >
-                <form onSubmit={formhandler} className="px-4 py-2">
+        <div>
+        <BsFilterLeft
+            className="dropbtn"
+            size="40"
+            title="Influencer Filter"
+            onClick={toggleInfluencer}
+        />
+        {Video && (
+            <Nav className="dropdown-content" style={{
+                position: 'absolute',
+                top: '60px',
+                right: '10px',
+                width: '500px',
+                padding: '20px',
+                backgroundColor: 'white',
+                border: '1px solid gray',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+                borderRadius: '4%',
+                zIndex: 1000, // ensure it's on top
+                overflow: 'hidden'
+            }}>
+                <form onSubmit={formhandler}>
                     <div className="flex items-center gap-2" style={{ marginBottom: "5%", marginTop: "5%" }}>
-                        <label htmlFor="subscriber-min" style={{ paddingRight: "10%" }}>Like</label>
+                        <label htmlFor="subscriber-min">Like</label>
                         <input
                             className="flex-1 w-40"
                             id="subscriber-min"
@@ -78,7 +103,7 @@ const VideoFilterDropdown: React.FC<InputDropdownProps> = ({ title }) => {
                             placeholder="Min"
                             type="number"
                             value={LikeMin}
-
+                          
                             onChange={(e) => setLikeMin(e.target.value)}
                         />
                         <span>-</span>
@@ -93,7 +118,7 @@ const VideoFilterDropdown: React.FC<InputDropdownProps> = ({ title }) => {
                         />
                     </div>
                     <div className="flex items-center gap-2" style={{ marginBottom: "5%" }}>
-                        <label htmlFor="view-min" style={{ paddingRight: "9.2%" }}>View</label>
+                        <label htmlFor="view-min">View</label>
                         <input
                             className="flex-1 w-40"
                             id="view-min"
@@ -115,7 +140,7 @@ const VideoFilterDropdown: React.FC<InputDropdownProps> = ({ title }) => {
                         />
                     </div>
                     <div className="flex items-center gap-2" style={{ marginBottom: "5%" }}>
-                        <label htmlFor="video-min" style={{ paddingRight: "3.3%" }}>Comment</label>
+                        <label htmlFor="video-min">Comment</label>
                         <input
                             className="flex-1 w-40"
                             id="video-min"
@@ -137,31 +162,32 @@ const VideoFilterDropdown: React.FC<InputDropdownProps> = ({ title }) => {
                         />
                     </div>
                     <div className="flex items-center gap-2" style={{ marginBottom: "5%" }}>
-                        <label htmlFor="video-min" style={{ paddingRight: "2%" }}>UploadDay</label>
+                        <label htmlFor="video-min">UploadDay</label>
                         <div>
-                            <DatePicker
-    
+                            <input type="date"></input>
+                            {/* <DatePicker
                                 selected={StartselectedDate}
-                                onChange={StarthandleDateChange}
+                                onChange={(date) => StarthandleDateChange(date)}
                                 dateFormat="yyyy/MM/dd"
-                            />
+                            /> */}
                         </div>
                         <span>-</span>
                         <div>
-                            <DatePicker
+                        <input type="date"></input>
+                            {/* <DatePicker
                                 selected={EndelectedDate}
-                                onChange={EndhandleDateChange}
+                                onChange={(date) => EndhandleDateChange(date)}
                                 dateFormat="yyyy/MM/dd"
-                            />
+                            /> */}
                         </div>
                     </div>
-
                     <div className="px-4 py-2">
                         <Button className="w-full" type="submit" style={{ border: "1px solid gray" }}>Submit</Button>
                     </div>
                 </form>
-            </NavDropdown>
-        </Nav>
+            </Nav>
+        )}
+    </div>
     );
 };
 

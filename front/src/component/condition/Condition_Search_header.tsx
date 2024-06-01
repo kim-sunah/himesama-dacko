@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MDBBtn, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
+import VideoFilterDropdown from './dropdown/VideoFilterDropdown';
 
 
 export default function ConditionSearch() {
@@ -68,7 +69,7 @@ export default function ConditionSearch() {
             label="조건 검색 카테고리"
             onChange={handleChange}
           >
-            <MenuItem value={"InfluencerFilter"} >인플루언서</MenuItem>
+            <MenuItem value={"InfluencerFilter"} >{FirstPath ==="Condition_Search" ? "인플루언서" : "검색 관련 채널"}</MenuItem>
             <MenuItem value={"VideoFilter"}>영상</MenuItem>
 
           </Select>
@@ -80,7 +81,7 @@ export default function ConditionSearch() {
 
         {/* {Influencer && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>} */}
         {/* {Path === "VideoFilter" && <BsFilterLeft size="40" title="Video Filter"  onClick={() => setVideo(true)}></BsFilterLeft>} */}
-        {/* {Video && <VideoFilterDropdown title="Video Filter"></VideoFilterDropdown>} */}
+         {SecondPath === "VideoFilter" && <VideoFilterDropdown title="Video Filter"></VideoFilterDropdown>} 
       </div>
     </div>
   )
