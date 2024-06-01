@@ -26,13 +26,13 @@ jobs:
             options:
               env:
                 - name: DB_HOST
-                  value: youtube.cygahsyhplsd.ap-northeast-2.rds.amazonaws.com
+                  value: pet.czyokzgn9ldt.ap-northeast-2.rds.amazonaws.com
                 - name: DB_PORT
                   value: "3306"
                 - name: DB_USERNAME
                   value: root
                 - name: DB_PASSWORD
-                  value: wqdsdsf123
+                  value: timeless02
                 - name: DB_NAME
                   value: youtube
                 - name: DB_SYNC
