@@ -1,33 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
 
-
-import Main from './component/main/Main';
-
-
-import Root from './component/Root';
-import Subscriber_Rankings from './component/subscriber/Rankings';
-import ViewRanking from './component/view/View_Ranking';
+import Main from './pages/main/Main';
+import Root from './pages/Root';
 import CategoryRankings from './component/category/Category_Rankings';
 import CategoryRankingsList from './component/category/Category_RankingList';
 import { Provider } from 'react-redux';
 import {store} from "./store/store"
-import VideoListHeader from './component/videolist/header';
-import Body from './component/body/Body';
-import VideSearchList from './component/videolist/VideosearchList';
-import List from './component/videolist/List';
+import VideoListHeader from './pages/seachvideo/header';
+import Body from './pages/channel_detail/Body';
+import VideSearchList from './pages/seachvideo/VideosearchList';
+import List from './pages/seachvideo/List';
 import Error from "./component/error/Error"
-import RankingRoot from './component/ranking/RankingRoot';
-import ConditionSearch from './component/condition/Condition_Search_header';
-import ConditionRoot from './component/condition/db/ConditionRoot';
-import ConditionInfluencerFilterBody from './component/condition/db/Condition_InfluencerFilter_body';
-import ConditionVideoFilterBody from './component/condition/db/Condition_VideoFilter_body';
-import ConditionVideoFilterHeader from './component/condition/db/Condition_VideoFilter_header';
-import YoutubeRoot from './component/condition/youtube/Youtube_Root';
-import YoutubeConditionInfluencer from './component/condition/youtube/Youtube_Condition_Influencer';
-import YoutubeConditionVideo from './component/condition/youtube/Youtube_Condition_Video';
+import RankingRoot from './pages/ranking/RankingRoot';
+
+import ConditionRoot from './pages/condition/db/ConditionRoot';
+import ConditionInfluencerFilterBody from './pages/condition/db/Condition_InfluencerFilter_body';
+import ConditionVideoFilterBody from './pages/condition/db/Condition_VideoFilter_body';
+import ConditionVideoFilterHeader from './pages/condition/db/Condition_VideoFilter_header';
+import YoutubeRoot from './pages/condition/youtube/Youtube_Root';
+import YoutubeConditionInfluencer from './pages/condition/youtube/Youtube_Condition_Influencer';
+import YoutubeConditionVideo from './pages/condition/youtube/Youtube_Condition_Video';
+import Ranking from './pages/ranking/Ranking';
 
 
 function App() {
@@ -37,8 +32,7 @@ function App() {
       {index: true , element : <Main></Main>},
       {path : ":Id" , element: <Body></Body>},
       {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
-        {path : ":pagenumber", element :<Subscriber_Rankings></Subscriber_Rankings>},
-        // {path : "View_Rankings/:pagenumber" , element : <ViewRanking></ViewRanking>},
+        {path : ":pagenumber", element :<Ranking></Ranking>},
       ]},
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }
@@ -62,9 +56,6 @@ function App() {
       <Provider store={store}>
         <RouterProvider router={router}></RouterProvider>
       </Provider>
-       
-  
-   
   );
 }
 

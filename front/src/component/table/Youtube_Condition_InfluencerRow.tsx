@@ -1,8 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-
-import "../subscriber/ranking.css"
+import "../../styles/ranking.css"
 import { Link,  } from 'react-router-dom';
 
 import TableCell from '@mui/material/TableCell';

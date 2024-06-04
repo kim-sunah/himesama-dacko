@@ -1,5 +1,5 @@
 import { Link} from "react-router-dom"
-import "../videolist/video.css"
+import "../../styles/video.css"
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -11,9 +11,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
- import ViewChart from "../videolist/ViewChart";
- import CommentChart from "../videolist/CommentChart";
- import LikeChart from "../videolist/LikeChart";
+ import ViewChart from "../../pages/seachvideo/ViewChart";
+ import CommentChart from "../../pages/seachvideo/CommentChart";
+ import LikeChart from "../../pages/seachvideo/LikeChart";
 
 
 interface VideoInfo {
