@@ -14,6 +14,7 @@ interface InputDropdownProps {
 const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
   const navigate = useNavigate();
   const location = useLocation();
+  
 
   const [subscriberMin, setSubscriberMin] = useState("");
   const [subscriberMax, setSubscriberMax] = useState("");
@@ -22,7 +23,7 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
   const [videoMin, setVideoMin] = useState("");
   const [videoMax, setVideoMax] = useState("");
   const [Influencer , setInfluencer] = React.useState(false);
-
+  
   const toggleInfluencer = () => {
     setInfluencer(prevState => !prevState);
   };
@@ -30,25 +31,53 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
 
   const formhandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent the default form submission behavior
+    const SearchParams = new URLSearchParams(location.search);
+    console.log(location.search)
+    const QuerySearchInvalid = SearchParams.get("search")
+    if(QuerySearchInvalid){
+      const queryParams: Record<string, string> = {};
 
-    const queryParams: Record<string, string> = {};
+      if (subscriberMin && subscriberMax) {
+        queryParams.SubscriberMin = subscriberMin;
+        queryParams.SubscriberMax = subscriberMax;
+      }
+      if (viewMin && viewMax) {
+        queryParams.ViewMin = viewMin;
+        queryParams.ViewMax = viewMax;
+      }
+     
+      if (videoMin &&  videoMax) {
+        queryParams.VideoMin = videoMin;
+        queryParams.VideoMax = videoMax;
+      }
+     
+      const queryString = new URLSearchParams(queryParams).toString();
+      console.log(queryString)
+      navigate(`${location.pathname}?search=${QuerySearchInvalid}&${queryString}`);
 
-    if (subscriberMin && subscriberMax) {
-      queryParams.SubscriberMin = subscriberMin;
-      queryParams.SubscriberMax = subscriberMax;
     }
-    if (viewMin && viewMax) {
-      queryParams.ViewMin = viewMin;
-      queryParams.ViewMax = viewMax;
+    else{
+      const queryParams: Record<string, string> = {};
+
+      if (subscriberMin && subscriberMax) {
+        queryParams.SubscriberMin = subscriberMin;
+        queryParams.SubscriberMax = subscriberMax;
+      }
+      if (viewMin && viewMax) {
+        queryParams.ViewMin = viewMin;
+        queryParams.ViewMax = viewMax;
+      }
+     
+      if (videoMin &&  videoMax) {
+        queryParams.VideoMin = videoMin;
+        queryParams.VideoMax = videoMax;
+      }
+     
+      const queryString = new URLSearchParams(queryParams).toString();
+      navigate(`${location.pathname}?${queryString}`);
+
     }
-   
-    if (videoMin &&  videoMax) {
-      queryParams.VideoMin = videoMin;
-      queryParams.VideoMax = videoMax;
-    }
-   
-    const queryString = new URLSearchParams(queryParams).toString();
-    navigate(`${location.pathname}?${queryString}`);
+  
   };
 
   return (

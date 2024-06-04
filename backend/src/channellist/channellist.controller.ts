@@ -4,6 +4,7 @@ import { CreateChannellistDto } from './dto/create-channellist.dto';
 import { UpdateChannellistDto } from './dto/update-channellist.dto';
 import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 import { get } from 'http';
+import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 
 @Controller('channellist')
 export class ChannellistController {
@@ -40,10 +41,10 @@ export class ChannellistController {
   }
 
   //Youtube Api(Condition) 일반 검색
-  @Get("YoutubeChannelApi/:search")
-  YoutubeApiGetChannel( @Param('search') search: string ,) {
-
-    return this.channellistService.YoutubeApiGetChannel(search);
+  @Post("YoutubeChannelApi/:search")
+  YoutubeApiGetChannel(@Body() YoutubeChannelApi : InfluencerOrder, @Param('search') search: string ,) {
+  
+    return this.channellistService.YoutubeApiGetChannel(YoutubeChannelApi , search);
   }
 
   

@@ -39,13 +39,18 @@ export default function YoutubeConditionInfluencer() {
     const search = queryParams.get('search');
     const PageToken = queryParams.get("PageToken")
 
-
-
-
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeChannelApi/${search}`)
+            const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/YoutubeChannelApi/${search}`, {
+                subscriberMin: queryParams.get("SubscriberMin") || null,
+                subscriberMax: queryParams.get("SubscriberMax") || null,
+                viewMin: queryParams.get("ViewMin") || null,
+                viewMax: queryParams.get("ViewMax") || null,
+                videoMin: queryParams.get("VideoMin") || null,
+                videoMax: queryParams.get("VideoMax") || null
+            })
+
             setRanking(response)
             setLoading(false)
         }
@@ -53,7 +58,7 @@ export default function YoutubeConditionInfluencer() {
             fetchData()
         }
 
-    }, [select, search, PageToken])
+    }, [select, search, PageToken, location.search])
 
     const videohandleClick = () => {
         if (isDescendingvideo) {
@@ -90,6 +95,7 @@ export default function YoutubeConditionInfluencer() {
 
 
     return (
+
         <div style={{ marginLeft: '10%', marginRight: '10%' }}>
             {loading ? (
                 <div style={{ textAlign: "center", display: "block" }}>
@@ -100,7 +106,7 @@ export default function YoutubeConditionInfluencer() {
                     <span style={{ marginTop: "20%" }}>"{search}" 관련된 정보를 가져오고 있습니다 <br></br>20초정도의 시간이 소요됩니다....</span>
                 </div>
 
-            ) : Ranking.length > 0 && (
+            ) : Ranking.length > 0 ? (
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table " >
                         <TableHead>
@@ -148,7 +154,10 @@ export default function YoutubeConditionInfluencer() {
 
                 </TableContainer>
 
-            )}
+            ) : <div style={{ textAlign: "center", display: "block" }}>
+
+                <span style={{ marginTop: "20%" }}>"{search}" 관련된 정보가 현재 조회되지 않았습니다.<br></br> 변동성이 있는 API 기반이기 떄문에 2~3번 새로고침을 해주시기 바랍니다.<br></br> 2~3번을 했는데도 데이터가 조회되지 않는다면 일치하는 데이터가 없습니다.</span>
+            </div>}
 
 
 

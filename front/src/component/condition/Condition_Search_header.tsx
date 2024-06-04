@@ -78,7 +78,6 @@ export default function ConditionSearch() {
 
       <div className="dropdown" style={{ marginTop: '3.8%', marginRight: "11%", marginLeft: "2%" }}>
         {SecondPath === "InfluencerFilter" && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>}
-
         {/* {Influencer && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>} */}
         {/* {Path === "VideoFilter" && <BsFilterLeft size="40" title="Video Filter"  onClick={() => setVideo(true)}></BsFilterLeft>} */}
          {SecondPath === "VideoFilter" && <VideoFilterDropdown title="Video Filter"></VideoFilterDropdown>} 
