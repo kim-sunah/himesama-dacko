@@ -28,6 +28,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import CommentChart from "./CommentChart";
 import LikeChart from "./LikeChart";
+import TickPlacementBars from "./TickPlacementBars";
+import IconInButton from "../../component/button/Icon_In_Button";
 
 
 interface VideoInfo {
@@ -64,7 +66,8 @@ interface VideoInfo {
 
   return (
     <React.Fragment>
-      
+     
+
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
@@ -117,24 +120,27 @@ interface VideoInfo {
         <TableCell align="center">123</TableCell>
         <TableCell align="center">123</TableCell>
       </TableRow>
-
+     
      
     
       <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
       <Collapse in={open} timeout="auto" unmountOnExit >
-      <Stack direction="row" spacing={2} style={{display:"flex" ,justifyContent:"center", marginTop:"3%"}}>
+       <Stack direction="row" spacing={2} style={{display:"flex" ,justifyContent:"center", marginTop:"3%"}}>
         <Button variant="outlined" onClick={() => { setview(true); setcomment(false); setlike(false); }}>조회수</Button>
         <Button variant="outlined" onClick={() => { setview(false); setcomment(true); setlike(false); }}>댓글</Button>
         <Button variant="outlined" onClick={() => { setview(false); setcomment(false); setlike(true); }}>좋아요</Button>
           </Stack>
-        <Box sx={{ margin: 1 ,height: '400px', width:"150vh" ,display:"flex"}} >
+        <Box sx={{ margin: 1 ,height: '400px', width:"155vh" ,display:"flex"}} >
         {view && row && <ViewChart data = {row.viewdata}></ViewChart>}
         {comment && row &&<CommentChart data={row.commentdata}></CommentChart>}
         {like && row && <LikeChart data={row.likedata}></LikeChart>}
           
-        </Box>
+        </Box> 
+        {/* <TickPlacementBars data = {row.viewdata}></TickPlacementBars> */}
       </Collapse>
+     
       </TableCell>
+      
     </React.Fragment>
   )
 }
@@ -194,7 +200,9 @@ export default function List() {
                 <TableCell align="center" style={{ whiteSpace: "nowrap" }}>인스타그램</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            
+            <TableBody  style={{marginBottom:"5%"}}>
+              
               {showSearchAlert.map((row, index) => (
                 <Row key={index} row={row} />
               ))}

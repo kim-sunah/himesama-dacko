@@ -37,4 +37,8 @@ export class InfluencerOrder {
     @Min(0)
     @Type(() => Number)
     videoMax?: number;
+
+
+    @IsOptional()
+    accurate_search? : boolean
 }

@@ -94,42 +94,41 @@ export default function Headers() {
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-10 ">
          
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 " style={{ display: "flex", marginBottom: "2.5%" }}>
-                <CardActionArea>
-                    <Link className="text-black " to="/Ranking/1" >
-                        <Card className="col-span-1 bg-whites shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all">
-                            <EmojiEventsIcon className="text-yellow-300 h-10 w-10" fontSize="large" />
-                            <h3 className="font-semibold text-lg text-gray-800">랭킹</h3>
-                            <p className="text-center text-sm text-gray-600">구독자, 조회수, <br></br>동영상 수</p>
-                        </Card>
-                        </Link>
-                    </CardActionArea>
-                <CardActionArea>
-                <Link className="text-black " to="/Condition_Search/" >
-                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-green-50 transition-all">
-                        <AiOutlineFileSearch className="text-purple-600 h-9 w-9" fontSize="medium"/>
-                        <h3 className="font-semibold text-lg text-gray-800">DB 검색</h3>
-                        <p className="text-center text-sm text-gray-600">{Count?.lastChannel}명 인플루언서 데이터와 <br/>{Count?.lastVideo}개의 영상 데이터 조건검색</p>
-                    </Card>
-                </Link>
-                </CardActionArea>
-                <CardActionArea>
-                <Link className="text-black " to="/YoutubeCondition/" >
-                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-yellow-50 transition-all">
-                        <BiLogoYoutube className="text-red-600 h-9 w-9" />
-                        <h3 className="font-semibold text-lg text-gray-800">Youtube API 기반 검색</h3>
-                        <p className="text-center text-sm text-gray-600">Youtube api 기반 인플루언서, 영상 맞춤 조건 검색</p>
-                    </Card>
-                    </Link>
-                </CardActionArea>
-                <CardActionArea>
-                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-pink-50 transition-all">
-                        <AiOutlineFileSearch className="text-purple-600 h-9 w-9" />
-                        <h3 className="font-semibold text-lg text-gray-800">Challenges</h3>
-                        <p className="text-center text-sm text-gray-600">Solve real-world problems together sdsdsdsds</p>
-                    </Card>
-                </CardActionArea>
-            </div>
+         <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6 md:flex md:gap-4 mb-10">
+        <CardActionArea>
+            <Link className="text-black" to="/Ranking/1">
+                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
+                    <EmojiEventsIcon className="text-yellow-300 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14" fontSize="large" />
+                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">랭킹</h3>
+                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
+                        구독자, 조회수, 동영상 수
+                    </p>
+                </Card>
+            </Link>
+        </CardActionArea>
+        <CardActionArea>
+            <Link className="text-black" to="/Condition_Search/">
+                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
+                    <AiOutlineFileSearch className="text-purple-600 h-9 w-9" />
+                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">DB 검색</h3>
+                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
+                        {Count?.lastChannel}명 인플루언서 데이터와 {Count?.lastVideo}개의 영상 데이터 조건검색
+                    </p>
+                </Card>
+            </Link>
+        </CardActionArea>
+        <CardActionArea>
+            <Link className="text-black" to="/YoutubeCondition/">
+                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
+                    <BiLogoYoutube className="text-red-600 h-9 w-9" />
+                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색</h3>
+                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
+                        Youtube api 기반 인플루언서, 영상 맞춤 조건 검색
+                    </p>
+                </Card>
+            </Link>
+        </CardActionArea>
+    </div>
             <div className="container mx-auto flex flex-col items-center justify-between py-6 px-6">
                 <form onSubmit={getYouTubeChannelId} className="flex items-center space-x-4">
                     <div className="search">

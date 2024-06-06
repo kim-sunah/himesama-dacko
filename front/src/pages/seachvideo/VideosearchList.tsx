@@ -23,6 +23,7 @@ import { Button, Stack } from "@mui/material";
 import ViewChart from "./ViewChart";
 import CommentChart from "./CommentChart";
 import LikeChart from "./LikeChart";
+import IconInButton from "../../component/button/Icon_In_Button";
 
 
 
@@ -45,9 +46,9 @@ interface VideoInfo {
     videocommentcount: number
     videotitle: string
     publishedAt: string
-    viewdata: Array<any>; 
-    commentdata: Array<any>; 
-    likedata: Array<number>; 
+    viewdata: Array<any>;
+    commentdata: Array<any>;
+    likedata: Array<number>;
 }
 
 function Row(props: { row: VideoInfo }) {
@@ -110,6 +111,7 @@ function Row(props: { row: VideoInfo }) {
                 <TableCell align="center">123</TableCell>
                 <TableCell align="center">123</TableCell>
             </TableRow>
+
             <TableRow>
 
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
@@ -126,6 +128,7 @@ function Row(props: { row: VideoInfo }) {
 
                         </Box>
                     </Collapse>
+                   
                 </TableCell>
             </TableRow>
         </React.Fragment>

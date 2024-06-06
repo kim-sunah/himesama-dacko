@@ -1,6 +1,6 @@
 import  { useEffect, useState } from 'react';
 import "../../styles/ranking.css"
-import {  useLocation, useNavigate, useParams } from 'react-router-dom';
+import {  Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import BasicPagination from '../../component/pagenation/BasicPagination';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -8,6 +8,7 @@ import { Box, CircularProgress, Paper, Table, TableBody, TableContainer, TableHe
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import Postmethod from '../../http/Post_method';
 import Row from '../../component/table/InfluencerRow';
+import IconInButton from '../../component/button/Icon_In_Button';
 interface Channel {
   id: number;
   Channel_Id: string;
@@ -167,8 +168,10 @@ export default function Ranking() {
               ))}
             </TableBody>
           </Table>
+       
 
         </TableContainer>
+        
 
       )}
       <div style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}>

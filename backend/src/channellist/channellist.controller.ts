@@ -43,7 +43,7 @@ export class ChannellistController {
   //Youtube Api(Condition) 일반 검색
   @Post("YoutubeChannelApi/:search")
   YoutubeApiGetChannel(@Body() YoutubeChannelApi : InfluencerOrder, @Param('search') search: string ,) {
-  
+    console.log(YoutubeChannelApi)
     return this.channellistService.YoutubeApiGetChannel(YoutubeChannelApi , search);
   }
 

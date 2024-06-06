@@ -13,133 +13,86 @@ import { videolike } from './entities/videolike.entity';
 @Injectable()
 export class VideoService {
   constructor(@InjectRepository(videoview) private readonly videoviewRepository: Repository<videoview>,
-              @InjectRepository(videocomment) private readonly videocommentRepository: Repository<videocomment>, 
-              @InjectRepository(videolike) private readonly videolikeRepository: Repository<videolike>, 
-              @InjectRepository(Video) private readonly VideoRepository: Repository<Video>){}
+    @InjectRepository(videocomment) private readonly videocommentRepository: Repository<videocomment>,
+    @InjectRepository(videolike) private readonly videolikeRepository: Repository<videolike>,
+    @InjectRepository(Video) private readonly VideoRepository: Repository<Video>) { }
   create(createVideoDto: CreateVideoDto) {
     return 'This action adds a new video';
   }
 
   async ChartDataUpdate() {
     const VideoData = await this.VideoRepository.find();
-    for (const Data of VideoData){
-      const VideoView = await this.videoviewRepository.findOne({where : {videoId : Data.id}})
-      const Videocomment = await this.videocommentRepository.findOne({where : {videoId : Data.id}})
-      const Videolike = await this.videolikeRepository.findOne({where : {videoId : Data.id}})
-      const response = await  axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${Data.videoid}&key=${process.env.Youtbe_Api_KEY}`);
+    for (const Data of VideoData) {
+      const VideoView = await this.videoviewRepository.findOne({ where: { videoId: Data.id } })
+      const Videocomment = await this.videocommentRepository.findOne({ where: { videoId: Data.id } })
+      const Videolike = await this.videolikeRepository.findOne({ where: { videoId: Data.id } })
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${Data.videoid}&key=${process.env.Youtbe_Api_KEY}`);
       const channelData = response.data
       await this.videoviewRepository.update(Data.id, {
-        Thirty_day_Ago :  VideoView.Twenty_nine_day_Ago,
-        Twenty_nine_day_Ago:  VideoView.Twenty_eigth_day_Ago,
-        Twenty_eigth_day_Ago:  VideoView.Twenty_seven_day_Ago,
-        Twenty_seven_day_Ago:  VideoView.Twenty_six_day_Ago,
-        Twenty_six_day_Ago:  VideoView.Twenty_five_day_Ago,
-        Twenty_five_day_Ago: VideoView.Twenty_four_day_Ago,
-        Twenty_four_day_Ago:  VideoView.Twenty_three_day_Ago,
-        Twenty_three_day_Ago:  VideoView.Twenty_two_day_Ago,
-        Twenty_two_day_Ago:  VideoView.Twenty_one_day_Ago,
-        Twenty_one_day_Ago:  VideoView.Twenty_day_Ago,
-        Twenty_day_Ago:  VideoView.Nineteen_day_Ago,
-        Nineteen_day_Ago:  VideoView.Eigthteen_day_Ago,
-        Eigthteen_day_Ago:  VideoView.seventeen_day_Ago,
-        seventeen_day_Ago:  VideoView.sixteen_day_Ago,
-        sixteen_day_Ago:  VideoView.fifteen_day_Ago,
-        fifteen_day_Ago:  VideoView.fourteen_day_Ago,
-        fourteen_day_Ago:  VideoView.thirteen_day_Ago,
-        thirteen_day_Ago:  VideoView.twelve_day_Ago,
-        twelve_day_Ago:  VideoView.Eleven_day_Ago,
-        Eleven_day_Ago: VideoView.Ten_day_Ago,
-        Ten_day_Ago:  VideoView.Nine_day_Ago,
-        Nine_day_Ago:  VideoView.Eigth_day_Ago,
-        Eigth_day_Ago: VideoView.Sevent_day_Ago,
-        Sevent_day_Ago: VideoView.Six_day_Ago,
-        Six_day_Ago : VideoView.Five_day_Ago , 
-        Five_day_Ago : VideoView.Four_day_Ago, 
-        Four_day_Ago : VideoView.Three_day_Ago, 
-        Three_day_Ago : VideoView.Two_day_Ago , 
-        Two_day_Ago : VideoView.One_day_Ago, 
-        One_day_Ago : VideoView.today , 
-        today : channelData.items[0].statistics.viewCount})
 
-        await this.videocommentRepository.update(Data.id, {
-          Thirty_day_Ago :  Videocomment.Twenty_nine_day_Ago,
-          Twenty_nine_day_Ago:  Videocomment.Twenty_eigth_day_Ago,
-          Twenty_eigth_day_Ago:  Videocomment.Twenty_seven_day_Ago,
-          Twenty_seven_day_Ago:  Videocomment.Twenty_six_day_Ago,
-          Twenty_six_day_Ago:  Videocomment.Twenty_five_day_Ago,
-          Twenty_five_day_Ago: Videocomment.Twenty_four_day_Ago,
-          Twenty_four_day_Ago:  Videocomment.Twenty_three_day_Ago,
-          Twenty_three_day_Ago:  Videocomment.Twenty_two_day_Ago,
-          Twenty_two_day_Ago:  Videocomment.Twenty_one_day_Ago,
-          Twenty_one_day_Ago:  Videocomment.Twenty_day_Ago,
-          Twenty_day_Ago:  Videocomment.Nineteen_day_Ago,
-          Nineteen_day_Ago:  Videocomment.Eigthteen_day_Ago,
-          Eigthteen_day_Ago:  Videocomment.seventeen_day_Ago,
-          seventeen_day_Ago:  Videocomment.sixteen_day_Ago,
-          sixteen_day_Ago:  Videocomment.fifteen_day_Ago,
-          fifteen_day_Ago:  Videocomment.fourteen_day_Ago,
-          fourteen_day_Ago:  Videocomment.thirteen_day_Ago,
-          thirteen_day_Ago:  Videocomment.twelve_day_Ago,
-          twelve_day_Ago:  Videocomment.Eleven_day_Ago,
-          Eleven_day_Ago: Videocomment.Ten_day_Ago,
-          Ten_day_Ago:  Videocomment.Nine_day_Ago,
-          Nine_day_Ago:  Videocomment.Eigth_day_Ago,
-          Eigth_day_Ago: Videocomment.Sevent_day_Ago,
-          Sevent_day_Ago: Videocomment.Six_day_Ago,
-          Six_day_Ago : Videocomment.Five_day_Ago , 
-          Five_day_Ago : Videocomment.Four_day_Ago, 
-          Four_day_Ago : Videocomment.Three_day_Ago, 
-          Three_day_Ago : Videocomment.Two_day_Ago , 
-          Two_day_Ago : Videocomment.One_day_Ago, 
-          One_day_Ago : Videocomment.today , 
-          today : channelData.items[0].statistics.commentCount})
+        Twelve_Month_Ago: +VideoView.Eleven_Month_Ago,
+        Eleven_Month_Ago: +VideoView.Ten_Month_Ago,
+        Ten_Month_Ago: +VideoView.Nine_Month_Ago,
+        Nine_Month_Ago: +VideoView.Eigth_Month_Ago,
+        Eigth_Month_Ago: +VideoView.Seven_Month_Ago,
+        Seven_Month_Ago: +VideoView.Six_Month_Ago,
+        Six_Month_Ago: +VideoView.Five_Month_Ago,
+        Five_Month_Ago: +VideoView.Four_Month_Ago,
+        Four_Month_Ago: + VideoView.Three_Month_Ago,
+        Three_Month_Ago: +VideoView.Two_Month_Ago,
+        Two_Month_Ago: +VideoView.One_Month_Ago,
+        One_Month_Ago: +VideoView.today,
+        today: +channelData.items[0].statistics.viewCount
+      })
+
+      await this.videocommentRepository.update(Data.id, {
+
+        Twelve_Month_Ago: +Videocomment.Eleven_Month_Ago,
+        Eleven_Month_Ago: +Videocomment.Ten_Month_Ago,
+        Ten_Month_Ago: +Videocomment.Nine_Month_Ago,
+        Nine_Month_Ago: +Videocomment.Eigth_Month_Ago,
+        Eigth_Month_Ago: +Videocomment.Seven_Month_Ago,
+        Seven_Month_Ago: +Videocomment.Six_Month_Ago,
+        Six_Month_Ago: +Videocomment.Five_Month_Ago,
+        Five_Month_Ago: +Videocomment.Four_Month_Ago,
+        Four_Month_Ago: + Videocomment.Three_Month_Ago,
+        Three_Month_Ago: +Videocomment.Two_Month_Ago,
+        Two_Month_Ago: +Videocomment.One_Month_Ago,
+        One_Month_Ago: +Videocomment.today,
 
 
-          await this.videolikeRepository.update(Data.id, {
-            Thirty_day_Ago :  Videolike.Twenty_nine_day_Ago,
-            Twenty_nine_day_Ago:  Videolike.Twenty_eigth_day_Ago,
-            Twenty_eigth_day_Ago:  Videolike.Twenty_seven_day_Ago,
-            Twenty_seven_day_Ago:  Videolike.Twenty_six_day_Ago,
-            Twenty_six_day_Ago:  Videolike.Twenty_five_day_Ago,
-            Twenty_five_day_Ago: Videolike.Twenty_four_day_Ago,
-            Twenty_four_day_Ago:  Videolike.Twenty_three_day_Ago,
-            Twenty_three_day_Ago:  Videolike.Twenty_two_day_Ago,
-            Twenty_two_day_Ago:  Videolike.Twenty_one_day_Ago,
-            Twenty_one_day_Ago:  Videolike.Twenty_day_Ago,
-            Twenty_day_Ago:  Videolike.Nineteen_day_Ago,
-            Nineteen_day_Ago:  Videolike.Eigthteen_day_Ago,
-            Eigthteen_day_Ago:  Videolike.seventeen_day_Ago,
-            seventeen_day_Ago:  Videolike.sixteen_day_Ago,
-            sixteen_day_Ago:  Videolike.fifteen_day_Ago,
-            fifteen_day_Ago:  Videolike.fourteen_day_Ago,
-            fourteen_day_Ago:  Videolike.thirteen_day_Ago,
-            thirteen_day_Ago:  Videolike.twelve_day_Ago,
-            twelve_day_Ago:  Videolike.Eleven_day_Ago,
-            Eleven_day_Ago: Videolike.Ten_day_Ago,
-            Ten_day_Ago:  Videolike.Nine_day_Ago,
-            Nine_day_Ago:  Videolike.Eigth_day_Ago,
-            Eigth_day_Ago: Videolike.Sevent_day_Ago,
-            Sevent_day_Ago: Videolike.Six_day_Ago,
-            Six_day_Ago : Videolike.Five_day_Ago , 
-            Five_day_Ago : Videolike.Four_day_Ago, 
-            Four_day_Ago : Videolike.Three_day_Ago, 
-            Three_day_Ago : Videolike.Two_day_Ago , 
-            Two_day_Ago : Videolike.One_day_Ago, 
-            One_day_Ago : Videolike.today , 
-            today : channelData.items[0].statistics.likeCount})
-      }
+        today: +channelData.items[0].statistics.commentCount
+      })
+
+
+      await this.videolikeRepository.update(Data.id, {
+        Twelve_Month_Ago: +Videolike.Eleven_Month_Ago,
+        Eleven_Month_Ago: +Videolike.Ten_Month_Ago,
+        Ten_Month_Ago: +Videolike.Nine_Month_Ago,
+        Nine_Month_Ago: +Videolike.Eigth_Month_Ago,
+        Eigth_Month_Ago: +Videolike.Seven_Month_Ago,
+        Seven_Month_Ago: +Videolike.Six_Month_Ago,
+        Six_Month_Ago: +Videolike.Five_Month_Ago,
+        Five_Month_Ago: +Videolike.Four_Month_Ago,
+        Four_Month_Ago: + Videolike.Three_Month_Ago,
+        Three_Month_Ago: +Videolike.Two_Month_Ago,
+        Two_Month_Ago: +Videolike.One_Month_Ago,
+        One_Month_Ago: +Videolike.today,
+        today: +channelData.items[0].statistics.likeCount
+      })
+    }
   }
 
-  async ChartViewData(){
+  async ChartViewData() {
 
   }
 
-  async ChartCommentData(){
-    
+  async ChartCommentData() {
+
   }
 
-  async ChartLikeData(){
-    
+  async ChartLikeData() {
+
   }
 
   FavoriteData() {

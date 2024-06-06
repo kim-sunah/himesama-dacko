@@ -9,3 +9,4 @@ export const theme = {
 export const plugins = [
   flowbite.plugin(),
 ];
+

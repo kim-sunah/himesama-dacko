@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import { Box, CircularProgress, IconButton, Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import IconInButton from '../button/Icon_In_Button';
 
 
 interface Channel {
@@ -94,8 +95,10 @@ export default function Row(props: { row: Channel }) {
             <span className="px-2 py-1 rounded-md" style={{ color: "black" }}>{(((parseInt(row.viewCount) - parseInt(row.previous_viewCount)) / parseInt(row.previous_viewCount)) * 100).toFixed(2)}%</span>}
 
         </TableCell>
+        
 
       </TableRow>
+    
 
 
 

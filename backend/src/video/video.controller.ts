@@ -2,15 +2,18 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import * as schedule from 'node-schedule';
 import { Cron  } from '@nestjs/schedule';
 
 @Controller('video')
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
-  @Post()
-  create(@Body() createVideoDto: CreateVideoDto) {
-    return this.videoService.create(createVideoDto);
+  onModuleInit() {
+    // 2주마다 한 번씩 실행 (매월 1일 5시에 실행)
+    schedule.scheduleJob('0 0 17 1 * *', () => {
+      this.ChartDataUpdate();
+    });
   }
 
   @Get("/viewData")
@@ -26,7 +29,6 @@ export class VideoController {
     return this.videoService.ChartLikeData();
   }
 
-  @Cron("0 0 17 * * 1-7")
   ChartDataUpdate() {
     return this.videoService.ChartDataUpdate();
   }

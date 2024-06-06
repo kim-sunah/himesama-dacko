@@ -33,13 +33,14 @@ const ViewChart: React.FC<ChartProps> = ({ data }) => {
         axisLeft={{
             tickSize: 5,
             tickPadding: 15,
-            tickRotation: 0,
+            tickRotation: 10,
             legend: 'count',
             legendOffset: -80,
             legendPosition: 'middle',
             truncateTickAt: 0
+            
         }}
-        pointSize={10}
+        pointSize={15}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={2}
         pointBorderColor={{ from: 'serieColor' }}
