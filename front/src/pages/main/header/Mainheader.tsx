@@ -177,12 +177,10 @@ export function Mainheader() {
               CONTACT
             </Link>
           </NavigationMenuLink>
-
-
         </NavigationMenuList>
       </NavigationMenu>
-
       </div>
+    
       
 
 

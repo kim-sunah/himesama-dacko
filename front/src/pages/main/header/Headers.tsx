@@ -39,62 +39,66 @@ export default function Headers() {
     
     const getYouTubeChannelId = async (event: FormEvent<HTMLFormElement>): Promise<any> => {
         event.preventDefault();
-        if (ChannelId.current?.value && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(ChannelId.current?.value)) {
-            if (ChannelId.current!.value.includes('http')) {
-                if (ChannelId.current!.value.includes('@')) {
-                    const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
-                    const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelurl`, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ Channel_Url_Id: username })
-                    });
-
-                    if (!respose.ok) {
-                        throw new Error("Failed to fetch data");
-                    }
-
-                    const data = await respose.json();
-                    (event.target as HTMLFormElement).reset();
-
-                    console.log(data);
-                    window.location.href = `/${username}`
-                    dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
-                }
-                else {
-                    const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
-                    if (channel) {
-                        const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
+        if(ChannelId.current?.value){
+            if (ChannelId.current?.value && /^[^\\~!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/.test(ChannelId.current?.value)) {
+                if (ChannelId.current!.value.includes('http')) {
+                    if (ChannelId.current!.value.includes('@')) {
+                        const username = extractUsernameFromYouTubeUrl(ChannelId.current!.value);
+                        const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelurl`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ Channel_Url_Id: channel[0] })
+                            body: JSON.stringify({ Channel_Url_Id: username })
                         });
+    
                         if (!respose.ok) {
                             throw new Error("Failed to fetch data");
                         }
+    
                         const data = await respose.json();
                         (event.target as HTMLFormElement).reset();
-                        window.location.href = `/${channel[0]}`
+    
+                        console.log(data);
+                        window.location.href = `/${username}`
                         dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
+                    }
+                    else {
+                        const channel = ChannelId.current!.value.match(/(?<=channel\/)[\w-]+/);
+                        if (channel) {
+                            const respose = await fetch(`${process.env.REACT_APP_BACKEND_API}/channellist/channelId`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ Channel_Url_Id: channel[0] })
+                            });
+                            if (!respose.ok) {
+                                throw new Error("Failed to fetch data");
+                            }
+                            const data = await respose.json();
+                            (event.target as HTMLFormElement).reset();
+                            window.location.href = `/${channel[0]}`
+                            dispatch(channelActions.addTochannelInfo({ channelInfo: data })); // data를 전달해야 
+                        }
+                    }
+                }
+                else {
+                    if (ChannelId.current!.value) {
+    
+                        window.location.href = `/seachlist/${ChannelId.current!.value}`;
+                        (event.target as HTMLFormElement).reset();
                     }
                 }
             }
             else {
-                if (ChannelId.current!.value) {
-
-                    window.location.href = `/seachlist/${ChannelId.current!.value}`;
-                    (event.target as HTMLFormElement).reset();
-                }
+                alert("특수문자가 포함되어있습니다.");
             }
+
         }
-        else {
-            alert("특수문자가 포함되어있습니다.");
-        }
+       
     }
 
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-10 ">
          
-         <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6 md:flex md:gap-4 mb-10">
+         <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6 md:grid md:grid-cols-1 md:gap-6 mb-10 lg:flex lg:gap-4 " >
         <CardActionArea>
             <Link className="text-black" to="/Ranking/1">
                 <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">

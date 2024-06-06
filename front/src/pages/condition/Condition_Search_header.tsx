@@ -59,7 +59,7 @@ export default function ConditionSearch() {
         </MDBBtn>
       </form>}
 
-      <div style={{ marginTop: "3%", marginBottom: "3%" }}>
+      <div style={{ marginTop: "3%", marginBottom: "3%", display:"flex" , justifyContent:"center" }}>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id="demo-simple-select-label">조건 검색 카테고리</InputLabel>
           <Select
