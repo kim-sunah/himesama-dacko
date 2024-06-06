@@ -98,7 +98,7 @@ export default function Headers() {
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-10 ">
          
-         <div className="max-w-6xl mx-auto grid grid-cols-1 gap-6 md:grid md:grid-cols-1 md:gap-6 mb-10 lg:flex lg:gap-4 " >
+         <div className="max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-10 lg:flex lg:gap-4 " >
         <CardActionArea>
             <Link className="text-black" to="/Ranking/1">
                 <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
