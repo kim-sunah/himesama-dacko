@@ -1,6 +1,3 @@
-
-
-import InfluencerFilterDropdown from './dropdown/InfluencerFilterDropdown';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import * as React from 'react';
