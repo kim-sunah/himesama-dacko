@@ -370,9 +370,7 @@ export class FilterService {
     console.log("Hello");
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} filter`;
-  }
+ 
 }
 
 
