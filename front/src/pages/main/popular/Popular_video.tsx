@@ -27,32 +27,31 @@ export default function Popularvideo(): JSX.Element {
     급 인기 상승 동영상 TOP 5
   </h1>
   <div style={{ 
-    display: "grid", 
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
-    gap: "20px", 
-    justifyContent: "center",
-    padding: "2%" 
-  }}>
-    {Popular_video &&
-      Popular_video.map((video) => (
-        <div key={video.id} style={{ 
-          minHeight: "275px", 
-          maxWidth: "500px", 
-          width: "100%", 
-          margin: "0 auto"
-        }}>
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${video.id}`}
-            title="YouTube video player"
-            style={{ display: "block"}}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      ))}
-  </div>
+  display: "grid", 
+  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
+  gap: "20px", 
+  justifyContent: "center", 
+  padding: "2%" 
+}}>
+  {Popular_video && Popular_video.map((video) => (
+    <div key={video.id} style={{ 
+      minHeight: "275px", 
+      width: "100%", 
+      margin: "0 auto"
+    }}>
+      <iframe
+        width="100%"
+        height="100%"
+        src={`https://www.youtube.com/embed/${video.id}`}
+        title="YouTube video player"
+        style={{ display: "block", aspectRatio: "16/9" }}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  ))}
+</div>
+
 </>
 
 

@@ -6,6 +6,14 @@ import Postmethod from "../../../http/Post_method";
 import { BsFilterLeft } from "react-icons/bs";
 import React from "react";
 import "../../../styles/Condition.css"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../../component/v0/Condition_Card"
 
 interface InputDropdownProps {
   title: string;
@@ -175,6 +183,7 @@ const InfluencerFilterDropdown : React.FC<InputDropdownProps> = ({title}) => {
           </div>
         </form>
       </Nav>
+     
     )}
   </div>
    

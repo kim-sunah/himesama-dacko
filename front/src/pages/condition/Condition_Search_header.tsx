@@ -10,6 +10,9 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MDBBtn, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
 import VideoFilterDropdown from './dropdown/VideoFilterDropdown';
+import { DropdownMenuDemo } from './dropdown/DropdownMenuDemo';
+
+import { DialogCloseButton } from '../../component/Modal/DialogCloseButton';
 
 
 export default function ConditionSearch() {
@@ -18,6 +21,8 @@ export default function ConditionSearch() {
   const currentPath = location.pathname;
   const FirstPath = currentPath.split('/')[1];
   const SecondPath = currentPath.split('/')[2];
+  const queryParams = new URLSearchParams(location.search);
+  const search = queryParams.get('search');
   const [category, setcategory] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -77,9 +82,7 @@ export default function ConditionSearch() {
       </div>
 
       <div className="dropdown" style={{ marginTop: '3.8%', marginRight: "11%", marginLeft: "2%" }}>
-        {SecondPath === "InfluencerFilter" && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>}
-        {/* {Influencer && <InfluencerFilterDropdown title="Influencer Filter"></InfluencerFilterDropdown>} */}
-        {/* {Path === "VideoFilter" && <BsFilterLeft size="40" title="Video Filter"  onClick={() => setVideo(true)}></BsFilterLeft>} */}
+        {SecondPath === "InfluencerFilter"  && <DialogCloseButton></DialogCloseButton>}
          {SecondPath === "VideoFilter" && <VideoFilterDropdown title="Video Filter"></VideoFilterDropdown>} 
       </div>
     </div>
