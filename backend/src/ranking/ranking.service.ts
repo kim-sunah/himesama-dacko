@@ -13,9 +13,7 @@ import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 @Injectable()
 export class RankingService {
   constructor(@InjectRepository(Channellist) private readonly channelRepository: Repository<Channellist>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
-  create(createRankingDto: CreateRankingDto) {
-    return 'This action adds a new ranking';
-  }
+ 
 
   async getTopChannels(page: number, select: string) {
     if (select === "High_Subscriber") {
@@ -225,111 +223,6 @@ export class RankingService {
 
   // }
 
-  async Rankingupdate(tag: string) {
-
-
-  }
-
-  async updateSystem() {
-
-    const channelInfo = await this.channelRepository.find();
-    for (const info of channelInfo) {
-      if (info.Channel_Url_Id.includes("@")) {
-        const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-        const channelData = response.data
-        if (!isNaN(((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) && !isNaN(((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) && +info.subscriberCount !== 0 && +info.viewCount !== 0) {
-          await this.channelRepository.update(info.id,
-            {
-              previous_subscriberCount: +info.subscriberCount,
-              subscriberCount: +channelData.items[0].statistics.subscriberCount,
-              previous_viewCount: +info.viewCount,
-              viewCount: +channelData.items[0].statistics.viewCount,
-              previous_videoCount: +info.videoCount,
-              videoCount: +channelData.items[0].statistics.videoCount,
-              subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-              viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-            });
-        }
-        else if (+info.subscriberCount === 0) {
-          const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-          const channelData = response.data
-          await this.channelRepository.update(info.id,
-            {
-              previous_subscriberCount: +info.subscriberCount,
-              subscriberCount: +channelData.items[0].statistics.subscriberCount,
-              previous_viewCount: +info.viewCount,
-              viewCount: +channelData.items[0].statistics.viewCount,
-              previous_videoCount: +info.videoCount,
-              videoCount: +channelData.items[0].statistics.videoCount,
-              subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-              viewCount_percentageincrease: 0
-            });
-        }
-        else if (+info.viewCount === 0) {
-          const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-          const channelData = response.data
-          await this.channelRepository.update(info.id, {
-            previous_subscriberCount: +info.subscriberCount,
-            subscriberCount: +channelData.items[0].statistics.subscriberCount,
-            previous_viewCount: +info.viewCount,
-            viewCount: +channelData.items[0].statistics.viewCount,
-            previous_videoCount: +info.videoCount,
-            videoCount: +channelData.items[0].statistics.videoCount,
-            subscriberCount_percentageincrease: 0,
-            viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-          });
-        }
-      }
-
-      else {
-        const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-        const channelData = response.data
-        if (!isNaN(((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) && !isNaN(((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) && +info.subscriberCount !== 0 && +info.viewCount !== 0) {
-          await this.channelRepository.update(info.id,
-            {
-              previous_subscriberCount: +info.subscriberCount,
-              subscriberCount: +channelData.items[0].statistics.subscriberCount,
-              previous_viewCount: +info.viewCount,
-              viewCount: +channelData.items[0].statistics.viewCount,
-              previous_videoCount: +info.videoCount,
-              videoCount: +channelData.items[0].statistics.videoCount,
-              subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-              viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-            });
-        }
-        else if (+info.subscriberCount === 0) {
-          const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-          const channelData = response.data
-          await this.channelRepository.update(info.id,
-            {
-              previous_subscriberCount: +info.subscriberCount,
-              subscriberCount: +channelData.items[0].statistics.subscriberCount,
-              previous_viewCount: +info.viewCount,
-              viewCount: +channelData.items[0].statistics.viewCount,
-              previous_videoCount: +info.videoCount,
-              videoCount: +channelData.items[0].statistics.videoCount,
-              subscriberCount_percentageincrease: +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-              viewCount_percentageincrease: 0
-            });
-        }
-        else if (+info.viewCount === 0) {
-          const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-          const channelData = response.data
-          await this.channelRepository.update(info.id, {
-            previous_subscriberCount: +info.subscriberCount,
-            subscriberCount: +channelData.items[0].statistics.subscriberCount,
-            previous_viewCount: +info.viewCount,
-            viewCount: +channelData.items[0].statistics.viewCount,
-            previous_videoCount: +info.videoCount,
-            videoCount: +channelData.items[0].statistics.videoCount,
-            subscriberCount_percentageincrease: 0,
-            viewCount_percentageincrease: +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-          });
-        }
-
-      }
-    }
-  }
 
   async increaseview() {
     const channelInfo = await this.channelRepository.find({

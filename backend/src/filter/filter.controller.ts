@@ -39,8 +39,6 @@ export class FilterController {
   }
 
 
-
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.filterService.remove(+id);

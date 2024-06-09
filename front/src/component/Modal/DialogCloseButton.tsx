@@ -56,11 +56,9 @@ export function DialogCloseButton() {
                 queryParams.VideoMin = videoMin;
                 queryParams.VideoMax = videoMax;
             }
-
             const queryString = new URLSearchParams(queryParams).toString();
             console.log(queryString)
             navigate(`${location.pathname}?search=${QuerySearchInvalid}&${queryString}`);
-
         }
         else {
             const queryParams: Record<string, string> = {};

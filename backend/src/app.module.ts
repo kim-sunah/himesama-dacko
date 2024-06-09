@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SubscriberModule } from './subscriber/subscriber.module';
+
 import { TestModule } from './test/test.module';
 import { ChannellistModule } from './channellist/channellist.module';
 import { ConfigService, ConfigModule } from '@nestjs/config';
@@ -19,6 +19,7 @@ import { videocomment } from './video/entities/videocomment.entity';
 import { videolike } from './video/entities/videolike.entity';
 
 import { videoview } from './video/entities/videoview.entity';
+import { UpdateModule } from './update/update.module';
 
 
 const typeOrmModuleOptions = {
@@ -57,9 +58,10 @@ const typeOrmModuleOptions = {
   ,
   TypeOrmModule.forRootAsync(typeOrmModuleOptions),
   ScheduleModule.forRoot(),
-  SubscriberModule, TestModule, ChannellistModule, RankingModule, FilterModule,
+   TestModule, ChannellistModule, RankingModule, FilterModule,
   CacheModule.register({ttl: 864000000, max: 1000,isGlobal: true}),
-  VideoModule],
+  VideoModule,
+  UpdateModule],
   controllers: [AppController],
   providers: [AppService],
 })

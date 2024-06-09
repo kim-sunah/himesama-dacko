@@ -71,7 +71,7 @@ export default function ConditionSearch() {
             label="조건 검색 카테고리"
             onChange={handleChange}
           >
-            <MenuItem value={"InfluencerFilter"} >{FirstPath ==="Condition_Search" ? "인플루언서" : "검색 관련 채널"}</MenuItem>
+            <MenuItem value={"InfluencerFilter"} >{FirstPath ==="Condition_Search" ? "채널" : "검색 관련 채널"}</MenuItem>
             <MenuItem value={"VideoFilter"}>영상</MenuItem>
 
           </Select>

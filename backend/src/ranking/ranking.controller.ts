@@ -8,12 +8,6 @@ import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 @Controller('ranking')
 export class RankingController {
   constructor(private readonly rankingService: RankingService) {}
-
-  @Post()
-  create(@Body() createRankingDto: CreateRankingDto) {
-    return this.rankingService.create(createRankingDto);
-  }
-
   
   @Post('Subscriber-channels/:pagenumber')
   async SubscriberChannels(@Param("pagenumber") pagenumber : string,@Body("select") select : string) {
@@ -60,13 +54,6 @@ export class RankingController {
   @Get("increaseSubscriber")
   async increaseSubscriber(){
     return await this.rankingService.increaseSubscriber()
-  }
-
-  // @Cron("0 0 17 * * 1-7")
-  @Cron("0 0 17 * * 1-7")
-
-  async updateSystem() {
-    return await this.rankingService.updateSystem()
   }
   
 }
