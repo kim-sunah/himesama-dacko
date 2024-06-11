@@ -19,4 +19,21 @@
   min-width : 200px;
 }
 
+ /* 타블렛 */
+@media screen and (max-width:1023px) {
+  .filter{
+    width:30%;
+    float:right;
+    
+  }
+}
+
+ /* 모바일 */
+ @media screen and (max-width: 767px) {
+  .filter {
+    width: 80%;
+    display: flex;
+    justify-content: flex-end; /* Use flex-end to align to the right */
+  }
+}
 

@@ -81,49 +81,50 @@ export function DialogCloseButton() {
     return (
         <Dialog >
             <DialogTrigger asChild >
-                <Button variant="outline" >Filter</Button>
+                <Button className="bg-black text-white ">조건 검색</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md bg-white">
                 <DialogHeader>
                     <DialogTitle>조건 검색</DialogTitle>
 
                 </DialogHeader>
-                <div className="flex gap-6">
-                    <Label htmlFor="name" className="text-right whitespace-nowrap" style={{ marginTop: "2rem" }}>
+                <div className="flex gap-6" style={{  display:"felx", alignItems:"center"  }}>
+                    <Label htmlFor="name" className="text-right whitespace-nowrap" style={{ marginTop:"1.5rem"}}>
                         구독자
                     </Label>
-                    <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="number">최소 구독자</Label>
+                    <div className="grid w-full max-w-sm items-center gap-1.5"  >
+                        <Label htmlFor="number">최소 </Label>
                         <Input type="number" id="number"  value={subscriberMin} onChange={(e) => setSubscriberMin(e.target.value)}/>
                     </div>
+                    
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="number">최대 구독자</Label>
+                        <Label htmlFor="number">최대 </Label>
                         <Input type="number" id="number"  value={subscriberMax} onChange={(e) => setSubscriberMax(e.target.value)}/>
                     </div>
                 </div>
-                <div className="flex gap-6">
-                    <Label htmlFor="name" className="text-right whitespace-nowrap" style={{ marginTop: "2rem" }}>
+                <div className="flex gap-6" style={{  display:"felx", alignItems:"center"  }}>
+                    <Label htmlFor="name" className="text-right whitespace-nowrap" >
                         조회수
                     </Label>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="number">최소 조회수</Label>
+                        
                         <Input type="number" id="number"   value={viewMin} onChange={(e) => setViewMin(e.target.value)}/>
                     </div>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="number">최대 조회수</Label>
+
                         <Input type="number" id="number"     value={viewMax}onChange={(e) => setViewMax(e.target.value)}/>
                     </div>
                 </div>
-                <div className="flex gap-6">
-                    <Label htmlFor="name" className="text-right whitespace-nowrap" style={{ marginTop: "2rem" }}>
+                <div className="flex gap-6" style={{  display:"felx", alignItems:"center"  }}>
+                    <Label htmlFor="name" className="text-right whitespace-nowrap" >
                         동영상
                     </Label>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="number">최소 영상수</Label>
+                       
                         <Input type="number" id="number"   value={videoMin} onChange={(e) => setVideoMin(e.target.value)}/>
                     </div>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="number">최대 영상수</Label>
+                       
                         <Input type="number" id="number"     value={videoMax}  onChange={(e) => setVideoMax(e.target.value)}/>
                     </div>
                 </div>

@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
-import ConditionSearch from "../Condition_Search_header";
+
+import Header from "../Header";
 
 
 export default function ConditionRoot (){
     return (
         <main>
-            <ConditionSearch></ConditionSearch>
+            <Header></Header>
             
             <Outlet></Outlet>
         </main>

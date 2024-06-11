@@ -123,7 +123,7 @@ export default function YoutubeConditionInfluencer() {
 
         <div style={{ marginLeft: '10%', marginRight: '10%' }}>
             {loading ? (
-                <div style={{ textAlign: "center", display: "block" }}>
+                <div style={{ textAlign: "center", display: "block", marginTop: "10%"  }}>
                     <Box >
                         <CircularProgress />
                     </Box>
