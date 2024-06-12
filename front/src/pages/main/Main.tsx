@@ -1,6 +1,5 @@
 
-import { useChannelSelector } from "../../store/hooks";
-import Body from "../channel_detail/Body";
+
 import Footer from "../footer/Footer";
 
 import Headers from "./header/Headers";
@@ -9,8 +8,6 @@ import Popularvideo from "./popular/Popular_video";
 import Popularview from "./popular/Popular_view";
 
 export default function Main() {
-    const ChannelInfo = useChannelSelector((state) => state.channel.items)
-
     return (
 
         <div>

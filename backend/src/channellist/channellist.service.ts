@@ -51,12 +51,9 @@ export class ChannellistService {
   }
 
   async Getvideosearch(search: string) {
-
     const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
     const resData = response.data;
-
     return await this.FilterService.videoFilter(resData);
-
   }
 
   async searchchannel(Channel_Url_Id: string) {
@@ -68,7 +65,6 @@ export class ChannellistService {
     return await this.channelList.findOne({ where: { Channel_Url_Id: channelId } })
 
   }
-
 
   async Channel_VideoCount() {
     // Skip all but the last record (offset of total - 1)
@@ -239,15 +235,10 @@ export class ChannellistService {
             }
           }
         }
-       
       }
-
     }
-    
-   
     return ChannelData}
-
-  }
+}
 
   async YoutubeApiGetVideo(YoutubeInfluencer: YoutubePageToken, search: string) {
     if (YoutubeInfluencer.PageToken) {
@@ -261,7 +252,5 @@ export class ChannellistService {
       const resData = response.data;
       return await this.FilterService.videoFilter(resData);
     }
-
-
   }
 }

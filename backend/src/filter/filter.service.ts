@@ -3,7 +3,7 @@ import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
-import { Between, MoreThanOrEqual, Repository, getRepository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import axios from 'axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -237,8 +237,6 @@ export class FilterService {
               channelDataArray.push({ Channel_Url_Id: data.Channel_Url_Id, channel_img: ChannelData.items[0].snippet.thumbnails.default.url, videotitle: info.snippet.title, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, publishedAt: info.snippet.publishedAt, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount: +channelcategoryData.items[0].statistics.viewCount, videolikecount: +channelcategoryData.items[0].statistics.likeCount, videocommentcount: +channelcategoryData.items[0].statistics.commentCount })
             }
           }
-
-
         }
       }
       return channelDataArray
@@ -246,7 +244,6 @@ export class FilterService {
     catch (err) {
       console.log(err)
     }
-
   }
   private getOneHourAgo(): string {
     const now = new Date();
@@ -255,7 +252,6 @@ export class FilterService {
   }
 
   async Filterlength(createFilterDto: CreateFilterDto, search: string) {
-
     try {
       if (createFilterDto.upload === "1Hour_ago") {
         const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&publishedAfter=${this.getOneHourAgo()}&key=${process.env.Youtbe_Api_KEY}`)
@@ -284,7 +280,6 @@ export class FilterService {
     } catch (error) {
       throw new Error('Error fetching data from YouTube API: ' + error.message);
     }
-
   }
 
   async FilterDuration(videoDuration: string, search: string) {
@@ -369,8 +364,6 @@ export class FilterService {
   async YoutubeApiInfluencerOrder(YoutubeAPiOrder :InfluencerOrder ,pagenumber : number){
     console.log("Hello");
   }
-
- 
 }
 
 

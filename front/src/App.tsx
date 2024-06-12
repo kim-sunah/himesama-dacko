@@ -23,6 +23,7 @@ import YoutubeRoot from './pages/condition/youtube/Youtube_Root';
 import YoutubeConditionInfluencer from './pages/condition/youtube/Youtube_Condition_Influencer';
 import YoutubeConditionVideo from './pages/condition/youtube/Youtube_Condition_Video';
 import Ranking from './pages/ranking/Ranking';
+import IntroductionWebsite from './pages/introduction_website/IntroductionWebsite';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
     
     {path:"",element:<Root></Root>, errorElement:<Error></Error>, children:[
       {index: true , element : <Main></Main>},
+      {path :"Introduction", element:<IntroductionWebsite></IntroductionWebsite>},
       {path : ":Id" , element: <Body></Body>},
       {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
         {path : ":pagenumber", element :<Ranking></Ranking>},

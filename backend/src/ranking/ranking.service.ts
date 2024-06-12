@@ -287,12 +287,8 @@ export class RankingService {
     else {
       const channelData = [];
       for (const info of channelInfo) {
-
-
-
         if (info.Channel_Url_Id.includes("@")) {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)
-
           const resData = response.data
           if (resData && resData.items && resData.items.length > 0) {
             channelData.push({ channelnickname: resData.items[0].snippet.title, channelId: resData.items[0].snippet.customUrl, channelimg: resData.items[0].snippet.thumbnails.high.url });
@@ -300,7 +296,6 @@ export class RankingService {
           else{
             continue;
           }
-
         }
         else {
           const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`)

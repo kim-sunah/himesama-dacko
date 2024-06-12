@@ -16,6 +16,8 @@ export default function Header() {
   const currentPath = location.pathname;
   const FirstPath = currentPath.split('/')[1];
   const SecondPath = currentPath.split('/')[2];
+  const SearchRef = useRef<HTMLInputElement>(null);
+
   const handleChange = (value: string) => {
     if (FirstPath === "Condition_Search") {
       navigate(`/Condition_Search/${value}/1`);
@@ -23,8 +25,7 @@ export default function Header() {
       navigate(`/YoutubeCondition/${value}`);
     }
   };
-  const SearchRef = useRef<HTMLInputElement>(null);
-
+ 
   const submithandler = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if(!SecondPath){
@@ -41,10 +42,7 @@ export default function Header() {
       } else {
         alert("특수문자가 포함되어있습니다.");
       }
-      
-    
   }
-
   return (
     <header className=" py-4 px-8  md:flex-row">
       {FirstPath === "YoutubeCondition" &&      

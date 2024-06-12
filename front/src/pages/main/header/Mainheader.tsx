@@ -49,7 +49,7 @@ export function Mainheader() {
           </Link>
           <div className="grid gap-2 py-6">
             <Link to="/" className="flex w-full items-center py-2 text-lg font-semibold text-black">
-              Youtube Search
+              홈
             </Link>
             <Link to="#" className="flex w-full items-center py-2 text-lg font-semibold text-black">
               About
@@ -92,8 +92,8 @@ export function Mainheader() {
             <Link to="#" className="flex w-full items-center py-2 text-lg font-semibold text-black">
               Pricing
             </Link>
-            <Link to="#" className="flex w-full items-center py-2 text-lg font-semibold text-black">
-              Contact
+            <Link   to="/Introduction" className="flex w-full items-center py-2 text-lg font-semibold text-black">
+            홈페이지 소개
             </Link>
           </div>
         </SheetContent>
@@ -102,7 +102,7 @@ export function Mainheader() {
       <NavigationMenu className="flex justify-center mt-3 sm:hidden md:flex " >
         <NavigationMenuList >
           <NavigationMenuLink >
-            <Link to="/" className="  group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50">Youtube Search</Link>
+            <Link to="/" className="  group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50">홈</Link>
           </NavigationMenuLink>
           <NavigationMenuLink >
             <Link
@@ -172,82 +172,17 @@ export function Mainheader() {
           <NavigationMenuLink asChild>
             <Link
               className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-              to="#"
+              to="/Introduction"
             >
-              CONTACT
+              홈페이지 소개
             </Link>
           </NavigationMenuLink>
         </NavigationMenuList>
       </NavigationMenu>
       </div>
-    
-      
-
-
-
-
     </header>
   )
 }
 
-interface IconProps {
-  className?: string;
-  // 다른 prop들도 여기에 추가할 수 있습니다.
-}
 
-const ChevronRightIcon: React.FC<IconProps> = (props: IconProps) => {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
 
-const MenuIcon: React.FC<IconProps> = (props: IconProps) => {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
-
-const MountainIcon: React.FC<IconProps> = (props: IconProps) => {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}

@@ -9,6 +9,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { AiOutlineFileSearch } from "react-icons/ai";
 import Getmethod from "../../../http/Get_method";
 import { BiLogoYoutube } from "react-icons/bi";
+import LiveTvIcon from '@mui/icons-material/LiveTv';
+
 
 interface Count{
     lastChannel : string
@@ -98,7 +100,7 @@ export default function Headers() {
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-10 ">
          
-        <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-10 lg:flex lg:gap-6" >
+        <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-10 lg:flex lg:gap-6  lg:justify-center" >
         <CardActionArea >
             <Link className="text-black" to="/Ranking/1">
                 <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
@@ -128,6 +130,17 @@ export default function Headers() {
                     <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색</h3>
                     <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
                         Youtube api 기반 채널, 영상 맞춤 조건 검색
+                    </p>
+                </Card>
+            </Link>
+        </CardActionArea>
+        <CardActionArea>
+            <Link className="text-black" to="/Condition_Search/">
+                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
+                    <LiveTvIcon className="text-black" fontSize="large"/>
+                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">실시간 라이브 인기 영상</h3>
+                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
+                        Youtube api기반 실시간 라이브 인기 영상
                     </p>
                 </Card>
             </Link>
