@@ -129,18 +129,18 @@ export default function Headers() {
                     <BiLogoYoutube className="text-red-600 h-9 w-9" />
                     <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색</h3>
                     <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
-                        Youtube api 기반 채널, 영상 맞춤 조건 검색
+                         채널, 영상 맞춤 조건 검색
                     </p>
                 </Card>
             </Link>
         </CardActionArea>
         <CardActionArea>
-            <Link className="text-black" to="/Condition_Search/">
+            <Link className="text-black" to="/Live">
                 <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
                     <LiveTvIcon className="text-black" fontSize="large"/>
                     <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">실시간 라이브 인기 영상</h3>
                     <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
-                        Youtube api기반 실시간 라이브 인기 영상
+                        Youtube api기반 실시간 인기 영상
                     </p>
                 </Card>
             </Link>
