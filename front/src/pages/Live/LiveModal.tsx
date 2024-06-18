@@ -1,4 +1,4 @@
-import React, { useState, useRef, Children } from "react";
+import React, { useState, useRef } from "react";
 import classes from "../../styles/Live.module.css";
 import { LiveVideo } from "../../enum/Live";
 import { PopularVideo } from "../../enum/Popular";
@@ -8,26 +8,23 @@ type VideoId = { videoId: string };
 interface LiveModalProps {
   handleCloseModal: (event: React.MouseEvent<HTMLDivElement>) => void;
   selectedVideo: LiveVideo | PopularVideo | null;
-  children: React.ReactNode;
-  videolist: PopularVideo[];
+  videolist: PopularVideo[] | LiveVideo[];
+  onmodal : Function;
 }
 
-const formatDuration = (duration: string): string => {
-  let hours = 0, minutes = 0, seconds = 0;
-  duration.match(/(\d+)(?=[HMS])/g)?.forEach((part, index, parts) => {
-    if (duration.includes('H')) hours = parseInt(parts[index]);
-    if (duration.includes('M')) minutes = parseInt(parts[index]);
-    if (duration.includes('S')) seconds = parseInt(parts[index]);
-  });
-  return [hours, minutes, seconds].map(unit => String(unit).padStart(2, '0')).join(':');
-};
+
 
 const LiveModal: React.FC<LiveModalProps> = (props) => {
+
+
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
+
+  
+  
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setDragOffset({
@@ -49,7 +46,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
   };
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
+    
     const delta = event.deltaY;
     const container = containerRef.current;
 
@@ -79,6 +76,17 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
     return typeof obj === "object" && obj !== null && "videoId" in obj;
   };
 
+  const ScrollTop = ()  =>{
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    container.scrollTo({
+      top: 0 ,
+      behavior: "smooth",
+    });
+  }
+
   return ( 
     <div
       className="fixed z-50 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/60"    onClick={(e) => {if (e.target === e.currentTarget) { props.handleCloseModal(e)}}}>
@@ -101,7 +109,6 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
       >
         <div>
           <div>
-         
           </div>
           <div>
             <div
@@ -129,9 +136,29 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                 allowFullScreen
               ></iframe>
             </div>
+            
           </div>
-                {props.children}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+                        {props.videolist.map((video , index) => (
+                            props.selectedVideo!.id !== video.id && <div key={index} className="relative group"  onClick={() => props.onmodal(video)}>
+                                <img
+                                    src={video.snippet.thumbnails.high.url}
+                                    alt={video.snippet.title}
+                                    width={video.snippet.thumbnails.high.width / 2}
+                                    height={video.snippet.thumbnails.high.height / 2}
+                                    className="object-cover w-full aspect-video rounded-lg"
+                                    onClick={ScrollTop}
+                                />
+                                <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded-lg">
+                                    <h3 className="font-semibold line-clamp-2" style={{ fontSize: "1rem" }}>{video.snippet.title}</h3>
+                                   
+                                </div>
+                            </div>
+                            
+                        ))}
+                    </div>
         </div>
+    
       </div>
     </div>
   );
