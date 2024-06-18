@@ -51,18 +51,6 @@ export default function Live() {
   
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         let selectnumberId;
-    //         if (selectedCategory in CategoryIdMap) {
-    //             selectnumberId = CategoryIdMap[selectedCategory];
-    //         }
-          
-
-    //     }
-    //     fetchData();
-    // }, [selectedCategory, showliveModal, showModal, selectedVideo])
-
 
     const fetchVideos = async (pageToken: string | null = null) => {
  
