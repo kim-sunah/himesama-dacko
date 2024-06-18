@@ -5,6 +5,7 @@ import { Button } from "../../component/v0/button";
 import classes from "../../styles/Live.module.css";
 import { PopularVideo } from "../../enum/Popular";
 import { LiveVideo } from "../../enum/Live";
+import LiveModal from "./LiveModal";
 const CategoryIdMap: { [key: string]: number } = {
     "All": 0,
     "Film & Animation": 1,
@@ -65,11 +66,12 @@ export default function Live() {
         setSelectedVideo(video)
         setShowModal(true)
     }
-
+    
     const LivehandleOpenModal =(video : LiveVideo) =>{
         setSelectedliveVideo(video)
         setShowliveModal(true)
     }
+
     const handleCloseModal = () => {
         setSelectedVideo(null)
         setShowModal(false)
@@ -79,6 +81,12 @@ export default function Live() {
         setSelectedliveVideo(null)
         setShowliveModal(false)
     }
+
+    const onModal = (video: PopularVideo | LiveVideo) => {
+        setSelectedVideo(video)
+        
+    }
+    console.log(selectedVideo)
 
 
 
@@ -143,85 +151,34 @@ export default function Live() {
                     ))}
                 </div>
             </div>
-            {showModal && (
-                <div className="fixed z-50 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/60" onClick={handleCloseModal}>
-                    <div>
-                        <div>
-                            <div className="text-white"> {selectedVideo?.snippet.title.padEnd(200, '\u00A0')}</div>
-                            {/* <div>
-                               {formatDuration(selectedVideo?.contentDetails.duration)} views
-                            </div> */}
-                        </div>
-                        <div>
-                            <div style={{
-                                minHeight: "275px",
-                                width: "100%",
-                                margin: "0 auto",
-                                position: "relative",
-                                paddingBottom: "56.25%", /* 16:9 비율을 유지하기 위한 값 */
-                            }}>
-                                <iframe
-                                    className={`${classes.aspectVideoItem}`}
-                                    src={`https://www.youtube.com/embed/${selectedVideo?.id}`}
-                                    title="YouTube video player"
-                                    style={{
-                                        position: "absolute",
-                                        top: "0",
-                                        left: "0",
-                                        width: "100%",
-                                        height: "100%",
-                                    }}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
+            {showModal && ( <div>
+                <LiveModal handleCloseModal={handleCloseModal} selectedVideo={selectedVideo} videolist={videolist}> 
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+                    {videolist.map((video) => (
+                        selectedVideo!.id  !== video.id &&   <div key={video.id} className="relative group" onClick={() => onModal(video)}>
+                        <img
+                            src={video.snippet.thumbnails.high.url}
+                            alt={video.snippet.title}
+                            width={video.snippet.thumbnails.high.width/2}
+                            height={video.snippet.thumbnails.high.height/2}
+                            className="object-cover w-full aspect-video rounded-lg"
+                        />
+                        <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded-lg">
+                            <h3 className="font-semibold line-clamp-2" style={{ fontSize: "1rem" }}>{video.snippet.title}</h3>
+                            <div className="text-sm flex justify-end items-center gap-2">
+                                <span>{formatDuration(video.contentDetails.duration)}</span>
+                                {/* <span>&middot;</span>
+                                    <span>{video.views} views</span> */}
                             </div>
-
-                        </div>
-                        <div>
-                            <Button onClick={handleCloseModal}>Close</Button>
                         </div>
                     </div>
+                      
+                    ))}
                 </div>
-            )}
-            {showliveModal && 
-               <div className="fixed z-50 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/60" onClick={LivehandleCloseModal}>
-               <div>
-                   <div>
-                       <div className="text-white"> {selectedliveVideo?.snippet.title.padEnd(200, '\u00A0')}</div>
-                       {/* <div>
-                          {formatDuration(selectedVideo?.contentDetails.duration)} views
-                       </div> */}
-                   </div>
-                   <div>
-                       <div style={{
-                           minHeight: "275px",
-                           width: "100%",
-                           margin: "0 auto",
-                           position: "relative",
-                           paddingBottom: "56.25%", /* 16:9 비율을 유지하기 위한 값 */
-                       }}>
-                           <iframe
-                               className={`${classes.aspectVideoItem}`}
-                               src={`https://www.youtube.com/embed/${selectedliveVideo?.id.videoId}`}
-                               title="YouTube video player"
-                               style={{
-                                   position: "absolute",
-                                   top: "0",
-                                   left: "0",
-                                   width: "100%",
-                                   height: "100%",
-                               }}
-                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                               allowFullScreen
-                           ></iframe>
-                       </div>
-
-                   </div>
-                   <div>
-                       <Button onClick={LivehandleCloseModal}>Close</Button>
-                   </div>
-               </div>
-           </div>}
+                 </LiveModal>
+                </div>)}
+            
+            {showliveModal &&  ( <LiveModal handleCloseModal={LivehandleCloseModal} selectedVideo={selectedliveVideo} videolist={videolist}> <p>asdasdassda</p></LiveModal>)}
         </div>
     )
 

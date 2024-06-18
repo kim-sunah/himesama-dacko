@@ -1,0 +1,22 @@
+.wrapper {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh; /* 부모 컨테이너가 전체 화면 높이를 차지 */
+}
+
+.footer {
+   background-color: #333;
+   color: #fff;
+   padding: 20px;
+   border-top: 1px solid #444;
+}
+
+.maincontainer {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh; /* 화면 전체 높이를 차지 */
+}
+
+.maincontent {
+   flex-grow: 1; /* 메인 콘텐츠가 남은 공간을 차지 */
+}

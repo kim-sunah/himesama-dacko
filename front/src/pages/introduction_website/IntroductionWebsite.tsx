@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import test from "../../assets/test.png"
 import "../../styles/IntroductionWebsite.css"
+import Footer from "../footer/Footer";
 export default function IntroductionWebsite() {
     return (
         <div className="w-full prata-regular bold">
@@ -78,34 +79,7 @@ export default function IntroductionWebsite() {
                     </div>
                 </div>
             </main>
-            <footer className="bg-gray-900 text-white py-6 px-4 md:px-6">
-                <div className="container mx-auto flex items-center justify-between">
-                    <p className="text-sm">&copy; 2024 </p>
-                    <div className="flex items-center gap-7">
-                        <p  className="text-sm hover:underline gap-7" >
-                            사업자등록번호:000-00-00000
-                          
-                        </p>
-                        <p  className="text-sm hover:underline gap-7" >
-                            
-                            대표:김선아
-                         
-                        </p>
-                        <p  className="text-sm hover:underline gap-7" >
-                          
-                            주소:경기도 이천시 마장면 ~
-                     
-                        </p>
-                        <p  className="text-sm hover:underline gap-7" >
-                          
-                           
-                            이메일:chlxodud04@naver.com
-                     
-                        </p>
-
-                    </div>
-                </div>
-            </footer>
+          <Footer></Footer>
         </div>
     )
 }

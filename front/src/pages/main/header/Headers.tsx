@@ -98,63 +98,54 @@ export default function Headers() {
     }
 
     return (
-        <div className="bg-gray-100 py-10 px-6 md:px-10 ">
-         
-        <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-10 lg:flex lg:gap-6  lg:justify-center" >
-        <CardActionArea >
-            <Link className="text-black" to="/Ranking/1">
-                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
-                    <EmojiEventsIcon className="text-yellow-300 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14" fontSize="large" />
-                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">랭킹</h3>
-                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
-                        {Count?.lastChannel} 채널의 구독자, 조회수, 동영상 수에 따른 순위
-                    </p>
-                </Card>
-            </Link>
-        </CardActionArea>
-        <CardActionArea>
-            <Link className="text-black" to="/Condition_Search/">
-                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
-                    <AiOutlineFileSearch className="text-purple-600 h-9 w-9" />
-                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">DB 검색</h3>
-                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
-                        {Count?.lastChannel}개 채널, {Count?.lastVideo}개의 영상 데이터 조건검색
-                    </p>
-                </Card>
-            </Link>
-        </CardActionArea>
-        <CardActionArea>
-            <Link className="text-black" to="/YoutubeCondition/">
-                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
-                    <BiLogoYoutube className="text-red-600 h-9 w-9" />
-                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색</h3>
-                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
-                         채널, 영상 맞춤 조건 검색
-                    </p>
-                </Card>
-            </Link>
-        </CardActionArea>
-        <CardActionArea>
-            <Link className="text-black" to="/Live">
-                <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8">
-                    <LiveTvIcon className="text-black" fontSize="large"/>
-                    <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">실시간 라이브 인기 영상</h3>
-                    <p className="text-center text-sm text-gray-600 sm:text-base md:text-lg whitespace-nowrap">
-                        Youtube api기반 실시간 인기 영상
-                    </p>
-                </Card>
-            </Link>
-        </CardActionArea>
-    </div>
-            <div className="container mx-auto flex flex-col items-center justify-between py-6 px-6">
-                <form onSubmit={getYouTubeChannelId} className="flex items-center space-x-4">
-                    <div className="search">
-                        <input ref={ChannelId} type="text" placeholder="Search..." />
-                        <button type="submit"><i className="fa fa-search"></i></button>
-                    </div>
-                </form>
-            </div>
+        <div className="bg-gray-100 py-10 px-6 md:px-10">
+        <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-10 lg:grid lg:grid-cols-4 lg:gap-6 lg:justify-center">
+            <CardActionArea>
+                <Link className="text-black" to="/Ranking/1">
+                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
+                        <EmojiEventsIcon className="text-yellow-300 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14" fontSize="large" />
+                        <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">랭킹</h3>
+                     
+                    </Card>
+                </Link>
+            </CardActionArea>
+            <CardActionArea>
+                <Link className="text-black" to="/Condition_Search/">
+                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
+                        <AiOutlineFileSearch className="text-purple-600 h-9 w-9" />
+                        <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">DB 검색</h3>
+                       
+                    </Card>
+                </Link>
+            </CardActionArea>
+            <CardActionArea>
+                <Link className="text-black" to="/YoutubeCondition/">
+                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
+                        <BiLogoYoutube className="text-red-600 h-9 w-9" />
+                        <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색</h3>
+                       
+                    </Card>
+                </Link>
+            </CardActionArea>
+            <CardActionArea>
+                <Link className="text-black" to="/Live">
+                    <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
+                        <LiveTvIcon className="text-black" fontSize="large" />
+                        <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">실시간 라이브 인기 영상</h3>
+                       
+                    </Card>
+                </Link>
+            </CardActionArea>
         </div>
+        <div className="container mx-auto flex flex-col items-center justify-between py-6 px-6">
+            <form onSubmit={getYouTubeChannelId} className="flex items-center space-x-4">
+                <div className="search">
+                    <input ref={ChannelId} type="text" placeholder="Search..." />
+                    <button type="submit"><i className="fa fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
     )
 
 }
