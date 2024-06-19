@@ -23,18 +23,6 @@ const CategoryIdMap: { [key: string]: number } = {
 };
 
 
-interface Video {
-    id: string;
-    snippet: {
-        title: string;
-        thumbnails: {
-            high: {
-                url: string;
-            };
-        };
-    };
-}
-
 const categories = ["All", "Film & Animation", "Autos & Vehicles", "Music", "Pets & Animals", "Sports", "Gaming", "People & Blogs", "Comedy", "Entertainment", "News & Politics", "Howto & Style", "Science & Technology"]
 
 export default function Live() {
@@ -60,26 +48,31 @@ export default function Live() {
         }
         setLoading(true);
         try {
-            if (pageToken) {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
-                setVideos(prevVideos => {
-                    const existingVideoIds = prevVideos.map(video => video.id);
-                    const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
-                    return [...prevVideos, ...filteredNewVideos];
-                });
-                setNextPageToken(response.nextPageToken);
-            }
-            else if (pageToken === null) {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
-                setVideos(prevVideos => {
-                    const existingVideoIds = prevVideos.map(video => video.id);
-                    const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
-                    return [...prevVideos, ...filteredNewVideos];
-                });
-                setNextPageToken(response.nextPageToken);
+            console.log(selectnumberId)
+            
+                if (pageToken) {
+                    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                    setVideos(prevVideos => {
+                        const existingVideoIds = prevVideos.map(video => video.id);
+                        const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
+                        return [...prevVideos, ...filteredNewVideos];
+                    });
+                    setNextPageToken(response.nextPageToken);
+                }
+                else if (pageToken === null) {
+                    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                    setVideos(prevVideos => {
+                        const existingVideoIds = prevVideos.map(video => video.id);
+                        const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
+                        return [...prevVideos, ...filteredNewVideos];
+                    });
+                    setNextPageToken(response.nextPageToken);
+    
+                }
 
-            }
-            const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=30&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+           
+           
+            const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=50&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
             setlivelist(ShuffleArray(Liveresponse.items))
         } catch (error) {
             console.error('Failed to fetch videos:', error);
@@ -162,9 +155,9 @@ export default function Live() {
 
         <div className="container mx-auto py-8 block">
             <div className="mb-8">
-                <h2 className="text-3xl font-bold mb-4">Trending Now</h2>
+                <h2 className="text-3xl font-bold mb-4">Live Trending Now</h2>
                 <div className="grid grid-cols-5 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    {livelist.map((video, index) => (
+                    {livelist.slice(0, 10).map((video, index) => (
                         <div key={index} className="relative group" onClick={() => LiveHandleOpenModal(video)}>
 
                             <img
@@ -216,10 +209,10 @@ export default function Live() {
                 </div>
             </div>
             {showModal &&
-                <LiveModal handleCloseModal={HandleCloseModal} selectedVideo={selectedVideo} videolist={videos} onmodal={OnModal}></LiveModal>}
+                <LiveModal type={"Popular"} handleCloseModal={HandleCloseModal} selectedVideo={selectedVideo}  onmodal={OnModal} selectedCategory={selectedCategory}></LiveModal>}
 
             {showliveModal && (<div>
-                <LiveModal handleCloseModal={LivehandleCloseModal} selectedVideo={selectedliveVideo} videolist={livelist} onmodal={OnLiveModal}></LiveModal>
+                <LiveModal type={"Live"} handleCloseModal={LivehandleCloseModal} selectedVideo={selectedliveVideo} videolist={livelist} onmodal={OnLiveModal} ></LiveModal>
             </div>)}
         </div>
     )

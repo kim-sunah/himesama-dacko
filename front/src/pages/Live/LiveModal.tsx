@@ -1,16 +1,36 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classes from "../../styles/Live.module.css";
 import { LiveVideo } from "../../enum/Live";
 import { PopularVideo } from "../../enum/Popular";
+import Getmethod from "../../http/Get_method";
 
 type VideoId = { videoId: string };
 
 interface LiveModalProps {
+  type : string
   handleCloseModal: (event: React.MouseEvent<HTMLDivElement>) => void;
   selectedVideo: LiveVideo | PopularVideo | null;
-  videolist: PopularVideo[] | LiveVideo[];
-  onmodal : Function;
+  videolist? : LiveVideo[] 
+  onmodal: Function;
+  selectedCategory?: string
 }
+
+const CategoryIdMap: { [key: string]: number } = {
+  "All": 0,
+  "Film & Animation": 1,
+  "Autos & Vehicles": 2,
+  "Music": 10,
+  "Pets & Animals": 15,
+  "Sports": 17,
+  "Gaming": 20,
+  "People & Blogs": 22,
+  "Comedy": 23,
+  "Entertainment": 24,
+  "News & Politics": 25,
+  "Howto & Style": 26,
+  "Science & Technology": 28,
+};
+
 
 
 
@@ -21,10 +41,102 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState(props.selectedCategory)
+  const [showModal, setShowModal] = useState(false)
+  const [showliveModal, setShowliveModal] = useState(false)
+  const [selectedVideo, setSelectedVideo] = useState<PopularVideo | null | LiveVideo>(null);
+  const [selectedliveVideo, setSelectedliveVideo] = useState<null | LiveVideo>(null);
+  const [videolist, setvideolist] = useState<PopularVideo[]>([])
+  const [livelist, setlivelist] = useState<LiveVideo[]>([]);
+  const [videos, setVideos] = useState<PopularVideo[]>([]);
+  const [nextPageToken, setNextPageToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
 
+
+  const containerModalRef = useRef<HTMLDivElement | null>(null);
+  const fetchVideos = async (pageToken: string | null = null) => {
+
+    let selectnumberId;
+    if (selectedCategory! in CategoryIdMap) {
+      selectnumberId = CategoryIdMap[selectedCategory!];
+    }
+    setLoading(true);
+    try {
+      if(props.selectedCategory){
+        if (pageToken) {
+          const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+          setVideos(prevVideos => {
+            const existingVideoIds = prevVideos.map(video => video.id);
+            const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
+            return [...prevVideos, ...filteredNewVideos];
+          });
+          setNextPageToken(response.nextPageToken);
+        }
+        else if (pageToken === null) {
+          const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+          setVideos(prevVideos => {
+            const existingVideoIds = prevVideos.map(video => video.id);
+            const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
+            return [...prevVideos, ...filteredNewVideos];
+          });
+          setNextPageToken(response.nextPageToken);
   
-  
+        }
+
+      }
+     
+      const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=10&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+      setlivelist(ShuffleArray(Liveresponse.items))
+    } catch (error) {
+      console.error('Failed to fetch videos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const ShuffleArray = <T,>(array: T[]): T[] => {
+    const shuffledArray = [...array]; // 원본 배열을 복사하여 변형 방지
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  };
+
+  useEffect(() => {
+    fetchVideos(); // 초기 로드 시 비디오를 가져옵니다.
+    setVideos([]);
+    setNextPageToken(null);
+  }, []);
+
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerModalRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = containerModalRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 10 && !loading && nextPageToken) {
+          fetchVideos(nextPageToken);
+        }
+      }
+    };
+
+    const container = containerModalRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [nextPageToken, loading]);
+
+
+
+
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     setDragOffset({
@@ -46,7 +158,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
   };
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    
+
     const delta = event.deltaY;
     const container = containerRef.current;
 
@@ -76,20 +188,20 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
     return typeof obj === "object" && obj !== null && "videoId" in obj;
   };
 
-  const ScrollTop = ()  =>{
+  const ScrollTop = () => {
     const container = containerRef.current;
 
     if (!container) return;
 
     container.scrollTo({
-      top: 0 ,
+      top: 0,
       behavior: "smooth",
     });
   }
 
-  return ( 
+  return (
     <div
-      className="fixed z-50 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/60"    onClick={(e) => {if (e.target === e.currentTarget) { props.handleCloseModal(e)}}}>
+      className="fixed z-50 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/60" onClick={(e) => { if (e.target === e.currentTarget) { props.handleCloseModal(e) } }}>
       <div
         id="modal-content"
         className={`${classes.modal}`}
@@ -99,7 +211,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
           overflowY: "auto", // 스크롤 활성화
           scrollbarWidth: "none", // Firefox용 스크롤바 제거
           msOverflowStyle: "none", // IE/Edge용 스크롤바 제거
-       
+
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -136,29 +248,67 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                 allowFullScreen
               ></iframe>
             </div>
-            
+
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
-                        {props.videolist.map((video , index) => (
-                            props.selectedVideo!.id !== video.id && <div key={index} className="relative group"  onClick={() => props.onmodal(video)}>
+          {props.type === "Popular" ?   <div ref={containerModalRef} style={{ height: '80vh', overflowY: 'auto' }} >
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+                        {videos.map(video => (
+                            props.selectedVideo!.id !== video.id && <div key={video.id} className="relative group" onClick={() => props.onmodal(video)}>
                                 <img
                                     src={video.snippet.thumbnails.high.url}
                                     alt={video.snippet.title}
-                                    width={video.snippet.thumbnails.high.width / 2}
-                                    height={video.snippet.thumbnails.high.height / 2}
                                     className="object-cover w-full aspect-video rounded-lg"
-                                    onClick={ScrollTop}
                                 />
                                 <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded-lg">
-                                    <h3 className="font-semibold line-clamp-2" style={{ fontSize: "1rem" }}>{video.snippet.title}</h3>
-                                   
+                                    <h3 className="font-semibold line-clamp-2" style={{ fontSize: '1rem' }}>
+                                        {video.snippet.title}
+                                    </h3>
                                 </div>
                             </div>
-                            
                         ))}
                     </div>
+                    {loading && <p>Loading...</p>}
+                </div> :  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+            {props.videolist!.map((video, index) => (
+              props.selectedVideo!.id !== video.id && <div key={index} className="relative group" onClick={() => props.onmodal(video)}>
+                <img
+                  src={video.snippet.thumbnails.high.url}
+                  alt={video.snippet.title}
+                  width={video.snippet.thumbnails.high.width / 2}
+                  height={video.snippet.thumbnails.high.height / 2}
+                  className="object-cover w-full aspect-video rounded-lg"
+                  onClick={ScrollTop}
+                />
+                <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded-lg">
+                  <h3 className="font-semibold line-clamp-2" style={{ fontSize: "1rem" }}>{video.snippet.title}</h3>
+
+                </div>
+              </div>
+
+            ))}
+          </div>}
+        
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+            {props.videolist.map((video, index) => (
+              props.selectedVideo!.id !== video.id && <div key={index} className="relative group" onClick={() => props.onmodal(video)}>
+                <img
+                  src={video.snippet.thumbnails.high.url}
+                  alt={video.snippet.title}
+                  width={video.snippet.thumbnails.high.width / 2}
+                  height={video.snippet.thumbnails.high.height / 2}
+                  className="object-cover w-full aspect-video rounded-lg"
+                  onClick={ScrollTop}
+                />
+                <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded-lg">
+                  <h3 className="font-semibold line-clamp-2" style={{ fontSize: "1rem" }}>{video.snippet.title}</h3>
+
+                </div>
+              </div>
+
+            ))}
+          </div> */}
         </div>
-    
+
       </div>
     </div>
   );
