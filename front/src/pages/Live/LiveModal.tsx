@@ -258,6 +258,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                                     src={video.snippet.thumbnails.high.url}
                                     alt={video.snippet.title}
                                     className="object-cover w-full aspect-video rounded-lg"
+                                    onClick={ScrollTop}
                                 />
                                 <div className="absolute bottom-2 left-2 right-2 bg-black/50 text-white p-2 rounded-lg">
                                     <h3 className="font-semibold line-clamp-2" style={{ fontSize: '1rem' }}>
