@@ -104,7 +104,7 @@ export default function Headers() {
                 <Link className="text-black" to="/Ranking/1">
                     <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
                         <EmojiEventsIcon className="text-yellow-300 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14" fontSize="large" />
-                        <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">랭킹</h3>
+                        <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">순위</h3>
                      
                     </Card>
                 </Link>
@@ -136,6 +136,7 @@ export default function Headers() {
                     </Card>
                 </Link>
             </CardActionArea>
+            
         </div>
         <div className="container mx-auto flex flex-col items-center justify-between py-6 px-6">
             <form onSubmit={getYouTubeChannelId} className="flex items-center space-x-4">
