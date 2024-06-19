@@ -32,12 +32,8 @@ export class FilterController {
     return this.filterService.DBInfluencerOrder(DbOrder, +pagenumber);
   }
 
-
   @Post("YoutubeAPiOrder/:pagenumber")
   async YoutubeApiInfluencerOrder(@Body() YoutubeApiOrder :InfluencerOrder ,@Param("pagenumber") pagenumber :string){
     return this.filterService.YoutubeApiInfluencerOrder(YoutubeApiOrder,+pagenumber);
   }
-
-
-
 }

@@ -10,14 +10,15 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true}));
 
-  app.use(cookieParser(),
-  session({
-    secret: 'wqdsdsf123', // 실제 비밀 키를 사용하세요
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 3600000, httpOnly: true }, // 1시간
-  }),);
-
+  app.use(cookieParser())
+  app.use(
+    session({
+      secret: 'wqdsdsf123', // 반드시 변경할 것
+      resave: false,
+      saveUninitialized: false,
+     
+    }),
+  );
 
   dotenv.config();
     app.enableCors({ 

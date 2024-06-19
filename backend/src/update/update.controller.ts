@@ -13,7 +13,7 @@ export class UpdateController {
     schedule.scheduleJob('0 0 17 1 * *', () => {
       this.ChartDataUpdate();
     });
-
+    //(매주 월요일 5시에 실행)
     schedule.scheduleJob('0 0 17 * * 1', () => {
       this.Channelupdate();
     });
