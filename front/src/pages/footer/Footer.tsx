@@ -1,90 +1,20 @@
-import React from 'react';
-import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import { Link } from "react-router-dom";
+import test from "../../assets/test.png"
 
+import classes from "../../styles/footer.module.css"
 export default function Footer() {
   return (
-    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
-    
+    <footer className={`bg-gray-900 text-white py-6 px-4 md:px-6 ${classes.footer}`}>
+      <div className="container mx-auto flex items-center justify-between">
+        <p className="text-sm">&copy; 2024</p>
+        <div className="flex items-center gap-7">
+          <p className="text-sm hover:underline">사업자등록번호: 568-25-01702</p>
+          <p className="text-sm hover:underline">대표: 김선아</p>
+          <p className="text-sm hover:underline">주소: 경기도 이천시 마장면 ~</p>
+          <p className="text-sm hover:underline">이메일: chlxodud04@naver.com</p>
+        </div>
+      </div>
+    </footer>
 
-      <section className=''>
-        <MDBContainer className='text-center text-md-start mt-5'>
-          <MDBRow className='mt-3'>
-            <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>
-                  Search Company
-              </h6>
-              <p>
-                Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                consectetur adipisicing elit.
-              </p>
-            </MDBCol>
-
-            <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Angular
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  React
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Vue
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Laravel
-                </a>
-              </p>
-            </MDBCol>
-
-            <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Pricing
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Settings
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Orders
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Help
-                </a>
-              </p>
-            </MDBCol>
-
-            <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
-              <p>
-                <MDBIcon icon="home" className="me-2" />
-                경기도 이천시 마장면 오천리
-              </p>
-              <p>
-                <MDBIcon icon="envelope" className="me-3" />
-                chlxodud04@naver.com
-              </p>
-              <p>
-                <MDBIcon icon="phone" className="me-3" /> 010-2902-3563
-              </p>
-            
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </section>
-    </MDBFooter>
-  );
+  )
 }

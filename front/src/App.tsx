@@ -25,6 +25,7 @@ import YoutubeConditionVideo from './pages/condition/youtube/Youtube_Condition_V
 import Ranking from './pages/ranking/Ranking';
 import IntroductionWebsite from './pages/introduction_website/IntroductionWebsite';
 import LiveRoot from './pages/Live/LiveRoot';
+import VideoList from './pages/Live/LiveVideoList';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
     
     {path:"",element:<Root></Root>, errorElement:<Error></Error>, children:[
       {index: true , element : <Main></Main>},
+      {path: "test", element:<VideoList></VideoList>},
       {path :"Introduction", element:<IntroductionWebsite></IntroductionWebsite>},
       {path :"Live", element:<LiveRoot></LiveRoot>},
       {path : ":Id" , element: <Body></Body>},
