@@ -50,7 +50,7 @@ export default function Row(props: { row: Channel }) {
 
 
         <TableCell component="th" scope="row" align="center" className="sticky-cell">
-          <Link to={`/${row.Channel_Url_Id}`}
+          <Link to={`/${row.Channel_Id}`}
             style={{
               color: "black",
               whiteSpace: "nowrap",

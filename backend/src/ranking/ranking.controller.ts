@@ -42,15 +42,13 @@ export class RankingController {
     return await this.rankingService.DBVideoChannels(DbOrder,+pagenumber, select);
   }
 
-  // @Get('category/:Categoryid')
-  // async getTopCategory(@Param('Categoryid') id: string) {
-  //   return await this.rankingService.getTopCategory(id)
-  // }
-
+  //조회수 증가량 순위(현재 사용 x)
   @Get("increaseview")
   async increaseview(){
     return await this.rankingService.increaseview();
   }
+
+  //구독자 증가량 순위(현재 사용 x)
   @Get("increaseSubscriber")
   async increaseSubscriber(){
     return await this.rankingService.increaseSubscriber()

@@ -204,24 +204,6 @@ export class RankingService {
 
   }
 
-  // async getTopCategory(id: string) {
-  //   const subscriberCount = await this.channelRepository.find({
-  //     where: { Channel_category: id },
-  //     order: {
-  //       subscriberCount: 'DESC'
-  //     },
-  //     take: 10
-  //   });
-  //   const viewCount = await this.channelRepository.find({
-  //     where: { Channel_category: id },
-  //     order: {
-  //       viewCount: 'DESC'
-  //     },
-  //     take: 10
-  //   });
-  //   return { subscriberCount, viewCount }
-
-  // }
 
 
   async increaseview() {

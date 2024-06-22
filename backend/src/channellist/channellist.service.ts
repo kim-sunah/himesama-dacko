@@ -62,7 +62,7 @@ export class ChannellistService {
   }
 
   async channelInfo(channelId: string) {
-    return await this.channelList.findOne({ where: { Channel_Url_Id: channelId } })
+    return await this.channelList.findOne({ where: { Channel_Id: channelId } })
 
   }
 

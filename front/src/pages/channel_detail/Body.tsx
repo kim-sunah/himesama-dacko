@@ -4,15 +4,8 @@ import { useEffect, useState } from "react"
 import Getmethod from "../../http/Get_method"
 import { Link, useParams } from "react-router-dom"
 import Headers from "../main/header/Headers"
-interface Info {
-  subscriberCount: string
-  videoCount: string
-  viewCount: string
-}
-
 
 export type channelItem = {
-  
       id: number;
       Channel_Id: string;
       Channel_Url_Id: string;
