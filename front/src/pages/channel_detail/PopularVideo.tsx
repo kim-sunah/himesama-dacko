@@ -6,6 +6,7 @@ import { AiOutlineComment } from "react-icons/ai";
 import { BsCameraVideo } from "react-icons/bs";
 import { BiLike } from "react-icons/bi";
 import { VideoStatistic } from "../../enum/Video_Statistics";
+import { formatNumberUS } from "../../function/formatNumberUS";
 
 
 
@@ -15,16 +16,6 @@ export default function PopularVideo() {
   const { ChannelId } = useParams();
   const [VideosStatistics, setVideosStatistics] = useState<VideoStatistic[]>([]);
 
-
-  function formatNumberUS(number: number) {
-    const formatter = new Intl.NumberFormat('en-US', {
-      notation: 'compact',
-      compactDisplay: 'short',
-      maximumFractionDigits: 1
-    });
-
-    return formatter.format(number);
-  }
 
 
 
@@ -42,6 +33,8 @@ export default function PopularVideo() {
       ];
     });
   }
+
+
 
 
   useEffect(() => {
@@ -62,46 +55,31 @@ export default function PopularVideo() {
 
 
 
-  return (<section>
-    <h2 className="text-2xl font-bold mb-4">Popular Videos</h2>
-    <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
-      {PopularVideos.map(video => (
-
-        <div key={video.id.videoId} className="group relative rounded-lg overflow-hidden" >
-          <img
-            src={video.snippet.thumbnails.high.url}
-            alt="Video Thumbnail"
-            width={video.snippet.thumbnails.high.width}
-            height={video.snippet.thumbnails.high.height}
-            className="w-full aspect-video object-cover"
-          />
-
-          <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-4 " >
-            <h3 className="text-lg font-semibold text-white line-clamp-2">{video.snippet.title}</h3>
-          </div>
-
+  return (<section className="mb-8">
+    <h2 className="text-2xl font-bold mb-4">Popular Video</h2>
+    <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6" >
+    {PopularVideos && PopularVideos.map((video,index) => (
+       <div key={index} className="relative h-40 bg-gray-200">
+       <img src={video.snippet.thumbnails.high.url} alt={video.snippet.title} className="object-cover w-full h-full" />
+       <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 text-white w-full">
+         {video.snippet.title.length > 25 ? `${video.snippet.title.slice(0,25)}...` : video.snippet.title}
+       </div>
+     </div>
+    ))}
+      {VideosStatistics && VideosStatistics.map(video => (  <div key={video.id} className="flex justify-between text-xs text-gray-500">
+        <div className="flex items-center space-x-1">
+          <BsCameraVideo className="h-4 w-4 text-red-500" />
+          <span>{formatNumberUS(Number(video.statistics.viewCount))}</span>
         </div>
-
-      ))}
-      {VideosStatistics && VideosStatistics.map(video => (
-        <div key={video.id} className="flex justify-between whitespace-nowrap">
-          <div className="flex gap-1">
-            <BsCameraVideo size="25" color="red" />
-            <div style={{ fontSize: "1rem" }}>{formatNumberUS(Number(video.statistics.viewCount))}</div>
-          </div>
-          <div className="flex  gap-1">
-            <BiLike size="25" color="blue" />
-            <div style={{ fontSize: "1rem" }}>{formatNumberUS(Number(video.statistics.likeCount))}</div>
-          </div>
-          <div className="flex  gap-1">
-            <AiOutlineComment size="25" />
-            <div style={{ fontSize: "1rem" }}>{formatNumberUS(Number(video.statistics.commentCount))}</div>
-          </div>
-
+        <div className="flex items-center space-x-1">
+          <BiLike className="h-4 w-4 text-blue-500" />
+          <span>{formatNumberUS(Number(video.statistics.likeCount))}</span>
         </div>
-      ))}
-
-
+        <div className="flex items-center space-x-1">
+          <AiOutlineComment className="h-4 w-4 text-gray-500" />
+          <span>{formatNumberUS(Number(video.statistics.commentCount))}</span>
+        </div>
+      </div>))}
     </div>
   </section>)
 
