@@ -3,6 +3,8 @@ import classes from "../../styles/Live.module.css";
 import { LiveVideo } from "../../enum/Live";
 import { PopularVideo } from "../../enum/Popular";
 import Getmethod from "../../http/Get_method";
+import { Link, useNavigate } from "react-router-dom";
+import Postmethod from "../../http/Post_method";
 
 type VideoId = { videoId: string };
 
@@ -51,6 +53,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
   const [videos, setVideos] = useState<PopularVideo[]>([]);
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
 
 
@@ -83,9 +86,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
           setNextPageToken(response.nextPageToken);
   
         }
-
       }
-     
       const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=10&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
       setlivelist(ShuffleArray(Liveresponse.items))
     } catch (error) {
@@ -172,6 +173,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
 
   const getVideoSrc = () => {
     const { selectedVideo } = props;
+   
 
     if (!selectedVideo) return "";
 
@@ -197,6 +199,15 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
       top: 0,
       behavior: "smooth",
     });
+  }
+
+
+  const NavigateHandler = async() =>{
+    
+      await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/LivePopularChannel`, { ChannelId: props.selectedVideo!.snippet.channelId });
+      navigate(`/${props.selectedVideo!.snippet.channelId}`)
+
+  
   }
 
   return (
@@ -247,8 +258,9 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
+           
             </div>
-
+            <button type="button" style={{color:"white"}} onClick={NavigateHandler}>CLICK</button>
           </div>
           {props.type === "Popular" ?   <div ref={containerModalRef} style={{ height: '80vh', overflowY: 'auto' }} >
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">

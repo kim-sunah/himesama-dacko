@@ -20,25 +20,25 @@ export class Channellist {
     @Column({ type: "bigint" })
     subscriberCount: number;
 
-    @Column({ type: "bigint", nullable: true })
+    @Column({ type: "bigint", nullable: true , default :0})
     previous_subscriberCount: number | null;
 
-    @Column({ type: "float", nullable: true })
+    @Column({ type: "float", nullable: true ,default :0})
     subscriberCount_percentageincrease: number | null;
 
     @Column({ type: "bigint" })
     videoCount: number;
 
-    @Column({ type: "bigint", nullable: true })
+    @Column({ type: "bigint", nullable: true, default :0 })
     previous_videoCount: number | null;
 
     @Column({ type: 'bigint' })
     viewCount: number;
 
-    @Column({ type: "bigint", nullable: true })
+    @Column({ type: "bigint", nullable: true, default :0 })
     previous_viewCount: number | null;
 
-    @Column({ type: "float", nullable: true })
+    @Column({ type: "float", nullable: true, default :0})
     viewCount_percentageincrease: number | null;
 
     @Column()

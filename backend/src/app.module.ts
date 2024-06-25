@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -20,6 +20,8 @@ import { videolike } from './video/entities/videolike.entity';
 
 import { videoview } from './video/entities/videoview.entity';
 import { UpdateModule } from './update/update.module';
+import { json, urlencoded } from 'express';
+import * as bodyParser from 'body-parser';
 
 
 const typeOrmModuleOptions = {
@@ -65,4 +67,10 @@ const typeOrmModuleOptions = {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(bodyParser.json({ limit: '500mb' }))
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

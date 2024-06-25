@@ -5,6 +5,7 @@ import { UpdateChannellistDto } from './dto/update-channellist.dto';
 import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 import { get } from 'http';
 import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
+import { PopularVideoArrayDto } from './dto/Live_Popular_dto';
 
 @Controller('channellist')
 export class ChannellistController {
@@ -46,10 +47,17 @@ export class ChannellistController {
     console.log(YoutubeChannelApi)
     return this.channellistService.YoutubeApiGetChannel(YoutubeChannelApi , search);
   }
-
+  //Youtube Api(Condition) 동영상 검색
   @Post('YoutubeVideoApi/:videosearch')
   YoutubeApiGetVideo(@Body() YoutubeInfluencer : YoutubePageToken , @Param('videosearch') search: string) {
     return this.channellistService.YoutubeApiGetVideo(YoutubeInfluencer, search);
+  }
+  //실시간 인기 , 실시간 인기있는 카테고리 비디오 채널 DB에 저장
+  @Post("LivePopularChannel")
+  Live_Popular_CreateApi(@Body("ChannelId") ChannelId: string) {
+ 
+    
+   return this.channellistService.Live_Popular_CreateApi(ChannelId);
   }
   
 

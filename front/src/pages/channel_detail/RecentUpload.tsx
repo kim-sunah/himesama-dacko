@@ -15,7 +15,7 @@ export default function RecentUpload() {
   const [VideosStatistics, setVideosStatistics] = useState<VideoStatistic[]>([]);
 
   const Youtubevideostatistics = async (VideoId: string) => {
-    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${VideoId}&key=${process.env.REACT_APP_Youtube_API}`)
+    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${VideoId}&maxResults=5&key=${process.env.REACT_APP_Youtube_API}`)
     setVideosStatistics(prevState => {
       if (prevState.some(stat => stat.id === VideoId)) {
         return prevState;
@@ -28,7 +28,8 @@ export default function RecentUpload() {
   }
   useEffect(() => {
     const fetchData = async () => {
-      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+    
+      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
       setRecentVideos(response.items);
       for (const VideoId of response.items) {
         await Youtubevideostatistics(VideoId.id.videoId)
@@ -48,7 +49,7 @@ export default function RecentUpload() {
         {video.snippet.title.length > 25 ? `${video.snippet.title.slice(0,25)}...` : video.snippet.title}
         </div>
       </div>))}
-      {VideosStatistics && VideosStatistics.map(video => (  <div key={video.id} className="flex justify-between text-xs text-gray-500">
+      {VideosStatistics && VideosStatistics.map(video => (  <div key={video.id} className="flex justify-between text-xs text-gray-500  hidden md:flex">
         <div className="flex items-center space-x-1">
           <BsCameraVideo className="h-4 w-4 text-red-500" />
           <span>{formatNumberUS(Number(video.statistics.viewCount))}</span>

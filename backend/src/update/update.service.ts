@@ -92,62 +92,56 @@ export class UpdateService {
 
     async Channelupdate() {
       const channelInfo = await this.ChannelListRepository.find();
-      try{
+      try {
         for (const info of channelInfo) {
-          await this.delay(250);
-         
-          if(info.Channel_Url_Id === null){
+          await this.delay(50-0);
+          console.log(info.id)
+          if (info.Channel_Url_Id === null) {
+            const VideoId = await this.VideoRepository.findOne({where : { channelId :  info.id}})
+            await this.videoviewRepository.delete({videoId : +VideoId});
+            await this.videocommentRepository.delete({videoId : +VideoId})
+            await this.videolikeRepository.delete({videoId : +VideoId})
+            await this.VideoRepository.delete({ channelId: info.id });
             await this.ChannelListRepository.delete(info.id);
-    
-          }
-          else if (info.Channel_Url_Id.includes("@") ) {
-            const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-            const channelData = response.data
-            if(channelData.pageInfo.totalResults === 0){
+          } else if (info.Channel_Url_Id.includes("@")) {
+            const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&forHandle=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
+            const channelData = response.data;
+            if (channelData.pageInfo.totalResults === 0) {
               await this.ChannelListRepository.delete(info.id);
+            } else {
+              await this.ChannelListRepository.update(info.id, {
+                previous_subscriberCount: +info.subscriberCount,
+                subscriberCount: +channelData.items[0].statistics.subscriberCount,
+                previous_viewCount: +info.viewCount,
+                viewCount: +channelData.items[0].statistics.viewCount,
+                previous_videoCount: +info.videoCount,
+                videoCount: +channelData.items[0].statistics.videoCount,
+                subscriberCount_percentageincrease: isNaN((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount))) || +info.subscriberCount === 0 ? 0 : +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
+                viewCount_percentageincrease: isNaN((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) || +info.viewCount === 0 ? 0 : +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
+              });
             }
-            else{
-              await this.ChannelListRepository.update(info.id,
-                {
-                  previous_subscriberCount: +info.subscriberCount,
-                  subscriberCount: +channelData.items[0].statistics.subscriberCount,
-                  previous_viewCount: +info.viewCount,
-                  viewCount: +channelData.items[0].statistics.viewCount,
-                  previous_videoCount: +info.videoCount,
-                  videoCount: +channelData.items[0].statistics.videoCount,
-                  subscriberCount_percentageincrease:  isNaN((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount))) ? 0 : +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-                  viewCount_percentageincrease: isNaN((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) ? 0 : +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-               });
-    
-            }
-           }
-          else {
-            const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
-            const channelData = response.data
-            if(channelData.pageInfo.totalResults === 0){
+          } else {
+            const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.Channel_Url_Id}&key=${process.env.Youtbe_Api_KEY}`);
+            const channelData = response.data;
+            if (channelData.pageInfo.totalResults === 0) {
               await this.ChannelListRepository.delete(info.id);
-            }
-            else{
-              await this.ChannelListRepository.update(info.id,
-                {
-                  previous_subscriberCount: +info.subscriberCount,
-                  subscriberCount: +channelData.items[0].statistics.subscriberCount,
-                  previous_viewCount: +info.viewCount,
-                  viewCount: +channelData.items[0].statistics.viewCount,
-                  previous_videoCount: +info.videoCount,
-                  videoCount: +channelData.items[0].statistics.videoCount,
-                  subscriberCount_percentageincrease:  isNaN((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount))) ? 0 : +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
-                  viewCount_percentageincrease: isNaN((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) ? 0 : +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
-               });
+            } else {
+              await this.ChannelListRepository.update(info.id, {
+                previous_subscriberCount: +info.subscriberCount,
+                subscriberCount: +channelData.items[0].statistics.subscriberCount,
+                previous_viewCount: +info.viewCount,
+                viewCount: +channelData.items[0].statistics.viewCount,
+                previous_videoCount: +info.videoCount,
+                videoCount: +channelData.items[0].statistics.videoCount,
+                subscriberCount_percentageincrease: isNaN((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount))) || +info.subscriberCount === 0 ? 0 : +((((+channelData.items[0].statistics.subscriberCount) - (+info.subscriberCount)) / (+info.subscriberCount)) * 100),
+                viewCount_percentageincrease: isNaN((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount))) || +info.viewCount === 0 ? 0 : +((((+channelData.items[0].statistics.viewCount) - (+info.viewCount)) / (+info.viewCount)) * 100)
+              });
             }
           }
         }
-  
+      } catch (err) {
+        throw new Error(`Error in Channelupdate: ${err.message}`);
       }
-      catch(err){
-        throw new Error(err);
-      }
-     
     }
   
   

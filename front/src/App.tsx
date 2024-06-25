@@ -1,7 +1,4 @@
-import React from 'react';
-import './App.css';
 import {RouterProvider, createBrowserRouter} from "react-router-dom"
-
 import Main from './pages/main/Main';
 import Root from './pages/Root';
 import CategoryRankings from './other/category/Category_Rankings';
@@ -9,23 +6,19 @@ import CategoryRankingsList from './other/category/Category_RankingList';
 import { Provider } from 'react-redux';
 import {store} from "./store/store"
 import VideoListHeader from './pages/seachvideo/header';
-import Body from './pages/channel_detail/Body';
 import VideSearchList from './pages/seachvideo/VideosearchList';
 import List from './pages/seachvideo/List';
 import Error from "./pages/error/Error"
 import RankingRoot from './pages/ranking/RankingRoot';
-
 import ConditionRoot from './pages/condition/db/ConditionRoot';
 import ConditionInfluencerFilterBody from './pages/condition/db/Condition_InfluencerFilter_body';
 import ConditionVideoFilterBody from './pages/condition/db/Condition_VideoFilter_body';
-import ConditionVideoFilterHeader from './pages/condition/db/Condition_VideoFilter_header';
 import YoutubeRoot from './pages/condition/youtube/Youtube_Root';
 import YoutubeConditionInfluencer from './pages/condition/youtube/Youtube_Condition_Influencer';
 import YoutubeConditionVideo from './pages/condition/youtube/Youtube_Condition_Video';
 import Ranking from './pages/ranking/Ranking';
 import IntroductionWebsite from './pages/introduction_website/IntroductionWebsite';
 import LiveRoot from './pages/Live/LiveRoot';
-
 import ChannelRoot from './pages/channel_detail/ChannelRoot';
 
 

@@ -14,7 +14,7 @@ export class UpdateController {
       this.ChartDataUpdate();
     });
     //(매주 월요일 5시에 실행)
-    schedule.scheduleJob('0 0 17 * * 1', () => {
+    schedule.scheduleJob('0 41 21 * * 2', () => {
       this.Channelupdate();
     });
   }

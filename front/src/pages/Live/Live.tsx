@@ -6,6 +6,7 @@ import classes from "../../styles/Live.module.css";
 import { PopularVideo } from "../../enum/Popular";
 import { LiveVideo } from "../../enum/Live";
 import LiveModal from "./LiveModal";
+import Postmethod from "../../http/Post_method";
 const CategoryIdMap: { [key: string]: number } = {
     "All": 0,
     "Film & Animation": 1,
@@ -36,44 +37,47 @@ export default function Live() {
     const [videos, setVideos] = useState<PopularVideo[]>([]);
     const [nextPageToken, setNextPageToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-  
+
     const containerRef = useRef<HTMLDivElement | null>(null);
 
 
     const fetchVideos = async (pageToken: string | null = null) => {
- 
+
         let selectnumberId;
         if (selectedCategory in CategoryIdMap) {
             selectnumberId = CategoryIdMap[selectedCategory];
         }
         setLoading(true);
         try {
-            console.log(selectnumberId)
-            
-                if (pageToken) {
-                    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
-                    setVideos(prevVideos => {
-                        const existingVideoIds = prevVideos.map(video => video.id);
-                        const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
-                        return [...prevVideos, ...filteredNewVideos];
-                    });
-                    setNextPageToken(response.nextPageToken);
-                }
-                else if (pageToken === null) {
-                    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
-                    setVideos(prevVideos => {
-                        const existingVideoIds = prevVideos.map(video => video.id);
-                        const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
-                        return [...prevVideos, ...filteredNewVideos];
-                    });
-                    setNextPageToken(response.nextPageToken);
-    
-                }
 
-           
-           
+            if (pageToken) {
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                setVideos(prevVideos => {
+                    const existingVideoIds = prevVideos.map(video => video.id);
+                    const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
+                    return [...prevVideos, ...filteredNewVideos];
+                });
+                
+                setNextPageToken(response.nextPageToken);
+                
+            }
+            else if (pageToken === null) {
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                setVideos(prevVideos => {
+                    const existingVideoIds = prevVideos.map(video => video.id);
+                    const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
+                    return [...prevVideos, ...filteredNewVideos];
+                });
+                setNextPageToken(response.nextPageToken);
+                
+            }
+
             const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=50&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
             setlivelist(ShuffleArray(Liveresponse.items))
+          
+            
+
+           
         } catch (error) {
             console.error('Failed to fetch videos:', error);
         } finally {
@@ -84,7 +88,7 @@ export default function Live() {
     useEffect(() => {
         fetchVideos(); // 초기 로드 시 비디오를 가져옵니다.
         setVideos([]);
-        setNextPageToken(null); 
+        setNextPageToken(null);
     }, [selectedCategory]);
 
 
@@ -122,14 +126,17 @@ export default function Live() {
     };
 
     //모달을 켜고 비디오 데이터 삽입(라이브)
-    const HandleOpenModal = (video: PopularVideo | LiveVideo) => {
+    const HandleOpenModal = async (video: PopularVideo | LiveVideo) => {
+        
         setSelectedVideo(video)
         setShowModal(true)
+     
     }
     //모달을 켜고 비디오 데이터 삽입(라이브)
-    const LiveHandleOpenModal = (video: LiveVideo) => {
+    const LiveHandleOpenModal = async (video: LiveVideo) => {
         setSelectedliveVideo(video)
         setShowliveModal(true)
+      
     }
     //검정색 바탕화면을 클릭했을떄 창닫기
     const HandleCloseModal = () => {
@@ -141,14 +148,19 @@ export default function Live() {
     }
 
     //모달이 켜져 있을떄  선택
-    const OnModal = (video: PopularVideo | LiveVideo) => {
+    const OnModal = async (video: PopularVideo | LiveVideo) => {
+      
         setSelectedVideo(video);
+       
     };
     //모달이 켜져 있을때 선택(라이브)
-    const OnLiveModal = (video: LiveVideo) => {
+    const OnLiveModal = async (video: LiveVideo) => {
+      
         setSelectedliveVideo(video)
+      
 
     }
+
 
 
     return (
@@ -209,7 +221,7 @@ export default function Live() {
                 </div>
             </div>
             {showModal &&
-                <LiveModal type={"Popular"} handleCloseModal={HandleCloseModal} selectedVideo={selectedVideo}  onmodal={OnModal} selectedCategory={selectedCategory}></LiveModal>}
+                <LiveModal type={"Popular"} handleCloseModal={HandleCloseModal} selectedVideo={selectedVideo} onmodal={OnModal} selectedCategory={selectedCategory}></LiveModal>}
 
             {showliveModal && (<div>
                 <LiveModal type={"Live"} handleCloseModal={LivehandleCloseModal} selectedVideo={selectedliveVideo} videolist={livelist} onmodal={OnLiveModal} ></LiveModal>

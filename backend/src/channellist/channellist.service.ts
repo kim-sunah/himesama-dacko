@@ -33,12 +33,12 @@ export class ChannellistService {
 
   async Idcreate(Channel_Url_Id: string) {
 
-    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=25&key=${process.env.Youtbe_Api_KEY}`)
+    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
 
     const resData = response.data
 
     if (resData.pageInfo.totalResults === 0) {
-      throw new NotFoundException()
+      return;
     }
 
     const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: Channel_Url_Id } })
@@ -251,6 +251,27 @@ export class ChannellistService {
       const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
       const resData = response.data;
       return await this.FilterService.videoFilter(resData);
+    }
+  }
+
+
+  async Live_Popular_CreateApi(ChannelId : string){
+  
+    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ChannelId}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
+    console.log(ChannelId)
+    const resData = response.data
+    console.log(resData)
+
+    if (resData.pageInfo.totalResults === 0) {
+      return;
+    }
+   
+    const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: ChannelId } })
+    if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
+      return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.medium.url })
+    }
+    if (resData.pageInfo.totalResults === 1 && SearchChannel) {
+      return SearchChannel
     }
   }
 }
