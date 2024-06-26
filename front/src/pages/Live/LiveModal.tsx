@@ -259,7 +259,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                 allowFullScreen
               ></iframe>
                  <button
-          className="absolute bottom-4 left-4 flex items-center px-4 py-2 text-white bg-red-600 rounded-md"
+          className="absolute bottom-16 left-4 flex items-center px-4 py-2 text-white bg-red-600 rounded-md"
           onClick={NavigateHandler}
         >
           
