@@ -14,8 +14,8 @@ export class UpdateController {
       this.ChartDataUpdate();
     });
     //(매주 월요일 5시에 실행)
-    schedule.scheduleJob('0 41 21 * * 2', () => {
-      this.Channelupdate();
+    schedule.scheduleJob('0 00 17 * * 1', () => {
+      this.channelUpdate();
     });
   }
 
@@ -23,8 +23,8 @@ export class UpdateController {
     return await this.updateService.ChartDataUpdate();
   }
 
-  async Channelupdate() {
-    return await this.updateService.Channelupdate()
+  async channelUpdate() {
+    return await this.updateService.channelUpdate()
   }
 
 }

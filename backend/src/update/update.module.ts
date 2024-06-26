@@ -7,9 +7,11 @@ import { videocomment } from 'src/video/entities/videocomment.entity';
 import { videolike } from 'src/video/entities/videolike.entity';
 import { videoview } from 'src/video/entities/videoview.entity';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Video, videocomment, videolike, videoview, Channellist])],
+  imports:[HttpModule, ConfigModule , TypeOrmModule.forFeature([Video, videocomment, videolike, videoview, Channellist])],
   controllers: [UpdateController],
   providers: [UpdateService],
 })

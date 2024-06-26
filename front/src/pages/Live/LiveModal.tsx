@@ -234,7 +234,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
           <div>
           </div>
           <div>
-            <div
+            <div  
               style={{
                 minHeight: "275px",
                 width: "100%",
@@ -258,9 +258,17 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
+                 <button
+          className="absolute bottom-4 left-4 flex items-center px-4 py-2 text-white bg-red-600 rounded-md"
+          onClick={NavigateHandler}
+        >
+          
+          다음에서 보기: 채널 상세 정보
+        </button>
            
             </div>
-            <button type="button" style={{color:"white"}} onClick={NavigateHandler}>CLICK</button>
+         
+            {/* <button type="button" style={{color:"white"}} onClick={NavigateHandler}>CLICK</button> */}
           </div>
           {props.type === "Popular" ?   <div ref={containerModalRef} style={{ height: '80vh', overflowY: 'auto' }} >
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
