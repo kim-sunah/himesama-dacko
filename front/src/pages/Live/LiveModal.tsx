@@ -218,7 +218,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
         className={`${classes.modal}`}
         style={{
           transform: `translate(${modalPosition.x}px, ${modalPosition.y}px)`,
-          maxHeight: "80vh", // 최대 높이 설정
+          maxHeight: "70vh", // 최대 높이 설정
           overflowY: "auto", // 스크롤 활성화
           scrollbarWidth: "none", // Firefox용 스크롤바 제거
           msOverflowStyle: "none", // IE/Edge용 스크롤바 제거
@@ -232,8 +232,15 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
       >
         <div>
           <div>
+       
           </div>
           <div>
+          <button
+          className=" bottom-20  left-0 flex px-4 py-2 mb-4 text-white bg-red-600 rounded-md"
+          onClick={NavigateHandler}
+        >
+          다음에서 보기: 채널 정보
+        </button>
             <div  
               style={{
                 minHeight: "275px",
@@ -258,13 +265,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
-                 <button
-          className="absolute bottom-16 left-4 flex items-center px-4 py-2 text-white bg-red-600 rounded-md"
-          onClick={NavigateHandler}
-        >
-          
-          다음에서 보기: 채널 상세 정보
-        </button>
+               
            
             </div>
          
