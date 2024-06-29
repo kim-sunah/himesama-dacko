@@ -31,7 +31,7 @@ function App() {
       {path :"Live", element:<LiveRoot></LiveRoot>},
       {path : ":ChannelId" , element: <ChannelRoot></ChannelRoot>},
       {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
-        {path : ":pagenumber", element :<Ranking></Ranking>},
+        // {path : ":pagenumber", element :<Ranking></Ranking>},
       ]},
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }

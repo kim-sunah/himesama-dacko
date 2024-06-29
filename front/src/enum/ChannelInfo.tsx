@@ -5,7 +5,7 @@ export type channeInfo = {
     channel_img: string;
     Channel_nickname: string;
     subscriberCount: string;
-    Channel_category: string
+
     subscriberCount_percentageincrease: string
     viewCount_percentageincrease: string
     videoCount: string;

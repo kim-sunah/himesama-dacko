@@ -15,73 +15,9 @@ export class RankingService {
   constructor(@InjectRepository(Channellist) private readonly channelRepository: Repository<Channellist>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
  
 
-  async getTopChannels(page: number, select: string) {
-    if (select === "High_Subscriber") {
-      return await this.channelRepository.find({
-        order: {
-          subscriberCount: 'DESC'
-        },
-        skip: (page - 1) * 10,
-        take: 10 // 상위 10개의 결과만 가져오기
-      });
-    }
-    else if (select === "Low_Subscriber") {
-      return await this.channelRepository.find({
-        order: {
-          subscriberCount: 'ASC'
-        },
-        skip: (page - 1) * 10,
-        take: 10 // 하위 10개의 결과만 가져오기
-      });
-
-    }
-  }
+  
 
 
-  async viewChannels(page: number, select: string) {
-    if (select === "High_View") {
-      return await this.channelRepository.find({
-        order: {
-          viewCount: 'DESC'
-        },
-        skip: (page - 1) * 10,
-        take: 10 // 상위 10개의 결과만 가져오기
-      });
-    }
-    else if (select === "Low_View") {
-      return await this.channelRepository.find({
-        order: {
-          viewCount: 'ASC'
-        },
-        skip: (page - 1) * 10,
-        take: 10 // 하위 10개의 결과만 가져오기
-      });
-
-    }
-  }
-
-  async VideoChannels(page: number, select: string) {
-    if (select === "High_Videocount") {
-      return await this.channelRepository.find({
-        order: {
-          videoCount: 'DESC'
-        },
-        skip: (page - 1) * 10,
-        take: 10 // 상위 10개의 결과만 가져오기
-      });
-    }
-    else if (select === "Low_Videocount") {
-      return await this.channelRepository.find({
-        order: {
-          videoCount: 'ASC'
-        },
-        skip: (page - 1) * 10,
-        take: 10 // 하위 10개의 결과만 가져오기
-      });
-
-    }
-
-  }
 
 
 
@@ -202,6 +138,44 @@ export class RankingService {
 
     }
 
+  }
+
+
+  async SubscriberTop(){
+    return await this.channelRepository.find({ take :4  , order : { subscriberCount : "DESC"}})
+  }
+
+  async ViewTop(){
+    return await this.channelRepository.find({ take :4  , order : { viewCount : "DESC"}})
+  }
+
+  async SubscriberTopIncrease(){
+    return await this.channelRepository.find({ take :4  , order : { subscriberCount_percentageincrease : "DESC"}})
+  }
+  async ViewTopIncrease(){
+    return await this.channelRepository.find({ take :4  , order : { viewCount_percentageincrease : "DESC"}})
+  }
+
+  async SortSubscriber(sort : String){
+    console.log(sort)
+    if(sort === "subscribers" ){
+      return await this.channelRepository.find({take :50 , order : {subscriberCount : "DESC"}})
+    }
+    else if(sort === "videos" ){
+      return await this.channelRepository.find({take :50 , order : {videoCount : "DESC"}})
+    }
+    else if(sort === "views" ){
+      return await this.channelRepository.find({take :50 , order : {viewCount : "DESC"}})
+    }
+    else if(sort ==="increase-subscribers"){
+      return await this.channelRepository.find({take :50 , order : {subscriberCount_percentageincrease : "DESC"}})
+
+    }
+    else if(sort === "increase-views"){
+      return await this.channelRepository.find({take :50 , order : {viewCount_percentageincrease : "DESC"}})
+
+    }
+   
   }
 
 

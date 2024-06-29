@@ -258,9 +258,9 @@ export class ChannellistService {
   async Live_Popular_CreateApi(ChannelId : string){
   
     const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ChannelId}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
-    console.log(ChannelId)
+   
     const resData = response.data
-    console.log(resData)
+   
 
     if (resData.pageInfo.totalResults === 0) {
       return;

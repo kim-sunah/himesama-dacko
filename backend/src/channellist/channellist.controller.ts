@@ -44,7 +44,6 @@ export class ChannellistController {
   //Youtube Api(Condition) 일반 검색
   @Post("YoutubeChannelApi/:search")
   YoutubeApiGetChannel(@Body() YoutubeChannelApi : InfluencerOrder, @Param('search') search: string ,) {
-    console.log(YoutubeChannelApi)
     return this.channellistService.YoutubeApiGetChannel(YoutubeChannelApi , search);
   }
   //Youtube Api(Condition) 동영상 검색
@@ -55,8 +54,6 @@ export class ChannellistController {
   //실시간 인기 , 실시간 인기있는 카테고리 비디오 채널 DB에 저장
   @Post("LivePopularChannel")
   Live_Popular_CreateApi(@Body("ChannelId") ChannelId: string) {
- 
-    
    return this.channellistService.Live_Popular_CreateApi(ChannelId);
   }
   
