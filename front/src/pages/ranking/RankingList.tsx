@@ -53,7 +53,7 @@ export default function RankingList() {
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">YouTube Channel Popularity</h1>
+       
         <div className="flex items-center gap-4">
           {/* <Input
             placeholder="Search channels..."
