@@ -13,7 +13,7 @@ export class TestService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} test`;
+    return `This action returns a #${id} test`
   }
 
   update(id: number, updateTestDto: UpdateTestDto) {
