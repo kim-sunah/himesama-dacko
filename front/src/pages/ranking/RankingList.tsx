@@ -33,8 +33,8 @@ export default function RankingList() {
     navigate(`?sort=${sortBy}`)
     const fetchData = async() => {
         
-        const response = await Postmethod("http://localhost:4000/ranking/RankingSort", {sort : sortBy})
-        console.log(response)
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, {sort : sortBy})
+     
         if(sortOrder === "asc"){
             setChannel([...response].reverse());
         }
