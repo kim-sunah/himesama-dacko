@@ -51,6 +51,6 @@ const HeaderButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     )
   }
 )
-HeaderButton.displayName = "Button"
+HeaderButton.displayName = "Button";
 
 export { HeaderButton, buttonVariants }
