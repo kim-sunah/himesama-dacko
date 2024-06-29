@@ -36,35 +36,35 @@ export default function ViewIncreaseTop() {
             <div className=" grid gap-6">
 
 
-            <div className="five">
-  <h1  className="mb-4">조회수 증가 상위
-    
-  </h1>
-</div>
+                <div className="five" >
+                    <h1  className="mb-4">구독자 증가 상위</h1>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {Top.map(Channel => (
-                        <div key={Channel.Channel_Id} className="bg-card p-4 rounded-lg ">
+                        <div key={Channel.Channel_Id} className="bg-card p-4 rounded-lg   ">
                             <div className="flex items-center mb-4">
                                 <img src={Channel.channel_img} alt="Thumbnail" className="w-16 h-16 rounded-full object-cover mr-4" />
                                 <h3 className="text-lg font-medium truncate flex-1">{Channel.Channel_nickname}</h3>
                             </div>
-                            <div className="grid grid-cols-3 gap-2 text-sm">
-                                <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500 mr-1" /> {formatNumberUS(Number(Channel.subscriberCount))}</div>
-                                <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700 mr-1" /> {formatNumberUS(Number(Channel.videoCount))}</div>
-                                <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500 mr-1" /> {formatNumberUS(Number(Channel.viewCount))}</div>
-                            </div>
-                            <div className="grid grid-cols-3 gap-2 text-sm mt-10">
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                                <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500 " />  <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount))}</span></div>
+                                <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700"  /> <span className="ml-2">{formatNumberUS(Number(Channel.videoCount))}</span></div>
+                                <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500 " />  <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
                                 <div className="flex items-center">
                                     <FcLineChart className="h-6 w-6 text-red-500" />
-                                    <span>{Number(Channel.viewCount_percentageincrease).toFixed(2)}%</span>
+                                    <span className="ml-2">{Number(Channel.subscriberCount_percentageincrease).toFixed(2)}%</span>
                                 </div>
-                                <div className="flex items-center"><FcAreaChart className="h-5 w-5 text-gray-700 mr-1" /> {formatNumberUS(Number(Channel.viewCount) - Number(Channel.previous_viewCount))}</div>
                                 <div className="flex items-center">
-                                    {Number(Channel.viewCount) - Number(Channel.previous_viewCount) > 0 && <FcBullish className="h-6 w-6" /> }
-                                    {Number(Channel.viewCount) - Number(Channel.previous_viewCount) < 0 && <FcBearish className="h-6 w-6" />}
-                                    {Number(Channel.viewCount) - Number(Channel.previous_viewCount) === 0 && <FcNeutralTrading className="h-6 w-6" />}
+                                    <FcAreaChart className="h-5 w-5 text-gray-700 " /> 
+                                    <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount))}</span></div>
+                                <div className="flex items-center">
+                                    {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) > 0 && <FcBullish className="h-6 w-6" />}
+                                    {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) < 0 && <FcBearish className="h-6 w-6" /> }
+                                    {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) === 0 && <FcNeutralTrading className="h-6 w-6" /> }
                                 </div>
                             </div>
+                         
                             <Link to={`${process.env.REACT_APP_FRONT_API}/${Channel.Channel_Id}`} className="block mt-4">
                                 <Button variant="outline" className="w-full">View Channel</Button>
                             </Link>

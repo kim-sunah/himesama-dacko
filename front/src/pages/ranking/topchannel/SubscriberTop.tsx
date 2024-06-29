@@ -47,11 +47,12 @@ export default function SubscriberTop() {
               <img src={Channel.channel_img} alt="Thumbnail" className="w-16 h-16 rounded-full object-cover mr-4" />
               <h3 className="text-lg font-medium truncate flex-1">{Channel.Channel_nickname}</h3>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-sm">
-              <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500 mr-1" /> {formatNumberUS(Number(Channel.subscriberCount))}</div>
-              <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700 mr-1" /> {formatNumberUS(Number(Channel.videoCount))}</div>
-              <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500 mr-1" /> {formatNumberUS(Number(Channel.viewCount))}</div>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500 mr-1" /> <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount))}</span></div>
+              <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700 mr-1" /> <span className="ml-2">{formatNumberUS(Number(Channel.videoCount))}</span></div>
+              <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500 mr-1" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
             </div>
+           
             <Link to={`${process.env.REACT_APP_FRONT_API}/${Channel.Channel_Id}`} className="block mt-4">
               <Button variant="outline" className="w-full">View Channel</Button>
             </Link>
