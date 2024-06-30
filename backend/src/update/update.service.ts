@@ -262,53 +262,7 @@ export class UpdateService {
     })
   }
 
-  // async DailyChannelUpdate() {
-  //   const subscriberCountData = await this.SubscribeRepository.find();
-  //   for (let i = 0; i < subscriberCountData.length; i += this.BATCH_SIZE) {
-  //     const batch = subscriberCountData.slice(i, i + this.BATCH_SIZE);
-  //     await this.dailyProcessBatch(batch);
-  //   }
-  // }
 
-  // private async dailyProcessBatch(batch: SubscriberCount[]): Promise<void> {
-  //   try {
-  //     const channelIds = batch.map(info => info.channelId);
-  //     const channels = await this.ChannelListRepository.find({
-  //       where: { id: In(channelIds) }
-  //     });
-
-  //     const channelMap = new Map(channels.map(c => [c.id, c.Channel_Id]));
-  //     const youtubeChannelIds = channels.map(c => c.Channel_Id);
-
-  //     const channelInfo = await this.getChannelInfo(youtubeChannelIds);
-
-  //     const updates = batch.map(async (info) => {
-  //       const youtubeChannelId = channelMap.get(info.channelId);
-  //       const channelData = channelInfo.data.items.find(item => item.id === youtubeChannelId);
-
-  //       if (!channelData) {
-  //         console.error(`Channel data not found for ID: ${youtubeChannelId}`);
-  //         return;
-  //       }
-
-  //       const newSubscriberCount = +channelData.statistics.subscriberCount;
-  //       const oldData = await this.SubscribeRepository.findOne({ where: { id: info.id } });
-
-  //       if (!oldData) {
-  //         console.error(`Subscriber data not found for ID: ${info.id}`);
-  //         return;
-  //       }
-
-  //       const updatedData = this.shiftSubscriberData(oldData, newSubscriberCount);
-  //       await this.SubscribeRepository.update(info.id, updatedData);
-  //     });
-
-  //     await Promise.all(updates);
-  //   } catch (error) {
-  //     console.error('Error in dailyProcessBatch:', error);
-  //     throw new Error("ERROR")
-  //   }
-  // }
 
   private shiftSubscriberData(oldData: SubscriberCount, newCount: number): Partial<SubscriberCount> {
     return {
@@ -344,6 +298,54 @@ export class UpdateService {
       Today: newCount
     };
   }
+
+
+  async removeDuplicates(){
+     // 중복 채널 제거
+     await this.removeDuplicateChannels();
+
+     // 중복 비디오 제거
+     await this.removeDuplicateVideos();
+
+  }
+
+
+  private async removeDuplicateChannels() {
+    const duplicates = await this.ChannelListRepository.query(`
+      SELECT Channel_Url_Id, COUNT(*) as count
+      FROM channellist
+      GROUP BY Channel_Url_Id
+      HAVING COUNT(*) > 1
+    `);
+
+    for (const duplicate of duplicates) {
+      const [keep, ...remove] = await this.ChannelListRepository.find({
+        where: { Channel_Url_Id: duplicate.Channel_Url_Id },
+        order: { id: 'ASC' }
+      });
+
+      await this.ChannelListRepository.remove(remove);
+    }
+  }
+
+  private async removeDuplicateVideos() {
+    const duplicates = await this.VideoRepository.query(`
+      SELECT videoid, COUNT(*) as count
+      FROM video
+      GROUP BY videoid
+      HAVING COUNT(*) > 1
+    `);
+
+    for (const duplicate of duplicates) {
+      const [keep, ...remove] = await this.VideoRepository.find({
+        where: { videoid: duplicate.videoid },
+        order: { id: 'ASC' }
+      });
+
+      await this.VideoRepository.remove(remove);
+    }
+  }
+
 
 
   async channelUpdate(): Promise<void> {
@@ -421,4 +423,7 @@ export class UpdateService {
       viewCount_percentageincrease: calculateIncrease(+newStats.viewCount, +info.viewCount)
     };
   }
+
+
+  
 }

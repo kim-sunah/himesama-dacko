@@ -11,6 +11,7 @@ import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 import { SubscriberCount } from './entities/subscriber.entity';
 import { ViewCount } from './entities/view.entity';
+import { VideoCount } from './entities/video.entity';
 
 
 @Injectable()
@@ -18,7 +19,8 @@ export class ChannellistService {
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, private readonly FilterService: FilterService,
               @InjectRepository(Video) private readonly VideoRepository: Repository<Video>,
               @InjectRepository(SubscriberCount) private readonly SubscriberRepository : Repository<SubscriberCount>,
-              @InjectRepository(ViewCount) private readonly ViewRepository : Repository<ViewCount>) {
+              @InjectRepository(ViewCount) private readonly ViewRepository : Repository<ViewCount>,
+              @InjectRepository(VideoCount) private readonly VideoCountRepository : Repository<VideoCount>) {
 
   }
   async Getvideosearch(search: string) {
@@ -54,67 +56,84 @@ export class ChannellistService {
     return { lastChannel: 0, lastVideo: 0 }
 
   }
-async YoutubeApiGetChannel(YoutubeChannelApi: InfluencerOrder, search: string) {
-  const ChannelData = [];
-  let nextPageToken: string | undefined = '';
-  const maxFetchCount = YoutubeChannelApi.accurate_search ? Infinity : 5;
-  const batchSize = 50; // 한 번에 처리할 채널 수
-
-  const processChannels = async (items) => {
-    const channelIds = items.map(item => item.snippet.channelId).join(',');
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&key=${process.env.Youtbe_Api_KEY}`);
-    const channelsData = response.data.items;
-
-    const newChannels = [];
-    const dbOperations = [];
-
-    for (const channel of channelsData) {
-      const channelData = {
-        Channel_nickname: channel.snippet.title,
-        Channel_Id: channel.id,
-        Channel_Url_Id: channel.snippet.customUrl,
-        channel_img: channel.snippet.thumbnails.high.url,
-        subscriberCount: +channel.statistics.subscriberCount,
-        videoCount: +channel.statistics.videoCount,
-        viewCount: +channel.statistics.viewCount,
-      };
-
-      if (this.meetsFilterCriteria(channelData, YoutubeChannelApi) && !ChannelData.some(c => c.Channel_Url_Id === channelData.Channel_Url_Id)) {
-        ChannelData.push(channelData);
-        newChannels.push(channelData);
+  async YoutubeApiGetChannel(YoutubeChannelApi: InfluencerOrder, search: string) {
+    const ChannelData = [];
+    let nextPageToken: string | undefined = '';
+    const maxFetchCount = YoutubeChannelApi.accurate_search ? Infinity : 5;
+    const batchSize = 50; // 한 번에 처리할 채널 수
+  
+    const processChannels = async (items) => {
+      const channelIds = items.map(item => item.snippet.channelId).join(',');
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&key=${process.env.Youtbe_Api_KEY}`);
+      const channelsData = response.data.items;
+  
+      const newChannels = [];
+      const dbOperations = [];
+  
+      for (const channel of channelsData) {
+        const channelData = {
+          Channel_nickname: channel.snippet.title,
+          Channel_Id: channel.id,
+          Channel_Url_Id: channel.snippet.customUrl,
+          channel_img: channel.snippet.thumbnails.high.url,
+          subscriberCount: +channel.statistics.subscriberCount,
+          videoCount: +channel.statistics.videoCount,
+          viewCount: +channel.statistics.viewCount,
+        };
+  
+        if (this.meetsFilterCriteria(channelData, YoutubeChannelApi) && !ChannelData.some(c => c.Channel_Url_Id === channelData.Channel_Url_Id)) {
+          ChannelData.push(channelData);
+          newChannels.push(channelData);
+        }
       }
-    }
-    if (newChannels.length > 0) {
-      dbOperations.push(
-        this.channelList.createQueryBuilder()
+      
+      if (newChannels.length > 0) {
+        // 먼저 channelList에 새 채널들을 삽입하고 생성된 ID를 가져옵니다.
+        const insertResult = await this.channelList.createQueryBuilder()
           .insert()
           .values(newChannels)
-          .orIgnore() 
-          .execute(),
-        this.SubscriberRepository.createQueryBuilder()
-          .insert()
-          .values(newChannels.map(c => ({ Today: c.subscriberCount })))
-          .execute(),
-        this.ViewRepository.createQueryBuilder()
-          .insert()
-          .values(newChannels.map(c => ({ Today: c.viewCount })))
-          .execute()
-      );
+          .orIgnore()
+          .execute();
+  
+        // 삽입된 채널들의 ID를 가져옵니다.
+        const insertedIds = insertResult.identifiers.map(identifier => identifier.id);
+  
+        // 삽입된 채널들과 그 ID를 매핑합니다.
+        const channelsWithIds = newChannels.map((channel, index) => ({
+          ...channel,
+          id: insertedIds[index]
+        }));
+  
+        // 이제 관련 테이블에 데이터를 삽입합니다.
+        dbOperations.push(
+          this.SubscriberRepository.createQueryBuilder()
+            .insert()
+            .values(channelsWithIds.map(c => ({ Today: c.subscriberCount, channelId: c.id })))
+            .execute(),
+          this.VideoCountRepository.createQueryBuilder()
+            .insert()
+            .values(channelsWithIds.map(c => ({ Today: c.videoCount, channelId: c.id })))
+            .execute(),
+          this.ViewRepository.createQueryBuilder()
+            .insert()
+            .values(channelsWithIds.map(c => ({ Today: c.viewCount, channelId: c.id })))
+            .execute()
+        );
+      }
+      await Promise.all(dbOperations);
+    };
+  
+    for (let fetchCount = 0; fetchCount < maxFetchCount; fetchCount++) {
+      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${batchSize}&pageToken=${nextPageToken}&type=video&order=relevance&q=${search}&key=${process.env.Youtbe_Api_KEY}`);
+      const newItems = response.data;
+      nextPageToken = newItems.nextPageToken;
+  
+      await processChannels(newItems.items);
+  
+      if (!nextPageToken) break;
     }
-    await Promise.all(dbOperations);
-  };
-  for (let fetchCount = 0; fetchCount < maxFetchCount; fetchCount++) {
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${batchSize}&pageToken=${nextPageToken}&type=video&order=relevance&q=${search}&key=${process.env.Youtbe_Api_KEY}`);
-    const newItems = response.data;
-    nextPageToken = newItems.nextPageToken;
-
-    await processChannels(newItems.items);
-
-    if (!nextPageToken) break;
+    return ChannelData;
   }
-  return ChannelData;
-}
-
 meetsFilterCriteria(channel, filters) {
   return (
     (filters.subscriberMin === null || (channel.subscriberCount > filters.subscriberMin && channel.subscriberCount < filters.subscriberMax)) &&
@@ -173,7 +192,6 @@ meetsFilterCriteria(channel, filters) {
         return existingChannel;
       }
     } catch (error) {
-      console.error('Error in Live_Popular_CreateApi:', error);
       throw error;
     }
   }

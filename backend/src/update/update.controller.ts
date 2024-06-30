@@ -19,14 +19,20 @@ export class UpdateController {
     });
 
      //(매일 5시에 실행)
-    schedule.scheduleJob('0 00 17 * * *', () => {
+    schedule.scheduleJob('0 0 17 * * *', () => {
       this.DailySubscriberChannelUpdate();
     });
-    schedule.scheduleJob('0 05 17 * * *', () => {
+     //(매일 5시에 실행)
+    schedule.scheduleJob('0 0 17 * * *', () => {
       this.DailyViewChannelUpdate();
     });
-    schedule.scheduleJob('0 10 17 * * *', () => {
+     //(매일 5시에 실행)
+    schedule.scheduleJob('0 0 17 * * *', () => {
       this.DailyVideoChannelUpdate();
+    });
+     //(5분마다 실행)
+    schedule.scheduleJob('*/5 * * * *', () => {
+      this.removeDuplicates();
     });
   }
 
@@ -49,6 +55,10 @@ export class UpdateController {
     return await this.updateService.DailyVideoChannelUpdate();
   }
 
+  //5분마다 중복된 Channel, Video 삭제
+  async removeDuplicates(){
+    return await this.updateService.removeDuplicates()
+  }
 
   async channelUpdate() {
     return await this.updateService.channelUpdate()

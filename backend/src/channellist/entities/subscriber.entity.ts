@@ -101,7 +101,7 @@ export class SubscriberCount {
     @Column()
     channelId: number;
 
-    @OneToOne(() => Channellist)
+    @OneToOne(() => Channellist , { onDelete: 'CASCADE' })
     @JoinColumn()
     channel : Channellist;
 

@@ -55,6 +55,6 @@ export class videoview {
 
 
 
-  @OneToOne(() => Video, video => video.videoview)
+  @OneToOne(() => Video, video => video.videoview , { onDelete: 'CASCADE' })
   video: Video;
 }

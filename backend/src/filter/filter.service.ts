@@ -3,7 +3,7 @@ import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Channellist } from 'src/channellist/entities/channellist.entity';
-import { Between, Repository } from 'typeorm';
+import { Between, DataSource, Repository } from 'typeorm';
 import axios from 'axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -36,6 +36,7 @@ export class FilterService {
     @InjectRepository(SubscriberCount) private readonly SubscriberRepository: Repository<SubscriberCount>,
     @InjectRepository(ViewCount) private readonly ViewRepository: Repository<ViewCount>,
     @InjectRepository(VideoCount) private readonly VideoCountRepository: Repository<VideoCount>,
+    private dataSource: DataSource
   ) { }
 
 
@@ -100,41 +101,49 @@ export class FilterService {
 
 
   private async findOrCreateChannel(channelData: any, info: any) {
+    console.log(channelData.snippet.customUrl)
     const existingChannel = await this.channelList.findOne({ where: { Channel_Url_Id: channelData.snippet.customUrl } });
-    if (existingChannel) return existingChannel;
-
-    const channelToSave = {
-      Channel_Url_Id: channelData.snippet.customUrl,
-      Channel_Id: info.snippet.channelId,
-      Channel_nickname: channelData.snippet.title,
-      channel_img: channelData.snippet.thumbnails.default.url,
-      subscriberCount: +channelData.statistics.subscriberCount,
-      videoCount: +channelData.statistics.videoCount,
-      viewCount: +channelData.statistics.viewCount
-    };
-
-    const savedChannel = await this.channelList.save(channelToSave);
-    if (!savedChannel.id) {
-      console.error('Channel saved but id is missing');
-      return null;
+    if (existingChannel){
+      return existingChannel;
     }
+    else{
+      const channelToSave = {
+        Channel_Url_Id: channelData.snippet.customUrl,
+        Channel_Id: info.snippet.channelId,
+        Channel_nickname: channelData.snippet.title,
+        channel_img: channelData.snippet.thumbnails.default.url,
+        subscriberCount: +channelData.statistics.subscriberCount,
+        videoCount: +channelData.statistics.videoCount,
+        viewCount: +channelData.statistics.viewCount
+      };
+  
+      const savedChannel = await this.channelList.save(channelToSave);
+      if (!savedChannel.id) {
+        console.error('Channel saved but id is missing');
+        return null;
+      }
+  
+      await Promise.all([
+        this.SubscriberRepository.save({
+          Today: +channelData.statistics.subscriberCount,
+          channelId: savedChannel.id
+        }),
+        this.VideoCountRepository.save({ 
+          Today: +channelData.statistics.videoCount,
+          channelId: savedChannel.id
+        }),
+        this.ViewRepository.save({
+          Today: +channelData.statistics.viewCount,
+          channelId: savedChannel.id
+        })
+      ]);
+  
+      return savedChannel;
 
-    await Promise.all([
-      this.SubscriberRepository.save({
-        Today: +channelData.statistics.subscriberCount,
-        channelId: savedChannel.id
-      }),
-      this.VideoCountRepository.save({ 
-        Today: +channelData.statistics.videoCount,
-        channelId: savedChannel.id
-      }),
-      this.ViewRepository.save({
-        Today: +channelData.statistics.viewCount,
-        channelId: savedChannel.id
-      })
-    ]);
+    }
+     
 
-    return savedChannel;
+  
   }
 
   private async findOrCreateVideo(info: any, videoData: any, channelData: any) {

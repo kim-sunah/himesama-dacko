@@ -23,15 +23,15 @@ export class Video {
     @Column()
     videopublishedAt: string;
 
-    @ManyToOne(() => Channellist, (channel) => channel.video)
+    @ManyToOne(() => Channellist, (channel) => channel.video, { onDelete: 'CASCADE' })
     channel: Channellist;
 
-    @OneToOne(() => videoview,  videoview => videoview.video)
+    @OneToOne(() => videoview,  videoview => videoview.video )
     videoview: videoview;
 
-    @OneToOne(() => videocomment,  videocomment => videocomment.video)
+    @OneToOne(() => videocomment,  videocomment => videocomment.video )
     videocomment: videocomment;
 
-    @OneToOne(() => videolike,  videolike => videolike.video)
+    @OneToOne(() => videolike,  videolike => videolike.video )
     videolike: videolike;
 }

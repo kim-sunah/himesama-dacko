@@ -102,7 +102,7 @@ export class ViewCount {
     @Column()
     channelId: number;
 
-    @OneToOne(() => Channellist)
+    @OneToOne(() => Channellist ,{ onDelete: 'CASCADE' })
     @JoinColumn()
     channel : Channellist;
 

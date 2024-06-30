@@ -53,7 +53,7 @@ export class videolike {
   Twelve_Month_Ago: number;
 
 
-  @OneToOne(() => Video, video => video.videolike)
+  @OneToOne(() => Video, video => video.videolike , { onDelete: 'CASCADE' })
   video: Video;
 
 
