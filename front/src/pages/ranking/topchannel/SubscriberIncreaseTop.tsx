@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../component/v0/button";
 import Getmethod from "../../../http/Get_method";
 import { channeInfo } from "../../../enum/ChannelInfo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcLineChart } from "react-icons/fc";
 
 
@@ -18,6 +18,7 @@ import "../test.css"
 
 
 export default function SubscriberIncreaseTop() {
+    const navigate = useNavigate();
     const [Top, SetTop] = useState<channeInfo[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -30,13 +31,11 @@ export default function SubscriberIncreaseTop() {
 
 
     }, [])
-    const ScrollDown = () => {
-        window.scrollBy({
-            top: 900, // 스크롤할 픽셀 수 (원하는 만큼 조절 가능)
-            left: 0,
-            behavior: 'smooth' // 부드러운 스크롤 효과
-        });
-    };
+    const LocationHandler = (Id : string) => {
+      
+        navigate(`/${Id}`);
+
+    }
 
 
     return (
@@ -49,7 +48,7 @@ export default function SubscriberIncreaseTop() {
 
                     <div className="five"  style={{display: "flex" , justifyContent:"space-between"}}>
                         <h1  className="mb-4">구독자 증가 상위 </h1>
-                        <button onClick={ScrollDown}>자세히 보기</button>
+                        <button>자세히 보기</button>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"  >
@@ -77,9 +76,8 @@ export default function SubscriberIncreaseTop() {
                                 </div>
                             </div>
                               
-                                <Link to={`${process.env.REACT_APP_FRONT_API}/${Channel.Channel_Id}`} className="block mt-4">
-                                    <Button variant="outline" className="w-full">View Channel</Button>
-                                </Link>
+                            <Button variant="outline" className="w-full mt-4" onClick={() => {LocationHandler(Channel.Channel_Id)}}>View Channel</Button>
+
                             </div>
                         ))}
                     </div>

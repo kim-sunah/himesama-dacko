@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../../../component/v0/button";
 import Getmethod from "../../../http/Get_method";
 import { channeInfo } from "../../../enum/ChannelInfo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 import { formatNumberUS } from "../../../function/formatNumberUS";
@@ -14,6 +14,7 @@ import { AiFillVideoCamera } from "react-icons/ai";
 
 
 export default function SubscriberTop() {
+  const navigate = useNavigate()
   const [Top, SetTop] = useState<channeInfo[]>([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -27,13 +28,11 @@ export default function SubscriberTop() {
 
   }, [])
 
-  const ScrollDown = () => {
-    window.scrollBy({
-      top: 900, // 스크롤할 픽셀 수 (원하는 만큼 조절 가능)
-      left: 0,
-      behavior: 'smooth' // 부드러운 스크롤 효과
-    });
-  };
+  const LocationHandler = (Id : string) => {
+      
+    navigate(`/${Id}`);
+
+}
   return (
     <main className=" p-6 md:p-10  " >
 
@@ -46,7 +45,7 @@ export default function SubscriberTop() {
             <h1 className="mb-4">구독자 상위
 
             </h1>
-            <button onClick={ScrollDown}>자세히 보기</button>
+            <button >자세히 보기</button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -62,9 +61,8 @@ export default function SubscriberTop() {
                   <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500 mr-1" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
                 </div>
 
-                <Link to={`${process.env.REACT_APP_FRONT_API}/${Channel.Channel_Id}`} className="block mt-4">
-                  <Button variant="outline" className="w-full">View Channel</Button>
-                </Link>
+                <Button variant="outline" className="w-full mt-4" onClick={() => {LocationHandler(Channel.Channel_Id)}}>View Channel</Button>
+
               </div>
             ))}
           </div>
