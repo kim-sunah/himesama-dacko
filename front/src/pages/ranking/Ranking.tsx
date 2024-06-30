@@ -9,6 +9,7 @@ import { CgArrowsExchangeAltV } from "react-icons/cg";
 import Postmethod from '../../http/Post_method';
 import Row from '../../component/table/InfluencerRow';
 import IconInButton from '../../component/button/Icon_In_Button';
+import Getmethod from '../../http/Get_method';
 interface Channel {
   id: number;
   Channel_Id: string;
@@ -34,34 +35,13 @@ export default function Ranking() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        if(select === null){
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : "High_Subscriber"});
-          setRanking(response)
-          console.log(response)
-         
-        }
-        else if(select === "Low_View" || select ==="High_View"){
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/view-channels/${pagenumber}`,{select : select})
-          setRanking(response)
-      } 
-        else if(select === "Low_Videocount" || select==="High_Videocount"){
-          
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Video-channels/${pagenumber}`,{select : select})
-          setRanking(response)
+      const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/SubscriberTopIncrease`)
 
-
-        }
-        else if(select ==="High_Subscriber" || select ==="Low_Subscriber"){
-          const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Subscriber-channels/${pagenumber}`,{select : select});
-          setRanking(response);
-        }
+      setRanking(response)
     }
-      catch (error) {
-        console.error("Error fetching data:", error)
-      }
-    };
-    fetchData();
+    fetchData()
+
+
   }, [pagenumber,select])
 
 

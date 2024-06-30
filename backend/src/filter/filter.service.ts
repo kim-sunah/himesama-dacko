@@ -12,6 +12,9 @@ import { videoview } from 'src/video/entities/videoview.entity';
 import { videocomment } from 'src/video/entities/videocomment.entity';
 import { videolike } from 'src/video/entities/videolike.entity';
 import { InfluencerOrder } from './dto/DbOrder.dto';
+import { SubscriberCount } from 'src/channellist/entities/subscriber.entity';
+import { ViewCount } from 'src/channellist/entities/view.entity';
+import { VideoCount } from 'src/channellist/entities/video.entity';
 interface Data {
   nextPageToken: any;
   prevPageToken: any;
@@ -24,232 +27,189 @@ interface Data {
 
 @Injectable()
 export class FilterService {
-  
-  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, @InjectRepository(Video) private readonly videoRepository: Repository<Video>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
-    @InjectRepository(videoview) private readonly videoviewRepository: Repository<videoview>, @InjectRepository(videocomment) private readonly videocommentRepository: Repository<videocomment>, @InjectRepository(videolike) private readonly videolikeRepository: Repository<videolike>) { }
 
-  async videoFilter(resData: Data) {
-    try {
-      const channelDataArray = [];
-      for (const info of resData.items) {
-        const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${info.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
-        const ChannelData = ChannelInfo.data
-        const ChannelUrlID = await this.channelList.findOne({ where: { Channel_Url_Id: ChannelData.items[0].snippet.customUrl } })
-        if (!ChannelUrlID) {
-          await this.channelList.save({ Channel_Url_Id: ChannelData.items[0].snippet.customUrl, Channel_Id: info.snippet.channelId, Channel_nickname: ChannelData.items[0].snippet.title, channel_img: ChannelData.items[0].snippet.thumbnails.default.url, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, viewCount: +ChannelData.items[0].statistics.viewCount })
-        }
-
-        if (info.id.videoId) {
-
-          const ChannelInfo = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&part=contentDetails&id=${info.id.videoId}&key=${process.env.Youtbe_Api_KEY}`)
-          const channelcategoryData = ChannelInfo.data
-
-          const data = await this.channelList.findOne({ where: { Channel_Id: info.snippet.channelId } })
-          const videoId = await this.videoRepository.findOne({ where: { videoid: info.id.videoId } })
-          if (!videoId && data) {
-            const videoviewData = await this.videoRepository.create({ videoid: info.id.videoId, videotitle: info.snippet.title, videopublishedAt: info.snippet.publishedAt, channelId: +data.id })
-            await this.videoRepository.save(videoviewData);
-            await this.videoviewRepository.save({ videoId: videoviewData.id, today: channelcategoryData.items[0].statistics.viewCount })
-            await this.videocommentRepository.save({ videoId: videoviewData.id, today: channelcategoryData.items[0].statistics.commentCount })
-            await this.videolikeRepository.save({ videoId: videoviewData.id, today: channelcategoryData.items[0].statistics.likeCount })
+  constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>,
+    @InjectRepository(Video) private readonly videoRepository: Repository<Video>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    @InjectRepository(videoview) private readonly videoviewRepository: Repository<videoview>,
+    @InjectRepository(videocomment) private readonly videocommentRepository: Repository<videocomment>,
+    @InjectRepository(videolike) private readonly videolikeRepository: Repository<videolike>,
+    @InjectRepository(SubscriberCount) private readonly SubscriberRepository: Repository<SubscriberCount>,
+    @InjectRepository(ViewCount) private readonly ViewRepository: Repository<ViewCount>,
+    @InjectRepository(VideoCount) private readonly VideoCountRepository: Repository<VideoCount>,
+  ) { }
 
 
-            if (!resData.prevPageToken || resData.prevPageToken === undefined) {
-              const videoview = await this.videoviewRepository.findOne({ where: { videoId: videoviewData.id } })
-              const videocomment = await this.videocommentRepository.findOne({ where: { videoId: videoviewData.id } })
-              const videolike = await this.videolikeRepository.findOne({ where: { videoId: videoviewData.id } })
-              channelDataArray.push({
-                Channel_Url_Id: data.Channel_Url_Id,
-                channel_img: ChannelData.items[0].snippet.thumbnails.default.url,
-                videotitle: info.snippet.title,
-                Channel_Id: info.snippet.channelId,
-                nextPageToken: resData.nextPageToken,
-                videoId: info.id.videoId,
-                publishedAt: info.snippet.publishedAt,
-                channelTitle: info.snippet.channelTitle,
-                thumbnails: info.snippet.thumbnails.default.url,
-                viewCount: +ChannelData.items[0].statistics.viewCount,
-                subscriberCount: +ChannelData.items[0].statistics.subscriberCount,
-                videoCount: +ChannelData.items[0].statistics.videoCount,
-                videoviewcount: +channelcategoryData.items[0].statistics.viewCount,
-                videolikecount: +channelcategoryData.items[0].statistics.likeCount,
-                videocommentcount: +channelcategoryData.items[0].statistics.commentCount,
-                viewdata: [
-                  {
-                    id: "조회수",
-                    color: "hsl(195, 70%, 50%)",
-                    data: [
-                      { x: "1년전", y: +videoview.Twelve_Month_Ago },
-                      { x: "11달전", y: +videoview.Eigth_Month_Ago },
-                      { x: "10달전", y: +videoview.Ten_Month_Ago },
-                      { x: "9달전", y: +videoview.Nine_Month_Ago },
-                      { x: "8달전", y: +videoview.Eigth_Month_Ago },
-                      { x: "7달전", y: +videoview.Seven_Month_Ago },
-                      { x: "6달전", y: +videoview.Six_Month_Ago },
-                      { x: "5달전", y: +videoview.Five_Month_Ago },
-                      { x: "4달전", y: +videoview.Four_Month_Ago },
-                      { x: "3달전", y: +videoview.Three_Month_Ago },
-                      { x: "2달전", y: +videoview.Two_Month_Ago },
-                      { x: "1달전", y: +videoview.One_Month_Ago },
-                    
-                      { x: "오늘", y: +videoview.today },
-
-                    ]
-                  },
-                ],
-                commentdata: [
-                  {
-                    id: "댓글수",
-                    color: "hsl(26, 70%, 50%)",
-                    data: [
-                      { x: "1년전", y: +videocomment.Twelve_Month_Ago },
-                      { x: "11달전", y: +videocomment.Eigth_Month_Ago },
-                      { x: "10달전", y: +videocomment.Ten_Month_Ago },
-                      { x: "9달전", y: +videocomment.Nine_Month_Ago },
-                      { x: "8달전", y: +videocomment.Eigth_Month_Ago },
-                      { x: "7달전", y: +videocomment.Seven_Month_Ago },
-                      { x: "6달전", y: +videocomment.Six_Month_Ago },
-                      { x: "5달전", y: +videocomment.Five_Month_Ago },
-                      { x: "4달전", y: +videocomment.Four_Month_Ago },
-                      { x: "3달전", y: +videocomment.Three_Month_Ago },
-                      { x: "2달전", y: +videocomment.Two_Month_Ago },
-                      { x: "1달전", y: +videocomment.One_Month_Ago },
-                     
-                      { x: "오늘", y: +videocomment.today },
-                    ]
-                  },
-                ],
-                likedata: [
-                  {
-                    id: "좋아요",
-                    color: "hsl(107, 70%, 50%)",
-                    data: [
-                      { x: "1년전", y: +videolike.Twelve_Month_Ago },
-                      { x: "11달전", y: +videolike.Eigth_Month_Ago },
-                      { x: "10달전", y: +videolike.Ten_Month_Ago },
-                      { x: "9달전", y: +videolike.Nine_Month_Ago },
-                      { x: "8달전", y: +videolike.Eigth_Month_Ago },
-                      { x: "7달전", y: +videolike.Seven_Month_Ago },
-                      { x: "6달전", y: +videolike.Six_Month_Ago },
-                      { x: "5달전", y: +videolike.Five_Month_Ago },
-                      { x: "4달전", y: +videolike.Four_Month_Ago },
-                      { x: "3달전", y: +videolike.Three_Month_Ago },
-                      { x: "2달전", y: +videolike.Two_Month_Ago },
-                      { x: "1달전", y: +videolike.One_Month_Ago },
-                      { x: "오늘", y: +videolike.today },
-                    ]
-                  },
-                ]
-              })
-            }
-            else {
-              channelDataArray.push({ Channel_Url_Id: data.Channel_Url_Id, channel_img: ChannelData.items[0].snippet.thumbnails.default.url, videotitle: info.snippet.title, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, publishedAt: info.snippet.publishedAt, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount: +channelcategoryData.items[0].statistics.viewCount, videolikecount: +channelcategoryData.items[0].statistics.likeCount, videocommentcount: +channelcategoryData.items[0].statistics.commentCount })
-            }
-          }
-          else if (videoId) {
-            if (!resData.prevPageToken || resData.prevPageToken === undefined) {
-              const videoview = await this.videoviewRepository.findOne({ where: { videoId: videoId.id } })
-              const videocomment = await this.videocommentRepository.findOne({ where: { videoId: videoId.id } })
-              const videolike = await this.videolikeRepository.findOne({ where: { videoId: videoId.id } })
-              channelDataArray.push({
-                Channel_Url_Id: data.Channel_Url_Id,
-                channel_img: ChannelData.items[0].snippet.thumbnails.default.url,
-                videotitle: info.snippet.title,
-                Channel_Id: info.snippet.channelId,
-                nextPageToken: resData.nextPageToken,
-                videoId: info.id.videoId,
-                publishedAt: info.snippet.publishedAt,
-                channelTitle: info.snippet.channelTitle,
-                thumbnails: info.snippet.thumbnails.default.url,
-                viewCount: +ChannelData.items[0].statistics.viewCount,
-                subscriberCount: +ChannelData.items[0].statistics.subscriberCount,
-                videoCount: +ChannelData.items[0].statistics.videoCount,
-                videoviewcount: +channelcategoryData.items[0].statistics.viewCount,
-                videolikecount: +channelcategoryData.items[0].statistics.likeCount,
-                videocommentcount: +channelcategoryData.items[0].statistics.commentCount,
-                viewdata: [
-                  {
-                    id: "조회수",
-                    color: "hsl(195, 70%, 50%)",
-                    data: [
-                      { x: "1년전", y: +videoview.Twelve_Month_Ago },
-                      { x: "11달전", y: +videoview.Eigth_Month_Ago },
-                      { x: "10달전", y: +videoview.Ten_Month_Ago },
-                      { x: "9달전", y: +videoview.Nine_Month_Ago },
-                      { x: "8달전", y: +videoview.Eigth_Month_Ago },
-                      { x: "7달전", y: +videoview.Seven_Month_Ago },
-                      { x: "6달전", y: +videoview.Six_Month_Ago },
-                      { x: "5달전", y: +videoview.Five_Month_Ago },
-                      { x: "4달전", y: +videoview.Four_Month_Ago },
-                      { x: "3달전", y: +videoview.Three_Month_Ago },
-                      { x: "2달전", y: +videoview.Two_Month_Ago },
-                      { x: "1달전", y: +videoview.One_Month_Ago },
-                      { x: "오늘", y: +videoview.today },
-                    ]
-                  },
-                ],
-                commentdata: [
-                  {
-                    id: "댓글수",
-                    color: "hsl(26, 70%, 50%)",
-                    data: [
-                      { x: "1년전", y: +videocomment.Twelve_Month_Ago },
-                      { x: "11달전", y: +videocomment.Eigth_Month_Ago },
-                      { x: "10달전", y: +videocomment.Ten_Month_Ago },
-                      { x: "9달전", y: +videocomment.Nine_Month_Ago },
-                      { x: "8달전", y: +videocomment.Eigth_Month_Ago },
-                      { x: "7달전", y: +videocomment.Seven_Month_Ago },
-                      { x: "6달전", y: +videocomment.Six_Month_Ago },
-                      { x: "5달전", y: +videocomment.Five_Month_Ago },
-                      { x: "4달전", y: +videocomment.Four_Month_Ago },
-                      { x: "3달전", y: +videocomment.Three_Month_Ago },
-                      { x: "2달전", y: +videocomment.Two_Month_Ago },
-                      { x: "1달전", y: +videocomment.One_Month_Ago },
-                      { x: "오늘", y: +videocomment.today },
-                    ]
-                  },
-                ],
-                likedata: [
-                  {
-                    id: "좋아요",
-                    color: "hsl(107, 70%, 50%)",
-                    data: [
-                      { x: "1년전", y: +videolike.Twelve_Month_Ago },
-                      { x: "11달전", y: +videolike.Eigth_Month_Ago },
-                      { x: "10달전", y: +videolike.Ten_Month_Ago },
-                      { x: "9달전", y: +videolike.Nine_Month_Ago },
-                      { x: "8달전", y: +videolike.Eigth_Month_Ago },
-                      { x: "7달전", y: +videolike.Seven_Month_Ago },
-                      { x: "6달전", y: +videolike.Six_Month_Ago },
-                      { x: "5달전", y: +videolike.Five_Month_Ago },
-                      { x: "4달전", y: +videolike.Four_Month_Ago },
-                      { x: "3달전", y: +videolike.Three_Month_Ago },
-                      { x: "2달전", y: +videolike.Two_Month_Ago },
-                      { x: "1달전", y: +videolike.One_Month_Ago },
-                      { x: "오늘", y: +videolike.today },
-                    ]
-                  },
-                ]
-              })
-
-            }
-            else {
-              channelDataArray.push({ Channel_Url_Id: data.Channel_Url_Id, channel_img: ChannelData.items[0].snippet.thumbnails.default.url, videotitle: info.snippet.title, Channel_Id: info.snippet.channelId, channelId: info.snippet.channelId, nextPageToken: resData.nextPageToken, publishedAt: info.snippet.publishedAt, prevPageToken: resData.prevPageToken, videoId: info.id.videoId, channelTitle: info.snippet.channelTitle, thumbnails: info.snippet.thumbnails.default.url, viewCount: +ChannelData.items[0].statistics.viewCount, subscriberCount: +ChannelData.items[0].statistics.subscriberCount, videoCount: +ChannelData.items[0].statistics.videoCount, videoviewcount: +channelcategoryData.items[0].statistics.viewCount, videolikecount: +channelcategoryData.items[0].statistics.likeCount, videocommentcount: +channelcategoryData.items[0].statistics.commentCount })
-            }
-          }
-        }
-      }
-      return channelDataArray
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
   private getOneHourAgo(): string {
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     return oneHourAgo.toISOString();
   }
+
+  private async getChannelInfo(channelId: string) {
+    return axios.get(`https://youtube.googleapis.com/youtube/v3/channels`, {
+      params: {
+        part: 'snippet,statistics',
+        id: channelId,
+        key: process.env.Youtbe_Api_KEY
+      }
+    });
+  }
+
+  private async getVideoInfo(videoId: string) {
+    return axios.get(`https://youtube.googleapis.com/youtube/v3/videos`, {
+      params: {
+        part: 'snippet,statistics,contentDetails',
+        id: videoId,
+        key: process.env.Youtbe_Api_KEY
+      }
+    });
+  }
+
+  async videoFilter(resData: Data) {
+    try {
+      const channelDataArray = await Promise.all(resData.items.map(async (info) => {
+        const [channelInfo, videoInfo] = await Promise.all([
+          this.getChannelInfo(info.snippet.channelId),
+          info.id.videoId ? this.getVideoInfo(info.id.videoId) : null
+        ]);
+
+        if (!channelInfo) return null;
+
+        const channelData = channelInfo.data.items[0];
+        const channelUrlID = await this.findOrCreateChannel(channelData, info);
+
+        if (!channelUrlID) return null;
+
+        if (!info.id.videoId) return null;
+
+        const videoData = videoInfo.data.items[0];
+        const video = await this.findOrCreateVideo(info, videoData, channelUrlID);
+
+        if (!video) return null;
+
+        return this.createChannelDataObject(info, channelData, videoData, video, resData);
+      }));
+
+      return channelDataArray.filter(Boolean);
+    } catch (err) {
+      console.error('Error in videoFilter:', err);
+      throw err;
+    }
+  }
+
+
+
+  private async findOrCreateChannel(channelData: any, info: any) {
+    const existingChannel = await this.channelList.findOne({ where: { Channel_Url_Id: channelData.snippet.customUrl } });
+    if (existingChannel) return existingChannel;
+
+    const channelToSave = {
+      Channel_Url_Id: channelData.snippet.customUrl,
+      Channel_Id: info.snippet.channelId,
+      Channel_nickname: channelData.snippet.title,
+      channel_img: channelData.snippet.thumbnails.default.url,
+      subscriberCount: +channelData.statistics.subscriberCount,
+      videoCount: +channelData.statistics.videoCount,
+      viewCount: +channelData.statistics.viewCount
+    };
+
+    const savedChannel = await this.channelList.save(channelToSave);
+    if (!savedChannel.id) {
+      console.error('Channel saved but id is missing');
+      return null;
+    }
+
+    await Promise.all([
+      this.SubscriberRepository.save({
+        Today: +channelData.statistics.subscriberCount,
+        channelId: savedChannel.id
+      }),
+      this.VideoCountRepository.save({ 
+        Today: +channelData.statistics.videoCount,
+        channelId: savedChannel.id
+      }),
+      this.ViewRepository.save({
+        Today: +channelData.statistics.viewCount,
+        channelId: savedChannel.id
+      })
+    ]);
+
+    return savedChannel;
+  }
+
+  private async findOrCreateVideo(info: any, videoData: any, channelData: any) {
+    const existingVideo = await this.videoRepository.findOne({ where: { videoid: info.id.videoId } });
+    if (existingVideo) return existingVideo;
+
+    const videoToSave = {
+      videoid: info.id.videoId,
+      videotitle: info.snippet.title,
+      videopublishedAt: info.snippet.publishedAt,
+      channelId: channelData.id
+    };
+
+    const savedVideo = await this.videoRepository.save(videoToSave);
+
+    await Promise.all([
+      this.videoviewRepository.save({ videoId: savedVideo.id, today: videoData.statistics.viewCount }),
+      this.videocommentRepository.save({ videoId: savedVideo.id, today: videoData.statistics.commentCount }),
+      this.videolikeRepository.save({ videoId: savedVideo.id, today: videoData.statistics.likeCount })
+    ]);
+
+    return savedVideo;
+  }
+
+  private async createChannelDataObject(info: any, channelData: any, videoData: any, video: any, resData: any) {
+    const videoview = await this.videoviewRepository.findOne({ where: { videoId: video.id } });
+    const videocomment = await this.videocommentRepository.findOne({ where: { videoId: video.id } });
+    const videolike = await this.videolikeRepository.findOne({ where: { videoId: video.id } });
+
+    return {
+      Channel_Url_Id: channelData.snippet.customUrl,
+      channel_img: channelData.snippet.thumbnails.default.url,
+      videotitle: info.snippet.title,
+      Channel_Id: info.snippet.channelId,
+      nextPageToken: resData.nextPageToken,
+      videoId: info.id.videoId,
+      publishedAt: info.snippet.publishedAt,
+      channelTitle: info.snippet.channelTitle,
+      thumbnails: info.snippet.thumbnails.default.url,
+      viewCount: +channelData.statistics.viewCount,
+      subscriberCount: +channelData.statistics.subscriberCount,
+      videoCount: +channelData.statistics.videoCount,
+      videoviewcount: +videoData.statistics.viewCount,
+      videolikecount: +videoData.statistics.likeCount,
+      videocommentcount: +videoData.statistics.commentCount,
+      viewdata: this.createChartData("조회수", videoview),
+      commentdata: this.createChartData("댓글수", videocomment),
+      likedata: this.createChartData("좋아요", videolike)
+    };
+  }
+
+  private createChartData(id: string, data: any) {
+    const colorMap = { "조회수": "hsl(195, 70%, 50%)", "댓글수": "hsl(26, 70%, 50%)", "좋아요": "hsl(107, 70%, 50%)" };
+    return [{
+      id,
+      color: colorMap[id],
+      data: [
+        { x: "1년전", y: +data.Twelve_Month_Ago },
+        { x: "11달전", y: +data.Eleven_Month_Ago },
+        { x: "10달전", y: +data.Ten_Month_Ago },
+        { x: "9달전", y: +data.Nine_Month_Ago },
+        { x: "8달전", y: +data.Eight_Month_Ago },
+        { x: "7달전", y: +data.Seven_Month_Ago },
+        { x: "6달전", y: +data.Six_Month_Ago },
+        { x: "5달전", y: +data.Five_Month_Ago },
+        { x: "4달전", y: +data.Four_Month_Ago },
+        { x: "3달전", y: +data.Three_Month_Ago },
+        { x: "2달전", y: +data.Two_Month_Ago },
+        { x: "1달전", y: +data.One_Month_Ago },
+        { x: "오늘", y: +data.today },
+      ]
+    }];
+  }
+
+
 
   async Filterlength(createFilterDto: CreateFilterDto, search: string) {
     try {
@@ -340,7 +300,7 @@ export class FilterService {
     }
   }
 
-  async DBInfluencerOrder( dbOrder: InfluencerOrder, page: number) {
+  async DBInfluencerOrder(dbOrder: InfluencerOrder, page: number) {
     const where: any = {};
     if (dbOrder.subscriberMin !== 0 && dbOrder.subscriberMax !== 0) {
       where.subscriberCount = Between(dbOrder.subscriberMin, dbOrder.subscriberMax);
@@ -361,7 +321,7 @@ export class FilterService {
     return channels
   }
 
-  async YoutubeApiInfluencerOrder(YoutubeAPiOrder :InfluencerOrder ,pagenumber : number){
+  async YoutubeApiInfluencerOrder(YoutubeAPiOrder: InfluencerOrder, pagenumber: number) {
     console.log("Hello");
   }
 }

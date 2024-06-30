@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../../../component/v0/button";
 import Getmethod from "../../../http/Get_method";
 import { channeInfo } from "../../../enum/ChannelInfo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcLineChart } from "react-icons/fc";
 
 
@@ -16,6 +16,7 @@ import { FcBullish } from "react-icons/fc";
 import { FcNeutralTrading } from "react-icons/fc";
 
 export default function ViewIncreaseTop() {
+    const navigate = useNavigate()
     const [Top, SetTop] = useState<channeInfo[]>([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -28,6 +29,16 @@ export default function ViewIncreaseTop() {
 
 
     }, [])
+
+    const ScrollDown = () => {
+        navigate("/Ranking?sort=increase-views")
+        window.scrollBy({
+            top: 900, // 스크롤할 픽셀 수 (원하는 만큼 조절 가능)
+            left: 0,
+            behavior: 'smooth' // 부드러운 스크롤 효과
+        });
+    };
+
     return (
         <main className=" p-6 md:p-10  " >
 
@@ -36,9 +47,12 @@ export default function ViewIncreaseTop() {
             <div className=" grid gap-6">
 
 
-                <div className="five" >
-                    <h1  className="mb-4">구독자 증가 상위</h1>
-                </div>
+            <div className="five" style={{ display: "flex", justifyContent: "space-between" }}>
+            <h1 className="mb-4">조회수 증가 상위
+
+            </h1>
+            <button onClick={ScrollDown}>자세히 보기</button>
+          </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {Top.map(Channel => (

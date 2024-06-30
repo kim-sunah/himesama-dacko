@@ -9,47 +9,18 @@ import axios from 'axios'
 import { Video } from 'src/video/entities/video.entity';
 import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
+import { SubscriberCount } from './entities/subscriber.entity';
+import { ViewCount } from './entities/view.entity';
 
 
 @Injectable()
 export class ChannellistService {
   constructor(@InjectRepository(Channellist) private readonly channelList: Repository<Channellist>, private readonly FilterService: FilterService,
-    @InjectRepository(Video) private readonly VideoRepository: Repository<Video>) {
+              @InjectRepository(Video) private readonly VideoRepository: Repository<Video>,
+              @InjectRepository(SubscriberCount) private readonly SubscriberRepository : Repository<SubscriberCount>,
+              @InjectRepository(ViewCount) private readonly ViewRepository : Repository<ViewCount>) {
 
   }
-
-  async Urlcreate(Channel_Url_Id: string) {
-
-    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${Channel_Url_Id}&maxResults=25&key=${process.env.Youtbe_Api_KEY}`)
-    const resData = response.data
-    const SearchChannel = await this.channelList.findOne({ where: { Channel_Url_Id } })
-    if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-      return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: Channel_Url_Id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.medium.url })
-    }
-    if (resData.pageInfo.totalResults === 1 && SearchChannel) {
-      return SearchChannel
-    }
-  }
-
-  async Idcreate(Channel_Url_Id: string) {
-
-    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${Channel_Url_Id}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
-
-    const resData = response.data
-
-    if (resData.pageInfo.totalResults === 0) {
-      return;
-    }
-
-    const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: Channel_Url_Id } })
-    if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-      return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.medium.url })
-    }
-    if (resData.pageInfo.totalResults === 1 && SearchChannel) {
-      return SearchChannel
-    }
-  }
-
   async Getvideosearch(search: string) {
     const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
     const resData = response.data;
@@ -83,161 +54,73 @@ export class ChannellistService {
     return { lastChannel: 0, lastVideo: 0 }
 
   }
+async YoutubeApiGetChannel(YoutubeChannelApi: InfluencerOrder, search: string) {
+  const ChannelData = [];
+  let nextPageToken: string | undefined = '';
+  const maxFetchCount = YoutubeChannelApi.accurate_search ? Infinity : 5;
+  const batchSize = 50; // 한 번에 처리할 채널 수
 
+  const processChannels = async (items) => {
+    const channelIds = items.map(item => item.snippet.channelId).join(',');
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelIds}&key=${process.env.Youtbe_Api_KEY}`);
+    const channelsData = response.data.items;
 
-  async YoutubeApiGetChannel(YoutubeChannelApi :InfluencerOrder, search: string) {
-    const ChannelData = []
-    let nextPageToken: string | undefined = '';
-    let fetchCount = 0;
-    
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&type=video&order=relevance&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-    const newItems = response.data
-    const  maxFetchCount = 5
-   
-    
+    const newChannels = [];
+    const dbOperations = [];
+
+    for (const channel of channelsData) {
+      const channelData = {
+        Channel_nickname: channel.snippet.title,
+        Channel_Id: channel.id,
+        Channel_Url_Id: channel.snippet.customUrl,
+        channel_img: channel.snippet.thumbnails.high.url,
+        subscriberCount: +channel.statistics.subscriberCount,
+        videoCount: +channel.statistics.videoCount,
+        viewCount: +channel.statistics.viewCount,
+      };
+
+      if (this.meetsFilterCriteria(channelData, YoutubeChannelApi) && !ChannelData.some(c => c.Channel_Url_Id === channelData.Channel_Url_Id)) {
+        ChannelData.push(channelData);
+        newChannels.push(channelData);
+      }
+    }
+    if (newChannels.length > 0) {
+      dbOperations.push(
+        this.channelList.createQueryBuilder()
+          .insert()
+          .values(newChannels)
+          .orIgnore() 
+          .execute(),
+        this.SubscriberRepository.createQueryBuilder()
+          .insert()
+          .values(newChannels.map(c => ({ Today: c.subscriberCount })))
+          .execute(),
+        this.ViewRepository.createQueryBuilder()
+          .insert()
+          .values(newChannels.map(c => ({ Today: c.viewCount })))
+          .execute()
+      );
+    }
+    await Promise.all(dbOperations);
+  };
+  for (let fetchCount = 0; fetchCount < maxFetchCount; fetchCount++) {
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${batchSize}&pageToken=${nextPageToken}&type=video&order=relevance&q=${search}&key=${process.env.Youtbe_Api_KEY}`);
+    const newItems = response.data;
     nextPageToken = newItems.nextPageToken;
-    for (const ChnnelId of newItems.items) {
-      const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChnnelId.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
-      const resData = response.data;
-      if(YoutubeChannelApi.subscriberMin !== null || YoutubeChannelApi.videoMin !== null || YoutubeChannelApi.viewMin !== null){
-        if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
-          if (
-            (YoutubeChannelApi.subscriberMin === null || (+resData.items[0].statistics.subscriberCount > +YoutubeChannelApi.subscriberMin && +resData.items[0].statistics.subscriberCount < +YoutubeChannelApi.subscriberMax)) &&
-            (YoutubeChannelApi.videoMin === null || (+resData.items[0].statistics.videoCount > +YoutubeChannelApi.videoMin && +resData.items[0].statistics.videoCount < +YoutubeChannelApi.videoMax)) &&
-            (YoutubeChannelApi.viewMin === null || (+resData.items[0].statistics.viewCount > +YoutubeChannelApi.viewMin && +resData.items[0].statistics.viewCount < +YoutubeChannelApi.viewMax))
-        ) {
-            ChannelData.push({
-              Channel_nickname: resData.items[0].snippet.title,
-              Channel_Id: resData.items[0].id,
-              Channel_Url_Id: resData.items[0].snippet.customUrl,
-              channel_img: resData.items[0].snippet.thumbnails.high.url,
-              subscriberCount: +resData.items[0].statistics.subscriberCount,
-              videoCount: +resData.items[0].statistics.videoCount,
-              viewCount: +resData.items[0].statistics.viewCount,
-            });
-            if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
-              await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
-            }
-          }
-      }
-    }
-    else if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl) ) {
-        ChannelData.push({
-          Channel_nickname: resData.items[0].snippet.title,
-          Channel_Id: resData.items[0].id,
-          Channel_Url_Id: resData.items[0].snippet.customUrl,
-          channel_img: resData.items[0].snippet.thumbnails.high.url,
-          subscriberCount: +resData.items[0].statistics.subscriberCount,
-          videoCount: +resData.items[0].statistics.videoCount,
-          viewCount: +resData.items[0].statistics.viewCount,
-        });
-        if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
-          await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
-        }
 
-      }
+    await processChannels(newItems.items);
 
-    if(!YoutubeChannelApi.accurate_search){
-      while (nextPageToken && fetchCount < maxFetchCount) {
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&pageToken=${nextPageToken}&order=relevance&type=video&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-        const newItems = response.data
-        nextPageToken = newItems.nextPageToken;
-        for (const ChnnelId of newItems.items) {
-          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChnnelId.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
-          const resData = response.data;
-          if(YoutubeChannelApi.subscriberMin !== null || YoutubeChannelApi.videoMin !== null || YoutubeChannelApi.viewMin !== null){
-          
-            if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
-              if (
-                (YoutubeChannelApi.subscriberMin === null || (+resData.items[0].statistics.subscriberCount > +YoutubeChannelApi.subscriberMin && +resData.items[0].statistics.subscriberCount < +YoutubeChannelApi.subscriberMax)) &&
-                (YoutubeChannelApi.videoMin === null || (+resData.items[0].statistics.videoCount > +YoutubeChannelApi.videoMin && +resData.items[0].statistics.videoCount < +YoutubeChannelApi.videoMax)) &&
-                (YoutubeChannelApi.viewMin === null || (+resData.items[0].statistics.viewCount > +YoutubeChannelApi.viewMin && +resData.items[0].statistics.viewCount < +YoutubeChannelApi.viewMax))
-            ) {
-                ChannelData.push({
-                  Channel_nickname: resData.items[0].snippet.title,
-                  Channel_Id: resData.items[0].id,
-                  Channel_Url_Id: resData.items[0].snippet.customUrl,
-                  channel_img: resData.items[0].snippet.thumbnails.high.url,
-                  subscriberCount: +resData.items[0].statistics.subscriberCount,
-                  videoCount: +resData.items[0].statistics.videoCount,
-                  viewCount: +resData.items[0].statistics.viewCount,
-                });
-                if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
-                  await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
-                }
-              }
-          }
-        }
-          else if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
-            ChannelData.push({
-              Channel_nickname: resData.items[0].snippet.title,
-              Channel_Id: resData.items[0].id,
-              Channel_Url_Id: resData.items[0].snippet.customUrl,
-              channel_img: resData.items[0].snippet.thumbnails.high.url,
-              subscriberCount: +resData.items[0].statistics.subscriberCount,
-              videoCount: +resData.items[0].statistics.videoCount,
-              viewCount: +resData.items[0].statistics.viewCount,
-            });
-            if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
-              await this.channelList.save({Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
-            }
-          }
-        }
-        fetchCount++;
-      }
-    }
-    else if(YoutubeChannelApi.accurate_search){
-      
-      while (nextPageToken) {
-       
-        const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&pageToken=${nextPageToken}&order=relevance&type=video&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-        const newItems = response.data
-        
-        nextPageToken = newItems.nextPageToken;
-        for (const ChnnelId of newItems.items) {
-          const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChnnelId.snippet.channelId}&key=${process.env.Youtbe_Api_KEY}`)
-          const resData = response.data;
-          if(YoutubeChannelApi.subscriberMin !== null || YoutubeChannelApi.videoMin !== null || YoutubeChannelApi.viewMin !== null){
-          
-            if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
-              if (
-                (YoutubeChannelApi.subscriberMin === null || (+resData.items[0].statistics.subscriberCount > +YoutubeChannelApi.subscriberMin && +resData.items[0].statistics.subscriberCount < +YoutubeChannelApi.subscriberMax)) &&
-                (YoutubeChannelApi.videoMin === null || (+resData.items[0].statistics.videoCount > +YoutubeChannelApi.videoMin && +resData.items[0].statistics.videoCount < +YoutubeChannelApi.videoMax)) &&
-                (YoutubeChannelApi.viewMin === null || (+resData.items[0].statistics.viewCount > +YoutubeChannelApi.viewMin && +resData.items[0].statistics.viewCount < +YoutubeChannelApi.viewMax))
-            ) {
-                ChannelData.push({
-                  Channel_nickname: resData.items[0].snippet.title,
-                  Channel_Id: resData.items[0].id,
-                  Channel_Url_Id: resData.items[0].snippet.customUrl,
-                  channel_img: resData.items[0].snippet.thumbnails.high.url,
-                  subscriberCount: +resData.items[0].statistics.subscriberCount,
-                  videoCount: +resData.items[0].statistics.videoCount,
-                  viewCount: +resData.items[0].statistics.viewCount,
-                });
-                if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
-                  await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
-                }
-              }
-          }
-        }
-          else if (!ChannelData.some(channel => channel.Channel_Url_Id === resData.items[0].snippet.customUrl)) {
-            ChannelData.push({
-              Channel_nickname: resData.items[0].snippet.title,
-              Channel_Id: resData.items[0].id,
-              Channel_Url_Id: resData.items[0].snippet.customUrl,
-              channel_img: resData.items[0].snippet.thumbnails.high.url,
-              subscriberCount: +resData.items[0].statistics.subscriberCount,
-              videoCount: +resData.items[0].statistics.videoCount,
-              viewCount: +resData.items[0].statistics.viewCount,
-            });
-            if(!await this.channelList.findOne({where : { Channel_Url_Id : resData.items[0].snippet.customUrl}})){
-              await this.channelList.save({Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].snippet.customUrl, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.high.url })
-            }
-          }
-        }
-      }
-    }
-    return ChannelData}
+    if (!nextPageToken) break;
+  }
+  return ChannelData;
+}
+
+meetsFilterCriteria(channel, filters) {
+  return (
+    (filters.subscriberMin === null || (channel.subscriberCount > filters.subscriberMin && channel.subscriberCount < filters.subscriberMax)) &&
+    (filters.videoMin === null || (channel.videoCount > filters.videoMin && channel.videoCount < filters.videoMax)) &&
+    (filters.viewMin === null || (channel.viewCount > filters.viewMin && channel.viewCount < filters.viewMax))
+  );
 }
 
   async YoutubeApiGetVideo(YoutubeInfluencer: YoutubePageToken, search: string) {
@@ -256,22 +139,42 @@ export class ChannellistService {
 
 
   async Live_Popular_CreateApi(ChannelId : string){
+    try {
+      const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ChannelId}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
+      const resData = response.data;
+      if (resData.pageInfo.totalResults === 0) {
+        return null;
+      }
+      const channelData = resData.items[0];
   
-    const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ChannelId}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
-   
-    const resData = response.data
-   
-
-    if (resData.pageInfo.totalResults === 0) {
-      return;
-    }
-   
-    const SearchChannel = await this.channelList.findOne({ where: { Channel_Id: ChannelId } })
-    if (resData.pageInfo.totalResults === 1 && !SearchChannel) {
-      return await this.channelList.save({ Channel_nickname: resData.items[0].snippet.title, Channel_Url_Id: resData.items[0].id, Channel_Id: resData.items[0].id, subscriberCount: +resData.items[0].statistics.subscriberCount, videoCount: +resData.items[0].statistics.videoCount, viewCount: +resData.items[0].statistics.viewCount, channel_img: resData.items[0].snippet.thumbnails.medium.url })
-    }
-    if (resData.pageInfo.totalResults === 1 && SearchChannel) {
-      return SearchChannel
+      const channelInfo = {
+        Channel_nickname: channelData.snippet.title,
+        Channel_Url_Id: channelData.id,
+        Channel_Id: channelData.id,
+        subscriberCount: +channelData.statistics.subscriberCount,
+        videoCount: +channelData.statistics.videoCount,
+        viewCount: +channelData.statistics.viewCount,
+        channel_img: channelData.snippet.thumbnails.medium.url
+      };
+  
+      // 기존 채널 검색
+      const existingChannel = await this.channelList.findOne({ where: { Channel_Id: ChannelId } });
+  
+      if (!existingChannel) {
+        // 새 채널 정보 저장
+        const [subscriberResult, viewResult, channelResult] = await Promise.all([
+          this.SubscriberRepository.save({ Today: channelInfo.subscriberCount }),
+          this.ViewRepository.save({ Today: channelInfo.viewCount }),
+          this.channelList.save(channelInfo)
+        ]);
+  
+        return channelResult;
+      } else {
+        return existingChannel;
+      }
+    } catch (error) {
+      console.error('Error in Live_Popular_CreateApi:', error);
+      throw error;
     }
   }
 }

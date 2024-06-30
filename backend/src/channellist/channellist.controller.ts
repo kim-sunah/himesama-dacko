@@ -11,16 +11,6 @@ import { PopularVideoArrayDto } from './dto/Live_Popular_dto';
 export class ChannellistController {
   constructor(private readonly channellistService: ChannellistService) {}
 
-  @Post("channelurl")
-  Urlcreate(@Body() createChannellistDto: CreateChannellistDto) {
-    return this.channellistService.Urlcreate(createChannellistDto.Channel_Url_Id);
-  }
-
-  @Post("channelId")
-  Idcreate(@Body() createChannellistDto: CreateChannellistDto) {
-    return this.channellistService.Idcreate(createChannellistDto.Channel_Url_Id);
-  }
-
   @Get(":channelId")
   channelInfo(@Param('channelId') channelId: string) {
     return this.channellistService.channelInfo(channelId);
@@ -36,6 +26,7 @@ export class ChannellistController {
     return this.channellistService.searchchannel(createChannellistDto.Channel_Url_Id);
   }
 
+  //전체 Channel db갯수 (현재 사용 x);
   @Get("Channel_Video/Count")
   Channel_VideoCount(){
     return this.channellistService.Channel_VideoCount();

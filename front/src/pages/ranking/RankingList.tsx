@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuRad
 import { Button } from "../../component/v0/button"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../../component/v0/card"
 import { BsCameraVideo } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Postmethod from "../../http/Post_method"
 import { channeInfo } from "../../enum/ChannelInfo"
 import { FcLineChart } from "react-icons/fc";
@@ -28,6 +28,9 @@ export default function RankingList() {
   const [filterCategory, setFilterCategory] = useState("all")
   const [Channel,  setChannel] = useState<channeInfo[]>([]);
   const navigate = useNavigate()
+
+  
+  
 
   useEffect(() => {
     navigate(`?sort=${sortBy}`)
