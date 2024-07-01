@@ -10,8 +10,8 @@ export type channeInfo = {
     viewCount_percentageincrease: string
     videoCount: string;
     viewCount: string;
-    previous_subscriberCount: string
-    previous_viewCount: string
-    previous_videoCount: string
+    // previous_subscriberCount: string
+    // previous_viewCount: string
+    // previous_videoCount: string
   
   }

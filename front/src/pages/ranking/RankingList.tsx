@@ -23,17 +23,20 @@ import { FcNeutralTrading } from "react-icons/fc";
 
 export default function RankingList() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [sortBy, setSortBy] = useState("subscribers")
+ 
   const [sortOrder, setSortOrder] = useState("desc")
   const [filterCategory, setFilterCategory] = useState("all")
   const [Channel,  setChannel] = useState<channeInfo[]>([]);
+  const location = useLocation();
+  const [sortBy, setSortBy] = useState(location.pathname.split("/")[2])
+
   const navigate = useNavigate()
 
   
   
 
   useEffect(() => {
-    navigate(`?sort=${sortBy}`)
+    navigate(`/Ranking/${sortBy}`)
     const fetchData = async() => {
         
         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, {sort : sortBy})
@@ -122,14 +125,14 @@ export default function RankingList() {
                                                <FcLineChart className="h-6 w-6 text-red-500" />
                                                <span>{Number(Channel.subscriberCount_percentageincrease).toFixed(2)}%</span>
                                            </div>
-                                           <div className="flex items-center">
+                                           {/* <div className="flex items-center">
                                                <FcAreaChart className="h-5 w-5 text-gray-700 mr-1" /> 
                                            {formatNumberUS(Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount))}</div>
                                            <div className="flex items-center">
                                                {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) > 0 && <FcBullish className="h-6 w-6" />}
                                                {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) < 0 && <FcBearish className="h-6 w-6" />}
                                                {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) === 0 && <FcNeutralTrading className="h-6 w-6" />}
-                                           </div>
+                                           </div> */}
                                        </div>
                                        <Link to={`${process.env.REACT_APP_FRONT_API}/${Channel.Channel_Id}`} className="block mt-4">
                                            <Button variant="outline" className="w-full">View Channel</Button>

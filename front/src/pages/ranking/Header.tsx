@@ -18,23 +18,7 @@ export default function Header(){
               </Tabs>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  {/* <ArrowUpDownIcon className="h-4 w-4" /> */}
-                  Sort by
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[200px]">
-                <DropdownMenuRadioGroup value="popular">
-                  <DropdownMenuRadioItem value="popular">Asc</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="newest">Desc</DropdownMenuRadioItem>
-                  
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+         
         </header>
       )
 

@@ -41,8 +41,8 @@ export default function TopChannel() {
         : 추세
 
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center">
-        <div className="overflow-hidden"><SubscriberTop /></div>
+      <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center" >
+        <div className="overflow-hidden "><SubscriberTop /></div>
         <div className="overflow-hidden"><ViewTop /></div>
         <div className="overflow-hidden"><SubscriberIncreaseTop /></div>
         <div className="overflow-hidden"><ViewIncreaseTop /></div>

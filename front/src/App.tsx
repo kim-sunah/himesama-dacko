@@ -20,6 +20,7 @@ import Ranking from './pages/ranking/Ranking';
 import IntroductionWebsite from './pages/introduction_website/IntroductionWebsite';
 import LiveRoot from './pages/Live/LiveRoot';
 import ChannelRoot from './pages/channel_detail/ChannelRoot';
+import RankingList from "./pages/ranking/RankingList";
 
 
 function App() {
@@ -30,8 +31,9 @@ function App() {
       {path :"Introduction", element:<IntroductionWebsite></IntroductionWebsite>},
       {path :"Live", element:<LiveRoot></LiveRoot>},
       {path : ":ChannelId" , element: <ChannelRoot></ChannelRoot>},
-      {path: "Ranking", element:<RankingRoot></RankingRoot>, children :[
-        // {path : ":pagenumber", element :<Ranking></Ranking>},
+      {path: "Ranking", children :[
+          {index : true , element : <RankingRoot></RankingRoot>},
+         {path : ":sort", element :<RankingList></RankingList>},
       ]},
       {path : "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children:[
         {path : ":Categoryid" , element : <CategoryRankingsList></CategoryRankingsList>  }

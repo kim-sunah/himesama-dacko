@@ -30,7 +30,7 @@ export class SubscriberCount {
     Six_day_Ago: number;
 
     @Column({ default: 0, type: 'bigint' })
-    Sevent_day_Ago: number;
+    Seven_day_Ago: number;
    
     @Column({ default: 0, type: 'bigint' })
     Eigth_day_Ago: number;
