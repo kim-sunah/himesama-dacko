@@ -16,7 +16,7 @@ import ConditionVideoFilterBody from './pages/condition/db/Condition_VideoFilter
 import YoutubeRoot from './pages/condition/youtube/Youtube_Root';
 import YoutubeConditionInfluencer from './pages/condition/youtube/Youtube_Condition_Influencer';
 import YoutubeConditionVideo from './pages/condition/youtube/Youtube_Condition_Video';
-import Ranking from './pages/ranking/Ranking';
+
 import IntroductionWebsite from './pages/introduction_website/IntroductionWebsite';
 import LiveRoot from './pages/Live/LiveRoot';
 import ChannelRoot from './pages/channel_detail/ChannelRoot';

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../component/v0/button";
-import Getmethod from "../../../http/Get_method";
-import { channeInfo } from "../../../enum/ChannelInfo";
+import { Button } from "../../component/v0/button";
+import Getmethod from "../../http/Get_method";
+import { channeInfo } from "../../enum/ChannelInfo";
 import { Link, useNavigate } from "react-router-dom";
 
 
-import { formatNumberUS } from "../../../function/formatNumberUS";
+import { formatNumberUS } from "../../function/formatNumberUS";
 import { FcManager } from "react-icons/fc";
 import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";

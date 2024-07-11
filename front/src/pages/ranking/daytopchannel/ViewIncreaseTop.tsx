@@ -47,7 +47,7 @@ export default function ViewIncreaseTop() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-2">
           <div className="grid gap-6 w-full">
             <div className="five flex justify-between items-center">
-              <h1 className="mb-4">조회수 증가 상위</h1>
+              <h1 className="mb-4">오늘 조회수 증가 상위</h1>
               <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={detailhandler}>자세히 보기</button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

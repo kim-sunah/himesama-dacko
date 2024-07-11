@@ -37,17 +37,55 @@ export class RankingController {
     return await this.rankingService.ViewTop();
   }
 
-  //구독자 상승률 1~4위 나열(DB 기준)
+  //오늘 구독자 상승률 1~4위 나열(DB 기준)
   @Get("SubscriberTopIncrease")
   async SubscriberTopIncrease(){
     return await this.rankingService.SubscriberTopIncrease();
   }
 
-  //조회수 상승률 1~4위 나열(DB 기준)
+  //오늘 구독자 하락률 1~4위 나열(DB 기준)
+  @Get("SubscriberLowIncrease")
+  async SubscriberLowIncrease(){
+    return await this.rankingService.SubscriberlowIncrease();
+  }
+
+  //오늘 조회수 상승률 1~4위 나열(DB 기준)
   @Get("ViewTopIncrease")
   async ViewTopIncrease(){
     return await this.rankingService.ViewTopIncrease();
   }
+
+  //오늘 조회수 하락률 1~4위 나열(DB 기준)
+  @Get("ViewLowIncrease")
+  async ViewLowIncrease(){
+    return await this.rankingService.ViewlowIncrease();
+  }
+
+  //이번주 구독자 상승률 1~4위 나열(DB 기준)
+  @Get("WeekSubscriberTopIncrease")
+  async WeekSubscriberTopIncrease(){
+    return await this.rankingService.WeekSubscriberTopIncrease();
+  }
+
+  //이번주 구독자 하락률 1~4위 나열(DB 기준)
+  @Get("WeekSubscriberLowIncrease")
+  async WeekSubscriberLowIncrease(){
+    return await this.rankingService.WeekSubscriberlowIncrease();
+  }
+
+  //이번주 조회수 상승률 1~4위 나열(DB 기준)
+  @Get("WeekViewTopIncrease")
+  async WeekViewTopIncrease(){
+    return await this.rankingService.WeekViewTopIncrease();
+  }
+
+  //이번주 조회수 하락률 1~4위 나열(DB 기준)
+  @Get("WeekViewLowIncrease")
+  async WeekViewLowIncrease(){
+    return await this.rankingService.WeekViewlowIncrease();
+  }
+
+
 
   //Sort 높은순으로 나열 
   @Post("RankingSort")

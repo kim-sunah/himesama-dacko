@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import SubscriberTop from "./SubscriberTop";
-import ViewTop from "./ViewTop";
+import SubscriberTop from "../SubscriberTop";
+import ViewTop from "../ViewTop";
 
 import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";
@@ -16,6 +16,8 @@ import { FcAreaChart } from "react-icons/fc";
 import { FcBearish } from "react-icons/fc";
 import { FcBullish } from "react-icons/fc";
 import { FcNeutralTrading } from "react-icons/fc";
+import SubscriberIncreaseLow from "./SubceriberIncreaselow";
+import ViewIncreaseLow from "./ViewIncreatelow";
 
 
 export default function TopChannel() {
@@ -41,11 +43,13 @@ export default function TopChannel() {
         : 추세
 
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center" >
+      <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 text-center mt-4" >
         <div className="overflow-hidden "><SubscriberTop /></div>
         <div className="overflow-hidden"><ViewTop /></div>
         <div className="overflow-hidden"><SubscriberIncreaseTop /></div>
+        <div className="overflow-hidden"><SubscriberIncreaseLow></SubscriberIncreaseLow></div>
         <div className="overflow-hidden"><ViewIncreaseTop /></div>
+        <div className="overflow-hidden"><ViewIncreaseLow></ViewIncreaseLow></div>
       </div>
     </div>
 

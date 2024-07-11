@@ -10,20 +10,17 @@ import { formatNumberUS } from "../../../function/formatNumberUS";
 import { FcManager } from "react-icons/fc";
 import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";
-import { FcAreaChart } from "react-icons/fc";
-import { FcBearish } from "react-icons/fc";
-import { FcBullish } from "react-icons/fc";
-import { FcNeutralTrading } from "react-icons/fc";
+
 import "../test.css"
 
 
-export default function SubscriberIncreaseTop() {
+export default function WeekSubscriberIncreaseLow() {
     const navigate = useNavigate();
     const [Top, SetTop] = useState<channeInfo[]>([]);
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/SubscriberTopIncrease`)
-
+            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/WeekSubscriberLowIncrease`)
+            console.log(response)
             SetTop(response)
 
         }
@@ -47,7 +44,7 @@ export default function SubscriberIncreaseTop() {
   <div className="flex flex-col md:flex-row justify-between items-center gap-2">
     <div className="grid gap-6 w-full">
       <div className="five flex justify-between items-center">
-        <h1 className="mb-4">구독자 증가 상위</h1>
+        <h1 className="mb-4">이번주 구독자 하락 상위</h1>
         <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={detailhandler}>자세히 보기</button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -65,7 +62,7 @@ export default function SubscriberIncreaseTop() {
               <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
               <div className="flex items-center">
                 <FcLineChart className="h-6 w-6 text-red-500" />
-                <span className="ml-2">{Number(Channel.subscriberCount_percentageincrease).toFixed(2)}%</span>
+                <span className="ml-2">{Number(Channel.week_subscriberCount_percentageincrease).toFixed(2)}%</span>
               </div>
               {/* <div className="flex items-center">
                 <FcAreaChart className="h-5 w-5 text-gray-700" />
