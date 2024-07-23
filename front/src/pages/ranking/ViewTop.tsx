@@ -9,6 +9,7 @@ import { formatNumberUS } from "../../function/formatNumberUS";
 import { FcManager } from "react-icons/fc";
 import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 
 export default function ViewTop(){
@@ -32,7 +33,7 @@ export default function ViewTop(){
 
   }
   const detailhandler = () =>{
-    navigate(`/Ranking/views`);
+    navigate(`/Ranking/views/0`);
   }
     return (
       <main className="p-6 md:p-10">
@@ -54,7 +55,7 @@ export default function ViewTop(){
                 <div className="grid grid-cols-2 gap-2 text-sm flex-grow">
                   <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount))}</span></div>
                   <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700" /> <span className="ml-2">{formatNumberUS(Number(Channel.videoCount))}</span></div>
-                  <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
+                  <div className="flex items-center"><PreviewIcon className="h-5 w-5 text-black-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
                 </div>
                 <Button variant="outline" className="w-full mt-4" onClick={() => {LocationHandler(Channel.Channel_Id)}}>View Channel</Button>
               </div>

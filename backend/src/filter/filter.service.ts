@@ -74,16 +74,21 @@ export class FilterService {
           info.id.videoId ? this.getVideoInfo(info.id.videoId) : null
         ]);
 
-        if (!channelInfo) return null;
+        if (!channelInfo) 
+          return null;
 
         const channelData = channelInfo.data.items[0];
-        const channelUrlID = await this.findOrCreateChannel(channelData, info);
-
-        if (!channelUrlID) return null;
-
-        if (!info.id.videoId) return null;
-
         const videoData = videoInfo.data.items[0];
+        console.log(videoData.snippet.categoryId)
+        const channelUrlID = await this.findOrCreateChannel(channelData, info, videoData.snippet.categoryId);
+
+        if (!channelUrlID) 
+          return null;
+        if (!info.id.videoId) 
+          return null;
+
+      
+   
         const video = await this.findOrCreateVideo(info, videoData, channelUrlID);
 
         if (!video) return null;
@@ -100,14 +105,17 @@ export class FilterService {
 
 
 
-  private async findOrCreateChannel(channelData: any, info: any) {
-    console.log(channelData.snippet.customUrl)
+  private async findOrCreateChannel(channelData: any, info: any, videocategoryId : number) {
     const existingChannel = await this.channelList.findOne({ where: { Channel_Url_Id: channelData.snippet.customUrl } });
     if (existingChannel){
       return existingChannel;
     }
     else{
+      if(videocategoryId === 34){
+        videocategoryId = 23
+      }
       const channelToSave = {
+        categoryid : videocategoryId,
         Channel_Url_Id: channelData.snippet.customUrl,
         Channel_Id: info.snippet.channelId,
         Channel_nickname: channelData.snippet.title,
@@ -330,9 +338,139 @@ export class FilterService {
     return channels
   }
 
+
+  async categoryFilter(categoryid : number){
+    if(categoryid === 1){
+      return "Film & Animation"
+    }
+    else if(categoryid === 2){
+      return "Autos & Vehicles"
+
+    }
+    else if(categoryid === 10){
+      return "Music"
+
+    }
+    else if(categoryid === 15){
+      return "Pets & Animals"
+      
+    }
+    else if(categoryid === 17){
+      return "Sports"
+      
+    }
+    else if(categoryid === 18){
+      return "Short Movies"
+      
+    }
+    else if(categoryid === 19){
+      return "Travel & Events"
+      
+    }
+    else if(categoryid === 20){
+      return "Gaming"
+      
+    }
+    else if(categoryid === 21){
+      return "Videoblogging"
+      
+    }
+    else if(categoryid === 22){
+      return "People & Blogs"
+      
+    }
+    else if(categoryid === 23){
+      return "Comedy"
+      
+    }
+    else if(categoryid === 24){
+      return "Entertainment"
+      
+    }
+    else if(categoryid === 25){
+      return "News & Politics"
+      
+    }
+    else if(categoryid === 26){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 27){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 28){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 30){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 31){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 32){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 33){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 34){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 35){
+      return "Film & Animation"
+      
+    }
+    else if(categoryid === 36){
+      return "Film & Animation"
+    }
+
+    else if(categoryid === 37){
+      return "Film & Animation"
+    }
+
+    else if(categoryid === 38){
+      return "Film & Animation"
+    }
+
+    else if(categoryid === 39){
+      return "Film & Animation"
+    }
+
+    else if(categoryid === 40){
+      return "Film & Animation"
+    }
+    else if(categoryid === 41){
+      return "Film & Animation" 
+    }
+    else if(categoryid === 42){
+      return "Film & Animation"
+    }
+    else if(categoryid === 43){
+      return "Film & Animation"
+    }
+    else if(categoryid === 44){
+      return "Film & Animation"
+    }
+
+
+
+
+   
+
+  }
+
   async YoutubeApiInfluencerOrder(YoutubeAPiOrder: InfluencerOrder, pagenumber: number) {
     console.log("Hello");
   }
+
+
 }
 
 

@@ -37,6 +37,8 @@ export class ChannellistController {
   YoutubeApiGetChannel(@Body() YoutubeChannelApi : InfluencerOrder, @Param('search') search: string ,) {
     return this.channellistService.YoutubeApiGetChannel(YoutubeChannelApi , search);
   }
+
+  
   //Youtube Api(Condition) 동영상 검색
   @Post('YoutubeVideoApi/:videosearch')
   YoutubeApiGetVideo(@Body() YoutubeInfluencer : YoutubePageToken , @Param('videosearch') search: string) {

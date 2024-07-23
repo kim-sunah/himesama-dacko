@@ -19,6 +19,7 @@ import WeekSubscriberIncreaseLow from "./SubceriberIncreaselow";
 import WeekSubscriberIncreaseTop from "./SubscriberIncreaseTop";
 import WeekViewIncreaseTop from "./ViewIncreaseTop";
 import WeekViewIncreaseLow from "./ViewIncreatelow";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 
 export default function WeekTopChannel() {
@@ -30,7 +31,7 @@ export default function WeekTopChannel() {
         : 구독자 수,
         <AiFillVideoCamera className="h-6 w-6 text-gray-700" />
         : 동영상 수 ,
-        <FcManager className="h-6 w-6 text-red-500" />
+        <PreviewIcon className="h-6 w-6 text-black-500" />
         : 조회수 ,
         <FcLineChart className="h-6 w-6 text-red-500" />
         : 전주 대비 증가량(%),

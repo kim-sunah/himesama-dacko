@@ -26,8 +26,8 @@ export class UpdateController {
     schedule.scheduleJob('0 0 17 * * *', () => {
       this.DailyVideoChannelUpdate();
     });
-    //(5분마다 실행)
-    schedule.scheduleJob('*/5 * * * *', () => {
+    //(30분마다 실행)
+    schedule.scheduleJob('*/30 * * * *', () => {
       this.removeDuplicates();
     });
     //(매일 5시에 실행)

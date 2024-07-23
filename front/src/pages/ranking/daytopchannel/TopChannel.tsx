@@ -18,6 +18,7 @@ import { FcBullish } from "react-icons/fc";
 import { FcNeutralTrading } from "react-icons/fc";
 import SubscriberIncreaseLow from "./SubceriberIncreaselow";
 import ViewIncreaseLow from "./ViewIncreatelow";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 
 export default function TopChannel() {
@@ -29,7 +30,7 @@ export default function TopChannel() {
         : 구독자 수,
         <AiFillVideoCamera className="h-6 w-6 text-gray-700" />
         : 동영상 수 ,
-        <FcManager className="h-6 w-6 text-red-500" />
+        <PreviewIcon className="h-6 w-6 text-black-500" />
         : 조회수 ,
         <FcLineChart className="h-6 w-6 text-red-500" />
         : 전주 대비 증가량(%),

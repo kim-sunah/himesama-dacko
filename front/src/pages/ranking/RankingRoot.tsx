@@ -7,7 +7,7 @@ import WeekTopChannel from "./WeekTopchannel/TopChannel";
 
 export default function RankingRoot() {
     const location = useLocation();
-    console.log(location.search)
+
     return (
         <div>
             <Header></Header>

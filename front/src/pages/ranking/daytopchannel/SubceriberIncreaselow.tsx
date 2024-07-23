@@ -10,6 +10,7 @@ import { formatNumberUS } from "../../../function/formatNumberUS";
 import { FcManager } from "react-icons/fc";
 import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 import "../test.css"
 
@@ -35,7 +36,7 @@ export default function SubscriberIncreaseLow() {
     }
 
     const detailhandler = () =>{
-        navigate(`/Ranking/increase-subscribers`);
+        navigate(`/Ranking/increase-subscribers/0`);
       }
 
 
@@ -59,7 +60,7 @@ export default function SubscriberIncreaseLow() {
             <div className="grid grid-cols-2 gap-2 text-sm flex-grow">
               <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount))}</span></div>
               <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700" /> <span className="ml-2">{formatNumberUS(Number(Channel.videoCount))}</span></div>
-              <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
+              <div className="flex items-center"><PreviewIcon className="h-5 w-5 text-black-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
               <div className="flex items-center">
                 <FcLineChart className="h-6 w-6 text-red-500" />
                 <span className="ml-2">{Number(Channel.subscriberCount_percentageincrease).toFixed(2)}%</span>

@@ -85,12 +85,11 @@ export class RankingController {
     return await this.rankingService.WeekViewlowIncrease();
   }
 
-
-
   //Sort 높은순으로 나열 
   @Post("RankingSort")
-  async SortSubscriber(@Body("sort") sort : String){
-    return await this.rankingService.SortSubscriber(sort);
+  async SortSubscriber(@Body("sort") sort : string, @Body("filter") filter : string){
+  
+    return await this.rankingService.SortSubscriber(sort, +filter);
   }
 
   //조회수 증가량 순위(현재 사용 x)

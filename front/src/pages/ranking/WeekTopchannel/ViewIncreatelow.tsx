@@ -4,6 +4,7 @@ import Getmethod from "../../../http/Get_method";
 import { channeInfo } from "../../../enum/ChannelInfo";
 import { Link, useNavigate } from "react-router-dom";
 import { FcLineChart } from "react-icons/fc";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 
 import { formatNumberUS } from "../../../function/formatNumberUS";
@@ -62,7 +63,7 @@ export default function WeekViewIncreaseLow() {
                   <div className="grid grid-cols-2 gap-2 text-sm flex-grow">
                     <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount))}</span></div>
                     <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700" /> <span className="ml-2">{formatNumberUS(Number(Channel.videoCount))}</span></div>
-                    <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
+                    <div className="flex items-center"><PreviewIcon className="h-5 w-5 text-black-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
                     <div className="flex items-center">
                       <FcLineChart className="h-6 w-6 text-red-500" />
                       <span className="ml-2">{Number(Channel.week_viewCount_percentageincrease).toFixed(2)}%</span>

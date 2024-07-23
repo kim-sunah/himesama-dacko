@@ -60,7 +60,7 @@ export default function Header() {
           </SelectTrigger>
           <SelectContent className="bg-white">
             <SelectItem  value="InfluencerFilter">{FirstPath ==="Condition_Search" ? "채널" : "검색 관련 채널"}</SelectItem>
-            <SelectItem  value="VideoFilter">영상</SelectItem>
+            {/* <SelectItem  value="VideoFilter">영상</SelectItem> */}
           </SelectContent>
         </Select>
         {SecondPath === "InfluencerFilter"  && <DialogCloseButton></DialogCloseButton>}

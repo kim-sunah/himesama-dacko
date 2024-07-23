@@ -157,7 +157,6 @@ export default function List() {
 
       try {
         const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/channel/${search}`);
-        console.log(response)
         if (response) {
           setLoading(false)
           setShowSearchAlert(response);

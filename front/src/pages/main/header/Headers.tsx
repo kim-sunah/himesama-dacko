@@ -27,14 +27,11 @@ export default function Headers() {
             else {
                 alert("특수문자가 포함되어있습니다.");
             }
-
         }
-
     }
-
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-10">
-            <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-10 lg:grid lg:grid-cols-4 lg:gap-6 lg:justify-center">
+            <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-5 lg:grid lg:grid-cols-4 lg:gap-6 lg:justify-center">
                 <CardActionArea>
                     <Link className="text-black" to="/Ranking?today">
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">

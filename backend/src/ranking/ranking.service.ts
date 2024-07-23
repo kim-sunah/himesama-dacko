@@ -183,24 +183,36 @@ export class RankingService {
     
   }
 
-  async SortSubscriber(sort : String){
-    console.log(sort)
+  async SortSubscriber(sort : string , filter: number){
     if(sort === "subscribers" ){
-      return await this.channelRepository.find({take :50 , order : {subscriberCount : "DESC"}})
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {subscriberCount : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter}, take :50 , order : {subscriberCount : "DESC"}})
     }
     else if(sort === "videos" ){
-      return await this.channelRepository.find({take :50 , order : {videoCount : "DESC"}})
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {videoCount : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {videoCount : "DESC"}})
     }
     else if(sort === "views" ){
-      return await this.channelRepository.find({take :50 , order : {viewCount : "DESC"}})
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {viewCount : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {viewCount : "DESC"}})
     }
     else if(sort ==="increase-subscribers"){
-      return await this.channelRepository.find({take :50 , order : {subscriberCount_percentageincrease : "DESC"}})
-
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {subscriberCount_percentageincrease : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {subscriberCount_percentageincrease : "DESC"}})
     }
     else if(sort === "increase-views"){
-      return await this.channelRepository.find({take :50 , order : {viewCount_percentageincrease : "DESC"}})
-
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {viewCount_percentageincrease : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {viewCount_percentageincrease : "DESC"}})
     }
    
   }

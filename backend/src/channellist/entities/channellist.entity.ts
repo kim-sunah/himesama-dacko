@@ -20,6 +20,9 @@ export class Channellist {
     @Column({ type: "bigint" })
     subscriberCount: number;
 
+    @Column()
+    categoryid : number
+
     // @Column({ type: "bigint", nullable: true , default :0})
     // previous_subscriberCount: number | null;
 
@@ -52,10 +55,6 @@ export class Channellist {
 
     @Column({ type: "float", nullable: true, default :0})
     month_viewCount_percentageincrease: number | null;
-
-    
-
-
 
     @Column()
     channel_img: string;
