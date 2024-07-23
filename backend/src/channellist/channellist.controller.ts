@@ -46,8 +46,8 @@ export class ChannellistController {
   }
   //실시간 인기 , 실시간 인기있는 카테고리 비디오 채널 DB에 저장
   @Post("LivePopularChannel")
-  Live_Popular_CreateApi(@Body("ChannelId") ChannelId: string) {
-   return this.channellistService.Live_Popular_CreateApi(ChannelId);
+  Live_Popular_CreateApi(@Body("ChannelId") ChannelId: string , @Body("categoryid") categoryid : string , @Body("videoid") videoid: string) {
+   return this.channellistService.Live_Popular_CreateApi(ChannelId , +categoryid, videoid);
   }
   
 

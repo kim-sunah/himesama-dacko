@@ -11,7 +11,8 @@ type VideoId = { videoId: string };
 interface LiveModalProps {
   type : string
   handleCloseModal: (event: React.MouseEvent<HTMLDivElement>) => void;
-  selectedVideo: LiveVideo | PopularVideo | null;
+  PopularselectedVideo?: PopularVideo  | null;
+  LiveselectedVideo? :  LiveVideo | null;
   videolist? : LiveVideo[] 
   onmodal: Function;
   selectedCategory?: string
@@ -37,6 +38,7 @@ const CategoryIdMap: { [key: string]: number } = {
 
 
 const LiveModal: React.FC<LiveModalProps> = (props) => {
+ 
 
 
   const [isDragging, setIsDragging] = useState(false);
@@ -172,18 +174,13 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
   };
 
   const getVideoSrc = () => {
-    const { selectedVideo } = props;
-   
-
-    if (!selectedVideo) return "";
-
-    if (typeof selectedVideo.id === "string") {
-      return `https://www.youtube.com/embed/${selectedVideo.id}`;
-    } else if (isVideoId(selectedVideo.id)) {
-      return `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
+  
+    if(props.type === "Popular"){
+      return `https://www.youtube.com/embed/${props.PopularselectedVideo!.id}`;
     }
+    return `https://www.youtube.com/embed/${props.LiveselectedVideo!.id.videoId}`;
 
-    return "";
+    
   };
 
   const isVideoId = (obj: any): obj is VideoId => {
@@ -201,11 +198,23 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
     });
   }
 
-
+  
   const NavigateHandler = async() =>{
+
+
+    if(props.type === "Popular"){
+      await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/LivePopularChannel`, { ChannelId: props.PopularselectedVideo!.snippet.channelId , categoryid : props.PopularselectedVideo?.snippet.categoryId, videoid : props.PopularselectedVideo?.id });
+      navigate(`/${props.PopularselectedVideo!.snippet.channelId}`)
+    }
+    else if(props.type ==="Live"){
+      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${props.LiveselectedVideo?.id.videoId}&key=${process.env.REACT_APP_Youtube_API}`)
+       await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/LivePopularChannel`, { ChannelId: props.LiveselectedVideo!.snippet.channelId , categoryid : response.items[0].snippet.categoryId, videoid : props.LiveselectedVideo?.id.videoId });
+       navigate(`/${props.LiveselectedVideo!.snippet.channelId}`)
+
+    }
     
-      await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/LivePopularChannel`, { ChannelId: props.selectedVideo!.snippet.channelId });
-      navigate(`/${props.selectedVideo!.snippet.channelId}`)
+ 
+   
 
   
   }
@@ -274,7 +283,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
           {props.type === "Popular" ?   <div ref={containerModalRef} style={{ height: '80vh', overflowY: 'auto' }} >
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
                         {videos.map(video => (
-                            props.selectedVideo!.id !== video.id && <div key={video.id} className="relative group" onClick={() => props.onmodal(video)}>
+                            props.PopularselectedVideo!.id !== video.id && <div key={video.id} className="relative group" onClick={() => props.onmodal(video)}>
                                 <img
                                     src={video.snippet.thumbnails.high.url}
                                     alt={video.snippet.title}
@@ -292,7 +301,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
                     {loading && <p>Loading...</p>}
                 </div> :  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
             {props.videolist!.map((video, index) => (
-              props.selectedVideo!.id !== video.id && <div key={index} className="relative group" onClick={() => props.onmodal(video)}>
+              props.LiveselectedVideo!.id !== video.id && <div key={index} className="relative group" onClick={() => props.onmodal(video)}>
                 <img
                   src={video.snippet.thumbnails.high.url}
                   alt={video.snippet.title}

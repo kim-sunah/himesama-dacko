@@ -30,7 +30,7 @@ export default function Live() {
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [showModal, setShowModal] = useState(false)
     const [showliveModal, setShowliveModal] = useState(false)
-    const [selectedVideo, setSelectedVideo] = useState<PopularVideo | null | LiveVideo>(null);
+    const [selectedVideo, setSelectedVideo] = useState<PopularVideo | null >(null);
     const [selectedliveVideo, setSelectedliveVideo] = useState<null | LiveVideo>(null);
     const [videolist, setvideolist] = useState<PopularVideo[]>([])
     const [livelist, setlivelist] = useState<LiveVideo[]>([]);
@@ -51,7 +51,7 @@ export default function Live() {
         try {
 
             if (pageToken) {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=statistics&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
                 setVideos(prevVideos => {
                     const existingVideoIds = prevVideos.map(video => video.id);
                     const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
@@ -59,10 +59,11 @@ export default function Live() {
                 });
                 
                 setNextPageToken(response.nextPageToken);
-                
+              
             }
             else if (pageToken === null) {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=statistics&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+
                 setVideos(prevVideos => {
                     const existingVideoIds = prevVideos.map(video => video.id);
                     const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
@@ -126,8 +127,8 @@ export default function Live() {
     };
 
     //모달을 켜고 비디오 데이터 삽입(라이브)
-    const HandleOpenModal = async (video: PopularVideo | LiveVideo) => {
-        
+    const HandleOpenModal = async (video: PopularVideo ) => {
+       
         setSelectedVideo(video)
         setShowModal(true)
      
@@ -148,7 +149,7 @@ export default function Live() {
     }
 
     //모달이 켜져 있을떄  선택
-    const OnModal = async (video: PopularVideo | LiveVideo) => {
+    const OnModal = async (video: PopularVideo ) => {
       
         setSelectedVideo(video);
        
@@ -221,10 +222,10 @@ export default function Live() {
                 </div>
             </div>
             {showModal &&
-                <LiveModal type={"Popular"} handleCloseModal={HandleCloseModal} selectedVideo={selectedVideo} onmodal={OnModal} selectedCategory={selectedCategory}></LiveModal>}
+                <LiveModal type={"Popular"} handleCloseModal={HandleCloseModal} PopularselectedVideo={selectedVideo} onmodal={OnModal} selectedCategory={selectedCategory}></LiveModal>}
 
             {showliveModal && (<div>
-                <LiveModal type={"Live"} handleCloseModal={LivehandleCloseModal} selectedVideo={selectedliveVideo} videolist={livelist} onmodal={OnLiveModal} ></LiveModal>
+                <LiveModal type={"Live"} handleCloseModal={LivehandleCloseModal} LiveselectedVideo={selectedliveVideo} videolist={livelist} onmodal={OnLiveModal} ></LiveModal>
             </div>)}
         </div>
     )

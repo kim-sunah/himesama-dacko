@@ -4,7 +4,7 @@ enum VideoKind {
   }
   
   interface VideoId {
-    kind: VideoKind.Video;
+    kind: string;
     videoId: string;
   }
   
@@ -17,6 +17,7 @@ enum VideoKind {
   interface Snippet {
     publishedAt: string;
     channelId: string;
+    categoryId : string
     title: string;
     description: string;
     liveBroadcastContent: string

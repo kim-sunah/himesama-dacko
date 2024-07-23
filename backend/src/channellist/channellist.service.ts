@@ -24,7 +24,7 @@ export class ChannellistService {
 
   }
   async Getvideosearch(search: string) {
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
     const resData = response.data;
     return await this.FilterService.videoFilter(resData);
   }
@@ -157,16 +157,21 @@ meetsFilterCriteria(channel, filters) {
   }
 
 
-  async Live_Popular_CreateApi(ChannelId : string){
+  async Live_Popular_CreateApi(ChannelId : string, categoryid : number, videoid : string){
+  
     try {
       const response = await axios.get(`https:youtube.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${ChannelId}&maxResults=1&key=${process.env.Youtbe_Api_KEY}`)
       const resData = response.data;
       if (resData.pageInfo.totalResults === 0) {
         return null;
       }
+
+     
+      const [videoInfo] = await Promise.all([this.FilterService.getVideoInfo(videoid)]);
+      const videoData = videoInfo.data.items[0];
       const channelData = resData.items[0];
-  
       const channelInfo = {
+        categoryid  : categoryid,
         Channel_nickname: channelData.snippet.title,
         Channel_Url_Id: channelData.id,
         Channel_Id: channelData.id,
@@ -175,18 +180,17 @@ meetsFilterCriteria(channel, filters) {
         viewCount: +channelData.statistics.viewCount,
         channel_img: channelData.snippet.thumbnails.medium.url
       };
-  
-      // 기존 채널 검색
+
+
       const existingChannel = await this.channelList.findOne({ where: { Channel_Id: ChannelId } });
-  
       if (!existingChannel) {
-        // 새 채널 정보 저장
-        const [subscriberResult, viewResult, channelResult] = await Promise.all([
-          this.SubscriberRepository.save({ Today: channelInfo.subscriberCount }),
-          this.ViewRepository.save({ Today: channelInfo.viewCount }),
-          this.channelList.save(channelInfo)
+        const  channelResult = await this.channelList.save(channelInfo);
+        this.FilterService.findOrCreateVideo(videoData, channelResult),
+        await Promise.all([
+          this.SubscriberRepository.save({ Today: channelInfo.subscriberCount, channelId:channelResult.id}),
+          this.ViewRepository.save({ Today: channelInfo.viewCount ,channelId:channelResult.id}),
+          this.VideoCountRepository.save({Today:channelInfo.videoCount,channelId:channelResult.id}),
         ]);
-  
         return channelResult;
       } else {
         return existingChannel;
@@ -194,5 +198,9 @@ meetsFilterCriteria(channel, filters) {
     } catch (error) {
       throw error;
     }
+    
   }
+ 
+
+  
 }

@@ -13,7 +13,7 @@ import { ViewCount } from './entities/view.entity';
 import { VideoCount } from './entities/video.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Channellist, Video, videoview, videocomment, videolike, SubscriberCount, ViewCount,VideoCount]) ],
+  imports: [TypeOrmModule.forFeature([Channellist, Video, videoview, videocomment, videolike, SubscriberCount, ViewCount,VideoCount])],
   controllers: [ChannellistController],
   providers: [ChannellistService,FilterService],
 })

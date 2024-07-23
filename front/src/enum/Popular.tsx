@@ -22,6 +22,7 @@ interface Thumbnails {
     maxres?: Thumbnail;
 }
 interface Snippet {
+    categoryId: string
     publishedAt: string;
     channelId: string;
     title: string;

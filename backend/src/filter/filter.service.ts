@@ -46,7 +46,7 @@ export class FilterService {
     return oneHourAgo.toISOString();
   }
 
-  private async getChannelInfo(channelId: string) {
+  async getChannelInfo(channelId: string) {
     return axios.get(`https://youtube.googleapis.com/youtube/v3/channels`, {
       params: {
         part: 'snippet,statistics',
@@ -56,7 +56,7 @@ export class FilterService {
     });
   }
 
-  private async getVideoInfo(videoId: string) {
+  async getVideoInfo(videoId: string) {
     return axios.get(`https://youtube.googleapis.com/youtube/v3/videos`, {
       params: {
         part: 'snippet,statistics,contentDetails',
@@ -79,7 +79,7 @@ export class FilterService {
 
         const channelData = channelInfo.data.items[0];
         const videoData = videoInfo.data.items[0];
-        console.log(videoData.snippet.categoryId)
+      
         const channelUrlID = await this.findOrCreateChannel(channelData, info, videoData.snippet.categoryId);
 
         if (!channelUrlID) 
@@ -89,7 +89,7 @@ export class FilterService {
 
       
    
-        const video = await this.findOrCreateVideo(info, videoData, channelUrlID);
+        const video = await this.findOrCreateVideo(videoData, channelUrlID);
 
         if (!video) return null;
 
@@ -154,14 +154,14 @@ export class FilterService {
   
   }
 
-  private async findOrCreateVideo(info: any, videoData: any, channelData: any) {
-    const existingVideo = await this.videoRepository.findOne({ where: { videoid: info.id.videoId } });
+  async findOrCreateVideo(videoData: any, channelData: any) {
+    const existingVideo = await this.videoRepository.findOne({ where: { videoid: videoData.id } });
     if (existingVideo) return existingVideo;
-
+    console.log(videoData.id , videoData.snippet.title, videoData.snippet.publishedAt)
     const videoToSave = {
-      videoid: info.id.videoId,
-      videotitle: info.snippet.title,
-      videopublishedAt: info.snippet.publishedAt,
+      videoid: videoData.id,
+      videotitle: videoData.snippet.title,
+      videopublishedAt: videoData.snippet.publishedAt,
       channelId: channelData.id
     };
 
