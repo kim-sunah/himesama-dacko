@@ -61,7 +61,7 @@ function LinechartChart({ channelId }: LinechartChartProps) {
     const [subscriberCount, setsubscriberCount] = useState<ChannelData>();
     useEffect(() => {
       const fetchData = async () => {
-        const response = await Postmethod("http://localhost:4000/ranking/Totalsubcriberincrease", { channelId: channelId })
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/Totalsubcriberincrease`, { channelId: channelId })
 
         setsubscriberCount(response.subscribers)
    
