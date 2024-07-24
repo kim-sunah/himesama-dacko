@@ -92,6 +92,13 @@ export class RankingController {
     return await this.rankingService.SortSubscriber(sort, +filter);
   }
 
+  //증가수 가져오기
+  @Post("Totalincrease")
+  async Totalincrease(@Body("channelId") channelId : string){
+
+    return await this.rankingService.Totalincrease(channelId)
+  }
+
   //조회수 증가량 순위(현재 사용 x)
   @Get("increaseview")
   async increaseview(){

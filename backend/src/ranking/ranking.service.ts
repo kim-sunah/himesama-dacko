@@ -9,10 +9,17 @@ import { Cache } from 'cache-manager';
 import { plainToClass } from 'class-transformer';
 import axios from 'axios';
 import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
+import { SubscriberCount } from 'src/channellist/entities/subscriber.entity';
+import { ViewCount } from 'src/channellist/entities/view.entity';
+import { VideoCount } from 'src/channellist/entities/video.entity';
 
 @Injectable()
 export class RankingService {
-  constructor(@InjectRepository(Channellist) private readonly channelRepository: Repository<Channellist>, @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
+  constructor(@InjectRepository(Channellist) private readonly channelRepository: Repository<Channellist>, 
+              @InjectRepository(SubscriberCount) private readonly subcriberRepositry: Repository<SubscriberCount>,
+              @InjectRepository(ViewCount) private readonly viewRepositry: Repository<ViewCount>,
+              @InjectRepository(VideoCount) private readonly videoRepositry: Repository<VideoCount>,
+              @Inject(CACHE_MANAGER) private readonly cacheManager: Cache) { }
  
 
   
@@ -186,9 +193,9 @@ export class RankingService {
   async SortSubscriber(sort : string , filter: number){
     if(sort === "subscribers" ){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {subscriberCount : "DESC"}})
+        return await this.channelRepository.find({take :10 , order : {subscriberCount : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter}, take :50 , order : {subscriberCount : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter}, take :10 , order : {subscriberCount : "DESC"}})
     }
     else if(sort === "videos" ){
       if(filter === 0){
@@ -214,7 +221,31 @@ export class RankingService {
       }
       return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {viewCount_percentageincrease : "DESC"}})
     }
+    else if(sort === "week-increase-subscribers"){
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {week_subscriberCount_percentageincrease : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {week_subscriberCount_percentageincrease : "DESC"}})
+    }
+    else if(sort === "week-increase-views"){
+      if(filter === 0){
+        return await this.channelRepository.find({take :50 , order : {week_viewCount_percentageincrease : "DESC"}})
+      }
+      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {week_viewCount_percentageincrease : "DESC"}})
+    }
    
+  }
+
+  async Totalincrease(channelId: string) {
+    const channel = await this.channelRepository.findOne({where : {Channel_Id : channelId}})
+    console.log(channel.id)
+    const [subscribers, views, videos] = await Promise.all([
+      this.subcriberRepositry.findOne({ where: { channelId: channel.id } }),
+      this.viewRepositry.findOne({ where: { channelId: channel.id } }),
+      this.videoRepositry.findOne({ where: { channelId: channel.id } })
+    ]);
+ 
+    return { subscribers, views, videos };
   }
 
 
