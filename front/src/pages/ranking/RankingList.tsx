@@ -29,6 +29,7 @@ export default function RankingList() {
   const navigate = useNavigate()
   useEffect(() => {
     navigate(`/Ranking/${sortBy.split("|")[0]}/${filterCategory.split("|")[0]}`)
+    setpage(1);
     const fetchData = async () => {
       const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory.split("|")[0] , page : page })
       if (sortOrder === "asc") {
@@ -37,7 +38,7 @@ export default function RankingList() {
       else if (sortOrder === "desc") {
         setChannel(response)
       }
-      setpage(page+1);
+     
     }
     fetchData()
   }, [sortBy, sortOrder, filterCategory])
@@ -54,7 +55,8 @@ export default function RankingList() {
 
   const [lastChannel, setLastChannel] = useState<HTMLDivElement | null>(null);
   const ScorllData = async () => {
-    const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory.split("|")[0] , page : page })
+    
+    const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory.split("|")[0] , page : page+1 })
     if (sortOrder === "asc") {
       setChannel(preventDefault => { return [...preventDefault, ...[...response].reverse()];});
     }
