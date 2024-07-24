@@ -190,63 +190,72 @@ export class RankingService {
     
   }
 
-  async SortSubscriber(sort : string , filter: number){
+  async SortSubscriber(sort : string , filter: number, page : number){
+    const take = 15;
+    const skip = (page - 1) * take;
     if(sort === "subscribers" ){
       if(filter === 0){
-        return await this.channelRepository.find({take :10 , order : {subscriberCount : "DESC"}})
+        return await this.channelRepository.find({take ,skip, order : {subscriberCount : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter}, take :10 , order : {subscriberCount : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter}, take ,skip , order : {subscriberCount : "DESC"}})
     }
     else if(sort === "videos" ){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {videoCount : "DESC"}})
+        return await this.channelRepository.find({take ,skip , order : {videoCount : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {videoCount : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter},take ,skip , order : {videoCount : "DESC"}})
     }
     else if(sort === "views" ){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {viewCount : "DESC"}})
+        return await this.channelRepository.find({take ,skip , order : {viewCount : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {viewCount : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter},take ,skip , order : {viewCount : "DESC"}})
     }
     else if(sort ==="increase-subscribers"){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {subscriberCount_percentageincrease : "DESC"}})
+        return await this.channelRepository.find({take ,skip , order : {subscriberCount_percentageincrease : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {subscriberCount_percentageincrease : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter},take ,skip , order : {subscriberCount_percentageincrease : "DESC"}})
     }
     else if(sort === "increase-views"){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {viewCount_percentageincrease : "DESC"}})
+        return await this.channelRepository.find({take ,skip , order : {viewCount_percentageincrease : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {viewCount_percentageincrease : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter},take ,skip , order : {viewCount_percentageincrease : "DESC"}})
     }
     else if(sort === "week-increase-subscribers"){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {week_subscriberCount_percentageincrease : "DESC"}})
+        return await this.channelRepository.find({take ,skip , order : {week_subscriberCount_percentageincrease : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {week_subscriberCount_percentageincrease : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter},take ,skip , order : {week_subscriberCount_percentageincrease : "DESC"}})
     }
     else if(sort === "week-increase-views"){
       if(filter === 0){
-        return await this.channelRepository.find({take :50 , order : {week_viewCount_percentageincrease : "DESC"}})
+        return await this.channelRepository.find({take ,skip , order : {week_viewCount_percentageincrease : "DESC"}})
       }
-      return await this.channelRepository.find({where :{categoryid : filter},take :50 , order : {week_viewCount_percentageincrease : "DESC"}})
+      return await this.channelRepository.find({where :{categoryid : filter},take ,skip , order : {week_viewCount_percentageincrease : "DESC"}})
     }
    
   }
 
-  async Totalincrease(channelId: string) {
+  async Totalsubcriberincrease(channelId: string) {
     const channel = await this.channelRepository.findOne({where : {Channel_Id : channelId}})
-    console.log(channel.id)
-    const [subscribers, views, videos] = await Promise.all([
+    const [subscribers] = await Promise.all([
       this.subcriberRepositry.findOne({ where: { channelId: channel.id } }),
-      this.viewRepositry.findOne({ where: { channelId: channel.id } }),
-      this.videoRepositry.findOne({ where: { channelId: channel.id } })
     ]);
  
-    return { subscribers, views, videos };
+    return { subscribers };
   }
+
+  async Totalviewincrease(channelId: string) {
+    const channel = await this.channelRepository.findOne({where : {Channel_Id : channelId}})
+    const [views] = await Promise.all([
+      this.viewRepositry.findOne({ where: { channelId: channel.id } }),
+    ]);
+ 
+    return { views };
+  }
+
 
 
 

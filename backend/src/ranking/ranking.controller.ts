@@ -87,23 +87,29 @@ export class RankingController {
 
   //Sort 높은순으로 나열 
   @Post("RankingSort")
-  async SortSubscriber(@Body("sort") sort : string, @Body("filter") filter : string){
-  
-    return await this.rankingService.SortSubscriber(sort, +filter);
+  async SortSubscriber(@Body() body:  { sort: string; filter: string ; page: number} ){
+    const { sort, filter , page } = body;
+    return await this.rankingService.SortSubscriber(sort, +filter , page);
   }
 
   //증가수 가져오기
-  @Post("Totalincrease")
-  async Totalincrease(@Body("channelId") channelId : string){
-
-    return await this.rankingService.Totalincrease(channelId)
+  @Post("Totalsubcriberincrease")
+  async Totalsubcriberincrease(@Body("channelId") channelId : string){
+    return await this.rankingService.Totalsubcriberincrease(channelId)
   }
+
+  @Post("Totalviewincrease")
+  async Totalviewincrease(@Body("channelId") channelId : string){
+    return await this.rankingService.Totalviewincrease(channelId)
+  }
+
 
   //조회수 증가량 순위(현재 사용 x)
   @Get("increaseview")
   async increaseview(){
     return await this.rankingService.increaseview();
   }
+  
 
   //구독자 증가량 순위(현재 사용 x)
   @Get("increaseSubscriber")
