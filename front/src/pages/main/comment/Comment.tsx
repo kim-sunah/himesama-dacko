@@ -1,8 +1,4 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/xpUl0yxlYME
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+
 import { Label } from "../../../component/v0/label"
 import { Input } from "../../../component/v0/input"
 import { Textarea } from "../../../component/v0/textarea"
@@ -23,7 +19,7 @@ export default function Comment() {
     const [comment, setcomment] = useState<comment[]>([])
     useEffect(() => {
         const fetchData = async() =>{
-            const response = await Getmethod("http://localhost:4000/comment");
+            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/comment`);
             console.log(response)
             setcomment(response)
 
