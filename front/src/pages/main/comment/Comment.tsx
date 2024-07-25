@@ -33,7 +33,7 @@ export default function Comment() {
         event.preventDefault();
         if (contentRef.current) {
             try {
-              await Postmethod("http://localhost:4000/comment", { comment: contentRef.current.value });
+              await Postmethod(`${process.env.REACT_APP_BACKEND_API}/comment`, { comment: contentRef.current.value });
               contentRef.current.value = "";
    
             } catch (error) {
