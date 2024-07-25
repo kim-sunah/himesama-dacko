@@ -195,7 +195,7 @@ export default function RankingList() {
               )}
             </div>
             
-              <Button variant="outline" className="w-full" onClick={() => {LocationHandler(channel.Channel_Id)}}>View Channel</Button>
+              <Button variant="outline" className="w-full" onClick={() => {navigate(`/${channel.Channel_Id}`)}}>View Channel</Button>
            
 
           </div>
