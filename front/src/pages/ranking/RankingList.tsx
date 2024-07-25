@@ -85,6 +85,12 @@ export default function RankingList() {
     };
   }, [lastChannel]);
 
+  const LocationHandler = (Id : string) => {
+      
+    navigate(`/${Id}`);
+
+}
+
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-8"  ref={containerRef}>
@@ -188,9 +194,9 @@ export default function RankingList() {
                 <SubcriberChart channelId={channel.Channel_Id} />
               )}
             </div>
-            <Link to={`${process.env.REACT_APP_FRONT_API}/${channel.Channel_Id}`} className="block mt-2">
-              <Button variant="outline" className="w-full">View Channel</Button>
-            </Link>
+            
+              <Button variant="outline" className="w-full" onClick={() => {LocationHandler(channel.Channel_Id)}}>View Channel</Button>
+           
 
           </div>
         ))}
