@@ -1,4 +1,18 @@
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
 
+.left-menu {
+  display: flex;
+}
+
+.right-buttons {
+  display: flex;
+  gap: 1rem;
+}
 
 .container {
    display: flex;
