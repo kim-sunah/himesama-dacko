@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '20'
       - name: Connect deploy key
-        uses: cloudtype-github-actions/connect@v2
+        uses: cloudtype-github-actions/connect@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           ghtoken: ${{ secrets.GHP_TOKEN }}
@@ -30,13 +30,13 @@ jobs:
             options:
               env:
                 - name: DB_HOST
-                  value: pet.czyokzgn9ldt.ap-northeast-2.rds.amazonaws.com
+                  value: youtube.cygahsyhplsd.ap-northeast-2.rds.amazonaws.com
                 - name: DB_PORT
                   value: "3306"
                 - name: DB_USERNAME
-                  value: root
+                  value: admin
                 - name: DB_PASSWORD
-                  value: timeless02
+                  value: wqdsdsf123
                 - name: DB_NAME
                   value: youtube
                 - name: DB_SYNC
@@ -45,7 +45,7 @@ jobs:
                   value: utf8mb4
                 - name: JWT_SECRET_KEY
                   value: wqdsdsf123
-                - name: Youtbe_Api_KEY
+                - name: Youtube_Api_KEY
                   value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
               ports: "4000"
               install: npm ci
