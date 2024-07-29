@@ -8,11 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+        uses: actions/checkout@v2
       - name: Connect deploy key
         uses: cloudtype-github-actions/connect@v1
         with:
@@ -30,13 +26,13 @@ jobs:
             options:
               env:
                 - name: DB_HOST
-                  value: youtube.cygahsyhplsd.ap-northeast-2.rds.amazonaws.com
+                  value: pet.czyokzgn9ldt.ap-northeast-2.rds.amazonaws.com
                 - name: DB_PORT
                   value: "3306"
                 - name: DB_USERNAME
-                  value: admin
+                  value: root
                 - name: DB_PASSWORD
-                  value: wqdsdsf123
+                  value: timeless02
                 - name: DB_NAME
                   value: youtube
                 - name: DB_SYNC
@@ -45,7 +41,7 @@ jobs:
                   value: utf8mb4
                 - name: JWT_SECRET_KEY
                   value: wqdsdsf123
-                - name: Youtube_Api_KEY
+                - name: Youtbe_Api_KEY
                   value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
               ports: "4000"
               install: npm ci
@@ -53,6 +49,5 @@ jobs:
               start: npm run start:dev
             context:
               git:
-                url: git@github.com:kim-sunah/himesama-dacko.git
-                path: backend
-                ref: main
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
