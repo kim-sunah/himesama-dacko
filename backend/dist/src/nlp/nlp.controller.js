@@ -22,7 +22,6 @@ let NlpController = class NlpController {
     async tokenize(text) {
         const keywords = this.nlpService.extractKeywords(text, 6);
         const searchQuery = keywords.join(' ');
-        console.log(searchQuery);
         return await this.nlpService.searchVideos(searchQuery, 5);
     }
 };

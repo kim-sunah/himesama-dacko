@@ -12,7 +12,6 @@ export class NlpController {
   
     const keywords = this.nlpService.extractKeywords(text,6);
     const searchQuery = keywords.join(' ');
-    console.log(searchQuery)
     return await this.nlpService.searchVideos(searchQuery, 5);
   }
 
