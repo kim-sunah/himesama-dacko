@@ -25,7 +25,8 @@ export class NlpService {
     return filteredTokens;
   }
 
-  extractKeywords(text: string, numKeywords: number = 6): string[] {
+  extractKeywords(text: string , numKeywords: number = 6): string[] {
+    
     const processedText = this.processText(text);
     if (processedText.length === 0) {
       return [];  
@@ -41,10 +42,12 @@ export class NlpService {
   }
 
   async searchVideos(query: string, maxResults: number = 10) {
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=${query}&key=${process.env.Youtbe_Api_KEY}`)
-    for(const data of response.data.items){
-      console.log(data)
-    }
+    let video = []
+    console.log(query)
+    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&q=${query}&key=${process.env.Youtbe_Api_KEY}`)
+    video = response.data.items;
+    
+    return video
  
   
   }

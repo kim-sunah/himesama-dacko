@@ -3,18 +3,16 @@ export interface Youtube_Video{
     etag: string,
     id: string,
     snippet: {
-      published_at: string,
+      publishedAt: string,
       channel_id: string,
       title: string,
       description: string,
       thumbnails: {
-        key: {
-          url: string,
-          width: number,
-          height: number
-        }
-      },
-      channel_title: string,
+        default: Thumbnail;
+        medium: Thumbnail;
+        high: Thumbnail;
+      };
+      channelTitle: string,
       tags: [string],
       category_id: string,
       live_broadcast_content: string,
@@ -32,6 +30,12 @@ export interface Youtube_Video{
         favoriteCount: string,
         commentCount: string
       },
+}
+
+interface Thumbnail {
+  url: string;
+  width: number;
+  height: number;
 }
 
 

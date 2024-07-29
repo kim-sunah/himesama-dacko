@@ -43,10 +43,11 @@ let NlpService = class NlpService {
             .map(item => item[0]);
     }
     async searchVideos(query, maxResults = 10) {
-        const response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&q=${query}&key=${process.env.Youtbe_Api_KEY}`);
-        for (const data of response.data.items) {
-            console.log(data);
-        }
+        let video = [];
+        console.log(query);
+        const response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&q=${query}&key=${process.env.Youtbe_Api_KEY}`);
+        video = response.data.items;
+        return video;
     }
 };
 exports.NlpService = NlpService;

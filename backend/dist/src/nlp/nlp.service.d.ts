@@ -5,5 +5,5 @@ export declare class NlpService {
     constructor();
     processText(text: string): string[];
     extractKeywords(text: string, numKeywords?: number): string[];
-    searchVideos(query: string, maxResults?: number): Promise<void>;
+    searchVideos(query: string, maxResults?: number): Promise<any[]>;
 }
