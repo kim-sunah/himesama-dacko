@@ -1,0 +1,36 @@
+import { Channellist } from "./channellist.entity";
+export declare class ViewCount {
+    id: number;
+    Today: number;
+    One_day_Ago: number;
+    Two_day_Ago: number;
+    Three_day_Ago: number;
+    Four_day_Ago: number;
+    Five_day_Ago: number;
+    Six_day_Ago: number;
+    Seven_day_Ago: number;
+    Eigth_day_Ago: number;
+    Nine_day_Ago: number;
+    Ten_day_Ago: number;
+    Eleven_day_Ago: number;
+    twelve_day_Ago: number;
+    thirteen_day_Ago: number;
+    fourteen_day_Ago: number;
+    fifteen_day_Ago: number;
+    sixteen_day_Ago: number;
+    seventeen_day_Ago: number;
+    Eigthteen_day_Ago: number;
+    Nineteen_day_Ago: number;
+    Twenty_day_Ago: number;
+    Twenty_one_day_Ago: number;
+    Twenty_two_day_Ago: number;
+    Twenty_three_day_Ago: number;
+    Twenty_four_day_Ago: number;
+    Twenty_five_day_Ago: number;
+    Twenty_six_day_Ago: number;
+    Twenty_seven_day_Ago: number;
+    Twenty_eigth_day_Ago: number;
+    Twenty_nine_day_Ago: number;
+    channelId: number;
+    channel: Channellist;
+}

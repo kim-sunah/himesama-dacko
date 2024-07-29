@@ -5,8 +5,8 @@ import { videoview } from './entities/videoview.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from './entities/video.entity';
-import axios from 'axios';
-import { data } from 'cheerio/lib/api/attributes';
+
+
 import { videocomment } from './entities/videocomment.entity';
 import { videolike } from './entities/videolike.entity';
 

@@ -23,7 +23,6 @@ export default function PopularVideo() {
     const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${VideoId}&maxResults=5&key=${process.env.REACT_APP_Youtube_API}`)
 
     setVideosStatistics(prevState => {
-      // 이미 존재하는 VideoId인지 확인
       if (prevState.some(stat => stat.id === VideoId)) {
         return prevState;
       }

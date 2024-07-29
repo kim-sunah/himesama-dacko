@@ -98,7 +98,7 @@ interface VideoInfo {
           </Link>
         </TableCell>
         <TableCell align="center">
-          <Link to={`/${row.Channel_Url_Id}`} style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>
+          <Link to={`/${row.Channel_Id}`} style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>
             <div className="flex items-center  justify-center">
               <img src={row.channel_img} alt="YouTube Channel" className="h-10 w-10 rounded-full" />
               <span style={{ fontWeight: "bold" }}>{row.channelTitle}</span>

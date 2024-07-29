@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Getmethod from "../../http/Get_method";
 import { YouTubeSearchResult } from "../../enum/Search_Item_Interface";
@@ -12,6 +12,7 @@ export default function RecentUpload() {
 
   const [RecentVideos, setRecentVideos] = useState<YouTubeSearchResult[]>([]);
   const { ChannelId } = useParams();
+  const navigate = useNavigate();
   const [VideosStatistics, setVideosStatistics] = useState<VideoStatistic[]>([]);
 
   const Youtubevideostatistics = async (VideoId: string) => {
@@ -43,7 +44,7 @@ export default function RecentUpload() {
     <h2 className="text-2xl font-bold mb-4">Recent Uploads</h2>
     <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6" >
     {RecentVideos && RecentVideos.map((video, index) => ( 
-      <div key={index} className="relative h-40 bg-gray-200">
+      <div key={index} className="relative h-40 bg-gray-200" onClick={() => {navigate(`${video.id.videoId}`)}}>
         <img src={video.snippet.thumbnails.high.url} alt={video.snippet.title} className="object-cover w-full h-full" />
         <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 text-white w-full">
         {video.snippet.title.length > 25 ? `${video.snippet.title.slice(0,25)}...` : video.snippet.title}

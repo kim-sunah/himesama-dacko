@@ -46,7 +46,7 @@ export default function SubcriberChart(props : LinechartChartProps){
     return (
         <div className="h-full w-full max-w-2xl">
                 <CardHeader>
-                  <CardTitle style={{ fontSize: "1rem" }}>구독자 변화율(일)
+                  <CardTitle style={{ fontSize: "1rem" }}>구독자 변화율(주)
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -74,8 +74,8 @@ function LinechartChart({ channelId }: LinechartChartProps) {
       <div >
         <ChartContainer
           config={{
-            desktop: {
-              label: "Desktop",
+            Subscriber: {
+              label: "Subscriber",
               color: "hsl(var(--chart-1))",
             },
           }}
@@ -84,12 +84,11 @@ function LinechartChart({ channelId }: LinechartChartProps) {
        
             accessibilityLayer
             data={[
-              { desktop: subscriberCount?.Six_day_Ago },
-              { desktop: subscriberCount?.Five_day_Ago },
-              { desktop: subscriberCount?.Four_day_Ago },
-              { desktop: subscriberCount?.Three_day_Ago },
-              { desktop: subscriberCount?.Two_day_Ago },
-              { desktop: subscriberCount?.Today },
+              { Subscriber: subscriberCount?.Twenty_eigth_day_Ago },
+              { Subscriber: subscriberCount?.Twenty_one_day_Ago },
+              { Subscriber: subscriberCount?.fourteen_day_Ago },
+              { Subscriber: subscriberCount?.seventeen_day_Ago },
+              { Subscriber: subscriberCount?.Today },
             ]}
             margin={{
                 top: 20, right: 30, left: 20, bottom: 20,
@@ -104,7 +103,7 @@ function LinechartChart({ channelId }: LinechartChartProps) {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Line dataKey="desktop" type="natural" stroke="var(--color-desktop)" strokeWidth={2} dot={false} />
+            <Line dataKey="Subscriber" type="natural" stroke="var(--color-Subscriber)" strokeWidth={2} dot={false} />
           </LineChart>
         </ChartContainer>
       </div>

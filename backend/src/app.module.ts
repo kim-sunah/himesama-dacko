@@ -28,6 +28,8 @@ import { VideoCount } from './channellist/entities/video.entity';
 import { CommentModule } from './comment/comment.module';
 import { Comment } from './comment/entities/comment.entity';
 
+import { NlpModule } from './nlp/nlp.module';
+
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -70,7 +72,9 @@ const typeOrmModuleOptions = {
   CacheModule.register({ttl: 864000000, max: 1000,isGlobal: true}),
   VideoModule,
   UpdateModule,
-  CommentModule],
+  CommentModule,
+ 
+  NlpModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -13,16 +13,4 @@ export default function ChannelRoot() {
     </div>
     )
 
-    
-    // <div className="w-full min-h-screen bg-background text-foreground">
-        
-    //     <Header></Header>
-
-    //     <main className="container mx-auto py-8 px-4 block">
-    //         <Trend></Trend>
-    //         <RecentUpload></RecentUpload>
-    //         <PopularVideo></PopularVideo>
-
-    //     </main>
-    // </div>
 }

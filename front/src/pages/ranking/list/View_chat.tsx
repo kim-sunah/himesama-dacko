@@ -46,7 +46,7 @@ export default function ViewChart(props : LinechartChartProps){
     return (
         <div className=" w-full max-w-2xl">
                 <CardHeader>
-                  <CardTitle style={{ fontSize: "1rem" }}>조회수 변화율(일)
+                  <CardTitle style={{ fontSize: "1rem" }}>조회수 변화율(주)
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -78,8 +78,8 @@ function LinechartChart({ channelId }: LinechartChartProps) {
       <div >
         <ChartContainer
           config={{
-            desktop: {
-              label: "Desktop",
+            View: {
+              label: "View",
               color: "hsl(var(--chart-1))",
             },
           }}
@@ -87,12 +87,12 @@ function LinechartChart({ channelId }: LinechartChartProps) {
           <LineChart
             accessibilityLayer
             data={[
-              { desktop: viewCount?.Six_day_Ago },
-              { desktop: viewCount?.Five_day_Ago },
-              { desktop: viewCount?.Four_day_Ago },
-              { desktop: viewCount?.Three_day_Ago },
-              { desktop: viewCount?.Two_day_Ago },
-              { desktop: viewCount?.Today },
+            
+              { View: viewCount?.Twenty_eigth_day_Ago },
+              { View: viewCount?.Twenty_one_day_Ago },
+              { View: viewCount?.fourteen_day_Ago },
+              { View: viewCount?.seventeen_day_Ago },
+              { View: viewCount?.Today },
             ]}
             margin={{
                 top: 20, right: 30, left: 20, bottom: 20,
@@ -107,7 +107,7 @@ function LinechartChart({ channelId }: LinechartChartProps) {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Line dataKey="desktop" type="natural" stroke="var(--color-desktop)" strokeWidth={2} dot={false} />
+            <Line dataKey="View" type="natural" stroke="var(--color-View)" strokeWidth={2} dot={false} />
           </LineChart>
         </ChartContainer>
       </div>

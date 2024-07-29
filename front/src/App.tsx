@@ -16,12 +16,12 @@ import ConditionVideoFilterBody from './pages/condition/db/Condition_VideoFilter
 import YoutubeRoot from './pages/condition/youtube/Youtube_Root';
 import YoutubeConditionInfluencer from './pages/condition/youtube/Youtube_Condition_Influencer';
 import YoutubeConditionVideo from './pages/condition/youtube/Youtube_Condition_Video';
-
 import IntroductionWebsite from './pages/introduction_website/IntroductionWebsite';
 import LiveRoot from './pages/Live/LiveRoot';
 import ChannelRoot from './pages/channel_detail/ChannelRoot';
 import RankingList from "./pages/ranking/RankingList";
 import { CookiesProvider } from "react-cookie";
+import Channel_Datail_Video_Root from "./pages/channel_detail/video/Root";
 
 
 function App() {
@@ -32,7 +32,10 @@ function App() {
         { index: true, element: <Main></Main> },
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },
-        { path: ":ChannelId", element: <ChannelRoot></ChannelRoot> },
+        { path :":ChannelId" ,children:[
+          { index: true, element: <ChannelRoot></ChannelRoot> },
+          {path: ":videoId" , element : <Channel_Datail_Video_Root></Channel_Datail_Video_Root>}
+        ]},
         {
           path: "Ranking", children: [
             { index: true, element: <RankingRoot></RankingRoot> },
