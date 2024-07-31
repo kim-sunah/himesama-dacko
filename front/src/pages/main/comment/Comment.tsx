@@ -1,9 +1,7 @@
 
 import { Label } from "../../../component/v0/label"
-import { Input } from "../../../component/v0/input"
 import { Textarea } from "../../../component/v0/textarea"
 import { Button } from "../../../component/v0/button"
-import { Link } from "react-router-dom"
 import React, { FormEvent, useEffect, useRef, useState } from "react"
 import Getmethod from "../../../http/Get_method"
 import Postmethod from "../../../http/Post_method"
@@ -20,7 +18,7 @@ export default function Comment() {
     useEffect(() => {
         const fetchData = async() =>{
             const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/comment`);
-            console.log(response)
+        
             setcomment(response)
 
 
