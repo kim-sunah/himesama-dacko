@@ -1,8 +1,4 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/lVmyIaMo6hB
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+
 import { useEffect, useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "../../../component/v0/avatar"
 import { Button } from "../../../component/v0/button"
@@ -13,15 +9,23 @@ import TimeAgo from 'react-timeago';
 import { VideoStatistic } from "../../../enum/Video_Statistics";
 import { YouTubeSearchResult } from "../../../enum/Search_Item_Interface";
 import Postmethod from "../../../http/Post_method";
+import Comment from "./Comment";
+
+
 
 export default function Video() {
     const location = useLocation();
     const [video, setVideo] = useState<Youtube_Video | null>(null);
     const [recommandVideo, setrecommandVideo] = useState<YouTubeSearchResult[]>([]);
+    const [recommandloading, setrecommandloading] = useState<boolean>(false)
+    const [relationloading, setrelationloading] = useState<boolean>(false)
+
     const [RecentVideos, setRecentVideos] = useState<YouTubeSearchResult[]>([]);
     const [relationVideo, setrelationVideo] = useState<YouTubeSearchResult[]>([]);
     const [channelImg, setchannelImg] = useState();
+    const [subscriberCount, setsubscriberCount] = useState()
     const { ChannelId } = useParams();
+
     const navigate = useNavigate()
 
     const [channelButton, setchannelButton] = useState(true);
@@ -32,10 +36,45 @@ export default function Video() {
         return new Intl.NumberFormat('ko-KR').format(num);
     };
 
+    const convertToKorean = (num: number) => {
+
+        if (num < 10000) {
+            return `${num}명`;
+        }
+
+        const units = ['', '만', '억'];
+        let result = '';
+        let unitIndex = 0;
+
+        // 억 단위 계산
+        const 억 = Math.floor(num / 100000000);
+        if (억 > 0) {
+            result += `${억}억 `;
+            num %= 100000000; // 남은 숫자
+        }
+
+        // 만 단위 계산
+        const 만 = Math.floor(num / 10000);
+        if (만 > 0) {
+            result += `${만}만 `;
+            num %= 10000; // 남은 숫자
+        }
+
+        // 천 단위 이하 처리
+        if (num > 0) {
+            result += `${num}`;
+        }
+
+        return result.trim() + '명';
+    };
+
+
+
+
     useEffect(() => {
         const fetchData = async () => {
             const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${location.pathname.split("/")[2]}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
-            console.log(response.items[0])
+
             setVideo(response.items[0])
         }
         fetchData()
@@ -53,25 +92,28 @@ export default function Video() {
     useEffect(() => {
         const fetchData = async () => {
             const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
-            console.log(response);
+
+            setsubscriberCount(response.items[0].statistics.subscriberCount);
             setchannelImg(response.items[0].snippet.thumbnails.high.url);
         }
         fetchData()
 
     }, [ChannelId]);
 
-    const remmandHandler = async() =>{
-        
-        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/nlp/tokenize`, {text: video?.snippet.title})
+
+
+
+    const remmandHandler = async () => {
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/nlp/tokenize`, { text: video?.snippet.title })
         setrecommandVideo(response)
+        setrecommandloading(true)
 
     }
 
-    const relationHandler = async() =>{
-
-      
-        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/nlp/tokenize`, {text: (video?.snippet.tags)?.join(" ")})
+    const relationHandler = async () => {
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/nlp/tokenize`, { text: (video?.snippet.tags)?.join(" ") })
         setrelationVideo(response)
+        setrelationloading(true)
 
     }
     return (
@@ -97,23 +139,30 @@ export default function Video() {
 
                             <div>
                                 <h2 className="text-lg font-bold">{video?.snippet.channelTitle}</h2>
-                                <p className="text-sm text-gray-400">구독자 332만명</p>
+                                <p className="text-sm text-gray-400 mt-2">구독자 {convertToKorean(Number(subscriberCount))}</p>
+                                <div className="mt-2">
+                                    <p className="text-gray-400">
+                                        조회수 {video?.statistics.viewCount ? formatNumber(Number(video?.statistics.viewCount)) : 0}회 &nbsp;  • &nbsp;
+                                        좋아요 {video?.statistics.likeCount ? formatNumber(Number(video?.statistics.likeCount)) : 0}회 &nbsp;  • &nbsp;
+
+                                        댓글 {video?.statistics.commentCount ? formatNumber(Number(video?.statistics.commentCount)) : 0}회 &nbsp;  • &nbsp;
+                                        <TimeAgo
+                                            date={video?.snippet.publishedAt ? new Date(video.snippet.publishedAt).toISOString() : ''}
+                                        />
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                 
                     </div>
-                    <div className="mt-4">
-                        <p className="text-gray-400">
-                            조회수 {video?.statistics.viewCount ? formatNumber(Number(video?.statistics.viewCount)) : 0}회 &nbsp;  • &nbsp;
-                            좋아요 {video?.statistics.likeCount ? formatNumber(Number(video?.statistics.likeCount)) : 0}회 &nbsp;  • &nbsp;
-                            싫어요 {video?.statistics.dislikeCount ? formatNumber(Number(video?.statistics.dislikeCount)) : 0}회 &nbsp;  • &nbsp;
+                    <hr></hr>
+                    <div className="mt-2 ml-2">
+                                    <p className="text-gray-400">
+                                        댓글
+                                    </p>
+                                </div>
+                    <Comment></Comment>
 
-                            댓글 {video?.statistics.commentCount ? formatNumber(Number(video?.statistics.commentCount)) : 0}회 &nbsp;  • &nbsp;
-
-                            <TimeAgo
-                                date={video?.snippet.publishedAt ? new Date(video.snippet.publishedAt).toISOString() : ''}
-                            />
-                        </p>
-                    </div>
                 </div>
                 <div className="flex flex-col w-1/3 ml-10">
                     <div className="flex items-center  mb-4 gap-6">
@@ -123,7 +172,7 @@ export default function Video() {
                                 backgroundColor: channelButton ? 'black' : '',
                                 color: channelButton ? 'white' : '',
                             }}
-                            onClick={()=>{setchannelButton(true); setrecommandButton(false); setrelationButton(false);}}
+                            onClick={() => { setchannelButton(true); setrecommandButton(false); setrelationButton(false); }}
                         >
                             {video?.snippet.channelTitle} 제공
                         </Button>
@@ -133,23 +182,23 @@ export default function Video() {
                                 backgroundColor: recommandButton ? 'black' : '',
                                 color: recommandButton ? 'white' : '',
                             }}
-                            onClick={()=>{setchannelButton(false); setrecommandButton(true); setrelationButton(false);remmandHandler();}}
+                            onClick={() => { setchannelButton(false); setrecommandButton(true); setrelationButton(false); remmandHandler(); }}
                         >
                             추천 영상
                         </Button>}
-                        
-                        {  video?.snippet.tags && <Button
+
+                        {video?.snippet.tags && <Button
                             variant="outline"
                             style={{
                                 backgroundColor: relationButton ? 'black' : '',
                                 color: relationButton ? 'white' : '',
                             }}
-                            onClick={()=>{setchannelButton(false); setrecommandButton(false); setrelationButton(true); relationHandler();}}
+                            onClick={() => { setchannelButton(false); setrecommandButton(false); setrelationButton(true); relationHandler(); }}
                         >
                             관련 영상
                         </Button>}
                     </div>
-                    {channelButton &&   <div className="space-y-4">
+                    {channelButton && <div className="space-y-4">
                         {RecentVideos && RecentVideos.map((video, index) => (
                             <div key={index} className="flex space-x-4" onClick={() => { navigate(`/${ChannelId}/${video.id.videoId}`); window.scrollTo(0, 0); }}>
                                 <img src={`${video.snippet.thumbnails.high.url}`} alt="Thumbnail" className="w-34 h-24 object-cover" />
@@ -162,7 +211,8 @@ export default function Video() {
                         ))}
 
                     </div>}
-                    {recommandButton &&   <div className="space-y-4">
+                   
+                    {recommandButton && <div className="space-y-4">
                         {recommandVideo && recommandVideo.map((video, index) => (
                             <div key={index} className="flex space-x-4" onClick={() => { navigate(`/${ChannelId}/${video.id.videoId}`); window.scrollTo(0, 0); }}>
                                 <img src={`${video.snippet.thumbnails.high.url}`} alt="Thumbnail" className="w-34 h-24 object-cover" />
@@ -173,10 +223,11 @@ export default function Video() {
                             </div>
 
                         ))}
+                    {recommandButton && recommandVideo.length === 0  &&  recommandloading && <p> 적합한 추천영상이 없습니다</p>}
 
                     </div>}
-
-                    {relationButton &&   <div className="space-y-4">
+                  
+                    {relationButton && <div className="space-y-4">
                         {relationVideo && relationVideo.map((video, index) => (
                             <div key={index} className="flex space-x-4" onClick={() => { navigate(`/${ChannelId}/${video.id.videoId}`); window.scrollTo(0, 0); }}>
                                 <img src={`${video.snippet.thumbnails.high.url}`} alt="Thumbnail" className="w-34 h-24 object-cover" />
@@ -187,9 +238,10 @@ export default function Video() {
                             </div>
 
                         ))}
+                    {relationButton && relationVideo.length === 0  &&  relationloading && <p> 적합한 관련영상이 없습니다</p>}
 
-                    </div> }
-                  
+                    </div>}
+
                 </div>
             </div>
         </div>
