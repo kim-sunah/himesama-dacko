@@ -52,7 +52,8 @@ export default function Video() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+            const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+            console.log(response);
             setchannelImg(response.items[0].snippet.thumbnails.high.url);
         }
         fetchData()
@@ -60,6 +61,7 @@ export default function Video() {
     }, [ChannelId]);
 
     const remmandHandler = async() =>{
+        
         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/nlp/tokenize`, {text: video?.snippet.title})
         setrecommandVideo(response)
 
@@ -125,7 +127,7 @@ export default function Video() {
                         >
                             {video?.snippet.channelTitle} 제공
                         </Button>
-                        <Button
+                        {video?.snippet.title && <Button
                             variant="outline"
                             style={{
                                 backgroundColor: recommandButton ? 'black' : '',
@@ -134,7 +136,8 @@ export default function Video() {
                             onClick={()=>{setchannelButton(false); setrecommandButton(true); setrelationButton(false);remmandHandler();}}
                         >
                             추천 영상
-                        </Button>
+                        </Button>}
+                        
                         {  video?.snippet.tags && <Button
                             variant="outline"
                             style={{
