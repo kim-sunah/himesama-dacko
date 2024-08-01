@@ -13,6 +13,7 @@ import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";
 import SubcriberChart from "./list/Subcriber_chart"
 import ViewChart from "./list/View_chat"
+import { formatNumber } from "../../function/formatNumber"
 
 
 export default function RankingList() {
@@ -172,12 +173,33 @@ export default function RankingList() {
               <img src={channel.channel_img} alt="Thumbnail" className="w-16 h-16 rounded-full object-cover mr-4" />
               <h3 className="text-lg font-medium truncate flex-1">{channel.Channel_nickname}</h3>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-sm">
-              <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500 mr-1" /> {formatNumberUS(Number(channel.subscriberCount))}</div>
-              <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700 mr-1" /> {formatNumberUS(Number(channel.videoCount))}</div>
-              <div className="flex items-center"><FcManager className="h-5 w-5 text-red-500 mr-1" /> {formatNumberUS(Number(channel.viewCount))}</div>
+            <div >
+            <div className="flex items-center justify-center mt-2"> <span className="mt-2 text-xs whitespace-nowrap"  > 구독자 :{formatNumber(Number(channel.subscriberCount))}명</span></div>
+            <div className="flex items-center justify-center mt-2"> <span className="mt-2  text-xs whitespace-nowrap"> 조회수 : {formatNumber(Number(channel.viewCount))}회</span></div>
+            <div className="flex items-center justify-center mt-2">
+                <span className="mt-2 text-xs whitespace-nowrap"> 구독자 전일 대비 : <span style={{
+                      color: Number(channel.subscriberCount_percentageincrease) > 0
+                        ? "blue"
+                        : Number(channel.subscriberCount_percentageincrease) < 0
+                          ? "red"
+                          : "grey"
+                    }}>
+                      {Number(channel.subscriberCount_percentageincrease).toFixed(2)}%
+                    </span></span>
+              </div> 
+              <div className="flex items-center justify-center mt-2">
+                <span className="mt-2 text-xs whitespace-nowrap"> 구독자 전주 대비 : <span style={{
+                      color: Number(channel.week_subscriberCount_percentageincrease) > 0
+                        ? "blue"
+                        : Number(channel.week_subscriberCount_percentageincrease) < 0
+                          ? "red"
+                          : "grey"
+                    }}>
+                      {Number(channel.week_subscriberCount_percentageincrease).toFixed(2)}%
+                    </span></span>
+              </div> 
             </div>
-            <Tabs
+            {/* <Tabs
               defaultValue="구독자"
               className="mt-4"
               onValueChange={(value) => handleTabChange(channel.Channel_Id, value)}
@@ -193,9 +215,10 @@ export default function RankingList() {
               ) : (
                 <SubcriberChart channelId={channel.Channel_Id} />
               )}
-            </div>
+            </div> */}
+            <Button variant="outline" className="w-full mt-4 "  onClick={() => {navigate(`/${channel.Channel_Id}`)}} style={{fontSize:"0.75rem"}}>채널 상세</Button>
+
             
-              <Button variant="outline" className="w-full" onClick={() => {navigate(`/${channel.Channel_Id}`)}}>View Channel</Button>
            
 
           </div>

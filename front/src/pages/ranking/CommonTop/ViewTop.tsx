@@ -3,7 +3,6 @@ import { Button } from "../../../component/v0/button";
 import Getmethod from "../../../http/Get_method";
 import { channeInfo } from "../../../enum/ChannelInfo";
 import { Link, useNavigate } from "react-router-dom";
-import { FcLineChart } from "react-icons/fc";
 
 
 import { formatNumberUS } from "../../../function/formatNumberUS";
@@ -13,42 +12,39 @@ import { AiFillVideoCamera } from "react-icons/ai";
 import PreviewIcon from '@mui/icons-material/Preview';
 import { formatNumber } from "../../../function/formatNumber";
 
-export default function ViewIncreaseTop() {
-  const navigate = useNavigate();
-  const [Top, SetTop] = useState<channeInfo[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/ViewTopIncrease`)
 
-      SetTop(response)
+export default function ViewTop(){
+  const navigate = useNavigate()
+    const [Top, SetTop] = useState<channeInfo[]>([]);
+    useEffect(() => {
+        const fetchData = async () =>{
+            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/ViewTop`)
 
-    }
-    fetchData()
+            SetTop(response)
 
+        }
+        fetchData()
+    
 
-  }, [])
+    },[])
 
-
-
-  const LocationHandler = (Id: string) => {
-
-    navigate(`/${Id}`);
+    const LocationHandler = (Id : string) => {
+      
+      navigate(`/${Id}`);
 
   }
-
-  const detailhandler = () => {
-    navigate(`/Ranking/increase-views/0`);
+  const detailhandler = () =>{
+    navigate(`/Ranking/views/0`);
   }
 
 
-
-  return (
-    <main className="p-6 md:p-10">
+    return (
+      <main className="p-6 md:p-10">
       <div className="flex flex-col md:flex-row justify-between items-center gap-2">
         <div className="grid gap-6 w-full">
           <div className="five sm:block  md:flex justify-between items-center">
-            <span className=" text-xs whitespace-nowrap sm: text-center">금일 구독자 하락 상위</span>
-            <Button variant="outline"  onClick={detailhandler}>자세히 보기</Button>
+            <span className="text-xs whitespace-nowrap">조회수 상위</span>
+            <Button  variant="outline" onClick={detailhandler}>자세히 보기</Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Top.map(Channel => (
@@ -60,7 +56,7 @@ export default function ViewIncreaseTop() {
                   </h3>
                 </div>
                 <div >
-                  <div className="flex items-center justify-center mt-2"> <span className="mt-2 text-xs whitespace-nowrap"  > 구독자 :{formatNumber(Number(Channel.subscriberCount))}명</span></div>
+                <div className="flex items-center justify-center mt-2"> <span className="mt-2 text-xs whitespace-nowrap"  > 구독자 :{formatNumber(Number(Channel.subscriberCount))}명</span></div>
                   <div className="flex items-center justify-center mt-2"> <span className="mt-2  text-xs whitespace-nowrap"> 조회수 : {formatNumber(Number(Channel.viewCount))}회</span></div>
                   <div className="flex items-center justify-center mt-2">
                     <span className="mt-2 text-xs whitespace-nowrap"> 전일 대비 : <span style={{
@@ -73,22 +69,13 @@ export default function ViewIncreaseTop() {
                       {Number(Channel.viewCount_percentageincrease).toFixed(2)}%
                     </span></span>
                   </div>
-                  {/* <div className="flex items-center">
-                      <FcAreaChart className="h-5 w-5 text-gray-700" />
-                      <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount))}</span>
-                    </div>
-                    <div className="flex items-center">
-                      {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) > 0 && <FcBullish className="h-6 w-6" />}
-                      {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) < 0 && <FcBearish className="h-6 w-6" />}
-                      {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) === 0 && <FcNeutralTrading className="h-6 w-6" />}
-                    </div> */}
                 </div>
-                <Button variant="outline" className="w-full mt-4 " onClick={() => { LocationHandler(Channel.Channel_Id) }} style={{ fontSize: "0.75rem" }}>채널 상세</Button>
-              </div>
+                <Button variant="outline" className="w-full mt-4"  onClick={() => {LocationHandler(Channel.Channel_Id)}} style={{fontSize:"0.75rem"}}>채널 상세</Button>
+                </div>
             ))}
           </div>
         </div>
       </div>
     </main>
-  )
+    )
 }

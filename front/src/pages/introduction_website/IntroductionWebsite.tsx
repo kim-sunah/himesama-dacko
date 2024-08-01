@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import test from "../../assets/test.png"
+import Mypage from "../../assets/web.png"
 import "../../styles/IntroductionWebsite.css"
 import Footer from "../footer/Footer";
 export default function IntroductionWebsite() {
@@ -8,9 +8,9 @@ export default function IntroductionWebsite() {
             <section className="bg-gray-100 dark:bg-gray-800 py-12 md:py-20 lg:py-24">
                 <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center">
                     <img
-                        src={test}
-                        width={600}
-                        height={400}
+                        src={Mypage}
+                        width={450}
+                        height={300}
                         alt="Image"
                         className="object-cover rounded-md mb-6 md:mb-0 md:mr-8"
                     />
@@ -38,6 +38,14 @@ export default function IntroductionWebsite() {
                             유튜브에서 현재 가장 인기 있는 키워드를 추적하고 사용자에게 제공합니다.
                         </p>
                     </div>
+                    <div className="space-y-4 mb-6">
+                        {/* <RocketIcon className="w-8 h-8 text-primary" /> */}
+                        <h3 className="text-xl font-semibold">추천 및 관련 동영상 제공</h3>
+                        <p className="text-gray-500 dark:text-gray-400">
+                        사용자가 원하는 동영상과 연관된 동영상을 자동으로 제공하여 더욱 풍부한 시청 경험을 선사합니다.
+                            
+                        </p>
+                    </div>
                     <div className="space-y-4 mb-6 ">
                         {/* <PhoneIcon className="w-8 h-8 text-primary" /> */}
                         <h3 className="text-xl font-semibold ">분석 도구 제공</h3>
@@ -45,13 +53,7 @@ export default function IntroductionWebsite() {
                             수집된 데이터를 분석하여 트렌드 분석 및 인사이트 도출을 지원합니다.
                         </p>
                     </div>
-                    <div className="space-y-4">
-                        {/* <PhoneIcon className="w-8 h-8 text-primary" /> */}
-                        <h3 className="text-xl font-semibold">인기 키워드 추적</h3>
-                        <p className="text-gray-500 dark:text-gray-400">
-                            유튜브에서 현재 가장 인기 있는 키워드를 추적하고 사용자에게 제공합니다.
-                        </p>
-                    </div>
+                   
                 </div>
             </section>
             <main className="py-2 md:py-24 lg:py-32">
@@ -65,13 +67,13 @@ export default function IntroductionWebsite() {
                                 <Link to="/" className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300">
                                     홈페이지
                                 </Link>
-                                <Link
+                                {/* <Link
                                     to="#"
                                     className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
 
                                 >
                                     연락
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
 

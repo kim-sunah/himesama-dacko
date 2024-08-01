@@ -6,6 +6,7 @@ import { CardActionArea, } from '@mui/material';
 import "../../../styles/header.css"
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { AiOutlineFileSearch } from "react-icons/ai";
+import { FcAdvertising } from "react-icons/fc";
 
 import { BiLogoYoutube } from "react-icons/bi";
 import LiveTvIcon from '@mui/icons-material/LiveTv';
@@ -31,7 +32,7 @@ export default function Headers() {
     }
     return (
         <div className="bg-gray-100 py-10 px-6 md:px-10">
-            <div className="header max-w-6xl mx-auto md:grid md:grid-cols-1 md:gap-6 mb-5 lg:grid lg:grid-cols-4 lg:gap-6 lg:justify-center">
+            <div className="header max-w-6xl mx-auto md:grid md:grid-cols-4 md:gap-4 mb-5 lg:grid lg:grid-cols-4 lg:gap-6 lg:justify-center">
                 <CardActionArea>
                     <Link className="text-black" to="/Ranking?today">
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
@@ -41,20 +42,12 @@ export default function Headers() {
                         </Card>
                     </Link>
                 </CardActionArea>
-                <CardActionArea>
-                    <Link className="text-black" to="/Condition_Search/">
-                        <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
-                            <AiOutlineFileSearch className="text-purple-600 h-9 w-9" />
-                            <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">DB 검색</h3>
-
-                        </Card>
-                    </Link>
-                </CardActionArea>
+               
                 <CardActionArea>
                     <Link className="text-black" to="/YoutubeCondition/">
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
                             <BiLogoYoutube className="text-red-600 h-9 w-9" />
-                            <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색</h3>
+                            <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">Youtube API 기반 검색(개발중)</h3>
 
                         </Card>
                     </Link>
@@ -64,6 +57,15 @@ export default function Headers() {
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
                             <LiveTvIcon className="text-black" fontSize="large" />
                             <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">실시간 라이브 인기 영상</h3>
+
+                        </Card>
+                    </Link>
+                </CardActionArea>
+                <CardActionArea>
+                    <Link className="text-black" to="">
+                        <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
+                            <FcAdvertising className="text-purple-600 h-9 w-9" />
+                            <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">공지사항 & 문의(개발중)</h3>
 
                         </Card>
                     </Link>

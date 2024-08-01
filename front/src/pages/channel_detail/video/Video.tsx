@@ -137,7 +137,7 @@ export default function Video() {
                                 <AvatarFallback>AV</AvatarFallback>
                             </Avatar>
 
-                            <div>
+                            <div onClick={()=> {navigate(`/${ChannelId}`)}}>
                                 <h2 className="text-lg font-bold">{video?.snippet.channelTitle}</h2>
                                 <p className="text-sm text-gray-400 mt-2">구독자 {convertToKorean(Number(subscriberCount))}</p>
                                 <div className="mt-2">

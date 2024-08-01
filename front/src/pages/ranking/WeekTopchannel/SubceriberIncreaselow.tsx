@@ -13,6 +13,7 @@ import { BiLogoYoutube } from "react-icons/bi";
 import { AiFillVideoCamera } from "react-icons/ai";
 
 import "../test.css"
+import { formatNumber } from "../../../function/formatNumber";
 
 
 export default function WeekSubscriberIncreaseLow() {
@@ -44,9 +45,9 @@ export default function WeekSubscriberIncreaseLow() {
 <main className="p-6 md:p-10">
   <div className="flex flex-col md:flex-row justify-between items-center gap-2">
     <div className="grid gap-6 w-full">
-      <div className="five flex justify-between items-center">
-        <h1 className="mb-4">이번주 구독자 하락 상위</h1>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={detailhandler}>자세히 보기</button>
+    <div className="five sm:block md:flex justify-between items-center">
+        <span className=" text-xs whitespace-nowrap">이번주 구독자 하락 상위</span>
+        <Button  variant="outline" onClick={detailhandler}>자세히 보기</Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {Top.map(Channel => (
@@ -57,25 +58,23 @@ export default function WeekSubscriberIncreaseLow() {
                 {Channel.Channel_nickname}
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-sm flex-grow">
-              <div className="flex items-center"><BiLogoYoutube className="h-5 w-5 text-red-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount))}</span></div>
-              <div className="flex items-center"><AiFillVideoCamera className="h-5 w-5 text-gray-700" /> <span className="ml-2">{formatNumberUS(Number(Channel.videoCount))}</span></div>
-              <div className="flex items-center"><PreviewIcon className="h-5 w-5 text-black-500" /> <span className="ml-2">{formatNumberUS(Number(Channel.viewCount))}</span></div>
-              <div className="flex items-center">
-                <FcLineChart className="h-6 w-6 text-red-500" />
-                <span className="ml-2">{Number(Channel.week_subscriberCount_percentageincrease).toFixed(2)}%</span>
-              </div>
-              {/* <div className="flex items-center">
-                <FcAreaChart className="h-5 w-5 text-gray-700" />
-                <span className="ml-2">{formatNumberUS(Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount))}</span>
-              </div>
-              <div className="flex items-center">
-                {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) > 0 && <FcBullish className="h-6 w-6" />}
-                {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) < 0 && <FcBearish className="h-6 w-6" />}
-                {Number(Channel.subscriberCount) - Number(Channel.previous_subscriberCount) === 0 && <FcNeutralTrading className="h-6 w-6" />}
-              </div> */}
+            <div>
+              <div className="flex items-center justify-center mt-2"> <span className="mt-2 text-xs whitespace-nowrap"  > 구독자 :{formatNumber(Number(Channel.subscriberCount))}명</span></div>
+              <div className="flex items-center justify-center mt-2"> <span className="mt-2  text-xs whitespace-nowrap"> 조회수 : {formatNumber(Number(Channel.viewCount))}회</span></div>
+              <div className="flex items-center justify-centermt-2">
+                <span className="mt-2 text-xs whitespace-nowrap"> 전일 대비 : <span style={{
+                      color: Number(Channel.week_subscriberCount_percentageincrease) > 0
+                        ? "blue"
+                        : Number(Channel.week_subscriberCount_percentageincrease) < 0
+                          ? "red"
+                          : "grey"
+                    }}>
+                      {Number(Channel.week_subscriberCount_percentageincrease).toFixed(2)}%
+                    </span></span>
+              </div> 
+          
             </div>
-            <Button variant="outline" className="w-full mt-4" onClick={() => {LocationHandler(Channel.Channel_Id)}}>View Channel</Button>
+            <Button variant="outline" className="w-full mt-4"  onClick={() => {LocationHandler(Channel.Channel_Id)}} style={{fontSize:"0.75rem"}}>채널 상세</Button>
           </div>
         ))}
       </div>
