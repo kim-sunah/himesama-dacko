@@ -6,27 +6,34 @@ import Getmethod from "../../../http/Get_method";
 import { Comment } from "../../../enum/Comment";
 import CommentText from "./CommentText";
 
+
+
+interface RouterError {
+    status: number;
+    message: string;
+  }
+
 export default function Comments() {
     const location = useLocation();
     const [comment, setComment] = useState<Comment[] | null>([]);
-    const [error, setError] = useState<boolean>(false);
+    const [commentError, setcommentError] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log(location.pathname.split("/")[2]);
+          
             try {
                 const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=${location.pathname.split("/")[2]}&key=${process.env.REACT_APP_Youtube_API}`);
                 setComment(response.items);
-                setError(false);
+                setcommentError(false);
             } catch (error) {
-                console.error("Error fetching comments:", error);
-                setError(true);
+                
+                setcommentError(true);
             }
         };
         fetchData();
     }, [location.pathname]);
 
-    if (error) {
+    if (commentError) {
         return <div className="text-black mt-4 " style={{textAlign:"center"}}>댓글이 사용 중지 되었습니다</div>;
     }
 

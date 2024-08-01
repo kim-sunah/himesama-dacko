@@ -7,8 +7,13 @@ import { BsCameraVideo } from "react-icons/bs";
 import { BiLike } from "react-icons/bi";
 import { VideoStatistic } from "../../enum/Video_Statistics";
 import { formatNumberUS } from "../../function/formatNumberUS";
+import ErrorPage from "../error/Error";
 
 
+interface RouterError {
+  status: number;
+  message: string;
+}
 
 
 export default function PopularVideo() {
@@ -16,6 +21,7 @@ export default function PopularVideo() {
   const { ChannelId } = useParams();
   const [VideosStatistics, setVideosStatistics] = useState<VideoStatistic[]>([]);
   const navigate = useNavigate();
+  const [error, setError] = useState<RouterError | null>(null);
 
 
 
@@ -39,15 +45,30 @@ export default function PopularVideo() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=viewCount&type=video&key=${process.env.REACT_APP_Youtube_API}`)
-      setPopularVideos(response.items);
-      for (const VideoId of response.items) {
-        await Youtubevideostatistics(VideoId.id.videoId)
+      try{
+        const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=viewCount&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+        setPopularVideos(response.items);
+        for (const VideoId of response.items) {
+          await Youtubevideostatistics(VideoId.id.videoId)
+        }
       }
+      catch(error){
+        setError({
+            message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+            status: 400,
+          });
+
+    }
+     
 
     }
     fetchData()
   }, [ChannelId])
+
+  if (error) {
+    return <ErrorPage error={error} />;
+  }
+  
 
 
 

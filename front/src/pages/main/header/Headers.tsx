@@ -31,13 +31,13 @@ export default function Headers() {
         }
     }
     return (
-        <div className="bg-gray-100 py-10 px-6 md:px-10">
+        <div className="bg-gray-100 py-10 px-6 md:px-10" >
             <div className="header max-w-6xl mx-auto md:grid md:grid-cols-4 md:gap-4 mb-5 lg:grid lg:grid-cols-4 lg:gap-6 lg:justify-center">
                 <CardActionArea>
                     <Link className="text-black" to="/Ranking?today">
                         <Card className="col-span-1 bg-white shadow-xl rounded-lg p-4 flex flex-col items-center space-y-3 hover:bg-blue-50 transition-all sm:p-6 md:p-8 min-h-[125px]">
                             <EmojiEventsIcon className="text-yellow-300 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14" fontSize="large" />
-                            <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">순위</h3>
+                            <h3 className="font-semibold text-lg text-gray-800 sm:text-xl md:text-2xl whitespace-nowrap">순위(수정중)</h3>
 
                         </Card>
                     </Link>

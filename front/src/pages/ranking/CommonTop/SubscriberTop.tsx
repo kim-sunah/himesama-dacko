@@ -41,12 +41,12 @@ export default function SubscriberTop() {
 
   return (
     <main className="p-6 md:p-10">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-2">
-        <div className="grid gap-6 w-full">
-          <div className="five sm:block  md:flex justify-between items-center">
-            <span className=" text-xs  whitespace-nowrap">구독자  상위</span>
-            <Button  variant="outline" onClick={detailhandler}>자세히 보기</Button>
-          </div>
+    <div className="flex flex-col md:flex-row justify-between items-center gap-2">
+      <div className="grid gap-6 w-full">
+        <div className="five sm:block md:flex justify-between items-center">
+          <span className=" text-xs whitespace-nowrap">구독자 상위</span>
+          <Button  variant="outline" onClick={detailhandler}>자세히 보기</Button>
+        </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Top.map(Channel => (
               <div key={Channel.Channel_Id} className="bg-card p-4 rounded-lg flex flex-col h-full">

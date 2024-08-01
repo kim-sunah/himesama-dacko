@@ -81,7 +81,7 @@ export default function IntroductionWebsite() {
                     </div>
                 </div>
             </main>
-          <Footer></Footer>
+          
         </div>
     )
 }

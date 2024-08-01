@@ -6,14 +6,25 @@ import { Youtube_Video } from "../../../enum/Youtbe_video";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Getmethod from "../../../http/Get_method";
 import TimeAgo from 'react-timeago';
-import { VideoStatistic } from "../../../enum/Video_Statistics";
+
 import { YouTubeSearchResult } from "../../../enum/Search_Item_Interface";
 import Postmethod from "../../../http/Post_method";
 import Comment from "./Comment";
+import classes from "../../../styles/Comment_Button.module.css"
+import { AiFillCaretRight } from "react-icons/ai";
+import { AiFillCaretDown } from "react-icons/ai";
+import { useMediaQuery } from 'react-responsive';
+import ErrorPage from "../../error/Error";
 
 
-
+interface RouterError {
+    status: number;
+    message: string;
+  }
+  
 export default function Video() {
+
+    const isMobile = useMediaQuery({ maxWidth: 767 });
     const location = useLocation();
     const [video, setVideo] = useState<Youtube_Video | null>(null);
     const [recommandVideo, setrecommandVideo] = useState<YouTubeSearchResult[]>([]);
@@ -25,6 +36,9 @@ export default function Video() {
     const [channelImg, setchannelImg] = useState();
     const [subscriberCount, setsubscriberCount] = useState()
     const { ChannelId } = useParams();
+    const [commentButton, setcommentButton] = useState(false);
+    const [error, setError] = useState<RouterError | null>(null);
+
 
     const navigate = useNavigate()
 
@@ -73,17 +87,36 @@ export default function Video() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${location.pathname.split("/")[2]}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+            try{
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${location.pathname.split("/")[2]}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+                setVideo(response.items[0])
+            }
+            catch(error){
+                setError({
+                    message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+                    status: 400,
+                  });
 
-            setVideo(response.items[0])
+            }
+     
         }
         fetchData()
     }, [location.pathname.split("/")[2]])
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=25&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+            try{
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=25&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+                setRecentVideos(response.items);
 
-            setRecentVideos(response.items);
+            }
+            catch(error){
+                setError({
+                    message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+                    status: 400,
+                  });
+
+            }
+           
         }
         fetchData()
 
@@ -91,10 +124,20 @@ export default function Video() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+            try{
+                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+                setsubscriberCount(response.items[0].statistics.subscriberCount);
+                setchannelImg(response.items[0].snippet.thumbnails.high.url);
 
-            setsubscriberCount(response.items[0].statistics.subscriberCount);
-            setchannelImg(response.items[0].snippet.thumbnails.high.url);
+            }
+            catch(error){
+                setError({
+                    message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+                    status: 400,
+                  });
+
+            }
+       
         }
         fetchData()
 
@@ -116,9 +159,13 @@ export default function Video() {
         setrelationloading(true)
 
     }
+    if (error) {
+        return <ErrorPage error={error} />;
+      }
+      
     return (
-        <div className="flex flex-col items-center w-full min-h-screen bg-white text-black">
-            <div className="flex w-full max-w-5xl mt-4">
+        <div className="flex flex-col sm:block md:flex items-center w-full min-h-screen bg-white text-black">
+            <div className="flex flex-col md:flex-row w-full max-w-5xl mt-4">
                 <div className="flex flex-col w-full">
                     <div className="relative w-full h-0 pb-[56.25%]">
                         <iframe
@@ -137,7 +184,7 @@ export default function Video() {
                                 <AvatarFallback>AV</AvatarFallback>
                             </Avatar>
 
-                            <div onClick={()=> {navigate(`/${ChannelId}`)}}>
+                            <div onClick={() => { navigate(`/${ChannelId}`) }}>
                                 <h2 className="text-lg font-bold">{video?.snippet.channelTitle}</h2>
                                 <p className="text-sm text-gray-400 mt-2">구독자 {convertToKorean(Number(subscriberCount))}</p>
                                 <div className="mt-2">
@@ -153,18 +200,31 @@ export default function Video() {
                                 </div>
                             </div>
                         </div>
-                 
+
                     </div>
                     <hr></hr>
-                    <div className="mt-2 ml-2">
-                                    <p className="text-gray-400">
-                                        댓글
-                                    </p>
-                                </div>
-                    <Comment></Comment>
+                    {isMobile ? (<div>
+                        <div className="mt-2 ml-2">
+                            <p className="flex text-gray-400">
+                                댓글
+                                {!commentButton && <AiFillCaretRight className={classes.mobileOnlyButton} onClick={() => { setcommentButton(true) }}></AiFillCaretRight>}
+                                {commentButton && <AiFillCaretDown className={classes.mobileOnlyButton} onClick={() => { setcommentButton(false) }}></AiFillCaretDown>}
+                            </p>
+                        </div>
+                        {commentButton && <Comment></Comment>}
+                    </div>) : <div>
+                        <div className="mt-2 ml-2">
+                            <p className="flex text-gray-400">
+                                댓글
+                            </p>
+                        </div>
+                        <Comment></Comment>
+                    </div>}
+
+
 
                 </div>
-                <div className="flex flex-col w-1/3 ml-10">
+                <div className="flex flex-col w-1/3 md:ml-10 mt-6">
                     <div className="flex items-center  mb-4 gap-6">
                         <Button
                             variant="outline"
@@ -198,7 +258,7 @@ export default function Video() {
                             관련 영상
                         </Button>}
                     </div>
-                    {channelButton && <div className="space-y-4">
+                    {channelButton && <div className="space-y-4 ">
                         {RecentVideos && RecentVideos.map((video, index) => (
                             <div key={index} className="flex space-x-4" onClick={() => { navigate(`/${ChannelId}/${video.id.videoId}`); window.scrollTo(0, 0); }}>
                                 <img src={`${video.snippet.thumbnails.high.url}`} alt="Thumbnail" className="w-34 h-24 object-cover" />
@@ -211,7 +271,7 @@ export default function Video() {
                         ))}
 
                     </div>}
-                   
+
                     {recommandButton && <div className="space-y-4">
                         {recommandVideo && recommandVideo.map((video, index) => (
                             <div key={index} className="flex space-x-4" onClick={() => { navigate(`/${ChannelId}/${video.id.videoId}`); window.scrollTo(0, 0); }}>
@@ -223,10 +283,10 @@ export default function Video() {
                             </div>
 
                         ))}
-                    {recommandButton && recommandVideo.length === 0  &&  recommandloading && <p> 적합한 추천영상이 없습니다</p>}
+                        {recommandButton && recommandVideo.length === 0 && recommandloading && <p> 적합한 추천영상이 없습니다</p>}
 
                     </div>}
-                  
+
                     {relationButton && <div className="space-y-4">
                         {relationVideo && relationVideo.map((video, index) => (
                             <div key={index} className="flex space-x-4" onClick={() => { navigate(`/${ChannelId}/${video.id.videoId}`); window.scrollTo(0, 0); }}>
@@ -238,7 +298,7 @@ export default function Video() {
                             </div>
 
                         ))}
-                    {relationButton && relationVideo.length === 0  &&  relationloading && <p> 적합한 관련영상이 없습니다</p>}
+                        {relationButton && relationVideo.length === 0 && relationloading && <p> 적합한 관련영상이 없습니다</p>}
 
                     </div>}
 

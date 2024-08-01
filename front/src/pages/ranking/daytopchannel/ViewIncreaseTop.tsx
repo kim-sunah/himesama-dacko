@@ -53,7 +53,7 @@ export default function ViewIncreaseTop() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Top.map(Channel => (
               <div key={Channel.Channel_Id} className="bg-card p-4 rounded-lg flex flex-col h-full">
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-4 ml-2">
                   <img src={Channel.channel_img} alt="Thumbnail" className="w-16 h-16 rounded-full object-cover mr-4" />
                   <h3 className="text-lg font-medium truncate flex-1 max-w-[150px]" title={Channel.Channel_nickname}>
                     {Channel.Channel_nickname}

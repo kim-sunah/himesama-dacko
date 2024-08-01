@@ -13,7 +13,7 @@ export default function Main() {
     return (
 
         <div>
-            <header>
+            <header >
                 <Headers />
                 {/* {ChannelInfo.length > 0 && <Body></Body>} */}
                 {/* <Popularvideo></Popularvideo>
@@ -25,7 +25,7 @@ export default function Main() {
                     <Comment></Comment>
                     {/* 여기에 다른 콘텐츠를 추가할 수 있습니다 */}
                 </div>
-                <Footer></Footer>
+                {/* <Footer></Footer> */}
             </div>
         </div>
     )

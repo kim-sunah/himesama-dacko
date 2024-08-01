@@ -7,6 +7,11 @@ import { BsCameraVideo } from "react-icons/bs";
 import { BiLike } from "react-icons/bi";
 import { VideoStatistic } from "../../enum/Video_Statistics";
 import { formatNumberUS } from "../../function/formatNumberUS";
+import ErrorPage from "../error/Error";
+interface RouterError {
+  status: number;
+  message: string;
+}
 
 export default function RecentUpload() {
 
@@ -14,6 +19,7 @@ export default function RecentUpload() {
   const { ChannelId } = useParams();
   const navigate = useNavigate();
   const [VideosStatistics, setVideosStatistics] = useState<VideoStatistic[]>([]);
+  const [error, setError] = useState<RouterError | null>(null);
 
   const Youtubevideostatistics = async (VideoId: string) => {
     const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${VideoId}&maxResults=5&key=${process.env.REACT_APP_Youtube_API}`)
@@ -29,16 +35,32 @@ export default function RecentUpload() {
   }
   useEffect(() => {
     const fetchData = async () => {
-    
-      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
-      setRecentVideos(response.items);
-      for (const VideoId of response.items) {
-        await Youtubevideostatistics(VideoId.id.videoId)
+      try{
+        const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+        setRecentVideos(response.items);
+        for (const VideoId of response.items) {
+          await Youtubevideostatistics(VideoId.id.videoId)
+        }
+
       }
+      catch(error){
+        setError({
+            message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+            status: 400,
+          });
+
+    }
+    
+     
     }
     fetchData()
 
   }, [ChannelId]);
+
+  if (error) {
+    return <ErrorPage error={error} />;
+  }
+  
 
   return (<section className="mb-8">
     <h2 className="text-2xl font-bold mb-4">Recent Uploads</h2>

@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { json, useParams } from "react-router-dom"
 import Getmethod from "../../http/Get_method";
 import { formatNumberUS } from "../../function/formatNumberUS";
 import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import ViewChart from "../ranking/list/View_chat";
 import styled from "@emotion/styled";
+import { CustomError } from "../../enum/CustomError";
+import ErrorPage from "../error/Error";
+
+interface RouterError {
+  status: number;
+  message: string;
+}
+
 
 export default function Detail() {
   const GridContainer = styled.div`
@@ -23,20 +31,42 @@ export default function Detail() {
   const [ChannelInfo, setChannelInfo] = useState<channeInfo | null>();
   const { ChannelId } = useParams();
   const [ChannelDescription, setChannelDescripthon] = useState<String>();
+  const [error, setError] = useState<RouterError | null>(null);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/${ChannelId}`)
-      setChannelInfo(response);
+      try {
+        const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/${ChannelId}`);
+        setChannelInfo(response);
+      } catch (error) {
+        setError({
+          message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+          status: 400,
+        });
+      }
+  
     }
     fetchData()
   }, [ChannelId]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${ChannelId}&key=${process.env.REACT_APP_Youtube_API}`)
-      setChannelDescripthon(response.items[0].snippet.description)
+      try{
+        const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${ChannelId}&key=${process.env.REACT_APP_Youtube_API}`)
+        setChannelDescripthon(response.items[0].snippet.description)
+      }
+      catch (error) {
+        setError({
+          message: '잘못된 요청입니다. 주소를 확인해 주세요.',
+          status: 40,
+        });
+      }
+     
     }
     fetchData()
   }, [ChannelId]);
+
+  if (error) {
+    return <ErrorPage error={error} />;
+  }
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8 md:py-12">
       <div className="grid md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-start">

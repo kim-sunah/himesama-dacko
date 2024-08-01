@@ -9,13 +9,11 @@ import Comment from "./main/comment/Comment";
 
 export default function Root() {
     const cookies = new Cookies();
-    console.log(cookies.get("START_MODAL"))
     return (
         <div>
             {cookies.get("START_MODAL") === undefined&&  <RootModal></RootModal>}
-           
             <Mainheader></Mainheader>
-      
+
         <main>
             <Outlet></Outlet>
         </main>

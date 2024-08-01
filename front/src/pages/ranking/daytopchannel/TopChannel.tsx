@@ -33,7 +33,7 @@ export default function TopChannel() {
       
       
       </div>
-      <div style={{display:"flex"}}>
+      <div className="grid grid-cols-3 gap-4">
         <div ><SubscriberIncreaseTop /></div>
         <div ><SubscriberIncreaseLow></SubscriberIncreaseLow></div>
         <div ><ViewIncreaseTop /></div>

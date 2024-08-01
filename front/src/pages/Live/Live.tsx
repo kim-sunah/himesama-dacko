@@ -169,7 +169,7 @@ export default function Live() {
         <div className="container mx-auto py-8 block">
             <div className="mb-8">
                 <h2 className="text-3xl font-bold mb-4">Live Trending Now</h2>
-                <div className="grid grid-cols-5 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {livelist.slice(0, 10).map((video, index) => (
                         <div key={index} className="relative group" onClick={() => LiveHandleOpenModal(video)}>
 

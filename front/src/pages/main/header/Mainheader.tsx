@@ -33,78 +33,8 @@ export function Mainheader() {
     setAnchorEl(null);
   };
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 main-header"  >
-      <div className="" >
-        {/* <div className="mt-3">
-          <Link to="#" className="mr-6 hidden lg:flex">
-            <AiOutlineMenu className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
-          </Link>
-          <Sheet>
-            <SheetTrigger asChild>
-              <HeaderButton onClick={ToggleHandler} variant="outline" size="icon" className="lg:hidden">
-                <AiOutlineMenu className="h-6 w-6" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </HeaderButton>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <Link to="#">
-                <AiOutlineMenu />
-                <span className="sr-only">Acme Inc</span>
-              </Link>
-              <div className="grid gap-2 py-6">
-                <Link to="/" className="flex w-full items-center py-2 text-lg font-semibold text-black">
-                  홈
-                </Link>
-                <Link to="#" className="flex w-full items-center py-2 text-lg font-semibold text-black">
-                  About
-                </Link>
-                <Collapsible className="grid gap-4">
-                  <CollapsibleTrigger className="flex w-full items-center text-lg font-semibold [&[data-state=open]>svg]:rotate-90 text-black">
-                    Features
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <div className="-mx-6 grid gap-6 bg-gray-100 p-6 dark:bg-gray-800">
-                      <Link to="#" className="group grid h-auto w-full justify-start gap-1">
-                        <div className="text-sm font-medium leading-none group-hover:underline">Analytics</div>
-                        <div className="line-clamp-2 text-sm leading-snug text-gray-500 dark:text-gray-400">
-                          Upgrade your reporting with advanced analytics.
-                        </div>
-                      </Link>
-                      <Link to="#" className="group grid h-auto w-full justify-start gap-1">
-                        <div className="text-sm font-medium leading-none group-hover:underline">Developer Tools</div>
-                        <div className="line-clamp-2 text-sm leading-snug text-gray-500 dark:text-gray-400">
-                          Extend your application with our developer tools.
-                        </div>
-                      </Link>
-                      <Link to="#" className="group grid h-auto w-full justify-start gap-1">
-                        <div className="text-sm font-medium leading-none group-hover:underline">
-                          Security &amp; Compliance
-                        </div>
-                        <div className="line-clamp-2 text-sm leading-snug text-gray-500 dark:text-gray-400">
-                          Keep your data secure with our security features.
-                        </div>
-                      </Link>
-                      <Link to="#" className="group grid h-auto w-full justify-start gap-1">
-                        <div className="text-sm font-medium leading-none group-hover:underline">Scalability</div>
-                        <div className="line-clamp-2 text-sm leading-snug text-gray-500 dark:text-gray-400">
-                          Scale your application with our infrastructure.
-                        </div>
-                      </Link>
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
-                <Link to="#" className="flex w-full items-center py-2 text-lg font-semibold text-black">
-                  Pricing
-                </Link>
-                <Link to="/Introduction" className="flex w-full items-center py-2 text-lg font-semibold text-black">
-                  홈페이지 소개
-                </Link>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div> */}
-
+    <header className="flex h-20 w-full shrink-0 items-center px-8 md:px-16 main-header" >
+      <div>
         <NavigationMenu className="flex justify-center mt-3 md:flex " >
           <NavigationMenuList >
             <NavigationMenuLink >

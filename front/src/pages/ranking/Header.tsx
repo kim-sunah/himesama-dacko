@@ -12,7 +12,7 @@ export default function Header(){
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6 mt-8 mb-6">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-bold">Rankings</h1>
-            <div className="hidden sm:flex">
+            <div>
               <Tabs defaultValue={location.search ? location.search.substring(1) : "today"}>
                 <TabsList>
                   <TabsTrigger value="today" onClick={() => navigate("?today")}>Today</TabsTrigger>

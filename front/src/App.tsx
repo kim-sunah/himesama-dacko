@@ -64,7 +64,12 @@ function App() {
             { path: "InfluencerFilter", element: <YoutubeConditionInfluencer></YoutubeConditionInfluencer> },
             { path: "VideoFilter", element: <YoutubeConditionVideo></YoutubeConditionVideo> }
           ]
+        },
+        {
+          path: "*",
+          element: <Error />
         }
+  
 
       ]
     }
