@@ -12,5 +12,7 @@ export type channeInfo = {
     viewCount: string;
     week_subscriberCount_percentageincrease:string
     week_viewCount_percentageincrease:string
+    month_subscriberCount_percentageincrease : string
+    month_viewCount_percentageincrease : string
 
   }

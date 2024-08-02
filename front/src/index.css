@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
+
 
 @layer base {
   html {
@@ -15,8 +15,6 @@
   }
 }
 
-@tailwind components;
-@tailwind utilities;
 
 body {
   margin: 0;

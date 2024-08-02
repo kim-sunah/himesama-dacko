@@ -190,10 +190,9 @@ export class RankingService {
     
   }
 
-  async SortSubscriber(sort : string , filter: number, page : number){
+  async SortSubscriber(sort : string , filter: number, page? : number){
     const take = 15;
     const skip = (page - 1) * take;
-    console.log(page, filter)
     if(sort === "subscribers" ){
       if(filter === 0){
         return await this.channelRepository.find({take : take,skip : skip, order : {subscriberCount : "DESC"}})
