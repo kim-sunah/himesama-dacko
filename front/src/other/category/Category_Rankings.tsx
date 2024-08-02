@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Select, Table } from '@chakra-ui/react';
+
 
 import { Link, Outlet } from 'react-router-dom';
 import "./Category.css"

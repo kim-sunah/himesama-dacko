@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, json, useParams } from "react-router-dom";
 import Getmethod from "../../http/Get_method";
 import { BsArrowDown } from "react-icons/bs";
-import { color } from "@chakra-ui/react";
+
 
 interface Channel {
   id: number;
