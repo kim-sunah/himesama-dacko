@@ -5,7 +5,7 @@ import Postmethod from "../../http/Post_method";
 import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import { CgAdd } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillCaretDown } from "react-icons/ai";
 
 
@@ -39,7 +39,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
 
     return (
         <div className="w-full overflow-hidden">
-            <div className="relative w-[683px]"> {/* 고정 너비 설정 */}
+            <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
                 <img
                     src={img}
                     className="w-full h-16 object-cover "
@@ -58,15 +58,15 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                     </Tabs>
                 </div>
             </div>
-            <div className="bg-background border w-[683px]"> {/* 고정 너비 설정 */}
+            <div className="bg-background border w-[525px]"> {/* 고정 너비 설정 */}
                 <table className="w-full table-fixed">
                     <thead className="bg-muted border-b">
                         <tr>
                             <th className="w-1/4 px-4 py-2 text-left text-sm font-medium text-muted-foreground">이름</th>
                             <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수<AiFillCaretDown /></span></th>
-                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수<AiFillCaretDown /></span></th>
+                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수</span></th>
                             <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground">
-                                <span className="flex justify-center"> {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}<AiFillCaretDown /></span>
+                                <span className="flex justify-center"> {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}</span>
 
                             </th>
                         </tr>
@@ -75,10 +75,10 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                         {Channel && Channel.slice(0, 4).map((Channel, index) => (
                             <tr key={index} className="border-b hover:bg-muted/50">
                                 <td className="px-4 py-2 font-medium">
-                                    <div className="flex items-center gap-2">
-                                        <img src={Channel.channel_img} width={50} alt={Channel.Channel_nickname} className="flex-shrink-0" />
-                                        <span className="text-sm truncate">{Channel.Channel_nickname}</span>
-                                    </div>
+                                    <Link  to={`${Channel.Channel_Id}`}className="flex items-center gap-2">
+                                        <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0" />
+                                        <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
+                                    </Link>
                                 </td>
                                 <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.subscriberCount))} </td>
                                 <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.viewCount))}</td>
