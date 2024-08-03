@@ -62,7 +62,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                 <table className="w-full table-fixed">
                     <thead className="bg-muted border-b">
                         <tr>
-                            <th className="w-1/4 px-4  text-left text-sm font-medium text-muted-foreground">이름</th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">이름</th>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수<AiFillCaretDown /></span></th>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수</span></th>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">
