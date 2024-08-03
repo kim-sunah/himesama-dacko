@@ -7,7 +7,7 @@ import Leaderboard from "./Leaderboard";
 export default function Main() {
     return (
       <div>
-        <div> 카테코리 순위 </div>
+        <div className="ml-3"> 카테코리 순위 </div>
         <div className="grid grid-cols-3  lg:grid-cols-3 gap-6 ">
         
          <Leaderboard title={"1|애니메이션영화"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/socalguitarist_8300729ad8a3c13c665a47677d9e2427_image.png"}></Leaderboard>

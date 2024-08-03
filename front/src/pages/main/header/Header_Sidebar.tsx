@@ -32,7 +32,7 @@ export default function Header_SideBar() {
     return (
 
         <div className="flex min-h-screen w-full">
-            <aside className="bg-background border-r px-10 py-10 hidden md:flex flex-col gap-4 w-60">
+            <aside className="bg-background border-r px-6 py-6 hidden md:flex flex-col gap-4 w-44">
                 <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-black">
                     {/* <LogInIcon className="w-6 h-6 text-primary" /> */}
                     <span className="whitespace-nowrap ">메인메뉴</span>

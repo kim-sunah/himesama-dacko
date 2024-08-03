@@ -39,7 +39,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
 
 
     return (
-        <div className="w-full overflow-hidden">
+        <div className="w-full overflow-hidden ml-3">
             <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
                 <img
                     src={img}
@@ -47,7 +47,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                     alt="Leaderboard background"
                 />
                 <div className="absolute inset-0 flex items-center justify-between px-4">
-                    <h1 className="text-2xl font-bold text-white">
+                    <h1 className="text-sm font-bold text-white">
                         {title.split("|")[1]}
                     </h1>
                     <Tabs defaultValue="today">
@@ -81,8 +81,8 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                                         <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
                                     </Link>
                                 </td>
-                                <td className="px-4 text-center font-medium">{formatNumber(Number(Channel.subscriberCount))} </td>
-                                <td className="px-4  text-center font-medium">{formatNumber(Number(Channel.viewCount))}</td>
+                                <td className="px-4 text-center text-muted-foreground">{formatNumber(Number(Channel.subscriberCount))} </td>
+                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.viewCount))}</td>
                                 <td
                                     className="px-4  text-center text-muted-foreground"
                                     style={{
