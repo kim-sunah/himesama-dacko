@@ -14,31 +14,44 @@ import { AiFillVideoCamera } from "react-icons/ai";
 import SubcriberChart from "./list/Subcriber_chart"
 import ViewChart from "./list/View_chat"
 import { formatNumber } from "../../function/formatNumber"
+import { Filter } from "../../function/catetoryfilter"
 
 
 export default function RankingList() {
+  const location = useLocation();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [sortOrder, setSortOrder] = useState("desc")
-  const [filterCategory, setFilterCategory] = useState("0|All")
+  const [filterCategory, setFilterCategory] = useState(location.pathname.split("/")[3])
   const [Channel, setChannel] = useState<channeInfo[]>([]);
   const [page , setpage] = useState(1);
-  const location = useLocation();
 
 
+  console.log(location)
+  console.log(filterCategory)
   const [sortBy, setSortBy] = useState(location.pathname.split("/")[2])
   const navigate = useNavigate()
   useEffect(() => {
-    navigate(`/Ranking/${sortBy.split("|")[0]}/${filterCategory.split("|")[0]}`)
+    
     setpage(1);
     const fetchData = async () => {
-      const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory.split("|")[0] , page : page })
+      let response;
+      if(filterCategory.includes("|")){
+         response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory , page : page })
+       
+      }
+      else{
+         response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory , page : page })
+        
+      
+      }
       if (sortOrder === "asc") {
         setChannel([...response].reverse());
       }
       else if (sortOrder === "desc") {
         setChannel(response)
       }
+     
      
     }
     fetchData()
@@ -56,15 +69,19 @@ export default function RankingList() {
 
   const [lastChannel, setLastChannel] = useState<HTMLDivElement | null>(null);
   const ScorllData = async () => {
+   
+      const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter:filterCategory , page : page+1 })
+      if (sortOrder === "asc") {
+        setChannel(preventDefault => { return [...preventDefault, ...[...response].reverse()];});
+      }
+      else if (sortOrder === "desc") {
+        setChannel(preventDefault => { return [...preventDefault, ...response];});
+      }
+      setpage(page+1);
     
-    const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter: filterCategory.split("|")[0] , page : page+1 })
-    if (sortOrder === "asc") {
-      setChannel(preventDefault => { return [...preventDefault, ...[...response].reverse()];});
-    }
-    else if (sortOrder === "desc") {
-      setChannel(preventDefault => { return [...preventDefault, ...response];});
-    }
-    setpage(page+1);
+
+ 
+  
   }
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -124,42 +141,42 @@ export default function RankingList() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline">
-            Filter by: {filterCategory === "0" ? "All" : filterCategory.split("|")[1]}
+            Filter by: {Filter(Number(filterCategory))}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-96 grid grid-cols-2 gap-1 p-2">
           <DropdownMenuRadioGroup value={filterCategory} onValueChange={setFilterCategory} className="contents">
-            <DropdownMenuRadioItem value="0|All">All</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="1|영화 & 애니메이션">영화 & 애니메이션</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="2|자동차 및 차량">자동차 및 차량</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="10|음악">음악</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="15|애완동물">애완동물</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="17|운동">운동</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="18|짧은 영화">짧은 영화</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="19|여행 및 이벤트">여행 및 이벤트</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="20|게임">게임</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="21|비디오블로깅">비디오블로깅</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="22|피플 & 블로그">피플 & 블로그</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="23|코미디">코미디</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="24|오락">오락</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="25|뉴스">뉴스</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="26|스타일">스타일</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="27|교육">교육</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="28|과학">과학</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="30|영화">영화</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="31|애니">애니</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="32|액션 및 모험">액션 및 모험</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="33|클래식">클래식</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="35|다큐멘터리">다큐멘터리</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="36|드라마">드라마</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="37|가족">가족</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="38|외국인">외국인</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="39|공포">공포</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="40|공상과학/판타지">공상과학/판타지</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="41|스릴러">스릴러</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="42|숏츠">숏츠</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="43|쇼">쇼</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="44|트레일러">트레일러</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="0">All</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="1">애니메이션 영화</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="2">자동차</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="10">음악</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="15">애완동물</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="17">운동</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="18">짧은 영화</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="19 ">여행 </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="20">게임</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="21">비디오블로깅</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="22">피플 & 블로그</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="23">코미디</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="24">오락</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="25">뉴스</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="26">스타일</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="27">교육</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="28">과학</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="30">영화</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="31">애니</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="32">액</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="33">클래식</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="35">다큐멘터리</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="36">드라마</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="37">가족</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="38">외국인</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="39">공포</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="40">공상과학/판타지</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="41">스릴러</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="42">숏츠</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="43">쇼</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="44">트레일러</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
