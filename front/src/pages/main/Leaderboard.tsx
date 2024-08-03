@@ -75,7 +75,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                     <tbody>
                         {Channel && Channel.slice(0, 4).map((Channel, index) => (
                             <tr key={index} className="border-b hover:bg-muted/50">
-                                <td className="px-4  font-medium">
+                                <td className="font-medium">
                                     <Link  to={`${Channel.Channel_Id}`}className="flex items-center gap-2">
                                         <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0" />
                                         <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
