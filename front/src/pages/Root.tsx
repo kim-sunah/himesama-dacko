@@ -12,8 +12,6 @@ export default function Root() {
     return (
         <div>
             {cookies.get("START_MODAL") === undefined&&  <RootModal></RootModal>}
-          
-
         <main>
             <Outlet></Outlet>
         </main>

@@ -22,13 +22,14 @@ import ChannelRoot from './pages/channel_detail/ChannelRoot';
 import RankingList from "./pages/ranking/RankingList";
 import { CookiesProvider } from "react-cookie";
 import Channel_Datail_Video_Root from "./pages/channel_detail/video/Root";
+import Header_SideBar from "./pages/main/header/Header_Sidebar";
 
 
 function App() {
   const router = createBrowserRouter([
 
     {
-      path: "", element: <Root></Root>, errorElement: <Error></Error>, children: [
+      path: "", element: <Header_SideBar></Header_SideBar>, errorElement: <Error></Error>, children: [
         { index: true, element: <Main></Main> },
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },

@@ -4,18 +4,22 @@ import { Tabs, TabsList, TabsTrigger } from "../../component/v0/tabs";
 import Postmethod from "../../http/Post_method";
 import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
+import { CgAdd } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
+import { AiFillCaretDown } from "react-icons/ai";
 
 
 interface LeaderboardProps {
     title: string;
-    img : string;
+    img: string;
 }
 
 
 
-export default function Leaderboard({ title ,img }: LeaderboardProps) {
+export default function Leaderboard({ title, img }: LeaderboardProps) {
     const [Channel, setChannel] = useState<channeInfo[]>([]);
     const [Tab, setTab] = useState("today");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,7 +46,7 @@ export default function Leaderboard({ title ,img }: LeaderboardProps) {
                     alt="Leaderboard background"
                 />
                 <div className="absolute inset-0 flex items-center justify-between px-4">
-                    <h1 className="text-2xl font-bold text-black">
+                    <h1 className="text-2xl font-bold text-white">
                         {title.split("|")[1]}
                     </h1>
                     <Tabs defaultValue="today">
@@ -59,10 +63,11 @@ export default function Leaderboard({ title ,img }: LeaderboardProps) {
                     <thead className="bg-muted border-b">
                         <tr>
                             <th className="w-1/4 px-4 py-2 text-left text-sm font-medium text-muted-foreground">이름</th>
-                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground">구독수</th>
-                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground">조회수</th>
+                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수<AiFillCaretDown /></span></th>
+                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수<AiFillCaretDown /></span></th>
                             <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground">
-                                {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}
+                                <span className="flex justify-center"> {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}<AiFillCaretDown /></span>
+
                             </th>
                         </tr>
                     </thead>
@@ -75,7 +80,7 @@ export default function Leaderboard({ title ,img }: LeaderboardProps) {
                                         <span className="text-sm truncate">{Channel.Channel_nickname}</span>
                                     </div>
                                 </td>
-                                <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.subscriberCount))}</td>
+                                <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.subscriberCount))} </td>
                                 <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.viewCount))}</td>
                                 <td
                                     className="px-4 py-2 text-center text-muted-foreground"
@@ -107,6 +112,12 @@ export default function Leaderboard({ title ,img }: LeaderboardProps) {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="border w-full w-[683px] h-14 flex justify-center items-center">
+                <div className="flex items-center" onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
+                    <span>더보기</span>
+                    <CgAdd size={20} ></CgAdd>
+                </div>
             </div>
         </div>
     )
