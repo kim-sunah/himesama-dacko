@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { Input } from "../../../component/v0/input"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../component/v0/avatar"
+
 
 import { FormEvent, useRef } from "react";
 import Image from "../../../assets/icon.png"
