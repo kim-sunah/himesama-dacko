@@ -62,10 +62,10 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                 <table className="w-full table-fixed">
                     <thead className="bg-muted border-b">
                         <tr>
-                            <th className="w-1/4 px-4 py-2 text-left text-sm font-medium text-muted-foreground">이름</th>
-                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수<AiFillCaretDown /></span></th>
-                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수</span></th>
-                            <th className="w-1/4 px-4 py-2 text-center text-sm font-medium text-muted-foreground">
+                            <th className="w-1/4 px-4  text-left text-sm font-medium text-muted-foreground">이름</th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수<AiFillCaretDown /></span></th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수</span></th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">
                                 <span className="flex justify-center"> {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}</span>
 
                             </th>
@@ -74,16 +74,16 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                     <tbody>
                         {Channel && Channel.slice(0, 4).map((Channel, index) => (
                             <tr key={index} className="border-b hover:bg-muted/50">
-                                <td className="px-4 py-2 font-medium">
+                                <td className="px-4  font-medium">
                                     <Link  to={`${Channel.Channel_Id}`}className="flex items-center gap-2">
                                         <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0" />
                                         <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
                                     </Link>
                                 </td>
-                                <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.subscriberCount))} </td>
-                                <td className="px-4 py-2 text-center font-medium">{formatNumber(Number(Channel.viewCount))}</td>
+                                <td className="px-4 text-center font-medium">{formatNumber(Number(Channel.subscriberCount))} </td>
+                                <td className="px-4  text-center font-medium">{formatNumber(Number(Channel.viewCount))}</td>
                                 <td
-                                    className="px-4 py-2 text-center text-muted-foreground"
+                                    className="px-4  text-center text-muted-foreground"
                                     style={{
                                         color: (() => {
                                             let value;
