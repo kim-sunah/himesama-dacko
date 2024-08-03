@@ -191,7 +191,10 @@ export class RankingService {
   }
 
   async SortSubscriber(sort : string , filter: number, page? : number){
-    const take = 15;
+    const take =15
+    
+
+ 
     const skip = (page - 1) * take;
     if(sort === "subscribers" ){
       if(filter === 0){

@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import Main from './pages/main/Main';
+import Main, {mainLoader} from './pages/main/Main';
 import Root from './pages/Root';
 import CategoryRankings from './other/category/Category_Rankings';
 import CategoryRankingsList from './other/category/Category_RankingList';
@@ -30,7 +30,7 @@ function App() {
 
     {
       path: "", element: <Header_SideBar></Header_SideBar>, errorElement: <Error></Error>, children: [
-        { index: true, element: <Main></Main> },
+        { index: true, element: <Main></Main> , loader : mainLoader},
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },
         { path :":ChannelId" ,children:[

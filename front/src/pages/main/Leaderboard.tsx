@@ -14,41 +14,50 @@ interface LeaderboardProps {
     img: string;
 }
 
+interface LeaderboardProps {
+    title: string;
+    img: string;
+    rankings?: channeInfo[]; // rankings를 선택적 prop으로 추가
+}
+interface LoaderData {
+    rankingData: LeaderboardProps[];
+}
 
 
-export default function Leaderboard({ title, img }: LeaderboardProps) {
+
+
+
+export default function Leaderboard({ title, img, rankings }: LeaderboardProps) {
     const [Channel, setChannel] = useState<channeInfo[]>([]);
     const [Tab, setTab] = useState("today");
-    
+    console.log(rankings)
+ 
+
+
+
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: "subscribers", filter: title.split("|")[0], page: 1 })
-            setChannel(response)
-        }
-        fetchData()
-    }, [])
-
-
-    if (Channel.length === 0) {
-        return null
-    }
-
-
-
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: "subscribers", filter: title.split("|")[0], page: 1 })
+    //         setChannel(response)
+    //     }
+    //     fetchData()
+    // }, [])
+  
 
     return (
-        <div className="w-full overflow-hidden ml-3">
-            <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
+     
+        <div className="w-full overflow-hidden mb-3">
+               <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
                 <img
                     src={img}
                     className="w-full h-10 object-cover "
                     alt="Leaderboard background"
                 />
-                <div className="absolute inset-0 flex items-center justify-between px-4">
+                <div className="absolute inset-0 flex items-center justify-between px-4 mt-2">
                     <h1 className="text-sm font-bold text-white">
-                        {title.split("|")[1]}
+                        {title}
                     </h1>
                     <Tabs defaultValue="today">
                         <TabsList>
@@ -73,10 +82,10 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                         </tr>
                     </thead>
                     <tbody>
-                        {Channel && Channel.slice(0, 4).map((Channel, index) => (
+                        {rankings && rankings.slice(0, 4).map((Channel, index) => (
                             <tr key={index} className="border-b hover:bg-muted/50">
                                 <td className="font-medium">
-                                    <Link  to={`${Channel.Channel_Id}`}className="flex items-center gap-2">
+                                    <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
                                         <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0" />
                                         <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
                                     </Link>
@@ -114,14 +123,17 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                     </tbody>
                 </table>
             </div>
+        
+        
+         
             <div className="border w-[525px]  h-10 flex justify-center items-center">
                 <div className="flex items-center" onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
                     <span>더보기</span>
                     <CgAdd size={20} ></CgAdd>
                 </div>
-            </div>
-        </div>
-    )
+            </div> 
+        </div> 
+     )
 }
 
 
