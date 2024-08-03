@@ -1,7 +1,6 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../../component/v0/tabs";
-import Postmethod from "../../http/Post_method";
 import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import { CgAdd } from "react-icons/cg";
@@ -19,33 +18,11 @@ interface LeaderboardProps {
     img: string;
     rankings?: channeInfo[]; // rankings를 선택적 prop으로 추가
 }
-interface LoaderData {
-    rankingData: LeaderboardProps[];
-}
-
-
-
-
 
 export default function Leaderboard({ title, img, rankings }: LeaderboardProps) {
     const [Channel, setChannel] = useState<channeInfo[]>([]);
     const [Tab, setTab] = useState("today");
-    console.log(rankings)
- 
-
-
-
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: "subscribers", filter: title.split("|")[0], page: 1 })
-    //         setChannel(response)
-    //     }
-    //     fetchData()
-    // }, [])
-  
-
     return (
      
         <div className="w-full overflow-hidden mb-3">
@@ -123,9 +100,6 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </tbody>
                 </table>
             </div>
-        
-        
-         
             <div className="border w-[525px]  h-10 flex justify-center items-center">
                 <div className="flex items-center" onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
                     <span>더보기</span>

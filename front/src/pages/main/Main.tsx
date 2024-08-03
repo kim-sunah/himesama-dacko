@@ -8,48 +8,27 @@ import Leaderboard from "./Leaderboard";
 interface RankingItem {
   title: string;
   img: string;
-  rankings: channeInfo[]; // 또는 더 구체적인 타입
+  rankings: channeInfo[]; 
 }
 interface LoaderData {
   filteredRankingData: RankingItem[];
 }
-
-
 export default function Main() {
   const data = useLoaderData() as LoaderData;
   const { filteredRankingData } = data;
-
-
-  
-
-
- 
-    return (
-      <div>
-        <div className="ml-3"> 카테코리 순위 </div>
-        <div className="grid grid-cols-3  lg:grid-cols-3 ">
-        {filteredRankingData && filteredRankingData.map((channel ,index) =>(
+  return (
+    <div>
+      <div className="ml-3"> 카테코리 순위 </div>
+      <div className="grid grid-cols-3  lg:grid-cols-3 ">
+        {filteredRankingData && filteredRankingData.map((channel, index) => (
           <Leaderboard key={index} img={channel.img} title={channel.title.split("|")[1]} rankings={channel.rankings}></Leaderboard>
         ))}
- 
         <div>
-      
-    
-    </div>
-
-    
-        
-         
- 
-        
-        
-        
-          </div>
         </div>
-    )
+      </div>
+    </div>
+  )
 }
-
-
 export async function mainLoader() {
   const leaderboardData = [
     { title: "1|애니메이션영화", img: "https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/socalguitarist_8300729ad8a3c13c665a47677d9e2427_image.png" },
@@ -84,14 +63,14 @@ export async function mainLoader() {
       filter: filter,
       page: 1,
     });
-  
+
     if (response && response.length > 0) {
       return { ...item, rankings: response };
     } else {
       return null; // 응답이 비어있거나 유효하지 않은 경우 null 반환
     } // API 응답 데이터를 item에 추가
   }));
-  
+
 
   const filteredRankingData = rankingData.filter(item => item !== null);
 
