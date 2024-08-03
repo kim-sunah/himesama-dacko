@@ -5,7 +5,7 @@ import Postmethod from "../../http/Post_method";
 import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import { CgAdd } from "react-icons/cg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { AiFillCaretDown } from "react-icons/ai";
 
 
@@ -19,6 +19,7 @@ interface LeaderboardProps {
 export default function Leaderboard({ title, img }: LeaderboardProps) {
     const [Channel, setChannel] = useState<channeInfo[]>([]);
     const [Tab, setTab] = useState("today");
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,7 +43,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
             <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
                 <img
                     src={img}
-                    className="w-full h-16 object-cover "
+                    className="w-full h-10 object-cover "
                     alt="Leaderboard background"
                 />
                 <div className="absolute inset-0 flex items-center justify-between px-4">
@@ -122,6 +123,9 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
         </div>
     )
 }
+
+
+
 
 
 

@@ -13,7 +13,7 @@ export default function Main() {
          <Leaderboard title={"1|애니메이션영화"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/socalguitarist_8300729ad8a3c13c665a47677d9e2427_image.png"}></Leaderboard>
                     <Leaderboard title={"2|자동차"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/image.png"}></Leaderboard>
                     <Leaderboard title={"10|음악"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/2dff18b474c53b278cd515763ad54e4a_cpvtdgde878c738knqvg_image.png"}></Leaderboard>
-                    <Leaderboard title={"15|애완동물"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/aaceaa672bd4658bb9f39174bfb24c6d_cpsda0le878c73f4rav0_image.png"}></Leaderboard>
+                    <Leaderboard title={"15|애완동물"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/1a8ce568d69255df91c02c359d516d8b_co7doo5e878c738otcl0_image.png"}></Leaderboard>
                     <Leaderboard title={"17|운동"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/cffa7eccdb74dcb60e28af45aa38ef30_cjosqj14msb2hpudpr20_image.png"}></Leaderboard>
                     <Leaderboard title={"19|여행"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/1afa1fa8b7c173d686dc45ee06456715_cq1k10de878c73eba3s0_image.png"}></Leaderboard>
                     <Leaderboard title={"20|게임"} img={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/40f8cb48c0a1772d61ce6992bd6404aa_ck4h1gh4msb1r47qsro0_image.png"}></Leaderboard>
