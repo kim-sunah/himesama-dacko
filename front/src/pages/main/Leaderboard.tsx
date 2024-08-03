@@ -113,7 +113,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
                     </tbody>
                 </table>
             </div>
-            <div className="border w-full w-[683px] h-14 flex justify-center items-center">
+            <div className="border w-full w-[683px] h-10 flex justify-center items-center">
                 <div className="flex items-center" onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
                     <span>더보기</span>
                     <CgAdd size={20} ></CgAdd>
