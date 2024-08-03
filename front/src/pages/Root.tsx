@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import { Mainheader } from "./main/header/Mainheader";
+
 import RootModal from "./RootModal";
 import {Cookies} from 'react-cookie';
-import Comment from "./main/comment/Comment";
+
 
 
 

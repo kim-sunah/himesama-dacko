@@ -23,7 +23,7 @@ export default function Leaderboard({ title, img }: LeaderboardProps) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await Postmethod("http://localhost:4000/ranking/RankingSort", { sort: "subscribers", filter: title.split("|")[0], page: 1 })
+            const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: "subscribers", filter: title.split("|")[0], page: 1 })
             setChannel(response)
         }
         fetchData()

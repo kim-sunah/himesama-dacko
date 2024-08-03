@@ -9,7 +9,7 @@ import VideoListHeader from './pages/seachvideo/header';
 import VideSearchList from './pages/seachvideo/VideosearchList';
 import List from './pages/seachvideo/List';
 import Error from "./pages/error/Error"
-import RankingRoot from './pages/ranking/RankingRoot';
+
 import ConditionRoot from './pages/condition/db/ConditionRoot';
 import ConditionInfluencerFilterBody from './pages/condition/db/Condition_InfluencerFilter_body';
 import ConditionVideoFilterBody from './pages/condition/db/Condition_VideoFilter_body';
@@ -39,7 +39,6 @@ function App() {
         ]},
         {
           path: "Ranking", children: [
-            { index: true, element: <RankingRoot></RankingRoot> },
             { path: ":sort/:filter", element: <RankingList></RankingList> },
           ]
         },
