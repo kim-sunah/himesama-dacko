@@ -47,4 +47,5 @@ export declare class UpdateService {
     private updateChannelData;
     private getApiUrl;
     private calculateNewData;
+    Clickreset(): Promise<void>;
 }

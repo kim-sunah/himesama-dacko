@@ -43,6 +43,13 @@ let ChannellistController = class ChannellistController {
     Live_Popular_CreateApi(ChannelId, categoryid, videoid) {
         return this.channellistService.Live_Popular_CreateApi(ChannelId, +categoryid, videoid);
     }
+    incrementChannelClicks(ChannelId) {
+        return this.channellistService.incrementChannelClicks(ChannelId);
+    }
+    GetTopClickedChannel() {
+        console.log("HELLO");
+        return this.channellistService.GetTopClickedChannel();
+    }
 };
 exports.ChannellistController = ChannellistController;
 __decorate([
@@ -97,6 +104,19 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", void 0)
 ], ChannellistController.prototype, "Live_Popular_CreateApi", null);
+__decorate([
+    (0, common_1.Post)("incrementChannelClicks"),
+    __param(0, (0, common_1.Body)("ChannelId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ChannellistController.prototype, "incrementChannelClicks", null);
+__decorate([
+    (0, common_1.Get)("click/GetTopClickedChannel"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ChannellistController.prototype, "GetTopClickedChannel", null);
 exports.ChannellistController = ChannellistController = __decorate([
     (0, common_1.Controller)('channellist'),
     __metadata("design:paramtypes", [channellist_service_1.ChannellistService])

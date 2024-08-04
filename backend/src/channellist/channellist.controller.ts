@@ -49,7 +49,21 @@ export class ChannellistController {
   Live_Popular_CreateApi(@Body("ChannelId") ChannelId: string , @Body("categoryid") categoryid : string , @Body("videoid") videoid: string) {
    return this.channellistService.Live_Popular_CreateApi(ChannelId , +categoryid, videoid);
   }
-  
+
+  //클릭한 채널 카운트 중가
+  @Post("incrementChannelClicks")
+  incrementChannelClicks(@Body("ChannelId") ChannelId : string){
+ 
+    return this.channellistService.incrementChannelClicks(ChannelId);
+  }
+
+  //클릭 가장 많은 채널 1개 가져오기
+  @Get("click/GetTopClickedChannel")
+  GetTopClickedChannel(){
+    console.log("HELLO")
+    return this.channellistService.GetTopClickedChannel();
+  }
+
 
   
 }

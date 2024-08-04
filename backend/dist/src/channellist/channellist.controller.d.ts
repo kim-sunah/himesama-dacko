@@ -95,4 +95,6 @@ export declare class ChannellistController {
         }[];
     }[]>;
     Live_Popular_CreateApi(ChannelId: string, categoryid: string, videoid: string): Promise<import("./entities/channellist.entity").Channellist>;
+    incrementChannelClicks(ChannelId: string): Promise<import("typeorm").UpdateResult>;
+    GetTopClickedChannel(): Promise<import("./entities/channellist.entity").Channellist>;
 }

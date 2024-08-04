@@ -383,6 +383,9 @@ let UpdateService = class UpdateService {
             };
         }
     }
+    async Clickreset() {
+        await this.ChannelListRepository.update({}, { today_click_count: 0 });
+    }
 };
 exports.UpdateService = UpdateService;
 exports.UpdateService = UpdateService = __decorate([

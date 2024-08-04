@@ -23,8 +23,8 @@ export class Channellist {
     @Column()
     categoryid : number
 
-    // @Column({ type: "bigint", nullable: true , default :0})
-    // previous_subscriberCount: number | null;
+    @Column({ nullable: true , default :0})
+    today_click_count: number;
 
     @Column({ type: "float", nullable: true ,default :0})
     subscriberCount_percentageincrease: number | null;

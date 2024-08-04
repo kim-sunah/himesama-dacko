@@ -20,7 +20,7 @@ interface LeaderboardProps {
 }
 
 export default function Leaderboard({ title, img, rankings }: LeaderboardProps) {
-    const [Channel, setChannel] = useState<channeInfo[]>([]);
+
     const [Tab, setTab] = useState("today");
     const navigate = useNavigate();
     return (
@@ -34,7 +34,7 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                 />
                 <div className="absolute inset-0 flex items-center justify-between px-4 mt-2">
                     <h1 className="text-sm font-bold text-white">
-                        {title}
+                        {title.split("|")[1]}
                     </h1>
                     <Tabs defaultValue="today">
                         <TabsList>
@@ -100,12 +100,13 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </tbody>
                 </table>
             </div>
-            <div className="border w-[525px]  h-10 flex justify-center items-center">
-                <div className="flex items-center" onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
-                    <span>더보기</span>
-                    <CgAdd size={20} ></CgAdd>
-                </div>
-            </div> 
+            <div className="border w-full max-w-[525px] h-10 flex justify-center items-center">
+    <div className="flex items-center justify-center min-w-[100px] whitespace-nowrap" 
+         onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
+        <span className="mr-1">더보기</span>
+        <CgAdd size={20} />
+    </div>
+</div>
         </div> 
      )
 }

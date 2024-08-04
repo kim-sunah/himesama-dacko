@@ -6,6 +6,7 @@ export declare class Channellist {
     Channel_Id: string;
     subscriberCount: number;
     categoryid: number;
+    today_click_count: number;
     subscriberCount_percentageincrease: number | null;
     week_subscriberCount_percentageincrease: number | null;
     month_subscriberCount_percentageincrease: number | null;

@@ -5,7 +5,7 @@ import Footer from "../footer/Footer";
 export default function IntroductionWebsite() {
     return (
         <div className="w-full prata-regular bold">
-            <section className="bg-gray-100 dark:bg-gray-800 py-12 md:py-20 lg:py-24">
+            <section className="bg-gray-100 dark:bg-gray-800 py-8 md:py-12 lg:py-12">
                 <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center">
                     <img
                         src={Mypage}

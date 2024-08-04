@@ -40,6 +40,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Channellist.prototype, "categoryid", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true, default: 0 }),
+    __metadata("design:type", Number)
+], Channellist.prototype, "today_click_count", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: "float", nullable: true, default: 0 }),
     __metadata("design:type", Number)
 ], Channellist.prototype, "subscriberCount_percentageincrease", void 0);

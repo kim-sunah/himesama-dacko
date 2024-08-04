@@ -11,4 +11,5 @@ export declare class UpdateController {
     DayCountUpdate(): Promise<void>;
     WeekCountUpdate(): Promise<void>;
     MonthCountUpdate(): Promise<void>;
+    Clickreset(): Promise<void>;
 }

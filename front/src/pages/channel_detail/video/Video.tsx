@@ -224,7 +224,7 @@ export default function Video() {
 
 
                 </div>
-                <div className="flex flex-col w-1/3 md:ml-10 mt-6">
+                <div className="flex flex-col w-1/3 md:ml-10 ">
                     <div className="flex items-center  mb-4 gap-6">
                         <Button
                             variant="outline"

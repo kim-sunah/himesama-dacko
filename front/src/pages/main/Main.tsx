@@ -5,6 +5,7 @@ import { useLoaderData } from "react-router-dom";
 import { channeInfo } from "../../enum/ChannelInfo";
 import Postmethod from "../../http/Post_method";
 import Leaderboard from "./Leaderboard";
+import Topclick from "./Topclick";
 interface RankingItem {
   title: string;
   img: string;
@@ -18,10 +19,11 @@ export default function Main() {
   const { filteredRankingData } = data;
   return (
     <div>
+          <Topclick></Topclick>
       <div className="ml-6"> 카테코리 순위 </div>
       <div className="grid grid-cols-3  lg:grid-cols-3 ml-6">
         {filteredRankingData && filteredRankingData.map((channel, index) => (
-          <Leaderboard key={index} img={channel.img} title={channel.title.split("|")[1]} rankings={channel.rankings}></Leaderboard>
+          <Leaderboard key={index} img={channel.img} title={channel.title} rankings={channel.rankings}></Leaderboard>
         ))}
         <div>
         </div>
@@ -55,7 +57,6 @@ export async function mainLoader() {
     { title: "43|쇼", img: "https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/4aebfd75031299b6d807d3c7c5e64bcb_ck41pe14msb0ugeiiqd0_image.png" },
   ];
 
-  // 각 카테고리에 대해 API 호출을 수행
   const rankingData = await Promise.all(leaderboardData.map(async (item) => {
     const filter = item.title.split("|")[0];
     const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, {
@@ -67,8 +68,8 @@ export async function mainLoader() {
     if (response && response.length > 0) {
       return { ...item, rankings: response };
     } else {
-      return null; // 응답이 비어있거나 유효하지 않은 경우 null 반환
-    } // API 응답 데이터를 item에 추가
+      return null;
+    } 
   }));
 
 

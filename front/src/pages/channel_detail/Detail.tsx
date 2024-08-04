@@ -8,6 +8,7 @@ import ViewChart from "../ranking/list/View_chat";
 import styled from "@emotion/styled";
 import { CustomError } from "../../enum/CustomError";
 import ErrorPage from "../error/Error";
+import Postmethod from "../../http/Post_method";
 
 interface RouterError {
   status: number;
@@ -37,13 +38,13 @@ export default function Detail() {
       try {
         const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/${ChannelId}`);
         setChannelInfo(response);
+        await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/incrementChannelClicks`, {ChannelId : ChannelId});
       } catch (error) {
         setError({
           message: '잘못된 요청입니다. 주소를 확인해 주세요.',
           status: 400,
         });
       }
-  
     }
     fetchData()
   }, [ChannelId]);

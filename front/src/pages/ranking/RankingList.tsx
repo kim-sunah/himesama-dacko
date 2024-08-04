@@ -27,7 +27,7 @@ export default function RankingList() {
   const [page , setpage] = useState(1);
 
 
-  console.log(location)
+  console.log(page)
   console.log(filterCategory)
   const [sortBy, setSortBy] = useState(location.pathname.split("/")[2])
   const navigate = useNavigate()
@@ -45,6 +45,7 @@ export default function RankingList() {
         
       
       }
+      console.log(response)
       if (sortOrder === "asc") {
         setChannel([...response].reverse());
       }
@@ -69,15 +70,17 @@ export default function RankingList() {
 
   const [lastChannel, setLastChannel] = useState<HTMLDivElement | null>(null);
   const ScorllData = async () => {
-   
-      const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter:filterCategory , page : page+1 })
-      if (sortOrder === "asc") {
-        setChannel(preventDefault => { return [...preventDefault, ...[...response].reverse()];});
+      if(Channel.length >= 15){
+        const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, { sort: sortBy.split("|")[0], filter:filterCategory , page : page+1 })
+        if (sortOrder === "asc") {
+          setChannel(preventDefault => { return [...preventDefault, ...[...response].reverse()];});
+        }
+        else if (sortOrder === "desc") {
+          setChannel(preventDefault => { return [...preventDefault, ...response];});
+        }
+        setpage(page+1);
+      
       }
-      else if (sortOrder === "desc") {
-        setChannel(preventDefault => { return [...preventDefault, ...response];});
-      }
-      setpage(page+1);
     
 
  

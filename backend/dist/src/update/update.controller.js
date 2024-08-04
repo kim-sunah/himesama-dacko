@@ -42,6 +42,9 @@ let UpdateController = class UpdateController {
         schedule.scheduleJob('0 18 1 * * ', () => {
             this.MonthCountUpdate();
         });
+        schedule.scheduleJob('0 0 * * *', () => {
+            this.Clickreset();
+        });
     }
     async ChartDataUpdate() {
         return await this.updateService.ChartDataUpdate();
@@ -66,6 +69,9 @@ let UpdateController = class UpdateController {
     }
     async MonthCountUpdate() {
         return await this.updateService.MonthCountUpdate("Month");
+    }
+    async Clickreset() {
+        return await this.updateService.Clickreset();
     }
 };
 exports.UpdateController = UpdateController;

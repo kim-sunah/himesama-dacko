@@ -173,6 +173,38 @@ let ChannellistService = class ChannellistService {
             throw error;
         }
     }
+    async incrementChannelClicks(ChannelId) {
+        try {
+            const channel = await this.channelList.findOne({ where: { Channel_Id: ChannelId } });
+            console.log(channel);
+            const updatedChannel = await this.channelList.update(channel.id, { today_click_count: channel.today_click_count + 1 });
+            console.log(updatedChannel);
+            return updatedChannel;
+        }
+        catch (error) {
+            console.error("Error updating channel click count:", error);
+            throw error;
+        }
+    }
+    async GetTopClickedChannel() {
+        try {
+            const topClickedChannel = await this.channelList.findOne({
+                order: {
+                    today_click_count: 'DESC'
+                },
+                where: {}
+            });
+            if (!topClickedChannel) {
+                throw new Error('No channels found');
+            }
+            console.log(topClickedChannel);
+            return topClickedChannel;
+        }
+        catch (error) {
+            console.error('Error fetching top clicked channel:', error);
+            throw error;
+        }
+    }
 };
 exports.ChannellistService = ChannellistService;
 exports.ChannellistService = ChannellistService = __decorate([
