@@ -2,7 +2,7 @@
 import { Label } from "../../../component/v0/label"
 import { Textarea } from "../../../component/v0/textarea"
 import { Button } from "../../../component/v0/button"
-import React, { FormEvent, useEffect, useRef, useState } from "react"
+import  { FormEvent, useEffect, useRef, useState } from "react"
 import Getmethod from "../../../http/Get_method"
 import Postmethod from "../../../http/Post_method"
 

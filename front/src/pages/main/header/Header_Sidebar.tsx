@@ -3,7 +3,6 @@ import { Input } from "../../../component/v0/input"
 
 
 import { FormEvent, useRef } from "react";
-import Image from "../../../assets/icon.png"
 import Login, { useLoginModal } from "../../login/Login";
 import { Button } from "../../../component/v0/button";
 

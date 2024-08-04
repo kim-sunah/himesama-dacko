@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { json, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import Getmethod from "../../http/Get_method";
 import { formatNumberUS } from "../../function/formatNumberUS";
 import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import ViewChart from "../ranking/list/View_chat";
 import styled from "@emotion/styled";
-import { CustomError } from "../../enum/CustomError";
+
 import ErrorPage from "../error/Error";
 import Postmethod from "../../http/Post_method";
 

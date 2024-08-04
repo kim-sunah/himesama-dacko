@@ -3,10 +3,10 @@ import classes from "../../styles/Live.module.css";
 import { LiveVideo } from "../../enum/Live";
 import { PopularVideo } from "../../enum/Popular";
 import Getmethod from "../../http/Get_method";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Postmethod from "../../http/Post_method";
 
-type VideoId = { videoId: string };
+
 
 interface LiveModalProps {
   type : string
@@ -38,19 +38,11 @@ const CategoryIdMap: { [key: string]: number } = {
 
 
 const LiveModal: React.FC<LiveModalProps> = (props) => {
- 
-
-
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedCategory, setSelectedCategory] = useState(props.selectedCategory)
-  const [showModal, setShowModal] = useState(false)
-  const [showliveModal, setShowliveModal] = useState(false)
-  const [selectedVideo, setSelectedVideo] = useState<PopularVideo | null | LiveVideo>(null);
-  const [selectedliveVideo, setSelectedliveVideo] = useState<null | LiveVideo>(null);
-  const [videolist, setvideolist] = useState<PopularVideo[]>([])
   const [livelist, setlivelist] = useState<LiveVideo[]>([]);
   const [videos, setVideos] = useState<PopularVideo[]>([]);
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
@@ -183,9 +175,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
     
   };
 
-  const isVideoId = (obj: any): obj is VideoId => {
-    return typeof obj === "object" && obj !== null && "videoId" in obj;
-  };
+
 
   const ScrollTop = () => {
     const container = containerRef.current;

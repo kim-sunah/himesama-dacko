@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+
 import Getmethod from "../../http/Get_method"
-import { Button } from "../../component/v0/button";
-import classes from "../../styles/Live.module.css";
+
 import { PopularVideo } from "../../enum/Popular";
 import { LiveVideo } from "../../enum/Live";
 import LiveModal from "./LiveModal";
-import Postmethod from "../../http/Post_method";
+
 const CategoryIdMap: { [key: string]: number } = {
     "All": 0,
     "Film & Animation": 1,
@@ -32,7 +31,7 @@ export default function Live() {
     const [showliveModal, setShowliveModal] = useState(false)
     const [selectedVideo, setSelectedVideo] = useState<PopularVideo | null >(null);
     const [selectedliveVideo, setSelectedliveVideo] = useState<null | LiveVideo>(null);
-    const [videolist, setvideolist] = useState<PopularVideo[]>([])
+ 
     const [livelist, setlivelist] = useState<LiveVideo[]>([]);
     const [videos, setVideos] = useState<PopularVideo[]>([]);
     const [nextPageToken, setNextPageToken] = useState<string | null>(null);

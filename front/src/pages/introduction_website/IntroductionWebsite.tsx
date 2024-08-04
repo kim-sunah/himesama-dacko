@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Mypage from "../../assets/web.png"
 import "../../styles/IntroductionWebsite.css"
-import Footer from "../footer/Footer";
+
 export default function IntroductionWebsite() {
     return (
         <div className="w-full prata-regular bold">
