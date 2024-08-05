@@ -25,7 +25,7 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
     const navigate = useNavigate();
     return (
      
-        <div className="w-full overflow-hidden mb-3">
+        <div className="w-full overflow-hidden mb-3 ml-4">
                <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
                 <img
                     src={img}
@@ -45,7 +45,7 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </Tabs>
                 </div>
             </div>
-            <div className="bg-background border w-[525px]"> {/* 고정 너비 설정 */}
+            <div className="bg-background border w-[525px] "> {/* 고정 너비 설정 */}
                 <table className="w-full table-fixed">
                     <thead className="bg-muted border-b">
                         <tr>
