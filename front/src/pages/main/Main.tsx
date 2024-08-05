@@ -21,7 +21,7 @@ export default function Main() {
     <div>
           <Topclick></Topclick>
       <div className="ml-6"> 카테코리 순위 </div>
-      <div className="grid grid-cols-3  lg:grid-cols-3 ml-6">
+      <div className="grid grid-cols-4  lg:grid-cols-4 ml-6">
         {filteredRankingData && filteredRankingData.map((channel, index) => (
           <Leaderboard key={index} img={channel.img} title={channel.title} rankings={channel.rankings}></Leaderboard>
         ))}
