@@ -216,18 +216,18 @@ export class ChannellistService {
 
   async GetTopClickedChannel() {
     try {
-      const topClickedChannel = await this.channelList.findOne({
+      const topClickedChannel = await this.channelList.find({
+        take: 4,
         order: {
           today_click_count: 'DESC'
         },
+        
         where: {} 
       });
   
       if (!topClickedChannel) {
         throw new Error('No channels found');
       }
-      console.log(topClickedChannel)
-  
       return topClickedChannel;
     } catch (error) {
       console.error('Error fetching top clicked channel:', error);

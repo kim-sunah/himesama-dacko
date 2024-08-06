@@ -19,20 +19,22 @@ interface LeaderboardProps {
     rankings?: channeInfo[]; // rankings를 선택적 prop으로 추가
 }
 
+
+
 export default function Leaderboard({ title, img, rankings }: LeaderboardProps) {
 
     const [Tab, setTab] = useState("today");
     const navigate = useNavigate();
     return (
      
-        <div className="w-full overflow-hidden mb-3 ml-4">
+        <div className="w-full overflow-hidden mb-3 ml-4 " >
                <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
                 <img
                     src={img}
                     className="w-full h-10 object-cover "
                     alt="Leaderboard background"
                 />
-                <div className="absolute inset-0 flex items-center justify-between px-4 mt-2">
+                <div className="absolute inset-0 flex items-center justify-between px-4 mt-1">
                     <h1 className="text-sm font-bold text-white">
                         {title.split("|")[1]}
                     </h1>
@@ -45,12 +47,12 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </Tabs>
                 </div>
             </div>
-            <div className="bg-background border w-[525px] "> {/* 고정 너비 설정 */}
-                <table className="w-full table-fixed">
+            <div className="bg-background border-l border-r w-[525px] " > {/* 고정 너비 설정 */}
+                <table className="w-full table-fixed border-collapse ml-4" >
                     <thead className="bg-muted border-b">
                         <tr>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">이름</th>
-                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수<AiFillCaretDown /></span></th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수</span></th>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수</span></th>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">
                                 <span className="flex justify-center"> {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}</span>
@@ -58,19 +60,19 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
                         {rankings && rankings.slice(0, 4).map((Channel, index) => (
-                            <tr key={index} className="border-b hover:bg-muted/50">
+                            <tr key={index} className=" hover:bg-muted/50">
                                 <td className="font-medium">
                                     <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
-                                        <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0" />
+                                        <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0 border-r rounded-full" />
                                         <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
                                     </Link>
                                 </td>
-                                <td className="px-4 text-center text-muted-foreground">{formatNumber(Number(Channel.subscriberCount))} </td>
-                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.viewCount))}</td>
+                                <td className=" px-4 text-center text-muted-foreground">{formatNumber(Number(Channel.subscriberCount))} </td>
+                                <td className=" px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.viewCount))}</td>
                                 <td
-                                    className="px-4  text-center text-muted-foreground"
+                                    className=" px-4  text-center text-muted-foreground"
                                     style={{
                                         color: (() => {
                                             let value;

@@ -47,7 +47,6 @@ let ChannellistController = class ChannellistController {
         return this.channellistService.incrementChannelClicks(ChannelId);
     }
     GetTopClickedChannel() {
-        console.log("HELLO");
         return this.channellistService.GetTopClickedChannel();
     }
 };

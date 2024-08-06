@@ -60,7 +60,6 @@ export class ChannellistController {
   //클릭 가장 많은 채널 1개 가져오기
   @Get("click/GetTopClickedChannel")
   GetTopClickedChannel(){
-    console.log("HELLO")
     return this.channellistService.GetTopClickedChannel();
   }
 

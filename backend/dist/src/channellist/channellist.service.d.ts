@@ -107,5 +107,5 @@ export declare class ChannellistService {
     }[]>;
     Live_Popular_CreateApi(ChannelId: string, categoryid: number, videoid: string): Promise<Channellist>;
     incrementChannelClicks(ChannelId: string): Promise<import("typeorm").UpdateResult>;
-    GetTopClickedChannel(): Promise<Channellist>;
+    GetTopClickedChannel(): Promise<Channellist[]>;
 }

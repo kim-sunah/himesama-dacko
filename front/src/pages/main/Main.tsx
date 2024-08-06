@@ -9,7 +9,7 @@ import Topclick from "./Topclick";
 interface RankingItem {
   title: string;
   img: string;
-  rankings: channeInfo[]; 
+  rankings: channeInfo[];
 }
 interface LoaderData {
   filteredRankingData: RankingItem[];
@@ -19,20 +19,32 @@ export default function Main() {
   const { filteredRankingData } = data;
   return (
     <div>
-          <Topclick></Topclick>
-          <div className="flex h-screen">
-  <div className="m-auto">
-  <div > 카테코리 순위 </div>
-      <div className="grid grid-cols-3  lg:grid-cols-3 items-center justify-center" >
-        {filteredRankingData && filteredRankingData.map((channel, index) => (
-          <Leaderboard key={index} img={channel.img} title={channel.title} rankings={channel.rankings}></Leaderboard>
-        ))}
-      
+    
+
+
+      <div className="flex h-full">
+        <div className="m-auto">
+          <div className="ml-4 mb-1"> 카테코리 순위 </div>
+          <div className="grid grid-cols-3  lg:grid-cols-3 items-center justify-center" >
+            {filteredRankingData && filteredRankingData.map((channel, index) => (
+              <Leaderboard key={index} img={channel.img} title={channel.title} rankings={channel.rankings}></Leaderboard>
+            ))}
+
+          </div>
+
+        </div>
+      </div>
+      <div>
+        <div className="flex h-full mt-6">
+          <div className="m-auto">
+            <div className="ml-4 mb-1"> 카테고리 외 순위 </div>
+            <div className="grid grid-cols-3  lg:grid-cols-3 items-center justify-center" >
+              <Topclick></Topclick>
+            </div>
+          </div>
+        </div>
       </div>
 
-  </div>
-  </div>
-    
     </div>
   )
 }
@@ -74,7 +86,7 @@ export async function mainLoader() {
       return { ...item, rankings: response };
     } else {
       return null;
-    } 
+    }
   }));
 
 

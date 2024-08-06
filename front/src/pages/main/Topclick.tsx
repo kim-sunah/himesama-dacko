@@ -1,58 +1,71 @@
 
 import { useEffect, useState } from "react"
-import { Button } from "../../component/v0/button"
 import Getmethod from "../../http/Get_method"
-import { channeInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
+import { Link, useNavigate } from "react-router-dom";
+import { ChannelClick } from "../../enum/ChannelClick";
 
 export default function Topclick() {
-    const [channel, setchannel] = useState<channeInfo>();
-    useEffect(() =>{
-        const fetchDate = async () =>{
+    const [channel, setchannel] = useState<ChannelClick[]>([]);
+    const navigate =useNavigate();
+    useEffect(() => {
+        const fetchDate = async () => {
             const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/click/GetTopClickedChannel`)
+            console.log(response)
             setchannel(response)
 
 
         }
         fetchDate()
-       
 
-    },[])
+
+    }, [])
     return (
-        <div > 
-            <div className="flex items-center justify-center "> 오늘 가장 많이 방문한 채널</div>
-            <div className="flex items-center justify-center ">
-                
-                <div className="rounded-lg border w-64 mt-2 mb-2">
-                  
-                    <img
-                        src={channel?.channel_img}
-                        height="100"
-                        width="100"
-                        className="rounded-full -mt-24 border-4 border-white mx-auto mt-2 mb-2"
-                        alt="User avatar"
-                        style={{ aspectRatio: "100/100", objectFit: "cover" }}
-                    />
-                    <div className="text-center my-4">
-                        <h2 className="text-lg font-semibold">{channel?.Channel_nickname}</h2>
-                        
-                    </div>
-                    <div className="flex justify-around my-4">
-                        <div className="text-center">
-                            <h3 className="text-gray-500 text-lg">{formatNumber(Number(channel?.subscriberCount))}</h3>
-                            <p className="text-gray-500">구독수</p>
-                        </div>
-                        <div className="text-center">
-                            <h3 className="text-gray-500 text-lg">{formatNumber(Number(channel?.viewCount))}</h3>
-                            <p className="text-gray-500">조회수</p>
-                        </div>
-                    </div>
-                    <div className="px-3 py-2">
-                        <Button className="w-full border bg-white-600 text-black rounded-lg">채널 상세 </Button>
-                    </div>
+        <div className="w-full overflow-hidden mb-3 ml-4">
+        
+            <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
+                <img
+                    src={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/%EC%A0%9C%EB%AA%A9+%EC%97%86%EB%8A%94+%EB%94%94%EC%9E%90%EC%9D%B8.png"}
+                    className="w-full h-10 object-cover "
+                    alt="Leaderboard background"
+                />
+                <div className="absolute inset-0 flex items-center justify-between px-4 mt-2">
+                    <h1 className="text-sm font-bold text-white">
+                        일간 채널 방문 순위
+                    </h1>
+                   
                 </div>
             </div>
-
+            <div className="bg-background border-l border-r w-[525px] border-b "> {/* 고정 너비 설정 */}
+                <table className="w-full table-fixed border-collapse ml-4">
+                    <thead className="bg-muted border-b">
+                        <tr>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">이름</th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground "><span className="flex justify-center">구독수</span></th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">조회수</span></th>
+                            <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground"><span className="flex justify-center">방문수</span></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {channel && channel.map((Channel, index) => (
+                            <tr key={index} className=" hover:bg-muted/50">
+                                <td className="font-medium">
+                                    <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
+                                        <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0 rounded-full" />
+                                        <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
+                                    </Link>
+                                </td>
+                                <td className="px-4 text-center text-muted-foreground">{formatNumber(Number(Channel.subscriberCount))} </td>
+                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.viewCount))}</td>
+                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.today_click_count))}회</td>
+                       
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+           
         </div>
 
     )
