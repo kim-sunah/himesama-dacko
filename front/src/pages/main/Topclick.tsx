@@ -23,7 +23,7 @@ export default function Topclick() {
     return (
         <div className="w-full overflow-hidden mb-3 ml-4">
         
-            <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
+            <div className="relative "> {/* 고정 너비 설정 */}
                 <img
                     src={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/%EC%A0%9C%EB%AA%A9+%EC%97%86%EB%8A%94+%EB%94%94%EC%9E%90%EC%9D%B8.png"}
                     className="w-full h-10 object-cover "
@@ -36,8 +36,8 @@ export default function Topclick() {
                    
                 </div>
             </div>
-            <div className="bg-background border-l border-r w-[525px] border-b "> {/* 고정 너비 설정 */}
-                <table className="w-full table-fixed border-collapse ml-4">
+            <div className="bg-background border-l border-r  border-b "> {/* 고정 너비 설정 */}
+                <table className="w-full table-fixed border-collapse ">
                     <thead className="bg-muted border-b">
                         <tr>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">이름</th>

@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+import { Search } from "src/search/entities/search.entity";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Auth {
@@ -10,4 +12,7 @@ export class Auth {
   
     @Column()
     nickname : string
+
+    @OneToOne(() => Search , search => search.auth)
+    search :  Search
 }

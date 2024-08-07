@@ -17,9 +17,7 @@ export class AuthController {
   }
 
   @Get('getsession')
-  getSession(@Req() req: Request, ) {
- 
-    console.log(req.session.user)
+  getSession(@Req() req: Request) {
     if (req.session.user) {
       return {user : req.session.user}
     } 

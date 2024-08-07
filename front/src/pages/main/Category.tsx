@@ -6,6 +6,8 @@ import { channeInfo } from "../../enum/ChannelInfo";
 import Postmethod from "../../http/Post_method";
 import Leaderboard from "./Leaderboard";
 import Topclick from "./Topclick";
+import { useRecoilValue } from "recoil";
+import { userLoggedInState } from "../../store/auth";
 interface RankingItem {
   title: string;
   img: string;
@@ -17,25 +19,36 @@ interface LoaderData {
 export default function Category() {
   const data = useLoaderData() as LoaderData;
   const { filteredRankingData } = data;
+  const isLoggedIn = useRecoilValue(userLoggedInState);
   return (
     <div>
       <div className="flex h-full">
-        <div className="m-auto">
-          <div className="ml-4 mb-1"> 카테코리 순위 </div>
-          <div className="grid grid-cols-3  lg:grid-cols-3 items-center justify-center" >
-            {filteredRankingData && filteredRankingData.map((channel, index) => (
-              <Leaderboard key={index} img={channel.img} title={channel.title} rankings={channel.rankings}></Leaderboard>
-            ))}
+        <div className="">
+          <div className="ml-4 mb-1" > 추천 영상 </div>
+          {isLoggedIn ? <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-8 ml-4" >
+            영상~
+          </div> : <span className="ml-4 flex justify-center" > 로그인이 필요한 서비스입니다 </span>}
 
-          </div>
 
         </div>
       </div>
+      <hr className="ml-4"></hr>
+      <div className="flex h-full">
+        <div className="m-auto">
+          <div className="ml-4 mb-1"> 카테코리 순위 </div>
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-8" >
+            {filteredRankingData && filteredRankingData.map((channel, index) => (
+              <Leaderboard key={index} img={channel.img} title={channel.title} rankings={channel.rankings}></Leaderboard>
+            ))}
+          </div>
+        </div>
+      </div>
+      <hr className="ml-4"></hr>
       <div>
         <div className="flex h-full mt-6">
           <div className="m-auto">
             <div className="ml-4 mb-1"> 카테고리 외 순위 </div>
-            <div className="grid grid-cols-3  lg:grid-cols-3 items-center justify-center" >
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-8" >
               <Topclick></Topclick>
             </div>
           </div>

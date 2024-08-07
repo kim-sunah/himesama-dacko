@@ -28,7 +28,7 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
     return (
      
         <div className="w-full overflow-hidden mb-3 ml-4 " >
-               <div className="relative w-[525px]"> {/* 고정 너비 설정 */}
+               <div className="relative "> {/* 고정 너비 설정 */}
                 <img
                     src={img}
                     className="w-full h-10 object-cover "
@@ -47,8 +47,8 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </Tabs>
                 </div>
             </div>
-            <div className="bg-background border-l border-r w-[525px] " > {/* 고정 너비 설정 */}
-                <table className="w-full table-fixed border-collapse ml-4" >
+            <div className="bg-background border-l border-r  " > {/* 고정 너비 설정 */}
+                <table className="w-full table-fixed border-collapse " >
                     <thead className="bg-muted border-b">
                         <tr>
                             <th className="w-1/4 px-4  text-center text-sm font-medium text-muted-foreground">이름</th>
@@ -62,8 +62,8 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </thead>
                     <tbody >
                         {rankings && rankings.slice(0, 4).map((Channel, index) => (
-                            <tr key={index} className=" hover:bg-muted/50">
-                                <td className="font-medium">
+                            <tr key={index} className="hover:bg-muted/50">
+                                <td className="font-medium" style={{marginLeft:"10%"}}>
                                     <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
                                         <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0 border-r rounded-full" />
                                         <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
@@ -102,7 +102,7 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                     </tbody>
                 </table>
             </div>
-            <div className="border w-full max-w-[525px] h-10 flex justify-center items-center">
+            <div className="border w-full max- h-10 flex justify-center items-center">
     <div className="flex items-center justify-center min-w-[100px] whitespace-nowrap" 
          onClick={() => { navigate(`/Ranking/subscribers/${title.split("|")[0]}`) }}>
         <span className="mr-1">더보기</span>

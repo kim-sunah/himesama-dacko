@@ -36,6 +36,8 @@ const comment_entity_1 = require("./comment/entities/comment.entity");
 const nlp_module_1 = require("./nlp/nlp.module");
 const auth_module_1 = require("./auth/auth.module");
 const auth_entity_1 = require("./auth/entities/auth.entity");
+const search_module_1 = require("./search/search.module");
+const search_entity_1 = require("./search/entities/search.entity");
 const typeOrmModuleOptions = {
     useFactory: async (configService) => ({
         namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
@@ -46,7 +48,7 @@ const typeOrmModuleOptions = {
         port: configService.get('DB_PORT'),
         database: configService.get('DB_NAME'),
         charset: configService.get("CHAR_SET"),
-        entities: [channellist_entity_1.Channellist, video_entity_1.Video, videocomment_entity_1.videocomment, videolike_entity_1.videolike, videoview_entity_1.videoview, , view_entity_1.ViewCount, subscriber_entity_1.SubscriberCount, video_entity_2.VideoCount, comment_entity_1.Comment, auth_entity_1.Auth],
+        entities: [channellist_entity_1.Channellist, video_entity_1.Video, videocomment_entity_1.videocomment, videolike_entity_1.videolike, videoview_entity_1.videoview, , view_entity_1.ViewCount, subscriber_entity_1.SubscriberCount, video_entity_2.VideoCount, comment_entity_1.Comment, auth_entity_1.Auth, search_entity_1.Search],
         synchronize: configService.get('DB_SYNC'),
         logging: true,
         timezone: 'Asia/Seoul'
@@ -84,7 +86,8 @@ exports.AppModule = AppModule = __decorate([
             update_module_1.UpdateModule,
             comment_module_1.CommentModule,
             nlp_module_1.NlpModule,
-            auth_module_1.AuthModule],
+            auth_module_1.AuthModule,
+            search_module_1.SearchModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { userEmailState, userNameState, userLoggedInState } from "../../../store/auth";
 import Getmethod from "../../../http/Get_method";
 
-export default function Header_SideBar() {
+export default function HeaderSideBar() {
 
     const ChannelId = useRef<HTMLInputElement>(null);
     const loaction = useLocation();
@@ -35,12 +35,8 @@ export default function Header_SideBar() {
     }
 
     const Logout = async() =>{
-        console.log("123")
         await Getmethod(`${process.env.REACT_APP_BACKEND_API}/auth/logout`);
         window.location.reload()
-     
-
-        
     }
     return (
 
@@ -60,14 +56,14 @@ export default function Header_SideBar() {
                         {/* <LayoutGridIcon className="w-5 h-5" /> */}
                         <span className="whitespace-nowrap">카테고리 자세히</span>
                     </Link>
-                    <Link
+                    {/* <Link
                         to="/YoutubeCondition"
                         className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-black"
 
                     >
-                        {/* <ClipboardIcon className="w-5 h-5" /> */}
+                        
                         <span className="whitespace-nowrap ">유투브 조건 검색</span>
-                    </Link>
+                    </Link> */}
                     <Link
                         to="/Live"
                         className="flex items-center gap-2 text-muted-foreground hover:text-foreground  text-black "

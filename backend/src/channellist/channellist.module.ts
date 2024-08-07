@@ -11,9 +11,11 @@ import {  videolike } from 'src/video/entities/videolike.entity';
 import { SubscriberCount } from './entities/subscriber.entity';
 import { ViewCount } from './entities/view.entity';
 import { VideoCount } from './entities/video.entity';
+import { Search } from 'src/search/entities/search.entity';
+import { Auth } from 'src/auth/entities/auth.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Channellist, Video, videoview, videocomment, videolike, SubscriberCount, ViewCount,VideoCount])],
+  imports: [TypeOrmModule.forFeature([Channellist, Video, videoview, videocomment, videolike, SubscriberCount, ViewCount,VideoCount,Search, Auth])],
   controllers: [ChannellistController],
   providers: [ChannellistService,FilterService],
 })

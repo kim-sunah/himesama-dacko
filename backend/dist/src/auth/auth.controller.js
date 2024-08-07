@@ -25,7 +25,6 @@ let AuthController = class AuthController {
         return this.authService.Kakaocreate(email, nickname, req, res);
     }
     getSession(req) {
-        console.log(req.session.user);
         if (req.session.user) {
             return { user: req.session.user };
         }

@@ -168,9 +168,9 @@ export default function Live() {
 
         <div className="container mx-auto py-8 block">
             <div className="mb-8">
-                <h2 className="text-3xl font-bold mb-4">Live Trending Now</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {livelist.slice(0, 10).map((video, index) => (
+                <h2 className="text-2xl font-bold mb-4">현재 실시간 인기 영상</h2>
+                <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
+                    {livelist.slice(0, 8).map((video, index) => (
                         <div key={index} className="relative group" onClick={() => LiveHandleOpenModal(video)}>
 
                             <img
@@ -188,7 +188,7 @@ export default function Live() {
                 </div>
             </div>
             <div>
-                <h2 className="text-2xl font-bold mb-4">Popular Categories</h2>
+                <h2 className="text-2xl font-bold mb-4">인기 카테고리 영상</h2>
                 <div className="flex flex-wrap gap-4 mb-8">
                     {categories.map((category) => (
                         <button
@@ -202,7 +202,7 @@ export default function Live() {
                     ))}
                 </div>
                 <div ref={containerRef} style={{ height: '80vh', overflowY: 'auto' }} >
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
                         {videos.map(video => (
                             <div key={video.id} className="relative group" onClick={() => HandleOpenModal(video)}>
                                 <img

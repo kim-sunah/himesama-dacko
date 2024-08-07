@@ -23,16 +23,30 @@ const video_entity_1 = require("../video/entities/video.entity");
 const subscriber_entity_1 = require("./entities/subscriber.entity");
 const view_entity_1 = require("./entities/view.entity");
 const video_entity_2 = require("./entities/video.entity");
+const search_entity_1 = require("../search/entities/search.entity");
+const auth_entity_1 = require("../auth/entities/auth.entity");
 let ChannellistService = class ChannellistService {
-    constructor(channelList, FilterService, VideoRepository, SubscriberRepository, ViewRepository, VideoCountRepository) {
+    constructor(channelList, FilterService, VideoRepository, SubscriberRepository, ViewRepository, VideoCountRepository, SearchRepository, AuthRepository) {
         this.channelList = channelList;
         this.FilterService = FilterService;
         this.VideoRepository = VideoRepository;
         this.SubscriberRepository = SubscriberRepository;
         this.ViewRepository = ViewRepository;
         this.VideoCountRepository = VideoCountRepository;
+        this.SearchRepository = SearchRepository;
+        this.AuthRepository = AuthRepository;
     }
-    async Getvideosearch(search) {
+    async Getvideosearch(search, req) {
+        if (req.session.user) {
+            const user = await this.SearchRepository.findOne({ where: { auth: req.session.user.userId } });
+            if (user) {
+                await this.SearchRepository.update({ auth: req.session.user.userId }, { search: search });
+            }
+            else {
+                const searchinfo = await this.SearchRepository.create({ search: search, auth: req.session.user.userId });
+                await this.SearchRepository.save(searchinfo);
+            }
+        }
         const response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`);
         const resData = response.data;
         return await this.FilterService.videoFilter(resData);
@@ -207,6 +221,12 @@ let ChannellistService = class ChannellistService {
     }
 };
 exports.ChannellistService = ChannellistService;
+__decorate([
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], ChannellistService.prototype, "Getvideosearch", null);
 exports.ChannellistService = ChannellistService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(channellist_entity_1.Channellist)),
@@ -214,7 +234,11 @@ exports.ChannellistService = ChannellistService = __decorate([
     __param(3, (0, typeorm_1.InjectRepository)(subscriber_entity_1.SubscriberCount)),
     __param(4, (0, typeorm_1.InjectRepository)(view_entity_1.ViewCount)),
     __param(5, (0, typeorm_1.InjectRepository)(video_entity_2.VideoCount)),
+    __param(6, (0, typeorm_1.InjectRepository)(search_entity_1.Search)),
+    __param(7, (0, typeorm_1.InjectRepository)(auth_entity_1.Auth)),
     __metadata("design:paramtypes", [typeorm_2.Repository, filter_service_1.FilterService,
+        typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

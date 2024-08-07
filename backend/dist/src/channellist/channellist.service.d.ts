@@ -7,6 +7,9 @@ import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 import { SubscriberCount } from './entities/subscriber.entity';
 import { ViewCount } from './entities/view.entity';
 import { VideoCount } from './entities/video.entity';
+import { Search } from 'src/search/entities/search.entity';
+import { Request } from 'express';
+import { Auth } from 'src/auth/entities/auth.entity';
 export declare class ChannellistService {
     private readonly channelList;
     private readonly FilterService;
@@ -14,8 +17,10 @@ export declare class ChannellistService {
     private readonly SubscriberRepository;
     private readonly ViewRepository;
     private readonly VideoCountRepository;
-    constructor(channelList: Repository<Channellist>, FilterService: FilterService, VideoRepository: Repository<Video>, SubscriberRepository: Repository<SubscriberCount>, ViewRepository: Repository<ViewCount>, VideoCountRepository: Repository<VideoCount>);
-    Getvideosearch(search: string): Promise<{
+    private readonly SearchRepository;
+    private readonly AuthRepository;
+    constructor(channelList: Repository<Channellist>, FilterService: FilterService, VideoRepository: Repository<Video>, SubscriberRepository: Repository<SubscriberCount>, ViewRepository: Repository<ViewCount>, VideoCountRepository: Repository<VideoCount>, SearchRepository: Repository<Search>, AuthRepository: Repository<Auth>);
+    Getvideosearch(search: string, req: Request): Promise<{
         Channel_Url_Id: any;
         channel_img: any;
         videotitle: any;

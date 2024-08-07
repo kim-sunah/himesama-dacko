@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Req} from '@nestjs/common';
 import { CreateChannellistDto } from './dto/create-channellist.dto';
 import { UpdateChannellistDto } from './dto/update-channellist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,6 +12,9 @@ import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 import { SubscriberCount } from './entities/subscriber.entity';
 import { ViewCount } from './entities/view.entity';
 import { VideoCount } from './entities/video.entity';
+import { Search } from 'src/search/entities/search.entity';
+import { Response, Request } from 'express';
+import { Auth } from 'src/auth/entities/auth.entity';
 
 
 @Injectable()
@@ -20,10 +23,24 @@ export class ChannellistService {
     @InjectRepository(Video) private readonly VideoRepository: Repository<Video>,
     @InjectRepository(SubscriberCount) private readonly SubscriberRepository: Repository<SubscriberCount>,
     @InjectRepository(ViewCount) private readonly ViewRepository: Repository<ViewCount>,
-    @InjectRepository(VideoCount) private readonly VideoCountRepository: Repository<VideoCount>) {
+    @InjectRepository(VideoCount) private readonly VideoCountRepository: Repository<VideoCount>,
+    @InjectRepository(Search) private readonly SearchRepository: Repository<Search>,
+    @InjectRepository(Auth) private readonly AuthRepository: Repository<Auth>,
+  ) {
 
   }
-  async Getvideosearch(search: string) {
+  async Getvideosearch(search: string, @Req() req: Request) {
+  
+    if (req.session.user) {
+      const user = await this.SearchRepository.findOne({where : {auth : req.session.user.userId}})
+      if(user){
+        await this.SearchRepository.update({auth : req.session.user.userId}, {search : search});
+      }
+      else{
+        const searchinfo =  await this.SearchRepository.create({search : search, auth : req.session.user.userId})
+        await this.SearchRepository.save(searchinfo)
+      }
+    } 
     const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
     const resData = response.data;
     return await this.FilterService.videoFilter(resData);

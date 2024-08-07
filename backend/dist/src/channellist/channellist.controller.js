@@ -25,8 +25,8 @@ let ChannellistController = class ChannellistController {
     channelInfo(channelId) {
         return this.channellistService.channelInfo(channelId);
     }
-    Getvideosearch(search) {
-        return this.channellistService.Getvideosearch(search);
+    Getvideosearch(search, req) {
+        return this.channellistService.Getvideosearch(search, req);
     }
     searchchannel(createChannellistDto) {
         return this.channellistService.searchchannel(createChannellistDto.Channel_Url_Id);
@@ -61,8 +61,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)('channel/:videosearch'),
     __param(0, (0, common_1.Param)('videosearch')),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], ChannellistController.prototype, "Getvideosearch", null);
 __decorate([

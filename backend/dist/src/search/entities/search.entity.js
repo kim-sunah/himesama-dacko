@@ -9,29 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Auth = void 0;
-const search_entity_1 = require("../../search/entities/search.entity");
+exports.Search = void 0;
+const auth_entity_1 = require("../../auth/entities/auth.entity");
 const typeorm_1 = require("typeorm");
-let Auth = class Auth {
+let Search = class Search {
 };
-exports.Auth = Auth;
+exports.Search = Search;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Auth.prototype, "id", void 0);
+], Search.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Auth.prototype, "email", void 0);
+], Search.prototype, "search", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Auth.prototype, "nickname", void 0);
-__decorate([
-    (0, typeorm_1.OneToOne)(() => search_entity_1.Search, search => search.auth),
-    __metadata("design:type", search_entity_1.Search)
-], Auth.prototype, "search", void 0);
-exports.Auth = Auth = __decorate([
+    (0, typeorm_1.OneToOne)(() => auth_entity_1.Auth, auth => auth.search, { onDelete: "CASCADE" }),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", auth_entity_1.Auth)
+], Search.prototype, "auth", void 0);
+exports.Search = Search = __decorate([
     (0, typeorm_1.Entity)()
-], Auth);
-//# sourceMappingURL=auth.entity.js.map
+], Search);
+//# sourceMappingURL=search.entity.js.map

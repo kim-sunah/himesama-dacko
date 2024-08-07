@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { ChannellistService } from './channellist.service';
 import { CreateChannellistDto } from './dto/create-channellist.dto';
 import { UpdateChannellistDto } from './dto/update-channellist.dto';
@@ -6,6 +6,7 @@ import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 import { get } from 'http';
 import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
 import { PopularVideoArrayDto } from './dto/Live_Popular_dto';
+import { Response, Request } from 'express';
 
 @Controller('channellist')
 export class ChannellistController {
@@ -17,8 +18,8 @@ export class ChannellistController {
   }
 
   @Get('channel/:videosearch')
-  Getvideosearch(@Param('videosearch') search: string) {
-    return this.channellistService.Getvideosearch(search);
+  Getvideosearch(@Param('videosearch') search: string ,@Req() req: Request) {
+    return this.channellistService.Getvideosearch(search, req);
   }
 
   @Post('searchchannel')

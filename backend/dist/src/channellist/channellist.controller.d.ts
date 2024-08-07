@@ -2,11 +2,12 @@ import { ChannellistService } from './channellist.service';
 import { CreateChannellistDto } from './dto/create-channellist.dto';
 import { YoutubePageToken } from './dto/Yotube_PageToken.dto';
 import { InfluencerOrder } from 'src/filter/dto/DbOrder.dto';
+import { Request } from 'express';
 export declare class ChannellistController {
     private readonly channellistService;
     constructor(channellistService: ChannellistService);
     channelInfo(channelId: string): Promise<import("./entities/channellist.entity").Channellist>;
-    Getvideosearch(search: string): Promise<{
+    Getvideosearch(search: string, req: Request): Promise<{
         Channel_Url_Id: any;
         channel_img: any;
         videotitle: any;

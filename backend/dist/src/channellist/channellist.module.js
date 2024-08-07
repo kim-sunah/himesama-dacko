@@ -20,12 +20,14 @@ const videolike_entity_1 = require("../video/entities/videolike.entity");
 const subscriber_entity_1 = require("./entities/subscriber.entity");
 const view_entity_1 = require("./entities/view.entity");
 const video_entity_2 = require("./entities/video.entity");
+const search_entity_1 = require("../search/entities/search.entity");
+const auth_entity_1 = require("../auth/entities/auth.entity");
 let ChannellistModule = class ChannellistModule {
 };
 exports.ChannellistModule = ChannellistModule;
 exports.ChannellistModule = ChannellistModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([channellist_entity_1.Channellist, video_entity_1.Video, videoview_entity_1.videoview, videocomment_entity_1.videocomment, videolike_entity_1.videolike, subscriber_entity_1.SubscriberCount, view_entity_1.ViewCount, video_entity_2.VideoCount])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([channellist_entity_1.Channellist, video_entity_1.Video, videoview_entity_1.videoview, videocomment_entity_1.videocomment, videolike_entity_1.videolike, subscriber_entity_1.SubscriberCount, view_entity_1.ViewCount, video_entity_2.VideoCount, search_entity_1.Search, auth_entity_1.Auth])],
         controllers: [channellist_controller_1.ChannellistController],
         providers: [channellist_service_1.ChannellistService, filter_service_1.FilterService],
     })
