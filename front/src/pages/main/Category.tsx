@@ -19,9 +19,6 @@ export default function Main() {
   const { filteredRankingData } = data;
   return (
     <div>
-    
-
-
       <div className="flex h-full">
         <div className="m-auto">
           <div className="ml-4 mb-1"> 카테코리 순위 </div>

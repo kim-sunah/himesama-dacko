@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import Main, {mainLoader} from './pages/main/Main';
+import Category, { mainLoader } from './pages/main/Category';
 import Root from './pages/Root';
 import CategoryRankings from './other/category/Category_Rankings';
 import CategoryRankingsList from './other/category/Category_RankingList';
@@ -21,22 +21,27 @@ import LiveRoot from './pages/Live/LiveRoot';
 import ChannelRoot from './pages/channel_detail/ChannelRoot';
 import RankingList from "./pages/ranking/RankingList";
 import { CookiesProvider } from "react-cookie";
+import { RecoilRoot } from "recoil";
 import Channel_Datail_Video_Root from "./pages/channel_detail/video/Root";
 import Header_SideBar from "./pages/main/header/Header_Sidebar";
+import KakaoRedirect from "./pages/login/KaKaoRedirect";
+import MainRoot from "./pages/main/MainRoot";
 
 
 function App() {
   const router = createBrowserRouter([
 
     {
-      path: "", element: <Header_SideBar></Header_SideBar>, errorElement: <Error></Error>, children: [
-        { index: true, element: <Main></Main> , loader : mainLoader},
+      path: "", element: <MainRoot></MainRoot>, errorElement: <Error></Error>, children: [
+        // { index: true, element: <Category></Category>, loader: mainLoader },
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },
-        { path :":ChannelId" ,children:[
-          { index: true, element: <ChannelRoot></ChannelRoot> },
-          {path: ":videoId" , element : <Channel_Datail_Video_Root></Channel_Datail_Video_Root>}
-        ]},
+        {
+          path: ":ChannelId", children: [
+            { index: true, element: <ChannelRoot></ChannelRoot> },
+            { path: ":videoId", element: <Channel_Datail_Video_Root></Channel_Datail_Video_Root> }
+          ]
+        },
         {
           path: "Ranking", children: [
             { path: ":sort/:filter", element: <RankingList></RankingList> },
@@ -69,18 +74,19 @@ function App() {
           path: "*",
           element: <Error />
         }
-  
-
       ]
-    }
+    },
+    { path: 'Login/kakao', element: <KakaoRedirect></KakaoRedirect> },
   ])
   return (
+    <RecoilRoot>
+      <CookiesProvider>
+        <Provider store={store}>
+          <RouterProvider router={router}></RouterProvider>
+        </Provider>
+      </CookiesProvider>
+    </RecoilRoot>
 
-    <CookiesProvider>
-      <Provider store={store}>
-        <RouterProvider router={router}></RouterProvider>
-      </Provider>
-    </CookiesProvider>
 
 
   );
