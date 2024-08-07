@@ -44,7 +44,6 @@ let AppController = class AppController {
         }
     }
     async login(req, res) {
-        console.log("HEELO");
         req.session.user = { userId: 1, username: 'john.doe' };
         res.send('Login successful');
     }

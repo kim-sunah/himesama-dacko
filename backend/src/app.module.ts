@@ -29,6 +29,8 @@ import { CommentModule } from './comment/comment.module';
 import { Comment } from './comment/entities/comment.entity';
 
 import { NlpModule } from './nlp/nlp.module';
+import { AuthModule } from './auth/auth.module';
+import { Auth } from './auth/entities/auth.entity';
 
 
 const typeOrmModuleOptions = {
@@ -43,7 +45,7 @@ const typeOrmModuleOptions = {
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'), 
     charset : configService.get("CHAR_SET"), //이모지를 위한 추가 설정기능 이유 : 이모지는 3byte인데 utf8mb는 최대 2바이트밖에 받지 못하기 때문이다.
-    entities: [Channellist, Video, videocomment, videolike, videoview, , ViewCount, SubscriberCount, VideoCount, Comment], 
+    entities: [Channellist, Video, videocomment, videolike, videoview, , ViewCount, SubscriberCount, VideoCount, Comment, Auth], 
     synchronize: configService.get('DB_SYNC'),
     logging: true,
     timezone : 'Asia/Seoul'
@@ -74,7 +76,9 @@ const typeOrmModuleOptions = {
   UpdateModule,
   CommentModule,
  
-  NlpModule],
+  NlpModule,
+ 
+  AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

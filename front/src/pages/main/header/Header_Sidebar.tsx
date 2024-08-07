@@ -5,12 +5,17 @@ import { Input } from "../../../component/v0/input"
 import { FormEvent, useRef } from "react";
 import Login, { useLoginModal } from "../../login/Login";
 import { Button } from "../../../component/v0/button";
+import { useRecoilValue } from "recoil";
+import { userEmailState, userNameState, userLoggedInState } from "../../../store/auth";
+import Getmethod from "../../../http/Get_method";
 
 export default function Header_SideBar() {
 
     const ChannelId = useRef<HTMLInputElement>(null);
     const loaction = useLocation();
-
+    const userName = useRecoilValue(userNameState);
+    const userEmail = useRecoilValue(userEmailState);
+    const isLoggedIn = useRecoilValue(userLoggedInState);
     const { Loginopen, handleLoginOpen, handleLoginClose } = useLoginModal();
 
     const getYouTubeChannelId = async (event: FormEvent<HTMLFormElement>): Promise<any> => {
@@ -27,6 +32,15 @@ export default function Header_SideBar() {
                 alert("특수문자가 포함되어있습니다.");
             }
         }
+    }
+
+    const Logout = async() =>{
+        console.log("123")
+        await Getmethod(`${process.env.REACT_APP_BACKEND_API}/auth/logout`);
+        window.location.reload()
+     
+
+        
     }
     return (
 
@@ -73,7 +87,7 @@ export default function Header_SideBar() {
                 </nav>
             </aside>
             <div className="flex flex-col w-full">
-                <header className="bg-background border-b px-4 py-3 flex items-center gap-4 mb-4">
+                <header className="bg-background border-b px-4 py-3 flex items-center  mb-4">
 
 
 
@@ -84,16 +98,23 @@ export default function Header_SideBar() {
                     </form>
                     {/* <Avatar className="border">
                         <AvatarImage src="/placeholder-user.jpg" alt="User avatar" style={{ width: "20%" }} />
-                        <AvatarFallback>JD</AvatarFallback>
+                        <AvatarFallback>{userName}</AvatarFallback>
                     </Avatar> */}
-                    <Button
+                    {isLoggedIn &&  <span>{userName}님 환영합니다 </span>}
+                    {isLoggedIn &&  <Button
                         variant="destructive"
                         className="text-black"
-                       
+                        onClick={Logout}
+                    >
+                          로그아웃
+                    </Button>}  
+                    {! isLoggedIn &&<Button
+                        variant="destructive"
+                        className="text-black"
                         onClick={handleLoginOpen}
                     >
-                         로그인
-                    </Button>
+                          로그인
+                    </Button>}
                     <Login open={Loginopen} handleClose={handleLoginClose}></Login>
                 </header>
 

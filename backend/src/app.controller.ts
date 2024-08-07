@@ -52,9 +52,6 @@ export class AppController {
 
   @Post('login')
   async login(@Req() req: Request, @Res() res: Response) {
-    // 실제 인증 로직은 여기에 구현
-    // 예시: 간단히 세션에 사용자 정보 저장
-    console.log("HEELO")
     req.session.user = { userId: 1, username: 'john.doe' };
     res.send('Login successful');
   }

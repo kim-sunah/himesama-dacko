@@ -8,6 +8,8 @@ import { Button } from "../../component/v0/button"
 import Typography from '@mui/material/Typography';
 import { useSpring, animated } from '@react-spring/web';
 import { Link } from 'react-router-dom';
+import kakao from "../../assets/free-icon-kakao-talk-3669973.png"
+import Google from "../../assets/web_light_rd_na@1x.png"
 
 
 interface FadeProps {
@@ -67,6 +69,12 @@ interface LoginModalProps {
     handleClose: () => void;
 }
 export default function Login({ open, handleClose }: LoginModalProps) {
+
+    const KakaoLogin = () => {
+        const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`
+      
+        window.location.href = KAKAO_URL
+    }
     return (
         <div>
             <Modal
@@ -87,10 +95,10 @@ export default function Login({ open, handleClose }: LoginModalProps) {
                         <div className="bg-gray-100 flex items-center justify-center">
                             <div className="max-w-sm rounded-lg shadow-lg bg-white p-6 space-y-6 border border-gray-200 dark:border-gray-700">
                                 <div className="space-y-2 text-center">
-                                    <h1 className="text-3xl font-bold">Login</h1>
+                                    <h1 className="text-2xl font-bold">간편 로그인</h1>
                                    
                                 </div>
-                                <div className="space-y-4">
+                                <div className="space-y-4 w-80">
                                     <div className="space-y-2">
                                         <Label htmlFor="email">Email</Label>
                                         <Input id="email" placeholder="m@example.com" required type="email" />
@@ -100,24 +108,14 @@ export default function Login({ open, handleClose }: LoginModalProps) {
                                         <span className="text-zinc-400 dark:text-zinc-300 text-sm">OR</span>
                                         <hr className="flex-grow border-zinc-200 dark:border-zinc-700" />
                                     </div>
-                                    <Button className="w-full bg-blue-400 text-white hover:bg-blue-600" variant="outline">
-                                        <div className="flex items-center justify-center">
+                                    <div className='flex justify-center gap-8'>
+                                        
+                                    <img src={kakao} style={{ width: "50px", height: "50px", cursor: "pointer" }} onClick={KakaoLogin}></img>
+                                        <img src={Google} style={{ width: "50px", height: "50px" }} ></img>
 
-                                            Login with Google
-                                        </div>
-                                    </Button>
-                                    <Button className="w-full bg-yellow-300 text-white hover:bg-yellow-600" variant="outline">
-                                        <div className="flex items-center justify-center">
 
-                                            Login with KaKao
-                                        </div>
-                                    </Button>
-                                    <Button className="w-full bg-green-500 text-white hover:bg-green-600" variant="outline">
-                                        <div className="flex items-center justify-center">
-
-                                            Login with Naver
-                                        </div>
-                                    </Button>
+                                    </div>
+                                  
                                 </div>
                                 <div className="flex items-center space-x-2">
                                         <hr className="flex-grow border-zinc-200 dark:border-zinc-700" />
@@ -125,9 +123,7 @@ export default function Login({ open, handleClose }: LoginModalProps) {
                                         <hr className="flex-grow border-zinc-200 dark:border-zinc-700" />
                                     </div>
                                     <Button className="w-full text-black " variant="outline">
-                                       
                                             회원가입
-                                     
                                     </Button>
                                    
                             </div>
