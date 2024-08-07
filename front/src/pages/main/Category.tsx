@@ -14,7 +14,7 @@ interface RankingItem {
 interface LoaderData {
   filteredRankingData: RankingItem[];
 }
-export default function Main() {
+export default function Category() {
   const data = useLoaderData() as LoaderData;
   const { filteredRankingData } = data;
   return (
