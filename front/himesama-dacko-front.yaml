@@ -11,6 +11,10 @@ options:
       value: https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/
     - name: REACT_APP_Youtube_API
       value: AIzaSyCG-Av5i12FnfYP9x2tPfM68QkdoQppOxI
+    - name: REACT_APP_KAKAO_API_KEY
+      value: 49349ece640ea5ec42b4d5877e3c8288
+    - name: REACT_APP_KAKAO_REDIRECT_URI
+      value: https://web-himesama-dacko-front-16yzlb2alrh4xa0h.sel5.cloudtype.app/Login/kakao
 context:
   git:
     url: git@github.com:kim-sunah/himesama-dacko.git
