@@ -34,5 +34,5 @@ export default function KakaoRedirect() {
             .catch(err => console.log(err))
     }, [])
 
-    return <h1>asdsa</h1>
+    return <></>
 }
