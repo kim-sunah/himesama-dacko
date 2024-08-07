@@ -33,7 +33,7 @@ function App() {
 
     {
       path: "", element: <MainRoot></MainRoot>, errorElement: <Error></Error>, children: [
-        // { index: true, element: <Category></Category>, loader: mainLoader },
+        { index: true, element: <Category></Category>, loader: mainLoader },
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },
         {
