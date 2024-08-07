@@ -5,6 +5,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import Getmethod from "../../../http/Get_method";
 import { Comment } from "../../../enum/Comment";
 import CommentText from "./CommentText";
+import YoutubeGetmethod from "../../../http/Youtube_Get_Method";
 
 
 
@@ -22,7 +23,7 @@ export default function Comments() {
         const fetchData = async () => {
           
             try {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=${location.pathname.split("/")[2]}&key=${process.env.REACT_APP_Youtube_API}`);
+                const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=20&videoId=${location.pathname.split("/")[2]}&key=${process.env.REACT_APP_Youtube_API}`);
                 setComment(response.items);
                 setcommentError(false);
             } catch (error) {

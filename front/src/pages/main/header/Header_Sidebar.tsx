@@ -69,6 +69,14 @@ export default function Header_SideBar() {
                         <span className="whitespace-nowrap ">유투브 조건 검색</span>
                     </Link>
                     <Link
+                        to="/Live"
+                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground  text-black "
+
+                    >
+                        {/* <UsersIcon className="w-5 h-5" /> */}
+                        <span className="whitespace-nowrap">실시간 인기 동영상</span>
+                    </Link>
+                    <Link
                         to="#"
                         className="flex items-center gap-2 text-muted-foreground hover:text-foreground  text-black "
 
@@ -84,6 +92,7 @@ export default function Header_SideBar() {
                         {/* <UsersIcon className="w-5 h-5" /> */}
                         <span className="whitespace-nowrap">홈페이지 소개</span>
                     </Link>
+               
                 </nav>
             </aside>
             <div className="flex flex-col w-full">
@@ -108,7 +117,7 @@ export default function Header_SideBar() {
                     >
                           로그아웃
                     </Button>}  
-                    {! isLoggedIn &&<Button
+                    {!isLoggedIn &&<Button
                         variant="destructive"
                         className="text-black"
                         onClick={handleLoginOpen}

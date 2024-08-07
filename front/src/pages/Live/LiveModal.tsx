@@ -5,6 +5,7 @@ import { PopularVideo } from "../../enum/Popular";
 import Getmethod from "../../http/Get_method";
 import {  useNavigate } from "react-router-dom";
 import Postmethod from "../../http/Post_method";
+import YoutubeGetmethod from "../../http/Youtube_Get_Method";
 
 
 
@@ -62,7 +63,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
     try {
       if(props.selectedCategory){
         if (pageToken) {
-          const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+          const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
           setVideos(prevVideos => {
             const existingVideoIds = prevVideos.map(video => video.id);
             const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
@@ -71,7 +72,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
           setNextPageToken(response.nextPageToken);
         }
         else if (pageToken === null) {
-          const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+          const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
           setVideos(prevVideos => {
             const existingVideoIds = prevVideos.map(video => video.id);
             const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
@@ -81,7 +82,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
   
         }
       }
-      const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=10&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+      const Liveresponse = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=10&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
       setlivelist(ShuffleArray(Liveresponse.items))
     } catch (error) {
       console.error('Failed to fetch videos:', error);
@@ -197,7 +198,7 @@ const LiveModal: React.FC<LiveModalProps> = (props) => {
       navigate(`/${props.PopularselectedVideo!.snippet.channelId}`)
     }
     else if(props.type ==="Live"){
-      const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${props.LiveselectedVideo?.id.videoId}&key=${process.env.REACT_APP_Youtube_API}`)
+      const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${props.LiveselectedVideo?.id.videoId}&key=${process.env.REACT_APP_Youtube_API}`)
        await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/LivePopularChannel`, { ChannelId: props.LiveselectedVideo!.snippet.channelId , categoryid : response.items[0].snippet.categoryId, videoid : props.LiveselectedVideo?.id.videoId });
        navigate(`/${props.LiveselectedVideo!.snippet.channelId}`)
 

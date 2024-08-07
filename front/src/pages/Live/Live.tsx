@@ -5,6 +5,7 @@ import Getmethod from "../../http/Get_method"
 import { PopularVideo } from "../../enum/Popular";
 import { LiveVideo } from "../../enum/Live";
 import LiveModal from "./LiveModal";
+import YoutubeGetmethod from "../../http/Youtube_Get_Method";
 
 const CategoryIdMap: { [key: string]: number } = {
     "All": 0,
@@ -50,7 +51,7 @@ export default function Live() {
         try {
 
             if (pageToken) {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=statistics&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=statistics&part=liveStreamingDetails&maxResults=50&pageToken=${pageToken}&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
                 setVideos(prevVideos => {
                     const existingVideoIds = prevVideos.map(video => video.id);
                     const filteredNewVideos = response.items.filter((video: { id: string; }) => !existingVideoIds.includes(video.id));
@@ -61,7 +62,7 @@ export default function Live() {
               
             }
             else if (pageToken === null) {
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=statistics&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&part=statistics&part=liveStreamingDetails&maxResults=50&chart=mostPopular&videoCategoryId=${selectnumberId}&regionCode=KR&key=${process.env.REACT_APP_Youtube_API}`)
 
                 setVideos(prevVideos => {
                     const existingVideoIds = prevVideos.map(video => video.id);
@@ -72,7 +73,7 @@ export default function Live() {
                 
             }
 
-            const Liveresponse = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=50&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+            const Liveresponse = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&eventType=live&location=37.5665,126.9780&locationRadius=1000km&maxResults=50&order=viewCount&regionCode=kr&type=video&key=${process.env.REACT_APP_Youtube_API}`)
             setlivelist(ShuffleArray(Liveresponse.items))
           
             

@@ -15,6 +15,7 @@ import { AiFillCaretRight } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
 import { useMediaQuery } from 'react-responsive';
 import ErrorPage from "../../error/Error";
+import YoutubeGetmethod from "../../../http/Youtube_Get_Method";
 
 
 interface RouterError {
@@ -88,7 +89,7 @@ export default function Video() {
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${location.pathname.split("/")[2]}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&id=${location.pathname.split("/")[2]}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
                 setVideo(response.items[0])
             }
             catch(error){
@@ -105,7 +106,7 @@ export default function Video() {
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=25&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=25&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
                 setRecentVideos(response.items);
 
             }
@@ -125,7 +126,7 @@ export default function Video() {
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
+                const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&part=statistics&id=${ChannelId}&maxResults=1&key=${process.env.REACT_APP_Youtube_API}`)
                 setsubscriberCount(response.items[0].statistics.subscriberCount);
                 setchannelImg(response.items[0].snippet.thumbnails.high.url);
 

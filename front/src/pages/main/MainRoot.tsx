@@ -33,8 +33,6 @@ export default function MainRoot() {
 
     return <div>
         <Header_SideBar></Header_SideBar>
-        <main>
-            <Outlet></Outlet>
-        </main>
+        
     </div>
 }

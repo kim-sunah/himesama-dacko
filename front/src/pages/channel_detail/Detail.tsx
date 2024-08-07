@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 
 import ErrorPage from "../error/Error";
 import Postmethod from "../../http/Post_method";
+import YoutubeGetmethod from "../../http/Youtube_Get_Method";
 
 interface RouterError {
   status: number;
@@ -51,7 +52,7 @@ export default function Detail() {
   useEffect(() => {
     const fetchData = async () => {
       try{
-        const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${ChannelId}&key=${process.env.REACT_APP_Youtube_API}`)
+        const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=${ChannelId}&key=${process.env.REACT_APP_Youtube_API}`)
         setChannelDescripthon(response.items[0].snippet.description)
       }
       catch (error) {

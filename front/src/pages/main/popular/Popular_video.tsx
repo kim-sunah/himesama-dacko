@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TECarousel, TECarouselItem } from "tw-elements-react";
 import Getmethod from "../../../http/Get_method";
+import YoutubeGetmethod from "../../../http/Youtube_Get_Method";
 
 interface VideoItem {
   id: string;
@@ -11,7 +12,7 @@ export default function Popularvideo(): JSX.Element {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&chart=mostPopular&maxResults=5&regionCode=kr&key=${process.env.REACT_APP_Youtube_API}`);
+        const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=statistics&chart=mostPopular&maxResults=5&regionCode=kr&key=${process.env.REACT_APP_Youtube_API}`);
 
         setPopular_video(response.items)
       } catch (error) {

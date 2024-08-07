@@ -8,6 +8,7 @@ import { BiLike } from "react-icons/bi";
 import { VideoStatistic } from "../../enum/Video_Statistics";
 import { formatNumberUS } from "../../function/formatNumberUS";
 import ErrorPage from "../error/Error";
+import YoutubeGetmethod from "../../http/Youtube_Get_Method";
 
 
 interface RouterError {
@@ -27,7 +28,7 @@ export default function PopularVideo() {
 
 
   const Youtubevideostatistics = async (VideoId: string) => {
-    const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${VideoId}&maxResults=5&key=${process.env.REACT_APP_Youtube_API}`)
+    const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id=${VideoId}&maxResults=5&key=${process.env.REACT_APP_Youtube_API}`)
 
     setVideosStatistics(prevState => {
       if (prevState.some(stat => stat.id === VideoId)) {
@@ -46,7 +47,7 @@ export default function PopularVideo() {
   useEffect(() => {
     const fetchData = async () => {
       try{
-        const response = await Getmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=viewCount&type=video&key=${process.env.REACT_APP_Youtube_API}`)
+        const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=5&order=viewCount&type=video&key=${process.env.REACT_APP_Youtube_API}`)
         setPopularVideos(response.items);
         for (const VideoId of response.items) {
           await Youtubevideostatistics(VideoId.id.videoId)
