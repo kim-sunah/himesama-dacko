@@ -23,7 +23,6 @@ export default function MainRoot() {
             }
             catch (error) {
                 console.log("EEE")
-
             }
 
         }
