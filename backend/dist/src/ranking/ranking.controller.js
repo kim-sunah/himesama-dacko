@@ -60,8 +60,8 @@ let RankingController = class RankingController {
         return await this.rankingService.WeekViewlowIncrease();
     }
     async SortSubscriber(body) {
-        const { sort, filter, page } = body;
-        return await this.rankingService.SortSubscriber(sort, +filter, page);
+        const { sort, filter, page, ohter } = body;
+        return await this.rankingService.SortSubscriber(sort, +filter, page, ohter);
     }
     async Totalsubcriberincrease(channelId) {
         return await this.rankingService.Totalsubcriberincrease(channelId);
