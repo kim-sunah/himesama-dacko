@@ -60,7 +60,7 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
                         </tr>
                     </thead>
                     <tbody >
-                        {rankings && rankings.slice(0, 5).map((Channel, index) => (
+                        {rankings && rankings.map((Channel, index) => (
                             <tr key={index} className="hover:bg-muted/50">
                                 <td className="font-medium" style={{marginLeft:"10%"}}>
                                     <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">

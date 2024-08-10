@@ -56,7 +56,7 @@ export default function Topclick({ channel }: { channel: ChannelInfo[] }) {
         //     </div>
 
         // </div>
-        <div className="w-full overflow-hidden mb-3 ml-4 " >
+        <div className="w-full overflow-hidden mb-3 ml-4  border" >
             <div className="relative "> {/* 고정 너비 설정 */}
                 <img
                     src={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/%EC%A0%9C%EB%AA%A9+%EC%97%86%EB%8A%94+%EB%94%94%EC%9E%90%EC%9D%B8.png"}
@@ -76,7 +76,7 @@ export default function Topclick({ channel }: { channel: ChannelInfo[] }) {
                         </tr>
                     </thead>
                     <tbody >
-                        {channel && channel.slice(0, 4).map((Channel, index) => (
+                        {channel && channel.map((Channel, index) => (
                             <tr key={index} className="hover:bg-muted/50">
                                 <td className="font-medium" style={{ marginLeft: "10%" }}>
                                     <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
