@@ -30,9 +30,8 @@ export class ChannellistService {
 
   }
   async Getvideosearch(search: string, @Req() req: Request) {
-    console.log(req.session.user)
     if (req.session.user) {
-      const user = await this.SearchRepository.findOne({where : {auth : req.session.user.userId}})
+      const user = await this.AuthRepository.findOne({where : {id : req.session.user.userId}})
       if(user){
         await this.SearchRepository.update({auth : req.session.user.userId}, {search : search});
       }
@@ -41,9 +40,9 @@ export class ChannellistService {
       }
     } 
     
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
-    const resData = response.data;
-    return await this.FilterService.videoFilter(resData);
+    // const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`)
+    // const resData = response.data;
+    // return await this.FilterService.videoFilter(resData);
   }
 
   async searchchannel(Channel_Url_Id: string) {
