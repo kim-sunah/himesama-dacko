@@ -19,18 +19,19 @@ let NlpController = class NlpController {
     constructor(nlpService) {
         this.nlpService = nlpService;
     }
-    async tokenize(text) {
+    async tokenize(text, maxresult) {
         const keywords = this.nlpService.extractKeywords(text, 6);
         const searchQuery = keywords.join(' ');
-        return await this.nlpService.searchVideos(searchQuery, 5);
+        return await this.nlpService.searchVideos(searchQuery, maxresult);
     }
 };
 exports.NlpController = NlpController;
 __decorate([
     (0, common_1.Post)('tokenize'),
     __param(0, (0, common_1.Body)('text')),
+    __param(1, (0, common_1.Body)("maxresult")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
 ], NlpController.prototype, "tokenize", null);
 exports.NlpController = NlpController = __decorate([

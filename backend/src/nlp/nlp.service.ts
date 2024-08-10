@@ -41,12 +41,19 @@ export class NlpService {
       .map(item => item[0]);
   }
 
-  async searchVideos(query: string, maxResults: number = 10) {
+  async searchVideos(query: string, maxResults: number) {
     let video = []
     console.log(query)
     const encodedQuery = encodeURIComponent(query);
     console.log(encodedQuery)
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&q=${encodedQuery}&key=${process.env.Youtbe_Api_KEY}`)
+    let response;
+    if(maxResults){
+       response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&type=video&q=${encodedQuery}&key=${process.env.Youtbe_Api_KEY}`)
+    }
+    else{
+      response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&q=${encodedQuery}&key=${process.env.Youtbe_Api_KEY}`)
+
+    }
     video = response.data.items;
     
     return video

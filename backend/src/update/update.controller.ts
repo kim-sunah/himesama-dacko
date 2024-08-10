@@ -10,16 +10,16 @@ export class UpdateController {
 
   onModuleInit() {
     // (매월 1일 5시에 실행)
-    schedule.scheduleJob('0 0 17 1 * *', () => {
-      this.ChartDataUpdate();
-    });
+    // schedule.scheduleJob('0 0 17 1 * *', () => {
+    //   this.ChartDataUpdate();
+    // });
  
     //(매일 5시에 실행)
     schedule.scheduleJob('0 0 17 * * *', () => {
       this.DailySubscriberChannelUpdate();
     });
     //(매일 5시에 실행)
-    schedule.scheduleJob('0 0 17 * * *', () => {
+    schedule.scheduleJob('0 5 17 * * *', () => {
       this.DailyViewChannelUpdate();
     });
     //(매일 5시에 실행)

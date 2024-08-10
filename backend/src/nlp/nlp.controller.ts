@@ -8,11 +8,11 @@ export class NlpController {
   constructor(private readonly nlpService: NlpService) {}
 
   @Post('tokenize')
-  async tokenize(@Body('text') text: string) {
+  async tokenize(@Body('text') text: string, @Body("maxresult") maxresult? : number) {
   
     const keywords = this.nlpService.extractKeywords(text,6);
     const searchQuery = keywords.join(' ');
-    return await this.nlpService.searchVideos(searchQuery, 5);
+    return await this.nlpService.searchVideos(searchQuery, maxresult);
   }
 
  

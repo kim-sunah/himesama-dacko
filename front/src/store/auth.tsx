@@ -1,5 +1,11 @@
 import { atom } from 'recoil';
 
+
+export const userIdState = atom<boolean>({
+  key: 'userIdState',
+  default: false,
+});
+
 export const userNameState = atom<string>({
   key: 'userNameState',
   default: '',
