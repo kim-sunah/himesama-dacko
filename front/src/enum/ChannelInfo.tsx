@@ -1,4 +1,4 @@
-export type channeInfo = {
+export type ChannelInfo = {
     length: number;
     id: number;
     Channel_Id: string;
@@ -14,5 +14,6 @@ export type channeInfo = {
     week_viewCount_percentageincrease:string
     month_subscriberCount_percentageincrease : string
     month_viewCount_percentageincrease : string
+    today_click_count : string
 
   }

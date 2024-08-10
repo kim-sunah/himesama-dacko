@@ -2,23 +2,30 @@
 
 
 import { useLoaderData } from "react-router-dom";
-import { channeInfo } from "../../enum/ChannelInfo";
+import { ChannelInfo } from "../../enum/ChannelInfo";
 import Postmethod from "../../http/Post_method";
 import Leaderboard from "./Leaderboard";
 import Topclick from "./Topclick";
 import { useRecoilValue } from "recoil";
 import { userLoggedInState } from "../../store/auth";
+import Getmethod from "../../http/Get_method";
+import { ChannelClick } from "../../enum/ChannelClick";
+
 interface RankingItem {
   title: string;
   img: string;
-  rankings: channeInfo[];
+  rankings: ChannelInfo[];
 }
 interface LoaderData {
   filteredRankingData: RankingItem[];
+  TopSubscriber : ChannelInfo[]
+  TopClick : ChannelInfo[]
+
 }
 export default function Category() {
   const data = useLoaderData() as LoaderData;
-  const { filteredRankingData } = data;
+  const { filteredRankingData,TopSubscriber,TopClick } = data;
+  console.log(TopSubscriber)
   const isLoggedIn = useRecoilValue(userLoggedInState);
   return (
     <div>
@@ -49,15 +56,15 @@ export default function Category() {
           <div className="m-auto">
             <div className="ml-4 mb-1"> 카테고리 외 순위 </div>
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-8" >
-              <Topclick></Topclick>
+              <Topclick channel={TopClick}></Topclick>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   )
 }
+
 export async function mainLoader() {
   const leaderboardData = [
     { title: "1|애니메이션영화", img: "https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/socalguitarist_8300729ad8a3c13c665a47677d9e2427_image.png" },
@@ -94,15 +101,17 @@ export async function mainLoader() {
     });
     console.log(response)
 
+
+
     if (response && response.length > 0) {
       return { ...item, rankings: response };
     } else {
       return null;
     }
   }));
-
+  const TopSubscriber = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/SubscriberTop`)
+  const TopClick = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/click/GetTopClickedChannel`)
 
   const filteredRankingData = rankingData.filter(item => item !== null);
-
-  return { filteredRankingData };
+  return { filteredRankingData , TopSubscriber, TopClick};
 }

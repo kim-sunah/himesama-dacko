@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuRad
 import { Button } from "../../component/v0/button"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import Postmethod from "../../http/Post_method"
-import { channeInfo } from "../../enum/ChannelInfo"
+import { ChannelInfo } from "../../enum/ChannelInfo"
 import { Tabs, TabsList, TabsTrigger } from "../../component/v0/tabs"
 import { formatNumberUS } from "../../function/formatNumberUS";
 import { FcManager } from "react-icons/fc";
@@ -23,7 +23,7 @@ export default function RankingList() {
   const [loading, setLoading] = useState(false);
   const [sortOrder, setSortOrder] = useState("desc")
   const [filterCategory, setFilterCategory] = useState(location.pathname.split("/")[3])
-  const [Channel, setChannel] = useState<channeInfo[]>([]);
+  const [Channel, setChannel] = useState<ChannelInfo[]>([]);
   const [page , setpage] = useState(1);
 
 
