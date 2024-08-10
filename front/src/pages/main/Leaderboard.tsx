@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../../component/v0/tabs";
-import { channeInfo } from "../../enum/ChannelInfo";
+import { ChannelInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import { CgAdd } from "react-icons/cg";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
@@ -16,9 +16,8 @@ interface LeaderboardProps {
 interface LeaderboardProps {
     title: string;
     img: string;
-    rankings?: channeInfo[]; // rankings를 선택적 prop으로 추가
+    rankings?: ChannelInfo[]; // rankings를 선택적 prop으로 추가
 }
-
 
 
 export default function Leaderboard({ title, img, rankings }: LeaderboardProps) {

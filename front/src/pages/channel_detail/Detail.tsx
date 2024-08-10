@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {  useParams } from "react-router-dom"
 import Getmethod from "../../http/Get_method";
 import { formatNumberUS } from "../../function/formatNumberUS";
-import { channeInfo } from "../../enum/ChannelInfo";
+import { ChannelInfo } from "../../enum/ChannelInfo";
 import { formatNumber } from "../../function/formatNumber";
 import ViewChart from "../ranking/list/View_chat";
 import styled from "@emotion/styled";
@@ -30,7 +30,7 @@ export default function Detail() {
   }
 `;
 
-  const [ChannelInfo, setChannelInfo] = useState<channeInfo | null>();
+  const [ChannelInfo, setChannelInfo] = useState<ChannelInfo | null>();
   const { ChannelId } = useParams();
   const [ChannelDescription, setChannelDescripthon] = useState<String>();
   const [error, setError] = useState<RouterError | null>(null);

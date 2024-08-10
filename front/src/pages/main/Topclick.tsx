@@ -4,25 +4,14 @@ import Getmethod from "../../http/Get_method"
 import { formatNumber } from "../../function/formatNumber";
 import { Link, useNavigate } from "react-router-dom";
 import { ChannelClick } from "../../enum/ChannelClick";
+import { ChannelInfo } from "../../enum/ChannelInfo";
 
-export default function Topclick() {
-    const [channel, setchannel] = useState<ChannelClick[]>([]);
-    const navigate =useNavigate();
-    useEffect(() => {
-        const fetchDate = async () => {
-            const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/click/GetTopClickedChannel`)
-            console.log(response)
-            setchannel(response)
+export default function Topclick({ channel }: { channel: ChannelInfo[] }) {
+    console.log(channel[1])
 
-
-        }
-        fetchDate()
-
-
-    }, [])
+ 
     return (
         <div className="w-full overflow-hidden mb-3 ml-4">
-        
             <div className="relative "> {/* 고정 너비 설정 */}
                 <img
                     src={"https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/%EC%A0%9C%EB%AA%A9+%EC%97%86%EB%8A%94+%EB%94%94%EC%9E%90%EC%9D%B8.png"}
@@ -48,17 +37,17 @@ export default function Topclick() {
                         </tr>
                     </thead>
                     <tbody>
-                        {channel && channel.map((Channel, index) => (
+                        {channel && channel.map((channel, index) => (
                             <tr key={index} className=" hover:bg-muted/50">
                                 <td className="font-medium">
-                                    <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
-                                        <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0 rounded-full" />
-                                        <span className="text-sm truncate text-black">{Channel.Channel_nickname}</span>
+                                    <Link to={`${channel.Channel_Id}`} className="flex items-center gap-2">
+                                        <img src={channel.channel_img} width={35} alt={channel.Channel_nickname} className="flex-shrink-0 rounded-full" />
+                                        <span className="text-sm truncate text-black">{channel.Channel_nickname}</span>
                                     </Link>
                                 </td>
-                                <td className="px-4 text-center text-muted-foreground">{formatNumber(Number(Channel.subscriberCount))} </td>
-                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.viewCount))}</td>
-                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(Channel.today_click_count))}회</td>
+                                <td className="px-4 text-center text-muted-foreground">{formatNumber(Number(channel.subscriberCount))} </td>
+                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(channel.viewCount))}</td>
+                                <td className="px-4  text-center text-muted-foreground">{formatNumber(Number(channel.today_click_count))}회</td>
                        
                             </tr>
                         ))}

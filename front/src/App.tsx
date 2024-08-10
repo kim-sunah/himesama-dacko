@@ -23,9 +23,10 @@ import RankingList from "./pages/ranking/RankingList";
 import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import Channel_Datail_Video_Root from "./pages/channel_detail/video/Root";
-import Header_SideBar from "./pages/main/header/Header_Sidebar";
+
 import KakaoRedirect from "./pages/login/KaKaoRedirect";
 import MainRoot from "./pages/main/MainRoot";
+
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     {
       path: "", element: <MainRoot></MainRoot>, errorElement: <Error></Error>, children: [
         { index: true, element: <Category></Category>, loader: mainLoader },
+      
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },
         {

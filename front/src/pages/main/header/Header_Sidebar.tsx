@@ -1,7 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { Input } from "../../../component/v0/input"
-
-
 import { FormEvent, useRef } from "react";
 import Login, { useLoginModal } from "../../login/Login";
 import { Button } from "../../../component/v0/button";

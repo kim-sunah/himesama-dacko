@@ -9,16 +9,12 @@ interface RouterError {
     status: number;
     message: string;
   }
-  
-
 export default function MainRoot() {
-
     const [userName, setUserName] = useRecoilState(userNameState);
     const [userEmail, setUserEmail] = useRecoilState(userEmailState);
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(userLoggedInState);
     const [error, setError] = useState<RouterError | null>(null);
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/auth/getsession`)
@@ -27,9 +23,7 @@ export default function MainRoot() {
                 setIsLoggedIn(true);
             }
             catch (error) {
-               
             }
-
         }
         fetchData()
 

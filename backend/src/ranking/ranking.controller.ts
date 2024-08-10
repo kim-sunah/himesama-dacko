@@ -88,9 +88,7 @@ export class RankingController {
   //Sort 높은순으로 나열 
   @Post("RankingSort")
   async SortSubscriber(@Body() body:  { sort: string; filter: string ; page?: number; } ){
-    
     const { sort, filter , page } = body;
-
     return await this.rankingService.SortSubscriber(sort, +filter , page);
   }
 

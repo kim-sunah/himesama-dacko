@@ -54,7 +54,6 @@ export class ChannellistController {
   //클릭한 채널 카운트 중가
   @Post("incrementChannelClicks")
   incrementChannelClicks(@Body("ChannelId") ChannelId : string){
- 
     return this.channellistService.incrementChannelClicks(ChannelId);
   }
 
