@@ -28,7 +28,7 @@ __decorate([
     __metadata("design:type", String)
 ], Auth.prototype, "nickname", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => search_entity_1.Search, search => search.auth),
+    (0, typeorm_1.OneToOne)(() => search_entity_1.Search),
     __metadata("design:type", search_entity_1.Search)
 ], Auth.prototype, "search", void 0);
 exports.Auth = Auth = __decorate([

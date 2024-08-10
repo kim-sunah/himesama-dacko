@@ -9,8 +9,8 @@ export class Search {
     @Column()
     search : string
 
-    @OneToOne(() => Auth, auth => auth.search, {onDelete : "CASCADE"})
-    @JoinColumn()
-    auth : Auth
+    @OneToOne(() => Auth)
+    @JoinColumn({name :"auth_id", referencedColumnName:"id"})
+    auth: number;
 
 }

@@ -13,6 +13,8 @@ export class Auth {
     @Column()
     nickname : string
 
-    @OneToOne(() => Search , search => search.auth)
-    search :  Search
+    @OneToOne(() => Search)
+ 
+    search: Search;
+
 }

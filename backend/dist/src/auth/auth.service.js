@@ -41,7 +41,7 @@ let AuthService = class AuthService {
     }
     async searchfind(id) {
         const user = await this.AuthRepository.findOne({ where: { id } });
-        return await this.SearchRepository.findOne({ where: { auth: user } });
+        return await this.SearchRepository.findOne({ where: { auth: user.id } });
     }
     update(id, updateAuthDto) {
         return `This action updates a #${id} auth`;

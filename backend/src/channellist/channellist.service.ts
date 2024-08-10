@@ -31,7 +31,8 @@ export class ChannellistService {
   }
   async Getvideosearch(search: string, @Req() req: Request) {
     if (req.session.user) {
-      const user = await this.SearchRepository.findOne({where : {auth : req.session.user.userId}})
+
+      const user = await this.SearchRepository.findOne({where : { auth : req.session.user.userId}});
       if(user){
         await this.SearchRepository.update({auth : req.session.user.userId}, {search : search});
       }

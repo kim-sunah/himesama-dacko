@@ -12,14 +12,8 @@ const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const auth_entity_1 = require("./entities/auth.entity");
-const connect_sid_middleware_1 = require("../middleware/connect-sid.middleware");
 const search_entity_1 = require("../search/entities/search.entity");
 let AuthModule = class AuthModule {
-    configure(consumer) {
-        consumer
-            .apply(connect_sid_middleware_1.ConnectSidMiddleware)
-            .forRoutes('*');
-    }
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([

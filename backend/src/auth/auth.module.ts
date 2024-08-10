@@ -12,9 +12,4 @@ import { Search } from 'src/search/entities/search.entity';
   providers: [AuthService],
 })
 export class AuthModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(ConnectSidMiddleware)
-      .forRoutes('*');
-  }
 }
