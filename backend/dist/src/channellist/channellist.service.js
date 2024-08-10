@@ -37,6 +37,7 @@ let ChannellistService = class ChannellistService {
         this.AuthRepository = AuthRepository;
     }
     async Getvideosearch(search, req) {
+        console.log(req.session.user);
         if (req.session.user) {
             const user = await this.SearchRepository.findOne({ where: { auth: req.session.user.userId } });
             if (user) {
@@ -46,9 +47,6 @@ let ChannellistService = class ChannellistService {
                 await this.SearchRepository.save({ search: search, auth: req.session.user.userId });
             }
         }
-        const response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`);
-        const resData = response.data;
-        return await this.FilterService.videoFilter(resData);
     }
     async searchchannel(Channel_Url_Id) {
         return await this.channelList.findOne({ where: { Channel_Url_Id: Channel_Url_Id } });

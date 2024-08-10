@@ -16,7 +16,7 @@ export default function RecommandVideo(){
                 const response = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/auth/${UserId}`)
                 const searchData = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/nlp/tokenize`,{text: response.search, maxresult : 8})
                 setrecommandVideo(searchData)
-                console.log(searchData)
+            
 
             }
             catch(err){
