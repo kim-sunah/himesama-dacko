@@ -42,12 +42,18 @@ let NlpService = class NlpService {
             .slice(0, numKeywords)
             .map(item => item[0]);
     }
-    async searchVideos(query, maxResults = 10) {
+    async searchVideos(query, maxResults) {
         let video = [];
         console.log(query);
         const encodedQuery = encodeURIComponent(query);
         console.log(encodedQuery);
-        const response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&q=${encodedQuery}&key=${process.env.Youtbe_Api_KEY}`);
+        let response;
+        if (maxResults) {
+            response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&type=video&q=${encodedQuery}&key=${process.env.Youtbe_Api_KEY}`);
+        }
+        else {
+            response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&type=video&q=${encodedQuery}&key=${process.env.Youtbe_Api_KEY}`);
+        }
         video = response.data.items;
         return video;
     }

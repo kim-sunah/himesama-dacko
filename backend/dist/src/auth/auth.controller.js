@@ -49,8 +49,9 @@ let AuthController = class AuthController {
     findAll() {
         return this.authService.findAll();
     }
-    findOne(id) {
-        return this.authService.findOne(+id);
+    searchfind(id) {
+        console.log(id);
+        return this.authService.searchfind(+id);
     }
     update(id, updateAuthDto) {
         return this.authService.update(+id, updateAuthDto);
@@ -96,7 +97,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "findOne", null);
+], AuthController.prototype, "searchfind", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

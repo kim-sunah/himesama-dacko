@@ -17,28 +17,31 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const auth_entity_1 = require("./entities/auth.entity");
 const typeorm_2 = require("typeorm");
+const search_entity_1 = require("../search/entities/search.entity");
 let AuthService = class AuthService {
-    constructor(AuthRepository) {
+    constructor(AuthRepository, SearchRepository) {
         this.AuthRepository = AuthRepository;
+        this.SearchRepository = SearchRepository;
     }
     async Kakaocreate(email, nickname, req, res) {
         const Existuser = await this.AuthRepository.findOne({ where: { email: email } });
         if (Existuser) {
             req.session.user = { userId: Existuser.id, email: Existuser.email, nickname: Existuser.nickname };
             res.send('Login successful');
-            return { nickname: Existuser.nickname, email: Existuser.email };
+            return { userId: Existuser.id, nickname: Existuser.nickname, email: Existuser.email };
         }
         const user = await this.AuthRepository.create({ email: email, nickname: nickname });
         req.session.user = { userId: user.id, email: user.email, nickname: user.nickname };
         res.send('Login successful');
         await this.AuthRepository.save(user);
-        return { nickname: user.nickname, email: user.email };
+        return { userId: user.id, nickname: user.nickname, email: user.email };
     }
     findAll() {
         return `This action returns all auth`;
     }
-    findOne(id) {
-        return `This action returns a #${id} auth`;
+    async searchfind(id) {
+        const user = await this.AuthRepository.findOne({ where: { id } });
+        return await this.SearchRepository.findOne({ where: { auth: user } });
     }
     update(id, updateAuthDto) {
         return `This action updates a #${id} auth`;
@@ -51,6 +54,7 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(auth_entity_1.Auth)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(search_entity_1.Search)),
+    __metadata("design:paramtypes", [typeorm_2.Repository, typeorm_2.Repository])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

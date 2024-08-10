@@ -5,10 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Auth } from './entities/auth.entity';
 import { Repository } from 'typeorm';
 import { Response , Request } from 'express';
+import { Search } from 'src/search/entities/search.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(Auth) private readonly AuthRepository: Repository<Auth>){
+  constructor(@InjectRepository(Auth) private readonly AuthRepository: Repository<Auth>, @InjectRepository(Search) private readonly SearchRepository: Repository<Search>){
 
   }
 
@@ -18,14 +19,14 @@ export class AuthService {
     if(Existuser){
       req.session.user = { userId: Existuser.id, email: Existuser.email , nickname : Existuser.nickname };
       res.send('Login successful');
-      return {nickname : Existuser.nickname, email : Existuser.email}
+      return {userId: Existuser.id, nickname : Existuser.nickname, email : Existuser.email}
     }
    
     const user = await this.AuthRepository.create({email : email  , nickname : nickname})
     req.session.user = { userId: user.id, email: user.email , nickname : user.nickname };
     res.send('Login successful');
     await this.AuthRepository.save(user);
-    return {nickname : user.nickname, email : user.email}
+    return {userId: user.id, nickname : user.nickname, email : user.email}
     
   }
 
@@ -33,8 +34,10 @@ export class AuthService {
     return `This action returns all auth`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async searchfind(id: number) {
+    const user = await this.AuthRepository.findOne({where : {id}})
+    return await this.SearchRepository.findOne({where :{auth : user}});
+
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {

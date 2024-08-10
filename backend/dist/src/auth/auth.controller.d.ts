@@ -8,6 +8,7 @@ export declare class AuthController {
         email: string;
         nickname: string;
     }, req: Request, res: Response): Promise<{
+        userId: number;
         nickname: string;
         email: string;
     }>;
@@ -16,7 +17,7 @@ export declare class AuthController {
     };
     logout(req: Request, res: Response): Promise<void>;
     findAll(): string;
-    findOne(id: string): string;
+    searchfind(id: string): Promise<import("../search/entities/search.entity").Search>;
     update(id: string, updateAuthDto: UpdateAuthDto): string;
     remove(id: string): string;
 }

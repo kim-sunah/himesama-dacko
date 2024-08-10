@@ -13,6 +13,7 @@ const auth_controller_1 = require("./auth.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const auth_entity_1 = require("./entities/auth.entity");
 const connect_sid_middleware_1 = require("../middleware/connect-sid.middleware");
+const search_entity_1 = require("../search/entities/search.entity");
 let AuthModule = class AuthModule {
     configure(consumer) {
         consumer
@@ -23,7 +24,7 @@ let AuthModule = class AuthModule {
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([auth_entity_1.Auth])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([auth_entity_1.Auth, search_entity_1.Search])],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService],
     })

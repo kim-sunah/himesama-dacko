@@ -139,34 +139,34 @@ let RankingService = class RankingService {
         }
     }
     async SubscriberTop() {
-        return await this.channelRepository.find({ take: 4, order: { subscriberCount: "DESC" } });
+        return await this.channelRepository.find({ take: 5, order: { subscriberCount: "DESC" } });
     }
     async ViewTop() {
-        return await this.channelRepository.find({ take: 4, order: { viewCount: "DESC" } });
+        return await this.channelRepository.find({ take: 5, order: { viewCount: "DESC" } });
     }
     async SubscriberTopIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { subscriberCount_percentageincrease: "DESC" } });
+        return await this.channelRepository.find({ take: 5, order: { subscriberCount_percentageincrease: "DESC" } });
     }
     async SubscriberlowIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { subscriberCount_percentageincrease: "asc" } });
+        return await this.channelRepository.find({ take: 5, order: { subscriberCount_percentageincrease: "asc" } });
     }
     async ViewTopIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { viewCount_percentageincrease: "DESC" } });
+        return await this.channelRepository.find({ take: 5, order: { viewCount_percentageincrease: "DESC" } });
     }
     async ViewlowIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { viewCount_percentageincrease: "asc" } });
+        return await this.channelRepository.find({ take: 5, order: { viewCount_percentageincrease: "asc" } });
     }
     async WeekSubscriberTopIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { week_subscriberCount_percentageincrease: "DESC" } });
+        return await this.channelRepository.find({ take: 5, order: { week_subscriberCount_percentageincrease: "DESC" } });
     }
     async WeekSubscriberlowIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { week_subscriberCount_percentageincrease: "asc" } });
+        return await this.channelRepository.find({ take: 5, order: { week_subscriberCount_percentageincrease: "asc" } });
     }
     async WeekViewTopIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { week_viewCount_percentageincrease: "DESC" } });
+        return await this.channelRepository.find({ take: 5, order: { week_viewCount_percentageincrease: "DESC" } });
     }
     async WeekViewlowIncrease() {
-        return await this.channelRepository.find({ take: 4, order: { week_viewCount_percentageincrease: "asc" } });
+        return await this.channelRepository.find({ take: 5, order: { week_viewCount_percentageincrease: "asc" } });
     }
     async SortSubscriber(sort, filter, page, ohter) {
         let take;

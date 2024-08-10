@@ -18,13 +18,10 @@ let UpdateController = class UpdateController {
         this.updateService = updateService;
     }
     onModuleInit() {
-        schedule.scheduleJob('0 0 17 1 * *', () => {
-            this.ChartDataUpdate();
-        });
         schedule.scheduleJob('0 0 17 * * *', () => {
             this.DailySubscriberChannelUpdate();
         });
-        schedule.scheduleJob('0 0 17 * * *', () => {
+        schedule.scheduleJob('0 5 17 * * *', () => {
             this.DailyViewChannelUpdate();
         });
         schedule.scheduleJob('0 0 17 * * *', () => {
