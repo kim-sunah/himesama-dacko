@@ -43,8 +43,7 @@ let ChannellistService = class ChannellistService {
                 await this.SearchRepository.update({ auth: req.session.user.userId }, { search: search });
             }
             else {
-                const searchinfo = await this.SearchRepository.create({ search: search, auth: req.session.user.userId });
-                await this.SearchRepository.save(searchinfo);
+                await this.SearchRepository.save({ search: search, auth: req.session.user.userId });
             }
         }
         const response = await axios_1.default.get(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&type=video&order=viewCount&q=${search}&key=${process.env.Youtbe_Api_KEY}`);
