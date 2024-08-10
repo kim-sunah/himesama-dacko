@@ -20,6 +20,7 @@ export declare class RankingController {
         sort: string;
         filter: string;
         page?: number;
+        ohter?: string;
     }): Promise<import("../channellist/entities/channellist.entity").Channellist[]>;
     Totalsubcriberincrease(channelId: string): Promise<{
         subscribers: import("../channellist/entities/subscriber.entity").SubscriberCount;

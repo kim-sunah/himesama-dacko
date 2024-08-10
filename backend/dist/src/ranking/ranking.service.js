@@ -168,8 +168,13 @@ let RankingService = class RankingService {
     async WeekViewlowIncrease() {
         return await this.channelRepository.find({ take: 4, order: { week_viewCount_percentageincrease: "asc" } });
     }
-    async SortSubscriber(sort, filter, page) {
-        const take = 15;
+    async SortSubscriber(sort, filter, page, ohter) {
+        let take;
+        if (ohter === "MAIN") {
+            take = 4;
+            return await this.channelRepository.find({ where: { categoryid: filter }, take, order: { subscriberCount: "DESC" } });
+        }
+        take = 15;
         const skip = (page - 1) * take;
         if (sort === "subscribers") {
             if (filter === 0) {
