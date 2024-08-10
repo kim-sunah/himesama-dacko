@@ -25,7 +25,7 @@ export declare class RankingService {
     WeekSubscriberlowIncrease(): Promise<Channellist[]>;
     WeekViewTopIncrease(): Promise<Channellist[]>;
     WeekViewlowIncrease(): Promise<Channellist[]>;
-    SortSubscriber(sort: string, filter: number, page?: number): Promise<Channellist[]>;
+    SortSubscriber(sort: string, filter: number, page?: number, ohter?: string): Promise<Channellist[]>;
     Totalsubcriberincrease(channelId: string): Promise<{
         subscribers: SubscriberCount;
     }>;

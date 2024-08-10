@@ -97,7 +97,9 @@ export async function mainLoader() {
       sort: "subscribers",
       filter: filter,
       page: 1,
+      ohter : "MAIN"
     });
+    console.log(response)
 
 
 
