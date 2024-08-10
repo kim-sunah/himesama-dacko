@@ -234,7 +234,7 @@ export class ChannellistService {
   async GetTopClickedChannel() {
     try {
       const topClickedChannel = await this.channelList.find({
-        take: 4,
+        take: 5,
         order: {
           today_click_count: 'DESC'
         },

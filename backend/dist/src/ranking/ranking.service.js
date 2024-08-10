@@ -171,7 +171,7 @@ let RankingService = class RankingService {
     async SortSubscriber(sort, filter, page, ohter) {
         let take;
         if (ohter === "MAIN") {
-            take = 4;
+            take = 5;
             return await this.channelRepository.find({ where: { categoryid: filter }, take, order: { subscriberCount: "DESC" } });
         }
         take = 15;
