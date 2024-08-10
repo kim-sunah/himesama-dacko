@@ -108,8 +108,7 @@ function Row(props: { row: VideoInfo }) {
                     {row.videocommentcount !== null && row.videocommentcount !== undefined && <span className="px-2 py-1 rounded-md" style={{ color: "black", fontWeight: "bold", whiteSpace: "nowrap" }}>{row.videocommentcount.toLocaleString("en")}</span>}
 
                 </TableCell>
-                <TableCell align="center">123</TableCell>
-                <TableCell align="center">123</TableCell>
+             
             </TableRow>
 
             <TableRow>
@@ -207,9 +206,8 @@ export default function VideSearchList() {
                                 <TableCell align="center" style={{ whiteSpace: "nowrap" }}>채널 이름</TableCell>
                                 <TableCell align="center" style={{ whiteSpace: "nowrap" }}>좋아요 수</TableCell>
                                 <TableCell align="center" style={{ whiteSpace: "nowrap" }}>조회수</TableCell>
-                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>댓글</TableCell>
-                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>이메일</TableCell>
-                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>인스타그램</TableCell>
+                                <TableCell align="center" style={{ whiteSpace: "nowrap" }}>댓글수</TableCell>
+                         
                             </TableRow>
                         </TableHead>
                         <TableBody>
