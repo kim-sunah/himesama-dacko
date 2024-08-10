@@ -36,7 +36,7 @@ export class AuthService {
 
   async searchfind(id: number) {
     const user = await this.AuthRepository.findOne({where : {id}})
-    return await this.SearchRepository.findOne({where :{auth : user.id}});
+    return await this.SearchRepository.findOne({where :{auth : user}});
 
   }
 

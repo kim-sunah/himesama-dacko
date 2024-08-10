@@ -11,6 +11,6 @@ export class Search {
 
     @OneToOne(() => Auth)
     @JoinColumn({name :"auth_id", referencedColumnName:"id"})
-    auth: number;
+    auth: Auth;
 
 }

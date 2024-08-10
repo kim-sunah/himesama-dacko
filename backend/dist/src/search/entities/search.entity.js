@@ -26,7 +26,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.OneToOne)(() => auth_entity_1.Auth),
     (0, typeorm_1.JoinColumn)({ name: "auth_id", referencedColumnName: "id" }),
-    __metadata("design:type", Number)
+    __metadata("design:type", auth_entity_1.Auth)
 ], Search.prototype, "auth", void 0);
 exports.Search = Search = __decorate([
     (0, typeorm_1.Entity)()
