@@ -33,10 +33,10 @@ export default function TOP({ channel ,title}: { channel: ChannelInfo[], title: 
         <table className="w-full table-fixed border-collapse " >
             <thead className="bg-muted border-b">
                 <tr>
-                    <th className="w-1/4 px-4  text-center text-base text-sm font-medium text-muted-foreground whitespace-nowrap">이름</th>
-                    <th className="w-1/4 px-4  text-center text-base text-sm font-medium text-muted-foreground whitespace-nowrap"><span className="flex justify-center">구독수</span></th>
-                    <th className="w-1/4 px-4  text-center text-base text-sm font-medium text-muted-foreground whitespace-nowrap"><span className="flex justify-center">조회수</span></th>
-                    <th className="w-1/4 px-4  text-center text-base text-sm font-medium text-muted-foreground whitespace-nowrap">
+                    <th className="w-1/4 px-4  text-center  text-sm font-medium text-muted-foreground whitespace-nowrap">이름</th>
+                    <th className="w-1/4 px-4  text-center  text-sm font-medium text-muted-foreground whitespace-nowrap"><span className="flex justify-center">구독수</span></th>
+                    <th className="w-1/4 px-4  text-center  text-sm font-medium text-muted-foreground whitespace-nowrap"><span className="flex justify-center">조회수</span></th>
+                    <th className="w-1/4 px-4  text-center  text-sm font-medium text-muted-foreground whitespace-nowrap">
                                 <span className="flex justify-center"> {Tab === "today" ? "전일 대비(%)" : Tab === "week" ? "주간 대비(%)" : "월간 대비(%)"}</span>
 
                             </th>
@@ -48,14 +48,14 @@ export default function TOP({ channel ,title}: { channel: ChannelInfo[], title: 
                         <td className="font-medium" style={{ marginLeft: "10%" }}>
                             <Link to={`${Channel.Channel_Id}`} className="flex items-center gap-2">
                                 <img src={Channel.channel_img} width={35} alt={Channel.Channel_nickname} className="flex-shrink-0 border-r rounded-full" />
-                                <span className="text-sm truncate text-black text-base">{Channel.Channel_nickname}</span>
+                                <span className="text-sm truncate text-black ">{Channel.Channel_nickname}</span>
                             </Link>
                         </td>
-                        <td className=" px-4 text-center text-muted-foreground text-base">{formatNumber(Number(Channel.subscriberCount))} </td>
-                        <td className=" px-4  text-center text-muted-foreground text-base">{formatNumber(Number(Channel.viewCount))}</td>
+                        <td className=" px-4 text-center text-muted-foreground ">{formatNumber(Number(Channel.subscriberCount))} </td>
+                        <td className=" px-4  text-center text-muted-foreground ">{formatNumber(Number(Channel.viewCount))}</td>
                       
                         <td
-                                    className=" px-4  text-center text-muted-foreground text-base"
+                                    className=" px-4  text-center text-muted-foreground "
                                     style={{
                                         color: (() => {
                                             let value;

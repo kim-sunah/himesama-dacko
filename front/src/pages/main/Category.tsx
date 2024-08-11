@@ -55,6 +55,7 @@ interface LoaderData {
 }
 export default function Category() {
   const data = useLoaderData() as LoaderData;
+  console.log(data)
   const { filteredRankingData,TopSubscriber,TopView,TopClick } = data;
 
   const isLoggedIn = useRecoilValue(userLoggedInState);
@@ -65,7 +66,7 @@ export default function Category() {
         <div className="flex h-full mb-6 ">
           <div className="m-auto">
             <div className="ml-4 mb-1"> 순위 </div>
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-8" >
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-5" >
               <Topclick channel={TopClick}></Topclick>
               <TOP channel={TopSubscriber} title={"구독자 순위"}></TOP>
               <TOP channel={TopView} title={"조회수 순위"}></TOP>
@@ -76,9 +77,9 @@ export default function Category() {
         </div>
       </div>
       <div className="flex h-full mb-6">
-        <div className="">
-          <div className="ml-4 mb-1" > 추천 영상 </div>
-          {isLoggedIn ? <div className="" >
+        <div >
+          <div className="ml-5 mb-1" > 추천 영상 </div>
+          {isLoggedIn ? <div >
             <RecommandVideo></RecommandVideo>
           </div> : <span className="ml-4 flex justify-center" > 로그인이 필요한 서비스입니다 </span>}
 
@@ -103,29 +104,32 @@ export default function Category() {
 }
 
 export async function mainLoader() {
+  const fetchRankingData = async () => {
+    const rankings = await Promise.all(leaderboardData.map(async (item) => {
+      const filter = item.title.split("|")[0];
+      const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, {
+        sort: "subscribers",
+        filter: filter,
+        page: 1,
+        ohter: "MAIN"
+      });
+      return response && response.length > 0 ? { ...item, rankings: response } : null;
+    }));
+    return rankings.filter(item => item !== null);
+  };
+  const fetchTopData = async () => {
+    const [TopSubscriber, TopView, TopClick] = await Promise.all([
+      Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/SubscriberTop`),
+      Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/ViewTop`),
+      Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/click/GetTopClickedChannel`)
+    ]);
+    return { TopSubscriber, TopView, TopClick };
+  };
 
+  const [filteredRankingData, topData] = await Promise.all([
+    fetchRankingData(),
+    fetchTopData()
+  ]);
 
-
-  const rankingData = await Promise.all(leaderboardData.map(async (item) => {
-    const filter = item.title.split("|")[0];
-    const response = await Postmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/RankingSort`, {
-      sort: "subscribers",
-      filter: filter,
-      page: 1,
-      ohter : "MAIN"
-    });
-    if (response && response.length > 0) {
-      return { ...item, rankings: response };
-    } else {
-      return null;
-    }
-  }));
-  const TopSubscriber = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/SubscriberTop`)
-  const TopView = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/ranking/ViewTop`)
-  const TopClick = await Getmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/click/GetTopClickedChannel`)
-
- 
-
-  const filteredRankingData = rankingData.filter(item => item !== null);
-  return { filteredRankingData , TopSubscriber, TopView, TopClick};
+  return { filteredRankingData, ...topData };
 }
