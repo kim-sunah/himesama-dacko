@@ -6,6 +6,7 @@ import { formatNumber } from "../../function/formatNumber";
 import { CgAdd } from "react-icons/cg";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { AiFillCaretDown } from "react-icons/ai";
+import LazyLoad from 'react-lazyload';
 
 
 interface LeaderboardProps {
@@ -28,11 +29,14 @@ export default function Leaderboard({ title, img, rankings }: LeaderboardProps) 
      
         <div className="w-full overflow-hidden mb-3 ml-4 " >
                <div className="relative "> {/* 고정 너비 설정 */}
-                <img
+               <LazyLoad height={200} offset={100}>
+               <img
                     src={img}
                     className="w-full h-10 object-cover "
                     alt="Leaderboard background"
                 />
+               </LazyLoad>
+                
                 <div className="absolute inset-0 flex items-center justify-between px-4 mt-1">
                     <h1 className="text-sm font-bold text-white">
                         {title.split("|")[1]}

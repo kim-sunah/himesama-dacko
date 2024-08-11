@@ -108,6 +108,7 @@ export default function Video() {
             try{
                 const response = await YoutubeGetmethod(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${ChannelId}&maxResults=25&order=date&type=video&key=${process.env.REACT_APP_Youtube_API}`)
                 setRecentVideos(response.items);
+                await Postmethod(`${process.env.REACT_APP_BACKEND_API}/channellist/incrementChannelClicks`, {ChannelId : ChannelId});
 
             }
             catch(error){
