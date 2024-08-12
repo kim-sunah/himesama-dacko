@@ -29,8 +29,41 @@ export default function RecommendVideo() {
     fetchData();
   }, [UserId]);
 
-  const renderVideoGrid = (cols: number) => (
-    <div className={`grid grid-cols-${cols} gap-6`}>
+  const MobilerenderVideoGrid = () => (
+    <div className={`grid grid-cols-2 gap-6`}>
+      {recommendVideo && recommendVideo.map((video, index) => (
+        <div key={index} className="relative h-40 bg-gray-200" onClick={() => { navigate(`/${video.snippet.channelId}/${video.id.videoId}`) }}>
+           <LazyLoad height={200} offset={100}>
+           <img src={video.snippet.thumbnails.high.url} alt={video.snippet.title} className="object-cover w-full h-full" />
+           </LazyLoad>
+        
+          <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 text-white w-full">
+            {video.snippet.title.length > 25 ? `${video.snippet.title.slice(0, 25)}...` : video.snippet.title}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+
+  const TabletrenderVideoGrid = () => (
+    <div className={`grid grid-cols-3 gap-6 `}>
+      {recommendVideo && recommendVideo.map((video, index) => (
+        <div key={index} className="relative h-40 bg-gray-200 mb-4" onClick={() => { navigate(`/${video.snippet.channelId}/${video.id.videoId}`) }}>
+           <LazyLoad height={200} offset={100}>
+           <img src={video.snippet.thumbnails.high.url} alt={video.snippet.title} className="object-cover w-full h-full" />
+           </LazyLoad>
+        
+          <div className="absolute bottom-0 left-0 p-2 bg-black bg-opacity-50 text-white w-full">
+            {video.snippet.title.length > 25 ? `${video.snippet.title.slice(0, 25)}...` : video.snippet.title}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const DeskToprenderVideoGrid = () => (
+    <div className={`grid grid-cols-8 gap-6`}>
       {recommendVideo && recommendVideo.map((video, index) => (
         <div key={index} className="relative h-40 bg-gray-200" onClick={() => { navigate(`/${video.snippet.channelId}/${video.id.videoId}`) }}>
            <LazyLoad height={200} offset={100}>
@@ -47,9 +80,9 @@ export default function RecommendVideo() {
 
   return (
     <section className="py-8 px-4 block">
-      {isMobile && renderVideoGrid(2)}
-      {isTablet && renderVideoGrid(3)}
-      {isDesktop && renderVideoGrid(8)}
+      {isMobile && MobilerenderVideoGrid()}
+      {isTablet && TabletrenderVideoGrid()}
+      {isDesktop && DeskToprenderVideoGrid()}
     </section>
   );
 }
