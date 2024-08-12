@@ -26,6 +26,7 @@ import Channel_Datail_Video_Root from "./pages/channel_detail/video/Root";
 
 import KakaoRedirect from "./pages/login/KaKaoRedirect";
 import MainRoot from "./pages/main/MainRoot";
+import Notice from "./pages/main/notice/Comment";
 
 
 
@@ -35,11 +36,9 @@ function App() {
     {
       path: "", element: <MainRoot></MainRoot>, errorElement: <Error></Error>, children: [
         { index: true, element: <Category></Category>, loader: mainLoader },
-      
         { path: "Introduction", element: <IntroductionWebsite></IntroductionWebsite> },
         { path: "Live", element: <LiveRoot></LiveRoot> },
-        {
-          path: ":ChannelId", children: [
+        {path: ":ChannelId", children: [
             { index: true, element: <ChannelRoot></ChannelRoot> },
             { path: ":videoId", element: <Channel_Datail_Video_Root></Channel_Datail_Video_Root> }
           ]
@@ -49,6 +48,7 @@ function App() {
             { path: ":sort/:filter", element: <RankingList></RankingList> },
           ]
         },
+        {path :"notice", element : <Notice></Notice>},
         {
           path: "Category_Rankings", element: <CategoryRankings></CategoryRankings>, children: [
             { path: ":Categoryid", element: <CategoryRankingsList></CategoryRankingsList> }

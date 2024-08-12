@@ -71,7 +71,7 @@ export default function HeaderSideBar() {
                         <span className="whitespace-nowrap">실시간 인기 동영상</span>
                     </Link>
                     <Link
-                        to="#"
+                        to="notice"
                         className="flex items-center gap-2 text-muted-foreground hover:text-foreground  text-black "
 
                     >
