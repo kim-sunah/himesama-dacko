@@ -13,6 +13,7 @@ import { ChannelClick } from "../../enum/ChannelClick";
 import TOP from "./TopSubscriber";
 import RecommandVideo from "./RecommandVideo";
 
+
 const leaderboardData = [
   { title: "1|애니메이션영화", img: "https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/socalguitarist_8300729ad8a3c13c665a47677d9e2427_image.png" },
   { title: "2|자동차", img: "https://wqdsdsf.s3.ap-northeast-2.amazonaws.com/Main_Img/image.png" },
